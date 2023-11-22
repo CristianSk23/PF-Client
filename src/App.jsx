@@ -1,6 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import axios from "axios";
+import LandingPage from "./components/landingPage/LandingPage"; // Eliminar
 
 const App = () => {
   // url general
@@ -8,7 +9,8 @@ const App = () => {
 
   return (
     <div>
-      <h1>App</h1>
+      <LandingPage /> 
+
       <Routes>
         <Route></Route>
       </Routes>
