@@ -1,0 +1,23 @@
+
+.container {
+    display: flex;
+    overflow: hidden;
+    transition: margin-left 0.3s ease-in-out;
+  }
+  .sidebarClosed {
+    margin-left: translateX(-250px);
+  }
+  
+  .toggleButton {
+    background-color: #000;
+    color: #fff;
+    height: 40px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .list {
+    list-style-type: none;
+    margin-top: 0px; 
+    margin-left: 0px;
+  }
