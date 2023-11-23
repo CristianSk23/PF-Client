@@ -3,7 +3,8 @@ import {
           ERROR, 
           GETALLPRODUCTS, 
           GETUSERS, 
-          ORDERPRICE, 
+          ORDERPRICE,
+          ORDERNAME, 
           FILTERTYPE, 
           FILTERPRICE, 
           PAGINATION, 
@@ -42,15 +43,19 @@ export const getUsers = () => {
 }
 
 export const orderPrice = (order) => {
-  return {type: ORDER_PRICE, payload: order}
+  return {type: ORDERPRICE, payload: order}
+}
+
+export const orderName = (order) => {
+  return {type: ORDERNAME, payload: order}
 }
 
 export const filterType = (type) => {
-  return {type: FILTER_TYPE, payload: type}
+  return {type: FILTERTYPE, payload: type}
 }
 
 export const filterPrice = (price) => {
-  return {type: FILTER_PRICE, payload: price}
+  return {type: FILTERPRICE, payload: price}
 }
 
 export const changePage = (order) => {
@@ -60,7 +65,8 @@ export const changePage = (order) => {
 export const searchProducs = (products) => {
   return async function(dispatch) {
       try {
-          const response = await axios.get(`${products}`)
+          const response = await axios.get(`${products}`)// VER PORQUE ESTA FUNCIONALIDAD DEBE VENIR DEL BACK
+
           dispatch(
               {type: SEARCH_PRODUCTS,
                payload: response.data}
