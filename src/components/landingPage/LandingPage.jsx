@@ -10,7 +10,7 @@ import styles from "./landingPage.module.css";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.allProducts);
+  const products = useSelector((state) => state.products.allProducts);
 
   const onSearch = (id) => {
     console.log(id);
