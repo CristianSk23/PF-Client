@@ -76,6 +76,27 @@ const reducer = (state = initialState, action) => {
 
             return {}
 
+        case PAGINATION:
+            console.log(state.products.allProducts.length)
+            const next_page = state.products.currentPage + 1;
+            const prev_page = state.products.currentPage - 1;
+            const firstindex = action.payload === "next" ? next_page*ITEM_PER_PAGE : prev_page*ITEM_PER_PAGE
+              
+            if(action.payload === "next" && firstindex >= state.products.allProducts.length) return state   
+            if(action.payload === "prev" && prev_page <0 ) return state
+
+            return {
+              ...state,
+
+              products: {
+                data: [...state.products.allProducts].splice(firstindex, ITEM_PER_PAGE),
+                allProducts: [...state.products.allProducts],
+                currentPage: action.payload === "next" ? next_page : prev_page,
+                productsFiltered: []
+                          },
+
+                    }
+
     default:
       return { ...state };
   }
