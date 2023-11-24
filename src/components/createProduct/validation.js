@@ -7,9 +7,7 @@ const validation = (product, productNames, nameProds)=>{
     productNames = productNames?.filter((prod)=>{
         return prod.nameProd?.toLowerCase() === product.name?.toLowerCase() && prod.nameProd?.toLowerCase() !== nameProds?.toLowerCase()
     });
-    console.log(productNames);
-    console.log(nameProds);
-    console.log(product.name);
+
     if(productNames[0]?.nameProd!==undefined) {
         errors.name = 'Name already exist'
         return errors   
