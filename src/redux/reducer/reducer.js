@@ -8,22 +8,26 @@ import {
   FILTERPRICE, 
   PAGINATION, 
   SEARCHPRODUCTS, 
-  PRODUCTSINCART 
+  PRODUCTSINCART,
+  GET_PROD_CATEGORIES,
+  CREATE_PRODUCT,
+  UPDATE_PRODUCT,
+  DELETE_PRODUCT 
 } from "../action/actionsType";
 
 const initialState = {
-
-  products: {
-    data: [], //products to render
-    allProducts: [], //backup 
-    currentPage: 0,
-    productsFiltered: [],
-    filterType: undefined, // orderPrice, productsSearched, filterType, etc.
-},
-users: [],
-productsInCart: [] 
-
-};
+      products: {
+        data: [], //products to render
+        allProducts: [], //backup 
+        currentPage: 0,
+        productsFiltered: [],
+        filterType: undefined, // orderPrice, productsSearched, filterType, etc.
+        },
+      users: [],
+      productsInCart: [], 
+      prodCategories: [],
+      catchError:''
+      };
 
 const reducer = (state = initialState, action) => {
 
@@ -32,7 +36,6 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
 
     case GETALLPRODUCTS:
-
       return { 
               ...state,
               products: {
@@ -43,48 +46,73 @@ const reducer = (state = initialState, action) => {
                         } 
             };
 
+    case GET_PROD_CATEGORIES:
+      return { ...state, prodCategories: action.payload };
+
+    case CREATE_PRODUCT:
+      return { ...state, products.allProducts: [...state.allProducts, action.payload] };
+
+    case UPDATE_PRODUCT:
+      const updatedProducts = state.products.allProducts.filter((product)=>{
+        return product.prodName !== action.paylod.prodName
+      })
+      return { ...state, products.allProducts: [...updatedProducts, action.paylod ] };
+
+    case DELETE_PRODUCT:
+      const  deletedProduct = state.products.allProducts.filter((product)=>{
+        return product.id != action.payload.id
+      })
+
+      // const deletedProduct = state.products.allProducts.map((product)=>{
+      //   if(product.id === action.payload.id){
+      //     product.active = false
+      //   }
+      //   return product
+      // })
+      return { ...state, products.allProducts: deletedProduct};
+
     case ERROR:
-      return { ...state}
+      return { ...state, catchError: action.payload };
 
-      case GETUSERS:
-        return {
-            ...state,
-            users: action.payload,
-        }
+    case GETUSERS:
+      return {
+          ...state,
+          users: action.payload,
+      }
 
-        case SEARCHPRODUCTS:
-            return {
-                ...state,
-                products: {
-                    ...products,
-                    data: [action.payload].splice(0, ITEM_PER_PAGE),
-                    productsFiltered: action.payload,
-                    filterType: "productsSearched",
-                }
-            }
+    case SEARCHPRODUCTS:
+      return {
+          ...state,
+          products: {
+              ...products,
+              data: [action.payload].splice(0, ITEM_PER_PAGE),
+              productsFiltered: action.payload,
+              filterType: "productsSearched",
+          }
+      }
 
-        case ORDERNAME:
-           
-        if(state.products.productsFiltered.length === 0) {
-          state.products.productsFiltered = action.payload === "A" ? [...state.products.allProducts].sort((a, b) => a.nameProd.localeCompare(b.nameProd))
-         : [...state.products.allProducts].sort((a, b) => b.nameProd.localeCompare(a.nameProd))
+    case ORDERNAME:
+
+      if(state.products.productsFiltered.length === 0) {
+        state.products.productsFiltered = action.payload === "A" ? [...state.products.allProducts].sort((a, b) => a.nameProd.localeCompare(b.nameProd))
+       : [...state.products.allProducts].sort((a, b) => b.nameProd.localeCompare(a.nameProd))
+       }
+
+       else if(state.products.productsFiltered.length > 0) {
+       state.products.productsFiltered = action.payload === "A" ? [...state.products.productsFiltered].sort((a, b) => a.nameProd.localeCompare(b.nameProd))
+       : [...state.products.productsFiltered].sort((a, b) => b.nameProd.localeCompare(a.nameProd))
+       } 
+
+       return {
+         ...state,
+         products: {
+           ...state.products,
+           data: [...state.products.productsFiltered].splice(0, ITEM_PER_PAGE),
+           currentPage: 0,
+           filterType: "orderName",
          }
-         
-         else if(state.products.productsFiltered.length > 0) {
-         state.products.productsFiltered = action.payload === "A" ? [...state.products.productsFiltered].sort((a, b) => a.nameProd.localeCompare(b.nameProd))
-         : [...state.products.productsFiltered].sort((a, b) => b.nameProd.localeCompare(a.nameProd))
-         } 
-         
-         return {
-           ...state,
-           products: {
-             ...state.products,
-             data: [...state.products.productsFiltered].splice(0, ITEM_PER_PAGE),
-             currentPage: 0,
-             filterType: "orderName",
-           }
-           
-         }
+
+       }
 
         case ORDERPRICE:
             
@@ -228,9 +256,7 @@ const reducer = (state = initialState, action) => {
                 currentPage: action.payload === "next" ? next_page : prev_page,
                 productsFiltered: []
                           },
-
                     }
-
     default:
       return { ...state };
   }
