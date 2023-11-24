@@ -118,19 +118,19 @@ const reducer = (state = initialState, action) => {
         state.products.productsFiltered =
           action.payload === "A"
             ? [...state.products.allProducts].sort((a, b) =>
-                a.nameProd.localeCompare(b.nameProd)
+                a.name.localeCompare(b.name)
               )
             : [...state.products.allProducts].sort((a, b) =>
-                b.nameProd.localeCompare(a.nameProd)
+                b.name.localeCompare(a.name)
               );
       } else if (state.products.productsFiltered.length > 0) {
         state.products.productsFiltered =
           action.payload === "A"
             ? [...state.products.productsFiltered].sort((a, b) =>
-                a.nameProd.localeCompare(b.nameProd)
+                a.name.localeCompare(b.name)
               )
             : [...state.products.productsFiltered].sort((a, b) =>
-                b.nameProd.localeCompare(a.nameProd)
+                b.name.localeCompare(a.name)
               );
       }
 

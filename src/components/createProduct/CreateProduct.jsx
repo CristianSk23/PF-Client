@@ -24,10 +24,8 @@ const CreateProduct = () => {
   });
 
   useEffect(() => {
-    console.log(prodCategories);
     if (prodCategories.length === 0) {
       dispatch(getProdCategories());
-      console.log("prodCategories: " + prodCategories);
     }
     if (
       product.name !== "" ||
