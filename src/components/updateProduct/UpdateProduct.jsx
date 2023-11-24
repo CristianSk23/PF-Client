@@ -1,14 +1,20 @@
-import styles from "./createProduct.module.css";
-import validation from "./validation";
+import styles from "./updateProduct.module.css";
+import validation from "../createProduct/validation";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { createProduct, getProdCategories } from "../../redux/action/actions";
+import { updateProduct, getProdCategories, getProductsById } from "../../redux/action/actions";
 
-const CreateProduct = () => {
+const UpdateProduct = () => {
   const dispatch = useDispatch();
+  const { id } = useParams();
+
   const catchError = useSelector((state) => state.catchError);
   const prodCategories = useSelector((state) => state.prodCategories);
   const allProducts = useSelector((state) => state.products.allProducts);
+  const prodById = useSelector((state) => state.singleProduct);
+
+  const [productLoaded, setProductLoaded] = useState(false);
   const [errors, setErrors] = useState({});
   const [product, setProduct] = useState({
     name: "",
@@ -23,8 +29,42 @@ const CreateProduct = () => {
     stock: 0,
   });
 
+
+
   useEffect(() => {
-    if (prodCategories.length === 0) {
+    const fetchData = async () => {
+      try {
+        // Fetch data
+        await dispatch(getProductsById(id));
+      } catch (error) {
+        // Handle error if necessary
+        console.error('Error fetching product data:', error);
+      }
+    };
+  
+    // Call fetchData
+    fetchData();
+  }, [dispatch, id]);
+  
+  useEffect(() => {
+    // Access the state (prodById) after the data is fetched
+    if (id && !productLoaded && prodById.nameProd) {
+      setProduct({
+        name: prodById.nameProd || "",
+        category: prodById.CategoryId || "",
+        brand: prodById.brand || "",
+        description: prodById.description || "",
+        price: prodById.price || 0,
+        discountPercentage: prodById.discountPercentage || 0,
+        image: prodById.image || [],
+        active: prodById.active || true,
+        tags: prodById.tags || "",
+        stock: prodById.stock || 0,
+      });
+  
+      setProductLoaded(true);
+    }
+    if (prodCategories?.length === 0) {
       dispatch(getProdCategories());
     }
     if (
@@ -37,9 +77,10 @@ const CreateProduct = () => {
       product.image.length !== 0 ||
       product.stock !== 0
     ) {
-      setErrors(validation(product, allProducts));
+      setErrors(validation(product, allProducts, prodById?.nameProd));
     }
-  }, [product, catchError]);
+  }, [id, productLoaded, prodById, product]);
+  
 
   const handleImageUrlChange = (index, newUrl) => {
     setProduct({
@@ -71,11 +112,13 @@ const CreateProduct = () => {
       ...product,
       [event.target.name]: event.target.checked
     });
-}
+  }
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const newProduct = {
+      id: id,
       nameProd: product.name,
       CategoryId: product.category,
       brand: product.brand,
@@ -89,25 +132,13 @@ const CreateProduct = () => {
     };
     console.log(newProduct);
 
-    dispatch(createProduct(newProduct));
+    dispatch(updateProduct(newProduct));
 
-    setProduct({
-      name: "",
-      category: "",
-      brand: "",
-      description: "",
-      price: 0,
-      discountPercentage: 0,
-      image: [],
-      active: false,
-      tags: "",
-      stock: 0,
-    });
   };
 
   return (
     <div>
-      <div>Create Product</div>
+      <div>Update Product</div>
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Product Name: </label>
         <input
@@ -128,6 +159,7 @@ const CreateProduct = () => {
           size="1"
           onChange={handleChange}
           className="selCategory"
+          value={product.category}
         >
           <option value="" defaultValue=""></option>
           {prodCategories?.map((category) => {
@@ -258,7 +290,7 @@ const CreateProduct = () => {
         </label>
         <br />
         <label htmlFor="tags">Tags: </label>
-        <select name="tags" id="tags" onChange={handleChange}>
+        <select name="tags" id="tags" onChange={handleChange} value={product.tags}>
           <option value="">None</option>
           <option value="New">New</option>
           <option value="Special Offer">Special Offer</option>
@@ -290,11 +322,11 @@ const CreateProduct = () => {
           disabled={Object.keys(errors).length > 0 || product.name === ""}
           className="submit-button"
         >
-          Create
+          Update
         </button>
       </form>
     </div>
   );
 };
 
-export default CreateProduct;
+export default UpdateProduct;

@@ -14,6 +14,7 @@ import {
   CREATE_PRODUCT,
   UPDATE_PRODUCT,
   DELETE_PRODUCT,
+  GET_PROD_BY_ID
 } from "../action/actionsType";
 
 const initialState = {
@@ -27,6 +28,7 @@ const initialState = {
   users: [],
   productsInCart: [],
   prodCategories: [],
+  singleProduct:'',
   catchError: "",
 };
 
@@ -74,6 +76,10 @@ const reducer = (state = initialState, action) => {
           allProducts: [...updatedProducts, action.payload],
         },
       };
+
+    case GET_PROD_BY_ID:
+
+      return {...state, singleProduct: action.payload};
 
     case DELETE_PRODUCT:
       const deletedProduct = state.products.allProducts.filter((product) => {
