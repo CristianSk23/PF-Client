@@ -3,7 +3,11 @@ import validation from "../createProduct/validation";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { updateProduct, getProdCategories, getProductsById } from "../../redux/action/actions";
+import {
+  updateProduct,
+  getProdCategories,
+  getProductsById,
+} from "../../redux/action/actions";
 
 const UpdateProduct = () => {
   const dispatch = useDispatch();
@@ -29,23 +33,38 @@ const UpdateProduct = () => {
     stock: 0,
   });
 
-
-
   useEffect(() => {
     const fetchData = async () => {
+
       try {
         // Fetch data
         await dispatch(getProductsById(id));
+
       } catch (error) {
         // Handle error if necessary
-        console.error('Error fetching product data:', error);
+        console.error("Error fetching product data:", error);
       }
     };
-  
+
     // Call fetchData
+
     fetchData();
+    
+    return setProduct({
+      id: "",
+      name: "",
+      category: "",
+      brand: "",
+      description: "",
+      price: 0,
+      discountPercentage: 0,
+      image: [],
+      active: false,
+      tags: "",
+      stock: 0,
+    });
   }, [dispatch, id]);
-  
+
   useEffect(() => {
     // Access the state (prodById) after the data is fetched
     if (id && !productLoaded && prodById.nameProd) {
@@ -61,7 +80,7 @@ const UpdateProduct = () => {
         tags: prodById.tags || "",
         stock: prodById.stock || 0,
       });
-  
+
       setProductLoaded(true);
     }
     if (prodCategories?.length === 0) {
@@ -80,7 +99,6 @@ const UpdateProduct = () => {
       setErrors(validation(product, allProducts, prodById?.nameProd));
     }
   }, [id, productLoaded, prodById, product]);
-  
 
   const handleImageUrlChange = (index, newUrl) => {
     setProduct({
@@ -107,13 +125,12 @@ const UpdateProduct = () => {
     });
   };
 
-  const handleCheck = async(event) => {
+  const handleCheck = async (event) => {
     setProduct({
       ...product,
-      [event.target.name]: event.target.checked
+      [event.target.name]: event.target.checked,
     });
-  }
-
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -133,7 +150,6 @@ const UpdateProduct = () => {
     console.log(newProduct);
 
     dispatch(updateProduct(newProduct));
-
   };
 
   return (
@@ -290,7 +306,12 @@ const UpdateProduct = () => {
         </label>
         <br />
         <label htmlFor="tags">Tags: </label>
-        <select name="tags" id="tags" onChange={handleChange} value={product.tags}>
+        <select
+          name="tags"
+          id="tags"
+          onChange={handleChange}
+          value={product.tags}
+        >
           <option value="">None</option>
           <option value="New">New</option>
           <option value="Special Offer">Special Offer</option>
