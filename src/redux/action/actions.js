@@ -1,21 +1,20 @@
-
 import axios from "axios";
-import {  
-          ERROR, 
-          GETALLPRODUCTS, 
-          GETUSERS, 
-          ORDERPRICE,
-          ORDERNAME, 
-          FILTERTYPE, 
-          FILTERPRICE, 
-          PAGINATION, 
-          SEARCHPRODUCTS, 
-          PRODUCTSINCART,
-          GET_PROD_CATEGORIES, 
-          CREATE_PRODUCT, 
-          UPDATE_PRODUCT,
-          DELETE_PRODUCT 
-        } from "../action/actionsType";
+import {
+  ERROR,
+  GETALLPRODUCTS,
+  GETUSERS,
+  ORDERPRICE,
+  ORDERNAME,
+  FILTERTYPE,
+  FILTERPRICE,
+  PAGINATION,
+  SEARCHPRODUCTS,
+  PRODUCTSINCART,
+  GET_PROD_CATEGORIES,
+  CREATE_PRODUCT,
+  UPDATE_PRODUCT,
+  DELETE_PRODUCT,
+} from "../action/actionsType";
 
 import { data } from "../../data";
 const URLEXAMPLE = "http://localhost:3001";
@@ -24,7 +23,7 @@ const URLEXAMPLE = "http://localhost:3001";
 export const getAllProducts = () => {
   return async (dispatch) => {
     try {
-      //    const response = await axios.get(`${URLEXAMPLE}/products`);
+      const response = await axios.get(`${URLEXAMPLE}/products`);
       dispatch({
         type: GETALLPRODUCTS,
         //payload: response.data.products,
@@ -42,8 +41,8 @@ export const getAllProducts = () => {
 export const getProdCategories = () => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.get(`${URLEXAMPLE}/categories`);
-      console.log('data: '+data);
+      const { data } = await axios.get(`${URLEXAMPLE}/categories`);
+      console.log("data: " + data);
       dispatch({
         type: GET_PROD_CATEGORIES,
         payload: data,
@@ -60,10 +59,12 @@ export const getProdCategories = () => {
 export const createProduct = (product) => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.post(`${URLEXAMPLE}/products`, product);
+      const  response  = await axios.post(`${URLEXAMPLE}/products`, product);
+      console.log("DESDE LA ACTIONS");
+      console.log(response.data);
       dispatch({
         type: CREATE_PRODUCT,
-        payload: data,
+        payload: response.data,
       });
     } catch (error) {
       dispatch({
@@ -77,7 +78,7 @@ export const createProduct = (product) => {
 export const updateProduct = (product) => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.put(`${URLEXAMPLE}/products`, product);
+      const { data } = await axios.put(`${URLEXAMPLE}/products`, product);
       dispatch({
         type: UPDATE_PRODUCT,
         payload: data,
@@ -94,7 +95,7 @@ export const updateProduct = (product) => {
 export const deleteProduct = (id) => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.delete(`${URLEXAMPLE}/products`, id);
+      const { data } = await axios.delete(`${URLEXAMPLE}/products`, id);
       dispatch({
         type: DELETE_PRODUCT,
         payload: data,
@@ -109,48 +110,45 @@ export const deleteProduct = (id) => {
 };
 
 export const getUsers = () => {
-  return async function(dispatch) {
-      const apiData = await axios.get("")
-      const users = apiData.data;
-      dispatch({ type: GET_USERS, payload: users})
-  }
-}
+  return async function (dispatch) {
+    const apiData = await axios.get("");
+    const users = apiData.data;
+    dispatch({ type: GET_USERS, payload: users });
+  };
+};
 
 export const orderPrice = (order) => {
-  return {type: ORDERPRICE, payload: order}
-}
+  return { type: ORDERPRICE, payload: order };
+};
 
 export const orderName = (order) => {
-  return {type: ORDERNAME, payload: order}
-}
+  return { type: ORDERNAME, payload: order };
+};
 
 export const filterType = (type) => {
-  return {type: FILTERTYPE, payload: type}
-}
+  return { type: FILTERTYPE, payload: type };
+};
 
 export const filterPrice = (price) => {
-  return {type: FILTERPRICE, payload: price}
-}
+  return { type: FILTERPRICE, payload: price };
+};
 
 export const changePage = (order) => {
-  return {type: PAGINATION, payload: order} 
-}
+  return { type: PAGINATION, payload: order };
+};
 
 export const searchProducs = (products) => {
-  return async function(dispatch) {
-      try {
-          const response = await axios.get(`${products}`)// VER PORQUE ESTA FUNCIONALIDAD DEBE VENIR DEL BACK
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(`${products}`); // VER PORQUE ESTA FUNCIONALIDAD DEBE VENIR DEL BACK
 
-          dispatch(
-              {type: SEARCH_PRODUCTS,
-               payload: response.data}
-          )
-      } catch(error) {
-          alert(error.response.data.error)
-      }
-  }
-}
+      dispatch({ type: SEARCH_PRODUCTS, payload: response.data });
+    } catch (error) {
+      alert(error.response.data.error);
+    }
+  };
+};
 
 export const productsInCart = (products) => {
-  return {type: PRODUCTS_INCART, payload: products}
-}
+  return { type: PRODUCTS_INCART, payload: products };
+};
