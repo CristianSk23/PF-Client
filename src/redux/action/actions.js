@@ -14,6 +14,7 @@ import {
   CREATE_PRODUCT,
   UPDATE_PRODUCT,
   DELETE_PRODUCT,
+  GET_PROD_BY_ID
 } from "../action/actionsType";
 const URLEXAMPLE = "http://localhost:3001";
 
@@ -38,11 +39,10 @@ export const getAllProducts = () => {
 export const getProdCategories = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`${URLEXAMPLE}/categories`);
-      console.log("data: " + data);
+      const response = await axios.get(`${URLEXAMPLE}/categories`);
       dispatch({
         type: GET_PROD_CATEGORIES,
-        payload: data,
+        payload: response.data,
       });
     } catch (error) {
       dispatch({
@@ -75,10 +75,10 @@ export const createProduct = (product) => {
 export const updateProduct = (product) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.put(`${URLEXAMPLE}/products`, product);
+      const response = await axios.put(`${URLEXAMPLE}/products`, product);
       dispatch({
         type: UPDATE_PRODUCT,
-        payload: data,
+        payload: response.data,
       });
     } catch (error) {
       dispatch({
@@ -89,13 +89,29 @@ export const updateProduct = (product) => {
   };
 };
 
+export const getProductsById = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${URLEXAMPLE}/products/${id}`);
+      dispatch({
+        type: GET_PROD_BY_ID,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
 export const deleteProduct = (id) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.delete(`${URLEXAMPLE}/products`, id);
+      const response = await axios.delete(`${URLEXAMPLE}/products`, id);
       dispatch({
         type: DELETE_PRODUCT,
-        payload: data,
+        payload: response.data,
       });
     } catch (error) {
       dispatch({
