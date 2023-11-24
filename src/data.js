@@ -20,7 +20,7 @@ export const data = [
     description: "Energy-efficient refrigerator with spacious storage.",
     price: 799.99,
     discountPercentage: 5,
-    image: "https://assets.stickpng.com/images/585fd01acb11b227491c35cc.png",
+    image: "https://http2.mlstatic.com/D_NQ_NP_736745-MLA54102324877_032023-O.webp",
     active: true,
     tags: ["electronics", "appliance", "refrigerator"],
     stock: 10,
