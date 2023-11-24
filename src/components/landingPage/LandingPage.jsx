@@ -31,6 +31,7 @@ const LandingPage = () => {
 
   const handleOrderByName = (event) => {
     dispatch(orderName(event.target.value))
+    console.log("Filtro por nombre");
       setAux(true)
   }
 
