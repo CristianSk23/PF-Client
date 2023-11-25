@@ -22,7 +22,6 @@ const LandingPage = () => {
     dispatch(getAllProducts());
   }, [dispatch]);
 
-
   const [filterCond, setFilterCond] = useState({type:'all', price:'all', order:'ascendent'})
   const [aux, setAux] = useState(false)
 

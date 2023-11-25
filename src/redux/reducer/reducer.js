@@ -1,56 +1,241 @@
-import {  
-  ERROR, 
-  GETALLPRODUCTS, 
-  GETUSERS, 
+
+import {
+  ERROR,
+  GETALLPRODUCTS,
+  GETUSERS,
   ORDERPRICE,
-  ORDERNAME, 
-  PAGINATION, 
+  ORDERNAME,
+  FILTERTYPE,
+  FILTERPRICE,
+  PAGINATION,
   SEARCHPRODUCTS,
+  PRODUCTSINCART,
+  GET_PROD_CATEGORIES,
+  CREATE_PRODUCT,
+  UPDATE_PRODUCT,
+  DELETE_PRODUCT,
+  GET_PROD_BY_ID,
   FILTER,
   ORDER, 
-  PRODUCTSINCART 
+
 } from "../action/actionsType";
 
 const initialState = {
-
   products: {
     data: [], //products to render
-    allProducts: [], //backup 
+    allProducts: [], //backup
     currentPage: 0,
     productsFiltered: [],
-},
-users: [],
-productsInCart: [] 
+    filterType: undefined, // orderPrice, productsSearched, filterType, etc.
+  },
+  users: [],
+  productsInCart: [],
+  prodCategories: [],
+  singleProduct:'',
+  catchError: "",
 
 };
 
 const reducer = (state = initialState, action) => {
-
   const ITEM_PER_PAGE = 8;
 
   switch (action.type) {
-
     case GETALLPRODUCTS:
+      
+      return {
+        ...state,
+        products: {
+          data: [...action.payload].splice(0, ITEM_PER_PAGE),
+          allProducts: action.payload,
+          currentPage: 0,
+          productsFiltered: [],
+        },
+      };
 
-      return { 
-              ...state,
-              products: {
-              data: [...action.payload].splice(0, ITEM_PER_PAGE),
-              allProducts: action.payload,
-              currentPage: 0,
-              productsFiltered: [],
-              productsFilteredPrice: [],
-                        } 
-            };
+    case GET_PROD_CATEGORIES:
+      return { ...state, prodCategories: action.payload };
+
+    case CREATE_PRODUCT:
+      console.log(state.products.allProducts);
+      //...state,
+      //products: {
+      //  ...state.products,
+      //  data: [...state.products.
+      //  return {
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          allProducts: [...state.products.allProducts, action.payload],
+        },
+      };
+    //return { ...state, products.allProducts: [...products.allProducts, action.payload] };
+
+    case UPDATE_PRODUCT:
+      const updatedProducts = state.products.allProducts.filter((product) => {
+        return product.prodName !== action.payload.prodName;
+      });
+      return {
+        products: {
+          ...state,
+          allProducts: [...updatedProducts, action.payload],
+        },
+      };
+
+    case GET_PROD_BY_ID:
+
+      return {...state, singleProduct: action.payload};
+
+    case DELETE_PRODUCT:
+      const deletedProduct = state.products.allProducts.filter((product) => {
+        return product.id != action.payload.id;
+      });
+
+      // const deletedProduct = state.products.allProducts.map((product)=>{
+      //   if(product.id === action.payload.id){
+      //     product.active = false
+      //   }
+      //   return product
+      // })
+      return {
+        product: {
+          ...state,
+          allProducts: deletedProduct,
+        },
+      };
+
 
     case ERROR:
-      return { ...state}
+      return { ...state, catchError: action.payload };
 
-      case GETUSERS:
+    case GETUSERS:
+      return {
+        ...state,
+        users: action.payload,
+      };
+
+    case SEARCHPRODUCTS:
+      return {
+        ...state,
+        products: {
+          ...products,
+          data: [action.payload].splice(0, ITEM_PER_PAGE),
+          productsFiltered: action.payload,
+          filterType: "productsSearched",
+        },
+      };
+
+    case ORDERNAME:
+      if (state.products.productsFiltered.length === 0) {
+        state.products.productsFiltered =
+          action.payload === "A"
+            ? [...state.products.allProducts].sort((a, b) =>
+                a.name.localeCompare(b.name)
+              )
+            : [...state.products.allProducts].sort((a, b) =>
+                b.name.localeCompare(a.name)
+              );
+      } else if (state.products.productsFiltered.length > 0) {
+        state.products.productsFiltered =
+          action.payload === "A"
+            ? [...state.products.productsFiltered].sort((a, b) =>
+                a.name.localeCompare(b.name)
+              )
+            : [...state.products.productsFiltered].sort((a, b) =>
+                b.name.localeCompare(a.name)
+              );
+      }
+
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          data: [...state.products.productsFiltered].splice(0, ITEM_PER_PAGE),
+          currentPage: 0,
+          filterType: "orderName",
+        },
+      };
+
+    case ORDERPRICE:
+      if (state.products.productsFiltered.length === 0) {
+        state.products.productsFiltered =
+          action.payload === "A"
+            ? [...state.products.allProducts].sort((a, b) => b.price - a.price)
+            : [...state.products.allProducts].sort((a, b) => a.price - b.price);
+      } else if (state.products.productsFiltered.length > 0) {
+        state.products.productsFiltered =
+          action.payload === "A"
+            ? [...state.products.productsFiltered].sort(
+                (a, b) => b.price - a.price
+              )
+            : [...state.products.productsFiltered].sort(
+                (a, b) => a.price - b.price
+              );
+      }
+
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          data: [...state.products.productsFiltered].splice(0, ITEM_PER_PAGE),
+          currentPage: 0,
+          filterType: "orderPrice",
+        },
+      };
+
+    case FILTERTYPE:
+      if (
+        state.products.filterType == "orderPrice" ||
+        state.products.filterType == "filterPrice" ||
+        state.products.filterType == "orderName"
+      ) {
+        state.products.productsFiltered = [
+          ...state.products.productsFiltered,
+        ].filter(
+          (product) =>
+            product.tags &&
+            product.tags.map((tag) => tag).includes(action.payload)
+        );
+
         return {
-            ...state,
-            users: action.payload,
+          ...state,
+          products: {
+            ...state.products,
+            data: [...state.products.productsFiltered].splice(0, ITEM_PER_PAGE),
+            currentPage: 0,
+            filterType: "filterType",
+          },
+        };
+      }
+
+      state.products.productsFiltered = [...state.products.allProducts].filter(
+        (product) =>
+          product.tags &&
+          product.tags.map((tag) => tag).includes(action.payload)
+      );
+
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          data: [...state.products.productsFiltered].splice(0, ITEM_PER_PAGE),
+          currentPage: 0,
+          filterType: "filterType",
+        },
+      };
+
+    case FILTERPRICE:
+      if (
+        state.products.filterType == "orderPrice" ||
+        state.products.filterType == "filterType" ||
+        state.products.filterType == "orderName"
+      ) {
+        if (action.payload === "100") {
+          state.products.productsFiltered = [
+            ...state.products.productsFiltered,
+          ].filter((product) => product.price < action.payload);
         }
+
 
         case SEARCHPRODUCTS:
             return {
@@ -211,3 +396,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 export default reducer;
+

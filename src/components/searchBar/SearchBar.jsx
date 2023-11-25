@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+
 import styles from "./searchBar.module.css";
 import { filter, orderName, orderPrice } from "../../redux/action/actions";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const SearchBar = ({ onSearch, setFilterCond, filterCond, setAux, aux }) => {
   const dispatch = useDispatch();
@@ -85,6 +87,10 @@ const handleOrderByName = (event) => {
             </div>
         </div>
             
+      <button className={styles.searchButton}>
+        <Link to="/createProduct">Create</Link>
+      </button>
+
     </div>
 
   );

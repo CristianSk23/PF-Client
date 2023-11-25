@@ -2,6 +2,8 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import axios from "axios";
 import LandingPage from "./components/landingPage/LandingPage"; // Eliminar
+import CreateProduct from './components/createProduct/CreateProduct'; //eliminar
+import UpdateProduct from "./components/updateProduct/UpdateProduct";
 
 const App = () => {
   // url general
@@ -9,10 +11,12 @@ const App = () => {
 
   return (
     <div>
-      <LandingPage /> 
-
       <Routes>
-        <Route></Route>
+        <Route>
+          <Route path="/" exact element={<LandingPage/>} />
+          <Route path="/createProduct" element={<CreateProduct/>} />
+          <Route path="/updateProduct/:id" element={<UpdateProduct/>} />
+        </Route>
       </Routes>
     </div>
   );
