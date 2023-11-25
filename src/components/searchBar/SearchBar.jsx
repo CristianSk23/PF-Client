@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import styles from "./searchBar.module.css";
 
 const SearchBar = ({ onSearch }) => {
@@ -20,6 +21,9 @@ const SearchBar = ({ onSearch }) => {
       />
       <button className={styles.searchButton} onClick={() => onSearch(id)}>
         Search
+      </button>
+      <button className={styles.searchButton}>
+        <Link to="/createProduct">Create</Link>
       </button>
     </div>
   );
