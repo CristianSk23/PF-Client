@@ -1,43 +1,20 @@
 
 .navBar {
-  background-color: rgb(13, 205, 252);
+  background-color: #ADD9D4;
   padding: 10px;
   display: flex;
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 2);
-  justify-content: flex-end;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 2);
+  justify-content: center;
 }
 
 .navBar a {
   text-decoration: none;
 }
 
-.navButton {
-  background-color: #d2a0e8;
-  color: #000000;
-  padding: 10px 20px;
-  margin-right: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.2s;
-  font-family: 'Arial', sans-serif;
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
-}
 
-.navButton:hover {
-  background-color: #ee68ee;
-  border: 0.1px solid rgba(0, 0, 0, 0.3);
-}
-
-.logoutButton {
-  background-color: #a7a7a7;
-  color: black;
-  cursor: pointer;
-  margin-right: 20px;
-  transition: background-color 0.2s;
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
-}
-
-.logoutButton:hover {
-  background-color: #c82333;
-  border: 0.1px solid rgba(0, 0, 0, 0.3);
+.container{
+  background-color: #87A5FF;
+  background-size: cover;
+  width: 100%;
+  min-height: 800px;
 }

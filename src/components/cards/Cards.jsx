@@ -4,7 +4,7 @@ import styles from "./cards.module.css";
 const Cards = ({products}) => {
   
   return (
-    <div className={styles.cardContainer}>
+    <div className={styles.cards}>
       {products.map(({ id, name, brand, description, price, stock, discountPercentage,priceOnSale, image, active, tags}) => (
         <Card
           key={id}

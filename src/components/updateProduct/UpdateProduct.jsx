@@ -3,6 +3,9 @@ import validation from "../createProduct/validation";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import {
   updateProduct,
   getProdCategories,
@@ -154,198 +157,195 @@ const UpdateProduct = () => {
 
   return (
     <div>
-      <div>Update Product</div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Product Name: </label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          value={product.name}
-          onChange={handleChange}
-        />
-        {errors.name !== "" && (
-          <span className={styles.errorMessage}> {errors.name}</span>
-        )}
-        <br />
-        <label htmlFor="category">Category: </label>
-        <select
-          id="category"
-          name="category"
-          size="1"
-          onChange={handleChange}
-          className="selCategory"
-          value={product.category}
-        >
-          <option value="" defaultValue=""></option>
-          {prodCategories?.map((category) => {
-            return (
-              <option key={category.id} value={category.id}>
-                {category.nameCat}
-              </option>
-            );
-          })}
-        </select>
-        {errors.category !== "" && (
-          <span className={styles.errorMessage}> {errors.category}</span>
-        )}
-        <br />
-        <label htmlFor="brand">Brand: </label>
-        <input
-          type="text"
-          name="brand"
-          id="brand"
-          value={product.brand}
-          onChange={handleChange}
-        />
-        {errors.brand !== "" && (
-          <span className={styles.errorMessage}> {errors.brand}</span>
-        )}
-        <br />
-        <label htmlFor="description">
-          Description:
-          <textarea
-            id="description"
-            name="description"
-            rows="4"
-            cols="50"
-            value={product.description}
-            onChange={handleChange}
-            placeholder="Enter your description here..."
-            style={{ resize: "none" }}
-          />
-        </label>
-        {errors.description !== "" && (
-          <span className={styles.errorMessage}> {errors.description}</span>
-        )}
-        <br />
-        <label htmlFor="price">
-          Price:
-          <input
-            type="number"
-            id="price"
-            name="price"
-            min="0"
-            value={product.price}
-            onChange={handleChange}
-            placeholder="Enter price here..."
-          />
-        </label>
-        {errors.price !== "" && (
-          <span className={styles.errorMessage}> {errors.price}</span>
-        )}
-        <br />
-        <label htmlFor="discountPercentage">
-          Discount Percentage:
-          <input
-            type="number"
-            id="discountPercentage"
-            name="discountPercentage"
-            min="0"
-            max="100"
-            value={product.discountPercentage}
-            onChange={handleChange}
-            placeholder="Enter Discount Percentage here..."
-          />
-        </label>
-        {errors.discountPercentage !== "" && (
-          <span className={styles.errorMessage}>
-            {" "}
-            {errors.discountPercentage}
-          </span>
-        )}
+      <h1 className='text-center m-5'>Update Product</h1>
+            <Form onSubmit={handleSubmit} className={styles.container}>
+                <div className={styles.input_container}>
+                    <div className={styles.input_name}>
+                        <FloatingLabel htmlFor="name" controlId="floatingInput" label="Product Name" className="w-100 me-2">
+                            <Form.Control
+                                id="name"
+                                className={styles.form_input}
+                                type="text"
+                                placeholder="Product Name"
+                                name='name'
+                                value={product.name}
+                                onChange={handleChange}
+                            />
+                            {errors.name !== "" && (
+                            <span className={styles.errorMessage}> {errors.name}</span>
+                            )}
+                        </FloatingLabel>
+                        <FloatingLabel htmlFor="brand" controlId="floatingInput" label="Brand" className="w-100 me-2">
+                            <Form.Control
+                                id="brand"
+                                className={styles.form_input}
+                                type="text"
+                                placeholder="Brand"
+                                name='brand'
+                                value={product.brand}
+                                onChange={handleChange}
+                            />
+                            {errors.brand !== "" && (
+                            <span className={styles.errorMessage}> {errors.brand}</span>
+                            )}
+                        </FloatingLabel>
+                    </div>
+                    <div className={styles.input_name}>
+                        <FloatingLabel htmlFor="price" controlId="floatingInput" label="Price" className="w-100 me-2">
+                            <Form.Control
+                                id="price"
+                                className={styles.form_input}
+                                type="number"
+                                placeholder="Price"
+                                name='price'
+                                min="0"
+                                value={product.price}
+                                onChange={handleChange}
+                            />
+                            {errors.price !== "" && (
+                            <span className={styles.errorMessage}> {errors.price}</span>
+                            )}
+                        </FloatingLabel>
+                        <FloatingLabel htmlFor="discountPercentage" controlId="floatingInput" label="Discount Percentage" className="w-100 me-2">
+                            <Form.Control
+                                id="discountPercentage"
+                                className={styles.form_input}
+                                type="number"
+                                placeholder="Discount Percentage"
+                                name='discountPercentage'
+                                min="0"
+                                max="100"
+                                value={product.discountPercentage}
+                                onChange={handleChange}
+                            />
+                            {errors.discountPercentage !== "" && (
+                            <span className={styles.errorMessage}>
+                              {" "}
+                              {errors.discountPercentage}
+                            </span>
+                            )}
+                        </FloatingLabel>
+                    </div>
 
-        <br />
-        {product.image.map((url, index) => (
-          <div key={index}>
-            <label htmlFor={`image-${index}`}>
-              Image URL {index + 1}:
-              <input
-                type="url"
-                id={`image-${index}`}
-                name={`image-${index}`}
-                value={url}
-                onChange={(event) =>
-                  handleImageUrlChange(index, event.target.value)
-                }
-                placeholder="Enter image URL here..."
-              />
-            </label>
-            <button type="button" onClick={() => handleImageRemove(index)}>
-              Remove
-            </button>
-            {url && (
-              <div>
-                <img
-                  src={url}
-                  alt={`Preview ${index + 1}`}
-                  style={{ maxWidth: "100px" }}
-                />
-              </div>
-            )}
-          </div>
-        ))}
-        {product.image.length < 5 && (
-          <button type="button" onClick={handleImageAdd}>
-            Add Image
-          </button>
-        )}
-        {errors.image !== "" && (
-          <span className={styles.errorMessage}> {errors.image}</span>
-        )}
-        <br />
-        <label htmlFor="active">
-          Active:
-          <input
-            type="checkbox"
-            id="active"
-            name="active"
-            checked={product.active}
-            onChange={handleCheck}
-          />
-        </label>
-        <br />
-        <label htmlFor="tags">Tags: </label>
-        <select
-          name="tags"
-          id="tags"
-          onChange={handleChange}
-          value={product.tags}
-        >
-          <option value="">None</option>
-          <option value="New">New</option>
-          <option value="Special Offer">Special Offer</option>
-          <option value="Limited Edition">Limited Edition</option>
-        </select>
-        {errors.tags !== "" && (
-          <span className={styles.errorMessage}> {errors.tags}</span>
-        )}
-        <br />
+                    <div className={styles.input_name}>
+                        <FloatingLabel htmlFor="stock" controlId="floatingInput" label="Stock" className="w-100 me-2">
+                            <Form.Control
+                                id="stock"
+                                className={styles.form_input}
+                                type="number"
+                                placeholder="Stock"
+                                name='stock'
+                                min="0"
+                                max="10000"
+                                value={product.stock}
+                                onChange={handleChange}
+                              />
+                            {errors.stock !== "" && (
+                            <span className={styles.errorMessage}> {errors.stock}</span>
+                            )}
+                        </FloatingLabel>
+                        <FloatingLabel htmlFor="category" controlId="floatingInput" label="Category" className="w-100 me-2">
+                            <Form.Select className={styles.form_input} 
+                              id="category"
+                              name="category"
+                              size="1"
+                              onChange={handleChange}
+                              value={product.category}
+                            >
+                                <option value="" defaultValue="" disabled selected hidden></option>
+                                {prodCategories?.map((category) => {
+                                  return (
+                                    <option key={category.id} value={category.id}>
+                                      {category.nameCat}
+                                    </option>
+                                  )
+                                })}
+                            </Form.Select>
+                            {errors.category !== "" && (
+                            <span className={styles.errorMessage}> {errors.category}</span>
+                            )}
+                        </FloatingLabel>
+                    </div>
 
-        <label htmlFor="stock">
-          Stock:
-          <input
-            type="number"
-            id="stock"
-            name="stock"
-            min="0"
-            max="10000"
-            value={product.stock}
-            onChange={handleChange}
-            placeholder="Enter stock amount here..."
-          />
-        </label>
-        {errors.stock !== "" && (
-          <span className={styles.errorMessage}> {errors.stock}</span>
-        )}
-        <button
-          type="submit"
-          disabled={Object.keys(errors).length > 0 || product.name === ""}
-          className="submit-button"
-        >
-          Update
-        </button>
-      </form>
+                    <div className={styles.input_name}>
+                        <FloatingLabel htmlFor="tags" controlId="floatingInput" label="Tags" className="w-100 me-2">
+                            <Form.Select name="tags" id="tags" value={product.tags} className={styles.form_input} aria-label="Default select example" onChange={handleChange}>
+                              <option value="">None</option>
+                              <option value="New">New</option>
+                              <option value="Special Offer">Special Offer</option>
+                              <option value="Limited Edition">Limited Edition</option>
+                            </Form.Select>
+                            {errors.tags !== "" && (
+                            <span className={styles.errorMessage}> {errors.tags}</span>
+                            )}
+                        </FloatingLabel>
+
+                        <FloatingLabel htmlFor="active" controlId="floatingInput" label="State" className="w-100 me-2">
+                            <Form.Select id="active" name="active" className={styles.form_input} aria-label="Default select example">
+                              {/*MIRAR BIEN VALORES Y FUNCIONES Y AGREGAR ERRORES*/}
+                                <option value="active">Active</option>
+                                <option value="disabled">Disabled</option>
+                            </Form.Select>
+                        </FloatingLabel>
+                    </div>
+                    
+                    {product.image.map((url, index) => (
+                        <div className={styles.input_name} key={index}>
+                            <FloatingLabel htmlFor={`image-${index}`} controlId="floatingInput" label="Image URL" className="w-100 me-2">
+                              <Form.Control
+                                  id={`image-${index}`}
+                                  className={styles.form_input}
+                                  type="url"
+                                  placeholder="URL Image"
+                                  name={`image-${index}`}
+                                  value={url}
+                                  onChange={(event) => 
+                                    handleImageUrlChange(index, event.target.value)
+                                  }
+                              />
+                            </FloatingLabel>
+                            {/*A FUTURO MEJORAR AMBOS BOTONES*/}
+                            <button type="button" onClick={() => handleImageRemove(index)}>Remove</button>
+                            {url && (
+                              <div>
+                                <img src={url} alt={`Preview ${index + 1}`} style={{ maxWidth: "100px" }} />
+                              </div>
+                            )}
+                        </div>
+                    ))}
+                    {product.image.length < 5 && (
+                    <button type="button" onClick={handleImageAdd} style={{marginTop:"8px"}}>
+                      Add Image
+                    </button>
+                    )}
+                    {errors.image !== "" && (
+                      <span className={styles.errorMessage}> {errors.image}</span>
+                    )}
+
+                    <div className={styles.input_name}>
+                        <FloatingLabel htmlFor="description" controlId="floatingInput" label="Description" className="w-100 me-6">
+                            <Form.Control
+                                id="description"
+                                className={styles.form_input}
+                                type="text"
+                                placeholder="Description"
+                                name='description'
+                                value={product.description}
+                                onChange={handleChange}
+                            />
+                        </FloatingLabel>
+                    </div>
+
+                    <Button className='w-100 my-4' variant="primary" type="submit" disabled={Object.keys(errors).length > 0 || product.name === ""}>
+                        Update 
+                    </Button>
+                </div>
+            </Form>
+
+            {/*VER PORQUE BOTON DE BACK NO VUELVE HACIA LA LANDING*/}
+            <div className={styles.botonBack}>
+                <a href="/" className="btn btn-primary" role="button" data-bs-toggle="button">Volver</a>
+            </div>
     </div>
   );
 };

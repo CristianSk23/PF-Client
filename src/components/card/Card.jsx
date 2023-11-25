@@ -17,13 +17,19 @@ const Card = ({
 }) => {
   return (
     <div className={styles.card}>
-      <img src={image[0]} alt="" />
-      <h2>{nameProd}</h2>
-      <h2>{description}</h2>
-      <h2>{price}</h2>
-      <button>
-        <Link to={`/updateProduct/${productId}`}>Update</Link>
-      </button>
+      <img src={image[0]} alt="producto" className={styles.img}/>
+      <h2 className={styles.h2}>{nameProd}</h2>
+      <h2 className={styles.text}>{description}</h2>
+      <div>
+        <p className={styles.price}>${price}</p>
+      </div>
+
+      <div>
+        <button className={styles.btn}>
+          <Link to={`/updateProduct/${productId}`} style={{textDecoration:"none", color:"black"}}>Update</Link>
+        </button>
+      </div>
+
     </div>
   );
 };
