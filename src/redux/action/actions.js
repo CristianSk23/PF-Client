@@ -7,7 +7,8 @@ import {
           ORDERNAME, 
           FILTERTYPE, 
           FILTERPRICE, 
-          PAGINATION, 
+          PAGINATION,
+          FILTER, 
           SEARCHPRODUCTS, 
           PRODUCTSINCART 
         } from "../action/actionsType";
@@ -79,4 +80,21 @@ export const searchProducs = (products) => {
 
 export const productsInCart = (products) => {
   return {type: PRODUCTS_INCART, payload: products}
+}
+
+export const filter=(cond, name)=>{
+  return async (dispatch) => {
+  cond.name= name.toLowerCase();
+  return dispatch({ 
+      type: FILTER, 
+      payload: cond
+      });
+  }
+}
+
+export const order=(order)=>{
+  return { 
+      type: ORDER, 
+      payload: order
+      }
 }
