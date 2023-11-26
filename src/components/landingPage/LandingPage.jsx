@@ -10,7 +10,7 @@ import styles from "./landingPage.module.css";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.products.data);
+  const products = useSelector((state) => state.products?.data);
 
   const onSearch = (name) => {
     console.log("estoy entrando aqui");

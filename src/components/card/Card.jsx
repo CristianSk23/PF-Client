@@ -23,13 +23,16 @@ const Card = ({
       <div>
         <p className={styles.price}>${price}</p>
       </div>
-
       <div>
         <button className={styles.btn}>
           <Link to={`/updateProduct/${productId}`} style={{textDecoration:"none", color:"black"}}>Update</Link>
         </button>
       </div>
-
+      <div>
+        <button>
+          <Link to={`/deleteProduct/${productId}`} style={{textDecoration:"none", color:"black"}}>Delete</Link>
+        </button>
+      </div>
     </div>
   );
 };

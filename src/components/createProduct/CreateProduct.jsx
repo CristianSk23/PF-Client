@@ -14,7 +14,7 @@ const CreateProduct = () => {
   const dispatch = useDispatch();
   const catchError = useSelector((state) => state.catchError);
   const prodCategories = useSelector((state) => state.prodCategories);
-  const allProducts = useSelector((state) => state.products.allProducts);
+  const allProducts = useSelector((state) => state.products?.allProducts);
   const [errors, setErrors] = useState({});
   const [product, setProduct] = useState({
     name: "",

@@ -53,11 +53,6 @@ const reducer = (state = initialState, action) => {
 
     case CREATE_PRODUCT:
       console.log(state.products.allProducts);
-      //...state,
-      //products: {
-      //  ...state.products,
-      //  data: [...state.products.
-      //  return {
       return {
         ...state,
         products: {
@@ -83,15 +78,8 @@ const reducer = (state = initialState, action) => {
 
     case DELETE_PRODUCT:
       const deletedProduct = state.products.allProducts.filter((product) => {
-        return product.id != action.payload.id;
+        return product.id != action.payload;
       });
-
-      // const deletedProduct = state.products.allProducts.map((product)=>{
-      //   if(product.id === action.payload.id){
-      //     product.active = false
-      //   }
-      //   return product
-      // })
       return {
         product: {
           ...state,
