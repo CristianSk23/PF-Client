@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 const SearchBar = ({ onSearch }) => {
-  const [id, setId] = useState("");
+  const [name, setName] = useState("");
 
   const handleChange = (event) => {
-    setId(event.target.value);
+    setName(event.target.value);
   };
 
   return (
@@ -16,13 +16,12 @@ const SearchBar = ({ onSearch }) => {
       <input
         id="search"
         type="search"
-        placeholder="Search for a product..."
-        value={id}
-        onChange={handleChange}
-      />
-      <button className={styles.searchButton} onClick={() => onSearch(id)}>
-        <FontAwesomeIcon icon={faMagnifyingGlass} />
-      </button>
+        placeholder="Name product"
+        value={name}
+        onChange={handleChange}/>
+        <button className={styles.searchButton} onClick={() => onSearch(name)}>
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
+        </button>
 
       <button type="button" className="btn btn-light" style={{marginLeft: "535px"}}>
         <Link to="/createProduct" style={{textDecoration:"none", color: "black"}}>Create</Link>  

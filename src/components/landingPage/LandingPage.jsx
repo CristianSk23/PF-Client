@@ -1,6 +1,6 @@
 import React, { cloneElement, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProducts, changePage, orderPrice, filterType, filterPrice, orderName } from "../../redux/action/actions";
+import { getAllProducts, changePage, orderPrice, filterType, filterPrice, orderName, getProductsByName } from "../../redux/action/actions";
 import SideBar from "../sideBar/SideBar";
 import DropdownMenu from "../dropdownMenu/DropdownMenu";
 import SearchBar from "../searchBar/SearchBar";
@@ -12,9 +12,10 @@ const LandingPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.data);
 
-  const onSearch = (id) => {
-    console.log(id);
-    // Falta implementar la busqueda atravez del id, logica en el reducer
+  const onSearch = (name) => {
+    console.log("estoy entrando aqui");
+    console.log(name);
+    dispatch(getProductsByName(name))
   };
 
   // obtengo los productos
@@ -31,8 +32,7 @@ const LandingPage = () => {
 
   const handleOrderByName = (event) => {
     dispatch(orderName(event.target.value))
-    console.log("Filtro por nombre");
-      setAux(true)
+    setAux(true)
   }
 
   const handleFilterByPrice = (event) => {
