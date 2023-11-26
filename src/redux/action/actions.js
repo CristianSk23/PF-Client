@@ -1,4 +1,5 @@
 import axios from "axios";
+import { data } from "../../data";
 import {
   ERROR,
   GETALLPRODUCTS,
@@ -8,6 +9,9 @@ import {
   FILTERTYPE,
   FILTERPRICE,
   PAGINATION,
+  FILTER, 
+  SEARCHPRODUCTS, 
+  PRODUCTSINCART,
   SEARCHPRODUCTS,
   SEARCHBYNAME,
   PRODUCTSINCART,
@@ -18,6 +22,7 @@ import {
   GET_PROD_BY_ID,
 } from "../action/actionsType";
 const URLEXAMPLE = "http://localhost:3001";
+
 
 // GET PARA TRAER PRODUCTOS, de momento se esta usando el que cree en el archivo data.js luego deberiamos de descomentar y modificar lo necesario
 export const getAllProducts = () => {
@@ -184,5 +189,25 @@ export const searchProducs = (products) => {
 };
 
 export const productsInCart = (products) => {
+  return {type: PRODUCTS_INCART, payload: products}
+}
+
+export const filter=(cond, name)=>{
+  return async (dispatch) => {
+  cond.name= name.toLowerCase();
+  return dispatch({ 
+      type: FILTER, 
+      payload: cond
+      });
+  }
+}
+
+export const order=(order)=>{
+  return { 
+      type: ORDER, 
+      payload: order
+      }
+}
   return { type: PRODUCTS_INCART, payload: products };
 };
+
