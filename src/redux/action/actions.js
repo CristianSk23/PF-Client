@@ -16,7 +16,9 @@ import {
   UPDATE_PRODUCT,
   DELETE_PRODUCT,
   GET_PROD_BY_ID,
+  FILTER,
 } from "../action/actionsType";
+//import {data} from "../../data"
 const URLEXAMPLE = "http://localhost:3001";
 
 // GET PARA TRAER PRODUCTOS, de momento se esta usando el que cree en el archivo data.js luego deberiamos de descomentar y modificar lo necesario
@@ -185,4 +187,15 @@ export const searchProducs = (products) => {
 
 export const productsInCart = (products) => {
   return { type: PRODUCTS_INCART, payload: products };
+};
+
+export const filter = (cond, name) => {
+  console.log(`${cond.type}, ${name} ESTO ES FILTER`);
+  return async (dispatch) => {
+    cond.name = name.toLowerCase();
+    return dispatch({
+      type: FILTER,
+      payload: cond,
+    });
+  };
 };

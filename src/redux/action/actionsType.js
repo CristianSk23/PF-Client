@@ -14,3 +14,4 @@ export const CREATE_PRODUCT = "CREATE_PRODUCT"
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT"
 export const DELETE_PRODUCT = "DELETE_PRODUCT"
 export const GET_PROD_BY_ID = "GET_PROD_BY_ID"
+export const FILTER = "FILTER";

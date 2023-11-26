@@ -17,7 +17,7 @@ const Card = ({
 }) => {
   return (
     <div className={styles.card}>
-      <img src={image[0]} alt="producto" className={styles.img}/>
+      <img src={image} alt="producto" className={styles.img}/>
       <h2 className={styles.h2}>{nameProd}</h2>
       <h2 className={styles.text}>{description}</h2>
       <div>
