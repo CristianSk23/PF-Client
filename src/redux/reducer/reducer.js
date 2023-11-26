@@ -1,4 +1,3 @@
-
 import {
   ERROR,
   GETALLPRODUCTS,
@@ -9,6 +8,7 @@ import {
   FILTERPRICE,
   PAGINATION,
   SEARCHPRODUCTS,
+  SEARCHBYNAME,
   PRODUCTSINCART,
   GET_PROD_CATEGORIES,
   CREATE_PRODUCT,
@@ -17,7 +17,6 @@ import {
   GET_PROD_BY_ID,
   FILTER,
   ORDER, 
-
 } from "../action/actionsType";
 
 const initialState = {
@@ -31,7 +30,7 @@ const initialState = {
   users: [],
   productsInCart: [],
   prodCategories: [],
-  singleProduct:'',
+  singleProduct: "",
   catchError: "",
 
 };
@@ -83,8 +82,7 @@ const reducer = (state = initialState, action) => {
       };
 
     case GET_PROD_BY_ID:
-
-      return {...state, singleProduct: action.payload};
+      return { ...state, singleProduct: action.payload };
 
     case DELETE_PRODUCT:
       const deletedProduct = state.products.allProducts.filter((product) => {
@@ -114,130 +112,7 @@ const reducer = (state = initialState, action) => {
         users: action.payload,
       };
 
-    case SEARCHPRODUCTS:
-      return {
-        ...state,
-        products: {
-          ...products,
-          data: [action.payload].splice(0, ITEM_PER_PAGE),
-          productsFiltered: action.payload,
-          filterType: "productsSearched",
-        },
-      };
-
-    case ORDERNAME:
-      if (state.products.productsFiltered.length === 0) {
-        state.products.productsFiltered =
-          action.payload === "A"
-            ? [...state.products.allProducts].sort((a, b) =>
-                a.name.localeCompare(b.name)
-              )
-            : [...state.products.allProducts].sort((a, b) =>
-                b.name.localeCompare(a.name)
-              );
-      } else if (state.products.productsFiltered.length > 0) {
-        state.products.productsFiltered =
-          action.payload === "A"
-            ? [...state.products.productsFiltered].sort((a, b) =>
-                a.name.localeCompare(b.name)
-              )
-            : [...state.products.productsFiltered].sort((a, b) =>
-                b.name.localeCompare(a.name)
-              );
-      }
-
-      return {
-        ...state,
-        products: {
-          ...state.products,
-          data: [...state.products.productsFiltered].splice(0, ITEM_PER_PAGE),
-          currentPage: 0,
-          filterType: "orderName",
-        },
-      };
-
-    case ORDERPRICE:
-      if (state.products.productsFiltered.length === 0) {
-        state.products.productsFiltered =
-          action.payload === "A"
-            ? [...state.products.allProducts].sort((a, b) => b.price - a.price)
-            : [...state.products.allProducts].sort((a, b) => a.price - b.price);
-      } else if (state.products.productsFiltered.length > 0) {
-        state.products.productsFiltered =
-          action.payload === "A"
-            ? [...state.products.productsFiltered].sort(
-                (a, b) => b.price - a.price
-              )
-            : [...state.products.productsFiltered].sort(
-                (a, b) => a.price - b.price
-              );
-      }
-
-      return {
-        ...state,
-        products: {
-          ...state.products,
-          data: [...state.products.productsFiltered].splice(0, ITEM_PER_PAGE),
-          currentPage: 0,
-          filterType: "orderPrice",
-        },
-      };
-
-    case FILTERTYPE:
-      if (
-        state.products.filterType == "orderPrice" ||
-        state.products.filterType == "filterPrice" ||
-        state.products.filterType == "orderName"
-      ) {
-        state.products.productsFiltered = [
-          ...state.products.productsFiltered,
-        ].filter(
-          (product) =>
-            product.tags &&
-            product.tags.map((tag) => tag).includes(action.payload)
-        );
-
-        return {
-          ...state,
-          products: {
-            ...state.products,
-            data: [...state.products.productsFiltered].splice(0, ITEM_PER_PAGE),
-            currentPage: 0,
-            filterType: "filterType",
-          },
-        };
-      }
-
-      state.products.productsFiltered = [...state.products.allProducts].filter(
-        (product) =>
-          product.tags &&
-          product.tags.map((tag) => tag).includes(action.payload)
-      );
-
-      return {
-        ...state,
-        products: {
-          ...state.products,
-          data: [...state.products.productsFiltered].splice(0, ITEM_PER_PAGE),
-          currentPage: 0,
-          filterType: "filterType",
-        },
-      };
-
-    case FILTERPRICE:
-      if (
-        state.products.filterType == "orderPrice" ||
-        state.products.filterType == "filterType" ||
-        state.products.filterType == "orderName"
-      ) {
-        if (action.payload === "100") {
-          state.products.productsFiltered = [
-            ...state.products.productsFiltered,
-          ].filter((product) => product.price < action.payload);
-        }
-
-
-        case SEARCHPRODUCTS:
+     case SEARCHPRODUCTS:
             return {
                 ...state,
                 products: {
@@ -247,6 +122,16 @@ const reducer = (state = initialState, action) => {
                     filterType: "productsSearched",
                 }
             }
+      case SEARCHBYNAME:
+      return {
+        ...state,
+        products: {
+          data: [...action.payload].splice(0, ITEM_PER_PAGE),
+          allProducts: action.payload,
+          currentPage: 0,
+          productsFiltered: [],
+        },
+      };
 
         //-------------------------------- ORDERS ---------------------------------------------//
         
@@ -391,9 +276,10 @@ const reducer = (state = initialState, action) => {
 
                     }
 
+
+    
     default:
       return { ...state };
   }
 };
 export default reducer;
-

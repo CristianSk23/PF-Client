@@ -4,18 +4,19 @@ import { filter, orderName, orderPrice } from "../../redux/action/actions";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 const SearchBar = ({ onSearch, setFilterCond, filterCond, setAux, aux }) => {
-  const dispatch = useDispatch();
-  const [id, setId] = useState("");
+const dispatch = useDispatch();
+const [name, setName] = useState("");
 
   useEffect(() => {
     dispatch(filter(filterCond,name))
-    
   },[filterCond])
 
   const handleChange = (event) => {
-    setId(event.target.value);
+    setName(event.target.value);
   };
 
   const handleOpChange = async (event) => {
@@ -34,16 +35,15 @@ const handleOrderByName = (event) => {
 }
 
   return (
-    <div>
+    <div className={styles.searchBar}>
       <input
-        className={styles.search}
         id="search"
         type="search"
         placeholder="Name product"
-        value={id}
+        value={name}
         onChange={handleChange}
       />
-      <button className={styles.searchButton} onClick={() => onSearch(id)}>
+      <button className={styles.searchButton} onClick={() => onSearch(name)}>
         Search
       </button>
 
@@ -87,12 +87,12 @@ const handleOrderByName = (event) => {
             </div>
         </div>
             
-      <button className={styles.searchButton}>
+        <button className={styles.searchButton}>
         <Link to="/createProduct">Create</Link>
+
       </button>
 
     </div>
-
   );
 };
 

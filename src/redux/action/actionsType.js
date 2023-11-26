@@ -13,6 +13,7 @@ export const FILTERTYPE = "FILTERTYPE";
 export const FILTERPRICE = "FILTERPRICE";
 export const PAGINATION = "PAGINATION";
 export const SEARCHPRODUCTS = "SEARCHPRODUCTS";
+export const SEARCHBYNAME = "SEARCHBYNAME"
 export const PRODUCTSINCART = "PRODUCTSINCART";
 export const FILTER = "FILTER";
 export const ORDER = "ORDER";
