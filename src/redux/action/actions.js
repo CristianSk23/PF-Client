@@ -129,10 +129,10 @@ export const getProductsById = (id) => {
 export const deleteProduct = (id) => {
   return async (dispatch) => {
     try {
-      const response = await axios.delete(`${URLEXAMPLE}/products`, id);
+      await axios.delete(`${URLEXAMPLE}/products`, id);
       dispatch({
         type: DELETE_PRODUCT,
-        payload: response.data,
+        payload: id,
       });
     } catch (error) {
       dispatch({

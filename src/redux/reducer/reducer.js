@@ -82,18 +82,13 @@ const reducer = (state = initialState, action) => {
 
     case DELETE_PRODUCT:
       const deletedProduct = state.products.allProducts.filter((product) => {
-        return product.id != action.payload.id;
+        return product.id != action.payload;
       });
 
-      // const deletedProduct = state.products.allProducts.map((product)=>{
-      //   if(product.id === action.payload.id){
-      //     product.active = false
-      //   }
-      //   return product
-      // })
       return {
         product: {
           ...state,
+          data: [...deletedProduct].splice(0, ITEM_PER_PAGE),
           allProducts: deletedProduct,
         },
       };
