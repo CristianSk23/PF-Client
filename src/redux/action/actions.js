@@ -9,12 +9,13 @@ import {
   FILTERPRICE,
   PAGINATION,
   SEARCHPRODUCTS,
+  SEARCHBYNAME,
   PRODUCTSINCART,
   GET_PROD_CATEGORIES,
   CREATE_PRODUCT,
   UPDATE_PRODUCT,
   DELETE_PRODUCT,
-  GET_PROD_BY_ID
+  GET_PROD_BY_ID,
 } from "../action/actionsType";
 const URLEXAMPLE = "http://localhost:3001";
 
@@ -22,7 +23,7 @@ const URLEXAMPLE = "http://localhost:3001";
 export const getAllProducts = () => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.get(`${URLEXAMPLE}/products`);
+      const { data } = await axios.get(`${URLEXAMPLE}/products`);
       dispatch({
         type: GETALLPRODUCTS,
         payload: data,
@@ -52,11 +53,31 @@ export const getProdCategories = () => {
     }
   };
 };
+export const getProductsByName = (name) => {
+  console.log("Llegue aqui");
+  console.log(name);
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(
+        `${URLEXAMPLE}/products/name?name=${name}`
+      );
+      dispatch({
+        type: SEARCHBYNAME,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
 
 export const createProduct = (product) => {
   return async (dispatch) => {
     try {
-      const  response  = await axios.post(`${URLEXAMPLE}/products`, product);
+      const response = await axios.post(`${URLEXAMPLE}/products`, product);
       console.log("DESDE LA ACTIONS");
       console.log(response.data);
       dispatch({

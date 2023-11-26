@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import styles from "./searchBar.module.css";
 
 const SearchBar = ({ onSearch }) => {
-  const [id, setId] = useState("");
+  const [name, setName] = useState("");
 
   const handleChange = (event) => {
-    setId(event.target.value);
+    setName(event.target.value);
   };
 
   return (
@@ -16,10 +16,10 @@ const SearchBar = ({ onSearch }) => {
         id="search"
         type="search"
         placeholder="Name product"
-        value={id}
+        value={name}
         onChange={handleChange}
       />
-      <button className={styles.searchButton} onClick={() => onSearch(id)}>
+      <button className={styles.searchButton} onClick={() => onSearch(name)}>
         Search
       </button>
       <button className={styles.searchButton}>
