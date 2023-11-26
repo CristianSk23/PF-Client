@@ -29,6 +29,7 @@ const DeleteProduct = () => {
       console.log("prodById: "+prodById?.id);
       await dispatch(deleteProduct(prodById?.id));
       setShowConfirmation(true);
+      setProductLoaded(false)
     } catch (error) {
       console.error("Error deleting product:", error);
     }
@@ -44,6 +45,7 @@ const DeleteProduct = () => {
   };
 
   return (
+    
     <div className={styles.container}>
       <h1>Eliminando producto</h1>
       {productLoaded && (
