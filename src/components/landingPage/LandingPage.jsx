@@ -33,10 +33,10 @@ const LandingPage = () => {
   const [resetSearch, setResetSearch] = useState(false);
 
   const reset = (event) => {
-    dispatch(getAllProducts(event.target.name))
+    dispatch(getAllProducts())
     const selectElements = document.querySelectorAll("select");
     selectElements.forEach((select) => {
-    select.value = "";
+    select.value = "all";
     })
     setResetSearch(true)
   } 

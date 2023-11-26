@@ -34,7 +34,7 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  const ITEM_PER_PAGE = 8;
+  const ITEM_PER_PAGE = 10;
 
   switch (action.type) {
     case GETALLPRODUCTS:
@@ -124,11 +124,13 @@ const reducer = (state = initialState, action) => {
      case ORDERNAME:
            
      if(state.products.productsFiltered.length === 0) {
+      console.log(state.products.productsFiltered);
        state.products.productsFiltered = action.payload === "A" ? [...state.products.allProducts].sort((a, b) => a.nameProd.localeCompare(b.nameProd))
       : [...state.products.allProducts].sort((a, b) => b.nameProd.localeCompare(a.nameProd))
       }
       
       else if(state.products.productsFiltered.length > 0) {
+        console.log(state.products.productsFiltered);
       state.products.productsFiltered = action.payload === "A" ? [...state.products.productsFiltered].sort((a, b) => a.nameProd.localeCompare(b.nameProd))
       : [...state.products.productsFiltered].sort((a, b) => b.nameProd.localeCompare(a.nameProd))
       } 
@@ -192,9 +194,14 @@ const reducer = (state = initialState, action) => {
          let filtered = [...state.products.allProducts];
          
          if(action.payload.type !== "all"){
+          console.log(action.payload.type)
+          console.log(filtered);
            filtered = filtered.filter((product) =>
-           product.tags && product.tags.map(tag => tag).includes(action.payload.type))
+           ///////////REVISAR
+           product.category == action.payload.type)
+           
          }
+         
          
          if(action.payload.price !== "all"){
            if(action.payload.price === "100"){
@@ -204,15 +211,17 @@ const reducer = (state = initialState, action) => {
    
              if(action.payload.price === "300"){
              filtered = [...filtered].filter((product) =>
-             product.price < action.payload.price && product.price >= 100)
+             product.price <= action.payload.price && product.price >= 100)
              }
    
              if(action.payload.price === "500"){
              filtered = [...filtered].filter((product) =>
-             product.price > action.payload.price)
+             product.price > 301)
              }
          }
-
+         console.log("REDUCER");
+         console.log(filtered);
+         
          return {
            ...state,
            products: {
@@ -268,9 +277,9 @@ const reducer = (state = initialState, action) => {
         ...state,
         products: {
           data: [...action.payload].splice(0, ITEM_PER_PAGE),
-          allProducts: action.payload,
+          //allProducts: action.payload,
           currentPage: 0,
-          productsFiltered: [],
+          productsFiltered: action.payload,
         },
       };
     default:
