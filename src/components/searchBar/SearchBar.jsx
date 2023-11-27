@@ -10,7 +10,7 @@ import { filter, orderName, orderPrice, getProdCategories } from "../../redux/ac
 const SearchBar = ({ onSearch, setFilterCond, filterCond, setAux, aux }) => {
   const [name, setName] = useState("");
   const dispatch = useDispatch();
-  const prodCategories = useSelector((state) => state.prodCategories);
+  const prodCategories = useSelector((state) => state.prodCategories)||[];
   const [id, setId] = useState("");
 
   useEffect(() => {

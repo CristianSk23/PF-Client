@@ -15,14 +15,14 @@ const DeleteProduct = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await dispatch(getProductsById(id));
+        id && await dispatch(getProductsById(id));
         setProductLoaded(true);
       } catch (error) {
         console.error("Error fetching product data:", error);
       }
     };
     fetchData();
-  }, [dispatch, id]);
+  }, [id]);
 
   const handleDelete = async () => {
     try {
@@ -51,7 +51,7 @@ const DeleteProduct = () => {
       {productLoaded && (
         <div>
           <h2>Nombre: {prodById?.nameProd}</h2>
-          <h2>Categoría: {prodById?.CategoryId}</h2>
+          <h2>Categoría: {prodById?.nameCat}</h2>
           <img src={prodById?.image} alt="" />
           </div>
       )}
