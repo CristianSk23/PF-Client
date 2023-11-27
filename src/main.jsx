@@ -4,7 +4,8 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom';
 import store from './redux/store/store.js';
 import { Provider } from 'react-redux'
-
+import axios from 'axios';
+axios.defaults.baseURL = "https://server-technook.up.railway.app/";
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <BrowserRouter>

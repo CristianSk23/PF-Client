@@ -282,7 +282,7 @@ const UpdateProduct = () => {
                         </FloatingLabel>
 
                         <FloatingLabel htmlFor="active" controlId="floatingInput" label="State" className="w-100 me-2">
-                            <Form.Select id="active" name="active" className={styles.form_input} aria-label="Default select example">
+                            <Form.Select id="active" name="active" className={styles.form_input} aria-label="Default select example" onChange={handleChange} value={product.category}>
                               {/*MIRAR BIEN VALORES Y FUNCIONES Y AGREGAR ERRORES*/}
                                 <option value="active">Active</option>
                                 <option value="disabled">Disabled</option>
