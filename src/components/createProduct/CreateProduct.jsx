@@ -152,7 +152,7 @@ const CreateProduct = () => {
                                 id="price"
                                 className={styles.form_input}
                                 type="number"
-                                placeholder="Price"
+                                step="0.01"                                placeholder="Price"
                                 name='price'
                                 min="0"
                                 value={product.price}

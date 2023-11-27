@@ -49,7 +49,7 @@ const reducer = (state = initialState, action) => {
       };
 
     case GET_PROD_CATEGORIES:
-      return { ...state, prodCategories: action.payload };
+      return { ...state, prodCategories: action.payload};
 
     case CREATE_PRODUCT:
       console.log(state.products.allProducts);
@@ -80,6 +80,8 @@ const reducer = (state = initialState, action) => {
       const deletedProduct = state.products.allProducts.filter((product) => {
         return product.id != action.payload;
       });
+      console.log("ESTOY EN DELETE");
+      console.log("deletedProduct: "+ deletedProduct);
       return {
         product: {
           ...state,
@@ -179,7 +181,7 @@ const reducer = (state = initialState, action) => {
      // --------------------------------FILTROS --------------------------------------------//
      case FILTER:
 
-         let filtered = [...state.products.allProducts];
+         let filtered = [...state.products?.allProducts] || [];
          
          if(action.payload.type !== "all"){
           console.log(action.payload.type)
@@ -187,7 +189,6 @@ const reducer = (state = initialState, action) => {
            filtered = filtered.filter((product) =>
            ///////////REVISAR
            product.category == action.payload.type)
-           
          }
          
          
