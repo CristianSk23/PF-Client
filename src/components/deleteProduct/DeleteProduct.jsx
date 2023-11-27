@@ -15,14 +15,14 @@ const DeleteProduct = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await dispatch(getProductsById(id));
+        id && await dispatch(getProductsById(id));
         setProductLoaded(true);
       } catch (error) {
         console.error("Error fetching product data:", error);
       }
     };
     fetchData();
-  }, [dispatch, id]);
+  }, [id]);
 
   const handleDelete = async () => {
     try {
@@ -45,20 +45,19 @@ const DeleteProduct = () => {
   };
 
   return (
-    
     <div className={styles.container} style={{marginTop:"25px"}}>
-      <div className= "d-flex align-items-center justify-content-center">
-        <div className="card" style={{width: "30rem"}}>
-          <h1>Eliminando Producto</h1>
-          {productLoaded && (
-            <img src={prodById?.image} className="card-img-top" alt="..."/>
-          )}
-          <div className="card-body">
-            <h5 className="card-title">{prodById?.nameProd}</h5>
-            <p className="card-text">{prodById?.description}</p>
-            <div className="text-center">
-              <a onClick={handleDelete} className="btn btn-success" style={{margin:"2px"}}>Confirmar</a>
-              <a onClick={handleCancel} className="btn btn-danger" style={{margin:"2px"}}>Cancelar</a>
+        <div className= "d-flex align-items-center justify-content-center">
+          <div className="card" style={{width: "30rem"}}>
+            <h1>Deleting Product</h1>
+              {productLoaded && (
+                <img src={prodById?.image} className="card-img-top" alt="..."/>
+              )}
+               <div className="card-body">
+                 <h5 className="card-title">{prodById?.nameProd}</h5>
+                 <p className="card-text">{prodById?.description}</p>
+                    <div className="text-center">
+                      <a onClick={handleDelete} className="btn btn-success" style={{margin:"2px"}}>Confirmar</a>
+                      <a onClick={handleCancel} className="btn btn-danger" style={{margin:"2px"}}>Cancelar</a>
             </div>
           </div>
         </div>

@@ -26,6 +26,7 @@ export const getAllProducts = () => {
   return async (dispatch) => {
     try {
       const { data } = await axios.get(`${URLEXAMPLE}/products`);
+
       dispatch({
         type: GETALLPRODUCTS,
         payload: data,
