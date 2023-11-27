@@ -55,9 +55,12 @@ const LandingPage = () => {
 
       </nav>
 
-      <button type="button" className="btn btn-light" style={{ width: '200px', textAlign:"center", margin:"5px" }} onClick={reset}>
-            Reset Fiters
-      </button>  
+      <div className="pagination justify-content-center" style={{marginTop:"15px"}}>
+        <button type="button" className="btn btn-light" style={{ width: '200px', textAlign:"center", margin:"5px", borderRadius:"20px" }} onClick={reset}>
+              Reset Fiters
+        </button>  
+      </div>
+
 
       <Cards products={products} />
 
