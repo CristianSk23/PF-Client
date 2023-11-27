@@ -1,19 +1,25 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { showThePopup } from "../../redux/action/actions";
+import { useEffect } from "react";
+
 import styles from "./promotionPopup.module.css";
 
 const PromotionPopup = () => {
-  const [showPopup, setShowPopup] = useState(true);
+  const dispatch = useDispatch();
+
+  const showPopup = useSelector((state) => state.isShowPopup);
   const [currentImage, setCurrentImage] = useState(0); // para el slider, cambiar por la libreria que se use
 
   const closetPopup = () => {
-    setShowPopup(false);
+    dispatch(showThePopup(false));
   };
 
   //Cambiar una vez se defina la libreria para el diseño
   const nextImage = () => {
     setCurrentImage((prev) => (prev + 1) % images.length);
   };
-//Cambiar una vez se defina la libreria para el diseño
+  //Cambiar una vez se defina la libreria para el diseño
   const prevImage = () => {
     setCurrentImage((prev) => (prev - 1 + images.length) % images.length);
   };
@@ -30,7 +36,10 @@ const PromotionPopup = () => {
         <div className={styles["poput-content"]}>
           <h2>50% OFF</h2>
           <div className={styles.slider}>
-            <img src={images[currentImage]} alt={`Imagen ${currentImage + 1}`} />
+            <img
+              src={images[currentImage]}
+              alt={`Imagen ${currentImage + 1}`}
+            />
             <button onClick={prevImage}>&lt;</button>
             <button onClick={nextImage}>&gt;</button>
           </div>

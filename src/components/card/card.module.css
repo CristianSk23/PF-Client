@@ -1,26 +1,3 @@
-/*.card {
-  width: 280px;
-  height: 100%;
-  margin-right: 20px;
-  margin-top: 10px;
-  border: 0.1px solid #000000;
-  padding: 10px;
-}
-
-.card:last-child {
-  margin-right: 0;
-}
-
-.card img {
-  max-width: 100%;
-  height: 300px;
-  border-radius: 20px;
-}
-
-.card h2 {
-  font-size: 14px;
-}*/
-
 .img{
   width: 9vw;
   height: 9vw;
