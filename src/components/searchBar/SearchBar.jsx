@@ -44,19 +44,22 @@ const handleOrderByName = (event) => {
 
   return (
     <div >
-      <input
-        id="search"
-        type="search"
-        placeholder="Name product"
-        value={name}
-        onChange={handleChange}/>
-        <button className={styles.searchButton} disabled={name==""} onClick={() => onSearch(name)}>
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
-        </button>
+      <div className="pagination justify-content-center">
+        <input
+          id="search"
+          type="search"
+          placeholder="Name product"
+          className={styles.input}
+          value={name}
+          onChange={handleChange}/>
+          <button className={styles.searchButton} disabled={name==""} onClick={() => onSearch(name)}>
+            <FontAwesomeIcon icon={faMagnifyingGlass} style={{marginLeft:"-5px"}}/>
+          </button>
 
-      <button type="button" className="btn btn-light" style={{marginLeft: "535px"}}>
-        <Link to="/createProduct" style={{textDecoration:"none", color: "black"}}>Create</Link>  
-      </button>
+        <button type="button" className="btn btn-light" style={{width:"150px"}}>
+          <Link to="/createProduct" style={{textDecoration:"none", color: "black"}}>Create Product</Link>  
+        </button>
+      </div>
 
       <div className="pagination justify-content-center" style={{marginTop: "15px"}}>
           <select name="type" className="form-control" style={{ width: '200px', textAlign:"center", margin:"5px" }} onChange={handleOpChange}>

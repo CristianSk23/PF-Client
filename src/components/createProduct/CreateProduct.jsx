@@ -299,10 +299,10 @@ const CreateProduct = () => {
                 </div>
             </Form>
 
-            {/*VER PORQUE BOTON DE BACK NO VUELVE HACIA LA LANDING*/}
+            {/* HACER BOTON PARA VOLVER A LA LANDING
             <div className={styles.botonBack}>
                 <a href="/" className="btn btn-primary" role="button" data-bs-toggle="button">Volver</a>
-            </div>
+                            </div>*/}
     </div>
   );
 };

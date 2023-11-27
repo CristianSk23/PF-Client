@@ -29,7 +29,7 @@ const Card = ({
         </button>
       </div>
       <div>
-        <button>
+        <button className={styles.btn2}>
           <Link to={`/deleteProduct/${productId}`} style={{textDecoration:"none", color:"black"}}>Delete</Link>
         </button>
       </div>

@@ -5,11 +5,11 @@ const Cards = ({products}) => {
   
   return (
     <div className={styles.cards}>
-      {products?.map(({ id, name, brand, description, price, stock, discountPercentage,priceOnSale, image, active, tags}) => (
+      {products?.map(({ id, nameProd, brand, description, price, stock, discountPercentage,priceOnSale, image, active, tags}) => (
         <Card
           key={id}
           productId={id}
-          nameProd={name}
+          nameProd={nameProd}
           brand={brand}
           priceOnSale={priceOnSale}
           description={description}

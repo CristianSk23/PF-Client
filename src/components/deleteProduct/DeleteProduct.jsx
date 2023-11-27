@@ -46,20 +46,23 @@ const DeleteProduct = () => {
 
   return (
     
-    <div className={styles.container}>
-      <h1>Eliminando producto</h1>
-      {productLoaded && (
-        <div>
-          <h2>Nombre: {prodById?.nameProd}</h2>
-          <h2>Categoría: {prodById?.CategoryId}</h2>
-          <img src={prodById?.image} alt="" />
+    <div className={styles.container} style={{marginTop:"25px"}}>
+      <div className= "d-flex align-items-center justify-content-center">
+        <div className="card" style={{width: "30rem"}}>
+          <h1>Eliminando Producto</h1>
+          {productLoaded && (
+            <img src={prodById?.image} className="card-img-top" alt="..."/>
+          )}
+          <div className="card-body">
+            <h5 className="card-title">{prodById?.nameProd}</h5>
+            <p className="card-text">{prodById?.description}</p>
+            <div className="text-center">
+              <a onClick={handleDelete} className="btn btn-success" style={{margin:"2px"}}>Confirmar</a>
+              <a onClick={handleCancel} className="btn btn-danger" style={{margin:"2px"}}>Cancelar</a>
+            </div>
           </div>
-      )}
-      <div>
-      <button onClick={handleDelete}>Confirmar</button>
-      <button onClick={handleCancel}>Cancelar</button>
+        </div>
       </div>
-
       {showConfirmation && (
         <div className={styles.confirmationModalContainer}>
           <div className={styles.confirmationModalBackdrop}></div>
@@ -69,7 +72,9 @@ const DeleteProduct = () => {
           </div>
         </div>
       )}
-    </div>
+
+
+      </div>
   );
 };
 

@@ -17,14 +17,9 @@
     padding: 8px;
 
 }
-  
-.searchBar input{
+.input{
     flex: 1;
     border-radius: 15px;
     outline: none;
     padding: 5px;
-    margin-left: 60px;
 }
-
-
-  
