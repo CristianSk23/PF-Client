@@ -1,0 +1,25 @@
+.searchButton {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.boton-busqueda i {
+    color: #000;
+}
+
+.searchBar{
+    display: flex;
+    align-items: center;
+    width: 300px;
+    border:none;
+    padding: 8px;
+
+}
+.input{
+    flex: 1;
+    border-radius: 15px;
+    outline: none;
+    padding: 5px;
+}

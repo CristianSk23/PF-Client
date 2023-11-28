@@ -1,22 +1,19 @@
 import axios from "axios";
 import {
-  ERROR,
   GETALLPRODUCTS,
   GETUSERS,
+  GETPRODBYID,
+  GETPRODCATEGORIES,
+  GETPRODUCTBYNAME,
+  CREATEPRODUCT,
+  UPDATEPRODUCT,
+  DELETEPRODUCT,
+  PAGINATION,
   ORDERPRICE,
   ORDERNAME,
-  FILTERTYPE,
-  FILTERPRICE,
-  PAGINATION,
-  SEARCHPRODUCTS,
-  SEARCHBYNAME,
-  PRODUCTSINCART,
-  GET_PROD_CATEGORIES,
-  CREATE_PRODUCT,
-  UPDATE_PRODUCT,
-  DELETE_PRODUCT,
-  GET_PROD_BY_ID,
   FILTER,
+  ERROR,
+  POPUPINITIAL
 } from "../action/actionsType";
 //import {data} from "../../data"
 const URLEXAMPLE = "http://localhost:3001";
@@ -45,7 +42,7 @@ export const getProdCategories = () => {
     try {
       const response = await axios.get(`${URLEXAMPLE}/categories`);
       dispatch({
-        type: GET_PROD_CATEGORIES,
+        type: GETPRODCATEGORIES,
         payload: response.data,
       });
     } catch (error) {
@@ -57,15 +54,13 @@ export const getProdCategories = () => {
   };
 };
 export const getProductsByName = (name) => {
-  console.log("Llegue aqui");
-  console.log(name);
   return async (dispatch) => {
     try {
       const response = await axios.get(
         `${URLEXAMPLE}/products/name?name=${name}`
       );
       dispatch({
-        type: SEARCHBYNAME,
+        type: GETPRODUCTBYNAME,
         payload: response.data,
       });
     } catch (error) {
@@ -81,10 +76,8 @@ export const createProduct = (product) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(`${URLEXAMPLE}/products`, product);
-      console.log("DESDE LA ACTIONS");
-      console.log(response.data);
       dispatch({
-        type: CREATE_PRODUCT,
+        type: CREATEPRODUCT,
         payload: response.data,
       });
     } catch (error) {
@@ -101,7 +94,7 @@ export const updateProduct = (product) => {
     try {
       const response = await axios.put(`${URLEXAMPLE}/products`, product);
       dispatch({
-        type: UPDATE_PRODUCT,
+        type: UPDATEPRODUCT,
         payload: response.data,
       });
     } catch (error) {
@@ -118,7 +111,7 @@ export const getProductsById = (id) => {
     try {
       const response = await axios.get(`${URLEXAMPLE}/products/${id}`);
       dispatch({
-        type: GET_PROD_BY_ID,
+        type: GETPRODBYID,
         payload: response.data,
       });
     } catch (error) {
@@ -135,11 +128,11 @@ export const deleteProduct = (id) => {
       await axios.delete(`${URLEXAMPLE}/products`, {
         data: { id },
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
       dispatch({
-        type: DELETE_PRODUCT,
+        type: DELETEPRODUCT,
         payload: id,
       });
     } catch (error) {
@@ -155,7 +148,7 @@ export const getUsers = () => {
   return async function (dispatch) {
     const apiData = await axios.get("");
     const users = apiData.data;
-    dispatch({ type: GET_USERS, payload: users });
+    dispatch({ type: GETUSERS, payload: users });
   };
 };
 
@@ -167,41 +160,24 @@ export const orderName = (order) => {
   return { type: ORDERNAME, payload: order };
 };
 
-export const filterType = (type) => {
-  return { type: FILTERTYPE, payload: type };
-};
-
-export const filterPrice = (price) => {
-  return { type: FILTERPRICE, payload: price };
-};
-
 export const changePage = (order) => {
   return { type: PAGINATION, payload: order };
 };
 
-export const searchProducs = (products) => {
-  return async function (dispatch) {
-    try {
-      const response = await axios.get(`${products}`); // VER PORQUE ESTA FUNCIONALIDAD DEBE VENIR DEL BACK
-
-      dispatch({ type: SEARCH_PRODUCTS, payload: response.data });
-    } catch (error) {
-      alert(error.response.data.error);
-    }
-  };
-};
-
-export const productsInCart = (products) => {
-  return { type: PRODUCTS_INCART, payload: products };
-};
-
 export const filter = (cond, name) => {
-  console.log(`${cond.type}, ${name} ESTO ES FILTER`);
   return async (dispatch) => {
     cond.name = name.toLowerCase();
     return dispatch({
       type: FILTER,
       payload: cond,
+    });
+  };
+};
+export const showThePopup = (bol) => {
+  return async (dispatch) => {
+    return dispatch({
+      type: POPUPINITIAL,
+      payload: bol,
     });
   };
 };

@@ -18,7 +18,7 @@ const DeleteProduct = () => {
         id && await dispatch(getProductsById(id));
         setProductLoaded(true);
       } catch (error) {
-        console.error("Error fetching product data:", error);
+        
       }
     };
     fetchData();
@@ -26,12 +26,11 @@ const DeleteProduct = () => {
 
   const handleDelete = async () => {
     try {
-      console.log("prodById: "+prodById?.id);
       await dispatch(deleteProduct(prodById?.id));
       setShowConfirmation(true);
       setProductLoaded(false)
     } catch (error) {
-      console.error("Error deleting product:", error);
+      
     }
   };
 
