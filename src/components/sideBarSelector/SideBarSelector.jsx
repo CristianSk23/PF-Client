@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import styles from "./SideBarSelector.module.css";
+// import styles from "./SideBarSelector.module.css";
 //import { filterByCategory, orderByName, orderByPrice } from "./reducer";
 
 // Simulan las funciones de las action! // MODIFICAR--
