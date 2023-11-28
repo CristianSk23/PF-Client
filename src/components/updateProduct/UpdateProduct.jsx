@@ -152,7 +152,7 @@ const UpdateProduct = () => {
       description: product.description,
       price: product.price,
       discountPercentage: product.discountPercentage,
-      image: product.image,
+      image: newUrls,
       active: product.active,
       tags: product.tags,
       stock: product.stock,
