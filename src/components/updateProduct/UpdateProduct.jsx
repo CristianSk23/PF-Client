@@ -142,9 +142,6 @@ const UpdateProduct = () => {
           return uploadImageToCloudinary(imageUrl);
         })
       );
-  
-      console.log("Estas son mis url imagenes");
-      console.log(newUrls);
 
     
     const newProduct = {
@@ -350,8 +347,7 @@ const UpdateProduct = () => {
               label="State"
               className="w-100 me-2"
             >
-            {console.log("ESTE ES EL PRODUCT ACTIVE")}  
-            {console.log(product.active)}
+
               <Form.Select
                 id="active"
                 name="active"

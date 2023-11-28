@@ -93,8 +93,7 @@ const handleSubmit = async (event) => {
       })
     );
 
-    console.log("Estas son mis url imagenes");
-    console.log(newUrls);
+
 
     const newProduct = {
       nameProd: product.name,
@@ -108,9 +107,6 @@ const handleSubmit = async (event) => {
       image: newUrls, 
       description: product.description,
     };
-
-    console.log("ESTE ES MI OBJETO");
-    console.log(newProduct);
 
     dispatch(createProduct(newProduct));
 

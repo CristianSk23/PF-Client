@@ -13,10 +13,6 @@ export const uploadImageToCloudinary = async (imageUrl) => {
     // Devuelve la nueva URL de la imagen
     return response.data.secure_url;
   } catch (error) {
-    console.error(
-      "Error al cargar la imagen desde la URL a Cloudinary:",
-      error
-    );
     throw error; // Reenvía el error para manejarlo donde sea que llames a esta función
   }
 };
