@@ -3,6 +3,7 @@ import validation from "../createProduct/validation";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { uploadImageToCloudinary } from "../../utils/cloudinary";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -75,7 +76,7 @@ const UpdateProduct = () => {
         price: prodById.price || 0,
         discountPercentage: prodById.discountPercentage || 0,
         image: prodById.image || [],
-        active: prodById.active || "true",
+        active: prodById.active.toString() || "true",
         tags: prodById.tags || "",
         stock: prodById.stock || 0,
       });
@@ -132,8 +133,20 @@ const UpdateProduct = () => {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    try {
+      const newUrls = await Promise.all(
+        product.image.map(async (imageUrl) => {
+          return uploadImageToCloudinary(imageUrl);
+        })
+      );
+  
+      console.log("Estas son mis url imagenes");
+      console.log(newUrls);
+
+    
     const newProduct = {
       id: id,
       nameProd: product.name,
@@ -148,6 +161,9 @@ const UpdateProduct = () => {
       stock: product.stock,
     };
     dispatch(updateProduct(newProduct));
+    } catch (error) {
+    // Aquí puedes manejar el error si es necesario
+    }
   };
   const handleCancel = () => {
     navigate(-1);
@@ -334,13 +350,15 @@ const UpdateProduct = () => {
               label="State"
               className="w-100 me-2"
             >
+            {console.log("ESTE ES EL PRODUCT ACTIVE")}  
+            {console.log(product.active)}
               <Form.Select
                 id="active"
                 name="active"
                 className={styles.form_input}
                 aria-label="Default select example"
                 onChange={handleChange}
-                value={Boolean(product.active)}
+                value={product.active}
               >
                 {/*MIRAR BIEN VALORES Y FUNCIONES Y AGREGAR ERRORES*/}
                 <option value={true}>Active</option>

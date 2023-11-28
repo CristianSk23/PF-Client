@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { createProduct, getProdCategories } from "../../redux/action/actions";
+import { uploadImageToCloudinary } from "../../utils/cloudinary";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+
 
 const CreateProduct = () => {
   const dispatch = useDispatch();
@@ -54,7 +56,9 @@ const CreateProduct = () => {
   };
 
   const handleImageAdd = () => {
+
     setProduct({ ...product, image: [...product.image, ""] });
+
   };
 
   const handleImageRemove = (index) => {
@@ -79,8 +83,19 @@ const CreateProduct = () => {
     }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+const handleSubmit = async (event) => {
+  event.preventDefault();
+
+  try {
+    const newUrls = await Promise.all(
+      product.image.map(async (imageUrl) => {
+        return uploadImageToCloudinary(imageUrl);
+      })
+    );
+
+    console.log("Estas son mis url imagenes");
+    console.log(newUrls);
+
     const newProduct = {
       nameProd: product.name,
       brand: product.brand,
@@ -90,10 +105,12 @@ const CreateProduct = () => {
       CategoryId: product.category,
       tags: product.tags,
       active: product.active,
-      image: product.image,
+      image: newUrls, 
       description: product.description,
     };
 
+    console.log("ESTE ES MI OBJETO");
+    console.log(newProduct);
 
     dispatch(createProduct(newProduct));
 
@@ -109,7 +126,11 @@ const CreateProduct = () => {
       tags: "",
       stock: 0,
     });
-  };
+  } catch (error) {
+    // Aquí puedes manejar el error si es necesario
+  }
+};
+
   const handleCancel = () => {
     navigate(-1);
   };
