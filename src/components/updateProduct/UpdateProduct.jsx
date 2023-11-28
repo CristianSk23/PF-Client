@@ -34,12 +34,11 @@ const UpdateProduct = () => {
     discountPercentage: 0,
     image: [],
     active: false,
-    tags: "",
+    tags: "None",
     stock: 0,
   });
 
   useEffect(() => {
-    console.log(prodById);
     const fetchData = async () => {
       try {
         // Fetch data
@@ -63,7 +62,7 @@ const UpdateProduct = () => {
         discountPercentage: 0,
         image: [],
         active: false,
-        tags: "",
+        tags: "None",
         stock: 0,
       });
       dispatch(cleanSingleProd());
@@ -72,7 +71,7 @@ const UpdateProduct = () => {
 
   useEffect(() => {
     // Access the state (prodById) after the data is fetched
-    console.log("prodById?.nameProd: "+ prodById?.nameProd);
+
     if (id && !productLoaded && prodById?.nameProd) {
 
       setProduct({
@@ -84,7 +83,7 @@ const UpdateProduct = () => {
         discountPercentage: prodById.discountPercentage || 0,
         image: prodById.image || [],
         active: prodById.active.toString() || "true",
-        tags: prodById.tags || "",
+        tags: prodById.tags || "None",
         stock: prodById.stock || 0,
       });
 
@@ -161,7 +160,7 @@ const UpdateProduct = () => {
       price: product.price,
       discountPercentage: product.discountPercentage,
       image: newUrls,
-      active: product.active,
+      active: Boolean(product.active),
       tags: product.tags,
       stock: product.stock,
     };
