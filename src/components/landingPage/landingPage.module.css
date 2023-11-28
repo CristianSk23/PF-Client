@@ -1,0 +1,20 @@
+
+.navBar {
+  background-color: #ADD9D4;
+  padding: 10px;
+  display: flex;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 2);
+  justify-content: center;
+}
+
+.navBar a {
+  text-decoration: none;
+}
+
+
+.container{
+  background-color: #87A5FF;
+  background-size: cover;
+  width: 100%;
+  min-height: 1220px;
+}

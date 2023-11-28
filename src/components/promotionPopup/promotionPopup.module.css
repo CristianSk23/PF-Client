@@ -1,0 +1,56 @@
+/* promotionPopup.module.css */
+
+.popup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.poput-content {
+  text-align: center;
+  background-color: #ffffff;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+
+/* Reemplazar cuando se elijan los stylos*/
+.slider {
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.slider img {
+  width: 300px;
+  height: auto;
+}
+
+.slider button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.7);
+  border: none;
+  padding: 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.slider button:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.slider button:first-child {
+  left: 10px;
+}
+
+.slider button:last-child {
+  right: 10px;
+}
