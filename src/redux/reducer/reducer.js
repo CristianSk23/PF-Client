@@ -31,7 +31,7 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  const ITEM_PER_PAGE = 10;
+  const ITEM_PER_PAGE = 12;
 
   switch (action.type) {
     case GETALLPRODUCTS:

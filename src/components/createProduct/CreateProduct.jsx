@@ -411,7 +411,7 @@ const handleSubmit = async (event) => {
           <a
             onClick={handleCancel}
             className="btn btn-danger"
-            style={{ margin: "2px" }}
+            style={{ marginTop: "-25px", marginBottom:"15px" }}
           >
             Cancelar
           </a>

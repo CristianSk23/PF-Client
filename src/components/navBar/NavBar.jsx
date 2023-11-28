@@ -26,41 +26,44 @@ const NavBar = ({ onSearch, filterCond }) => {
   };
 
   return (
-    <div>
-      <div className="pagination justify-content-center">
-        <input
-          id="search"
-          type="search"
-          placeholder="Name product"
-          className={styles.input}
-          value={name}
-          onChange={handleChange}
-        />
-        <button
-          className={styles.searchButton}
-          disabled={name == ""}
-          onClick={() => onSearch(name)}
-        >
+    <nav className="navbar navbar-dark bg-dark fixed-top">
+    <div className="container-fluid">
+      <a className="navbar-brand" href="/">Logo</a>
+      <div className="d-flex" role="search">
+          <input id="search" value={name} className="form-control me-2" type="search" placeholder="Product name..." aria-label="Search" onChange={handleChange}/>
+          <button className="btn btn-outline-light" disabled={name == ""} onClick={() => onSearch(name)}>
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
-            style={{ marginLeft: "-5px" }}
           />
-        </button>
-
-        <button
-          type="button"
-          className="btn btn-light"
-          style={{ width: "150px" }}
-        >
-          <Link
-            to="/createProduct"
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            Create Product
-          </Link>
-        </button>
+          </button>
+      </div>
+      <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+        <span className="navbar-toggler-icon"></span>
+      </button>
+      <div className="offcanvas offcanvas-end text-bg-dark" tabIndex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div className="offcanvas-header">
+          <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel">Options</h5>
+          <button type="button" className="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div className="offcanvas-body">
+          <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  User
+                </a>
+                <ul className="dropdown-menu dropdown-menu-dark">
+                  <li><a className="dropdown-item" href="#">Login</a></li>
+                  <li><a className="dropdown-item" href="#">Register</a></li>
+                </ul>
+              </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/createProduct">Create Product</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
+    </nav>
 );
 };
 

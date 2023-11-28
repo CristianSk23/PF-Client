@@ -443,17 +443,12 @@ const UpdateProduct = () => {
           <a
             onClick={handleCancel}
             className="btn btn-danger"
-            style={{ margin: "2px" }}
+            style={{ marginTop: "-25px", marginBottom:"15px" }}
           >
             Cancelar
           </a>
         </div>
       </Form>
-
-      {/* HACER BOTON PARA VOLVER A LA LANDING
-            <div className={styles.botonBack}>
-                <a href="/" className="btn btn-primary" role="button" data-bs-toggle="button">Volver</a>
-                    </div>*/}
     </div>
   );
 };

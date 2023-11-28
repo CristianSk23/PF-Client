@@ -10,6 +10,8 @@ import FilterAndOrder from "../filterAndOrder/FilterAndOrder";
 import PromotionPopup from "../promotionPopup/PromotionPopup";
 import Cards from "../cards/Cards";
 import styles from "./landingPage.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -45,7 +47,7 @@ const LandingPage = () => {
 
   return (
     <div className={styles.container}>
-      <nav className={styles.navBar}>
+    
         <PromotionPopup />
         <NavBar
           onSearch={onSearch}
@@ -54,32 +56,22 @@ const LandingPage = () => {
           setAux={setAux}
           aux={aux}
         />
-      </nav>
 
-      <div>
-        <FilterAndOrder
+<FilterAndOrder
           setFilterCond={setFilterCond}
           filterCond={filterCond}
           setAux={setAux}
         />
-      </div>
 
-      <div
-        className="pagination justify-content-center"
-        style={{ marginTop: "15px" }}
-      >
-        <button
-          type="button"
-          className="btn btn-light"
-          style={{
-            width: "200px",
-            textAlign: "center",
-            margin: "5px",
-            borderRadius: "20px",
-          }}
+
+      <div className="pagination justify-content-center">
+        <button 
+          type="button" 
+          className="form-control" 
+          style={{ width: '50px', textAlign:"center", marginTop:"5px", height:"37.6px"}}
           onClick={reset}
         >
-          Reset Fiters
+        <FontAwesomeIcon icon={faArrowsRotate} />
         </button>
       </div>
 
@@ -114,3 +106,4 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
