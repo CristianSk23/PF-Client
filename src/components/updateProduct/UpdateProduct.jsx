@@ -11,6 +11,7 @@ import {
   updateProduct,
   getProdCategories,
   getProductsById,
+  cleanSingleProd
 } from "../../redux/action/actions";
 
 const UpdateProduct = () => {
@@ -33,7 +34,7 @@ const UpdateProduct = () => {
     discountPercentage: 0,
     image: [],
     active: false,
-    tags: "",
+    tags: "None",
     stock: 0,
   });
 
@@ -50,24 +51,29 @@ const UpdateProduct = () => {
 
     fetchData();
 
-    return setProduct({
-      id: "",
-      name: "",
-      category: "",
-      brand: "",
-      description: "",
-      price: 0,
-      discountPercentage: 0,
-      image: [],
-      active: false,
-      tags: "",
-      stock: 0,
-    });
+    return () => {
+      setProduct({
+        id: "",
+        name: "",
+        category: "",
+        brand: "",
+        description: "",
+        price: 0,
+        discountPercentage: 0,
+        image: [],
+        active: false,
+        tags: "None",
+        stock: 0,
+      });
+      dispatch(cleanSingleProd());
+    };
   }, [dispatch, id]);
 
   useEffect(() => {
     // Access the state (prodById) after the data is fetched
+
     if (id && !productLoaded && prodById?.nameProd) {
+
       setProduct({
         name: prodById.nameProd || "",
         category: prodById.CategoryId || "",
@@ -77,15 +83,15 @@ const UpdateProduct = () => {
         discountPercentage: prodById.discountPercentage || 0,
         image: prodById.image || [],
         active: prodById.active.toString() || "true",
-        tags: prodById.tags || "",
+        tags: prodById.tags || "None",
         stock: prodById.stock || 0,
       });
 
       setProductLoaded(true);
     }
-    if (prodCategories?.length === 0) {
+
       dispatch(getProdCategories());
-    }
+
     if (
       product.name !== "" ||
       product.category !== "" ||
@@ -98,6 +104,7 @@ const UpdateProduct = () => {
     ) {
       setErrors(validation(product, allProducts, prodById?.nameProd));
     }
+    // return setProductLoaded(false)
   }, [id, productLoaded, prodById, product]);
 
   const handleImageUrlChange = (index, newUrl) => {
@@ -152,8 +159,8 @@ const UpdateProduct = () => {
       description: product.description,
       price: product.price,
       discountPercentage: product.discountPercentage,
-      image: product.image,
-      active: product.active,
+      image: newUrls,
+      active: Boolean(product.active),
       tags: product.tags,
       stock: product.stock,
     };
@@ -331,7 +338,7 @@ const UpdateProduct = () => {
                 aria-label="Default select example"
                 onChange={handleChange}
               >
-                <option value="">None</option>
+                <option value="None">None</option>
                 <option value="New">New</option>
                 <option value="Special Offer">Special Offer</option>
                 <option value="Limited Edition">Limited Edition</option>

@@ -12,7 +12,8 @@ import {
   ORDERNAME,
   FILTER,
   ERROR,
-  POPUPINITIAL
+  POPUPINITIAL,
+  CLEANSINGLEPROD
 } from "../action/actionsType";
 
 const initialState = {
@@ -70,6 +71,9 @@ const reducer = (state = initialState, action) => {
       };
 
     case GETPRODBYID:
+      return { ...state, singleProduct: action.payload };
+      
+    case CLEANSINGLEPROD:
       return { ...state, singleProduct: action.payload };
 
     case DELETEPRODUCT:

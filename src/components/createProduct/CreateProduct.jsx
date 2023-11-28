@@ -26,7 +26,7 @@ const CreateProduct = () => {
     discountPercentage: 0,
     image: [],
     active: false,
-    tags: "",
+    tags: "None",
     stock: 0,
   });
 
@@ -103,7 +103,7 @@ const handleSubmit = async (event) => {
       stock: product.stock,
       CategoryId: product.category,
       tags: product.tags,
-      active: product.active,
+      active: Boolean(product.active),
       image: newUrls, 
       description: product.description,
     };
@@ -119,7 +119,7 @@ const handleSubmit = async (event) => {
       discountPercentage: 0,
       image: [],
       active: false,
-      tags: "",
+      tags: "None",
       stock: 0,
     });
   } catch (error) {
@@ -294,7 +294,7 @@ const handleSubmit = async (event) => {
                 aria-label="Default select example"
                 onChange={handleChange}
               >
-                <option value="">None</option>
+                <option value="None">None</option>
                 <option value="New">New</option>
                 <option value="Special Offer">Special Offer</option>
                 <option value="Limited Edition">Limited Edition</option>
