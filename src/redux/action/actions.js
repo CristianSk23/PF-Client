@@ -13,9 +13,10 @@ import {
   ORDERNAME,
   FILTER,
   ERROR,
-  POPUPINITIAL
+  POPUPINITIAL,
+  CLEANSINGLEPROD
 } from "../action/actionsType";
-//import {data} from "../../data"
+
 const URLEXAMPLE = "http://localhost:3001";
 
 // GET PARA TRAER PRODUCTOS, de momento se esta usando el que cree en el archivo data.js luego deberiamos de descomentar y modificar lo necesario
@@ -122,6 +123,10 @@ export const getProductsById = (id) => {
     }
   };
 };
+
+export const cleanSingleProd =()=>{
+  return { type: CLEANSINGLEPROD, payload: "" };
+}
 export const deleteProduct = (id) => {
   return async (dispatch) => {
     try {
@@ -181,3 +186,10 @@ export const showThePopup = (bol) => {
     });
   };
 };
+
+export const resetError=()=>{
+  return { 
+      type: ERROR, 
+      payload: ''
+      }
+}
