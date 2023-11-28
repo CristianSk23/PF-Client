@@ -67,7 +67,7 @@ const UpdateProduct = () => {
 
   useEffect(() => {
     // Access the state (prodById) after the data is fetched
-    if (id && !productLoaded && prodById?.nameProd) {
+    if (id && prodById?.nameProd) {
       setProduct({
         name: prodById.nameProd || "",
         category: prodById.CategoryId || "",
