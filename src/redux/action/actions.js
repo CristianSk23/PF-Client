@@ -13,7 +13,8 @@ import {
   ORDERNAME,
   FILTER,
   ERROR,
-  POPUPINITIAL
+  POPUPINITIAL,
+  CLEANSINGLEPROD
 } from "../action/actionsType";
 //import {data} from "../../data"
 const URLEXAMPLE = "http://localhost:3001";
@@ -122,6 +123,10 @@ export const getProductsById = (id) => {
     }
   };
 };
+
+export const cleanSingleProd =()=>{
+  return { type: CLEANSINGLEPROD, payload: "" };
+}
 export const deleteProduct = (id) => {
   return async (dispatch) => {
     try {
