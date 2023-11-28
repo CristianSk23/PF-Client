@@ -31,7 +31,34 @@ const PromotionPopup = () => {
   ];
 
   return (
-    showPopup && (
+      showPopup && <div className={styles.popup}>
+        <div className={styles["poput-content"]}>
+          <div className="card" style={{position:"relative", overflow:"hidden", }}>
+            <img src={images[currentImage]} alt={`Imagen ${currentImage + 1}`} className="card-img-top" style={{width:"350px"}}/>
+            <button onClick={prevImage} style={{position:"absolute", top:"35%", transform: "translateY(-50%)", backgroundColor: "rgba(255, 255, 255, 0.7)",
+            border:"none", padding:"10px", fontSize:"18px", cursor:"pointer", left: "34px"}}>&lt;</button>
+            <button onClick={nextImage} style={{position:"absolute", top:"35%", transform: "translateY(-50%)", backgroundColor: "rgba(255, 255, 255, 0.7)",
+            border:"none", padding:"10px", fontSize:"18px", cursor:"pointer", right: "34px"}}>&gt;</button>
+            <div className="card-body">
+              <h5 className="card-title">50% OFF</h5>
+              <p className="card-text">Description</p>
+              <button type="button" className="btn btn-secondary" onClick={closetPopup} style={{width:"100px"}}>Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+};
+export default PromotionPopup;
+
+{/*    
+
+
+
+
+
+
+showPopup && (
       <div className={styles.popup}>
         <div className={styles["poput-content"]}>
           <h2>50% OFF</h2>
@@ -45,9 +72,4 @@ const PromotionPopup = () => {
           </div>
           <p>Descripcion</p>
           <button onClick={closetPopup}>Close</button>
-        </div>
-      </div>
-    )
-  );
-};
-export default PromotionPopup;
+        </div> */}
