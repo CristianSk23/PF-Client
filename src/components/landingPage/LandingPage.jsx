@@ -58,9 +58,9 @@ const LandingPage = () => {
         <SearchBar onSearch={onSearch} setFilterCond={setFilterCond} filterCond={filterCond} setAux={setAux} aux={aux} />
 
         {/*Componentes de login - logout de authentificacion */}
-        {!user && !isAuthenticated && <LogginButton/>}
+        {/*!user && !isAuthenticated && <LogginButton/>}
         {user && isAuthenticated && <LogoutButton/>}
-        {user && isAuthenticated && <Link to="/profile"><button>Mi cuenta</button></Link>}
+        {user && isAuthenticated && <Link to="/profile"><button>Mi cuenta</button></Link>*/}
 
         {/*<SideBar />
         <p>Filters</p>
