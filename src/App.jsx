@@ -5,6 +5,7 @@ import LandingPage from "./components/landingPage/LandingPage"; // Eliminar
 import CreateProduct from './components/createProduct/CreateProduct'; //eliminar
 import UpdateProduct from "./components/updateProduct/UpdateProduct";
 import DeleteProduct from "./components/deleteProduct/DeleteProduct";
+import Profile from "./components/profile/Profile";
 
 const App = () => {
   // url general
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/createProduct" element={<CreateProduct/>} />
           <Route path="/updateProduct/:id" element={<UpdateProduct/>} />
           <Route path="/deleteProduct/:id" element={<DeleteProduct />} />
+          <Route path="/profile" element={<Profile/>}/>
         </Route>
       </Routes>
     </div>

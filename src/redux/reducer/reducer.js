@@ -16,6 +16,7 @@ import {
   DELETE_PRODUCT,
   GET_PROD_BY_ID,
   FILTER,
+  CREATE_USER
 } from "../action/actionsType";
 
 const initialState = {
@@ -31,6 +32,7 @@ const initialState = {
   prodCategories: [],
   singleProduct: "",
   catchError: "",
+  user: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -273,6 +275,15 @@ const reducer = (state = initialState, action) => {
       };
     default:
       return { ...state };
+      
+            // -------------------------------- USERS --------------------------------------- //
+      
+      case CREATE_USER:
+        console.log(state.user);
+        return {
+          ...state,
+          users: [...state.users, action.payload]
+        };
   }
 };
 export default reducer;
