@@ -14,6 +14,8 @@ export const ERROR = "ERROR";
 export const POPUPINITIAL = "POPUPINITIAL";
 export const CLEANSINGLEPROD = "CLEANSINGLEPROD"
 
-export const CREATE_USER = "CREATE_USER"
+export const LOGINUSER = "LOGINUSER"
+export const LOGOUOTUSER = "LOGOUTUSER"
+export const CREATEUSER = "CREATEUSER"
 
 

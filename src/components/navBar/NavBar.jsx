@@ -5,11 +5,50 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { filter, getProdCategories } from "../../redux/action/actions";
+import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const NavBar = ({ onSearch, filterCond }) => {
   const [name, setName] = useState("");
+  const [userAuth, setUserAuth] = useState(false)
   const dispatch = useDispatch();
   const prodCategories = useSelector((state) => state.prodCategories) || [];
+
+  //auth0
+  const { loginWithRedirect, logout, isAuthenticated, getAccessTokenSilently } = useAuth0();
+
+  const handleLogin = async () => {
+    await loginWithRedirect()
+
+    await handleAuthenticated()
+  }
+
+  const handleLogout = () => {
+    // Limpiar tokens del almacenamiento local al cerrar sesión
+    localStorage.removeItem('access_token');
+    // Otras acciones de cierre de sesión
+    logout({ logoutParams: { returnTo: window.location.origin } })
+  };
+
+  const handleAuthenticated = async () => {
+
+    // Obtener el token de acceso
+    const accessToken = await getAccessTokenSilently();
+
+    // Almacenar el token de acceso en el almacenamiento local
+    localStorage.setItem('access_token', accessToken);
+
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem('access_token')
+    if(token && isAuthenticated){
+      setUserAuth(true)
+    } else {
+      setUserAuth(false)
+    }
+
+  }, [])
 
   useEffect(() => {
     dispatch(filter(filterCond, name));
@@ -52,7 +91,9 @@ const NavBar = ({ onSearch, filterCond }) => {
                   User
                 </a>
                 <ul className="dropdown-menu dropdown-menu-dark">
-                  <li><a className="dropdown-item" href="#">Login</a></li>
+                  {!isAuthenticated && <li><a className="dropdown-item" onClick={(handleLogin)}>Login</a></li>}
+                  {isAuthenticated && <li><Link to="/profile" className="dropdown-item">My Account</Link></li>}
+                  {isAuthenticated && <li><a className="dropdown-item" onClick={handleLogout}>Logout</a></li>}
                   <li><a className="dropdown-item" href="#">Register</a></li>
                 </ul>
               </li>

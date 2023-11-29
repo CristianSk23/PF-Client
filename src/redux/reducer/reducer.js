@@ -14,7 +14,9 @@ import {
   ERROR,
   POPUPINITIAL,
   CLEANSINGLEPROD,
-  CREATE_USER
+  LOGINUSER,
+  LOGOUOTUSER,
+  CREATEUSER
 
 } from "../action/actionsType";
 
@@ -289,7 +291,7 @@ const reducer = (state = initialState, action) => {
       
             // -------------------------------- USERS --------------------------------------- //
       
-      case CREATE_USER:
+      case CREATEUSER:
         console.log(state.user);
         return {
           ...state,

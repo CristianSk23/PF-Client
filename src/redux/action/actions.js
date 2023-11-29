@@ -15,7 +15,7 @@ import {
   ERROR,
   POPUPINITIAL,
   CLEANSINGLEPROD,
-  CREATE_USER
+  CREATEUSER
 } from "../action/actionsType";
 
 const URLEXAMPLE = "http://localhost:3001";
@@ -200,7 +200,7 @@ export const createUser = (user) => {
     try {
       const response = await axios.post(`${URLEXAMPLE}/users`, user);
       dispatch({
-        type: CREATE_USER,
+        type: CREATEUSER,
         payload: response.data,
       });
     } catch (error) {
