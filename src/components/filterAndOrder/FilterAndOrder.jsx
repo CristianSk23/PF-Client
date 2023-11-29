@@ -1,17 +1,11 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import styles from "./searchBar.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { filter, orderName, orderPrice, getProdCategories } from "../../redux/action/actions";
 
-
-const SearchBar = ({ onSearch, setFilterCond, filterCond, setAux, aux }) => {
+const FilterAndOrder = ({ setFilterCond, filterCond, setAux }) => {
   const [name, setName] = useState("");
   const dispatch = useDispatch();
   const prodCategories = useSelector((state) => state.prodCategories)||[];
-  const [id, setId] = useState("");
 
   useEffect(() => {
     dispatch(filter(filterCond,name))
@@ -22,10 +16,6 @@ const SearchBar = ({ onSearch, setFilterCond, filterCond, setAux, aux }) => {
       dispatch(getProdCategories());
     }
   }, []);
-
-  const handleChange = (event) => {
-    setName(event.target.value);
-  };
 
   const handleOpChange = async (event) => {
     event.target.name === "type" && setFilterCond({...filterCond, type: event.target.value});
@@ -43,25 +33,52 @@ const handleOrderByName = (event) => {
 }
 
   return (
-    <div >
-      <div className="pagination justify-content-center">
-        <input
-          id="search"
-          type="search"
-          placeholder="Name product"
-          className={styles.input}
-          value={name}
-          onChange={handleChange}/>
-          <button className={styles.searchButton} disabled={name==""} onClick={() => onSearch(name)}>
-            <FontAwesomeIcon icon={faMagnifyingGlass} style={{marginLeft:"-5px"}}/>
-          </button>
-
-        <button type="button" className="btn btn-light" style={{width:"150px"}}>
-          <Link to="/createProduct" style={{textDecoration:"none", color: "black"}}>Create Product</Link>  
-        </button>
+    <div className="pagination justify-content-center" style={{ marginTop: "60px" }}>
+      <div className="row">
+        <div className="col-sm">
+          <select name="type" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleOpChange}>
+            <option value="all" defaultValue="" disabled selected hidden>Category</option>
+            <option value="all">All Categories</option>
+            {prodCategories?.map((category) => {
+              return (
+                <option key={category.id} value={category.name} style={{textAlign:"center"}}>
+                  {category.nameCat}
+                </option>
+              )
+            })}
+          </select>
+        </div>
+        <div className="col-sm">
+          <select name="price" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleOpChange}>
+            <option value="all" disabled selected hidden>Filter by Price</option>
+            <option value="all" style={{textAlign:"center"}}>All Prices</option>
+            <option value="100" style={{textAlign:"center"}}>Less than 100</option>
+            <option value="300" style={{textAlign:"center"}}>Between 100 to 300</option>
+            <option value="500">More than 300</option>
+          </select>
+        </div>
+        <div className="col-sm">
+          <select name="select" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleOrderByName}>
+            <option value="all" disabled selected hidden>Sort by Name</option>
+            <option value="A">Ascendant</option>
+            <option value="D">Descendant</option>
+          </select>
+        </div>
+        <div className="col-sm">
+          <select name="select" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleOrderByPrice}>
+            <option value="all" disabled selected hidden>Sort by Price</option>
+            <option value="A">Max Price</option>
+            <option value="D">Min Price</option>
+          </select>
+        </div>
       </div>
+</div>
+  );
+};
 
-      <div className="pagination justify-content-center" style={{marginTop: "15px"}}>
+export default FilterAndOrder;
+    {/*<div >
+      <div className="pagination justify-content-center" style={{marginTop: "70px"}}>
           <select name="type" className="form-control" style={{ width: '200px', textAlign:"center", margin:"5px" }} onChange={handleOpChange}>
           <option value="all" defaultValue="" disabled selected hidden>Filter by Category</option>
           <option value="all">All</option>
@@ -92,14 +109,9 @@ const handleOrderByName = (event) => {
             <option value="all" disabled selected hidden>Sort by Price</option>
             <option value="A">Max Price</option>
             <option value="D">Min Price</option>
-          </select>
-
-          
+          </select>    
         </div>
-    </div>
+                              </div>*/}
 
 
-  );
-};
 
-export default SearchBar;
