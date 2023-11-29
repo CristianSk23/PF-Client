@@ -14,7 +14,9 @@ import {
   FILTER,
   ERROR,
   POPUPINITIAL,
-  CLEANSINGLEPROD
+  CLEANSINGLEPROD,
+  CLEANSEARCHBAR, 
+  NAMESEARCH
 } from "../action/actionsType";
 
 const URLEXAMPLE = "http://localhost:3001";
@@ -192,4 +194,17 @@ export const resetError=()=>{
       type: ERROR, 
       payload: ''
       }
+}
+export const cleanSearchBar=()=> {
+  return {
+      type: CLEANSEARCHBAR,
+      payload: []
+  }
+
+}
+export const setNameSearch = (nameSearch)=>{
+  return {
+    type: NAMESEARCH,
+    payload: nameSearch
+  }
 }
