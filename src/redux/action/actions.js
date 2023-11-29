@@ -17,13 +17,11 @@ import {
   CLEANSINGLEPROD
 } from "../action/actionsType";
 
-const URLEXAMPLE = "http://localhost:3001";
-
 // GET PARA TRAER PRODUCTOS, de momento se esta usando el que cree en el archivo data.js luego deberiamos de descomentar y modificar lo necesario
 export const getAllProducts = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`${URLEXAMPLE}/products`);
+      const { data } = await axios.get(`/products`);
 
       dispatch({
         type: GETALLPRODUCTS,
@@ -41,7 +39,7 @@ export const getAllProducts = () => {
 export const getProdCategories = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${URLEXAMPLE}/categories`);
+      const response = await axios.get(`/categories`);
       dispatch({
         type: GETPRODCATEGORIES,
         payload: response.data,
@@ -58,7 +56,7 @@ export const getProductsByName = (name) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(
-        `${URLEXAMPLE}/products/name?name=${name}`
+        `/products/name?name=${name}`
       );
       dispatch({
         type: GETPRODUCTBYNAME,
@@ -76,7 +74,7 @@ export const getProductsByName = (name) => {
 export const createProduct = (product) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`${URLEXAMPLE}/products`, product);
+      const response = await axios.post(`/products`, product);
       dispatch({
         type: CREATEPRODUCT,
         payload: response.data,
@@ -93,7 +91,7 @@ export const createProduct = (product) => {
 export const updateProduct = (product) => {
   return async (dispatch) => {
     try {
-      const response = await axios.put(`${URLEXAMPLE}/products`, product);
+      const response = await axios.put(`/products`, product);
       dispatch({
         type: UPDATEPRODUCT,
         payload: response.data,
@@ -110,7 +108,7 @@ export const updateProduct = (product) => {
 export const getProductsById = (id) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${URLEXAMPLE}/products/${id}`);
+      const response = await axios.get(`/products/${id}`);
       dispatch({
         type: GETPRODBYID,
         payload: response.data,
@@ -130,7 +128,7 @@ export const cleanSingleProd =()=>{
 export const deleteProduct = (id) => {
   return async (dispatch) => {
     try {
-      await axios.delete(`${URLEXAMPLE}/products`, {
+      await axios.delete(`/products`, {
         data: { id },
         headers: {
           "Content-Type": "application/json",
