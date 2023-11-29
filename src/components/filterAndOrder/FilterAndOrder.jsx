@@ -77,41 +77,7 @@ const handleOrderByName = (event) => {
 };
 
 export default FilterAndOrder;
-    {/*<div >
-      <div className="pagination justify-content-center" style={{marginTop: "70px"}}>
-          <select name="type" className="form-control" style={{ width: '200px', textAlign:"center", margin:"5px" }} onChange={handleOpChange}>
-          <option value="all" defaultValue="" disabled selected hidden>Filter by Category</option>
-          <option value="all">All</option>
-                                {prodCategories?.map((category) => {
-                                  return (
-                                    <option key={category.id} value={category.name}>
-                                      {category.nameCat}
-                                    </option>
-                                  )                                  
-                                })}
-          </select>
 
-          <select name="price" className="form-control" style={{ width: '200px', textAlign:"center", justifyContent: "center", margin:"5px" }} onChange={handleOpChange}>
-            <option value="all" disabled selected hidden>Filter by Price</option>
-            <option value="all">All</option>
-            <option value="100">Less than 100</option>
-            <option value="300">Between 100 to 300</option>
-            <option value="500">More than 300</option>
-          </select>
-
-          <select name="select" className="form-control" style={{ width: '200px', textAlign:"center", margin:"5px" }} onChange={handleOrderByName}>
-            <option value="all" disabled selected hidden>Sort By Name</option>
-            <option value="A">Ascendant</option>
-            <option value="D">Descendant</option>
-          </select>
-
-          <select name="select" className="form-control" style={{ width: '200px', textAlign:"center", margin:"5px" }} onChange={handleOrderByPrice}>
-            <option value="all" disabled selected hidden>Sort by Price</option>
-            <option value="A">Max Price</option>
-            <option value="D">Min Price</option>
-          </select>    
-        </div>
-                              </div>*/}
 
 
 
