@@ -10,22 +10,12 @@ import FilterAndOrder from "../filterAndOrder/FilterAndOrder";
 import PromotionPopup from "../promotionPopup/PromotionPopup";
 import Cards from "../cards/Cards";
 import styles from "./landingPage.module.css";
-
-//auth0
-import LogginButton from "../loggin/Loggin";
-import LogoutButton from "../logout/Logout";
-import { useAuth0 } from "@auth0/auth0-react";
-import { Link } from "react-router-dom";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products?.data);
-
-  //verfico la existencia de una sesión
-  const { user, isAuthenticated } = useAuth0()
 
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
@@ -66,12 +56,6 @@ const LandingPage = () => {
           setAux={setAux}
           aux={aux}
         />
-
-
-        {/*Componentes de login - logout de authentificacion */}
-        {/*!user && !isAuthenticated && <LogginButton/>}
-        {user && isAuthenticated && <LogoutButton/>}
-        {user && isAuthenticated && <Link to="/profile"><button>Mi cuenta</button></Link>*/}
 
         {/*<SideBar />
         <p>Filters</p>

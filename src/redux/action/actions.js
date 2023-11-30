@@ -1,4 +1,5 @@
 import axios from "axios";
+import {useAuth0} from "@auth0/auth0-react"
 import {
   GETALLPRODUCTS,
   GETUSERS,
@@ -15,8 +16,11 @@ import {
   ERROR,
   POPUPINITIAL,
   CLEANSINGLEPROD,
-  CREATEUSER
+  CREATEUSER,
+  LOGINUSER,
+  LOGOUOTUSER
 } from "../action/actionsType";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const URLEXAMPLE = "http://localhost:3001";
 
@@ -195,13 +199,29 @@ export const resetError=()=>{
       }
 }
 
-export const createUser = (user) => {
+// export const createUser = (user) => {
+//   return async (dispatch) => {
+//     try {
+//       const response = await axios.post(`${URLEXAMPLE}/users`, user);
+//       dispatch({
+//         type: CREATEUSER,
+//         payload: response.data,
+//       });
+//     } catch (error) {
+//       dispatch({
+//         type: ERROR,
+//         payload: error.message,
+//       });
+//     }
+//   }
+// }
+
+export const loginUser = (isAuth) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`${URLEXAMPLE}/users`, user);
       dispatch({
-        type: CREATEUSER,
-        payload: response.data,
+        type: LOGINUSER,
+        payload: isAuth,
       });
     } catch (error) {
       dispatch({
@@ -209,5 +229,22 @@ export const createUser = (user) => {
         payload: error.message,
       });
     }
-  }
-}
+  };
+};
+
+export const logOut = (logout, returnTo) => {
+  return async (dispatch) => {
+    try {
+      logout({ returnTo });
+      dispatch({
+        type: LOGOUOTUSER,
+        payload: false,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};

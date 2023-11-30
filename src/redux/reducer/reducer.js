@@ -33,7 +33,7 @@ const initialState = {
   singleProduct: "",
   catchError: "",
   isShowPopup: true,
-  user: {}
+  userAuth: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -286,17 +286,32 @@ const reducer = (state = initialState, action) => {
         ...state,
         isShowPopup: action.payload
       }
-    default:
-      return { ...state };
       
             // -------------------------------- USERS --------------------------------------- //
-      
-      case CREATEUSER:
-        console.log(state.user);
-        return {
-          ...state,
-          users: [...state.users, action.payload]
-        };
+
+    case LOGINUSER:
+      console.log(action.payload);
+      return {
+        ...state,
+        userAuth: action.payload
+      }
+
+    case LOGOUOTUSER:
+      console.log(action.payload);
+      return {
+        ...state,
+        userAuth: action.payload
+      }
+    
+    case CREATEUSER:
+      console.log(action.payload);
+      return {
+        ...state,
+        users: [...state.users, action.payload]
+      };
+
+    default:
+      return { ...state };
   }
 };
 export default reducer;

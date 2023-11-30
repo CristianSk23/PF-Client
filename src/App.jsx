@@ -7,10 +7,12 @@ import UpdateProduct from "./components/updateProduct/UpdateProduct";
 import DeleteProduct from "./components/deleteProduct/DeleteProduct";
 import Profile from "./components/profile/Profile";
 
+import { useAuth0 } from "@auth0/auth0-react";
+
 const App = () => {
   // url general
   axios.defaults.baseURL = "http://localhost:3000/";
-
+  
   return (
     <div>
       <Routes>
