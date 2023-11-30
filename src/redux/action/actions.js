@@ -16,12 +16,9 @@ import {
   ERROR,
   POPUPINITIAL,
   CLEANSINGLEPROD,
-<<<<<<< HEAD
-=======
   CLEANSEARCHBAR, 
   NAMESEARCH,
   TYPEUSER,
->>>>>>> develop
 } from "../action/actionsType";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 
@@ -199,7 +196,6 @@ export const resetError=()=>{
       }
 }
 
-<<<<<<< HEAD
 // export const createUser = (user) => {
 //   return async (dispatch) => {
 //     try {
@@ -216,7 +212,7 @@ export const resetError=()=>{
 //     }
 //   }
 // }
-=======
+
 export const isUser = (type) => {
   return {
     type: TYPEUSER,
@@ -236,4 +232,3 @@ export const setNameSearch = (nameSearch)=>{
     payload: nameSearch
   }
 }
->>>>>>> develop
