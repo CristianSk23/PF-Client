@@ -183,7 +183,7 @@ const reducer = (state = initialState, action) => {
 
     // --------------------------------FILTROS --------------------------------------------//
     case FILTER:
-      let filtered = state.products.productsSearch && state.products.productsSearch.length !== 0
+      let filtered = state.products && state.products.productsSearch && state.products.productsSearch.length !== 0
   ? [...state.products.productsSearch]
   : [...state.products.allProducts];
 
@@ -298,10 +298,13 @@ const reducer = (state = initialState, action) => {
       };
       case CLEANSEARCHBAR:
       return {
-        ...state, 
-        productsSearch: action.payload,
-        nameSearch: "",
-      }
+        ...state,
+      products: {
+          ...state.products,
+          productsSearch: action.payload,
+    },
+    nameSearch: "", // También asegúrate de limpiar nameSearch si es necesario
+  };
     case NAMESEARCH: 
       return{
         ...state, 

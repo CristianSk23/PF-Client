@@ -94,8 +94,6 @@ const handleSubmit = async (event) => {
     );
 
 
-    setShowConfirmation(true)
-
     const newProduct = {
       nameProd: product.name,
       brand: product.brand,
@@ -123,6 +121,7 @@ const handleSubmit = async (event) => {
       tags: "None",
       stock: 0,
     });
+    setShowConfirmation(true)
   } catch (error) {
     // Aquí puedes manejar el error si es necesario
   }

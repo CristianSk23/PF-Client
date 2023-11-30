@@ -27,8 +27,8 @@ const DeleteProduct = () => {
   const handleDelete = async () => {
     try {
       await dispatch(deleteProduct(prodById?.id));
-      setShowConfirmation(true);
       setProductLoaded(false)
+      setShowConfirmation(true);
     } catch (error) {
       
     }

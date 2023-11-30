@@ -149,7 +149,7 @@ const UpdateProduct = () => {
           return uploadImageToCloudinary(imageUrl);
         })
       );
-      setShowConfirmation(true);
+      
 
       const newProduct = {
         id: id,
@@ -165,6 +165,7 @@ const UpdateProduct = () => {
         stock: product.stock,
       };
       dispatch(updateProduct(newProduct));
+      setShowConfirmation(true);
     } catch (error) {
       // Aquí puedes manejar el error si es necesario
     }

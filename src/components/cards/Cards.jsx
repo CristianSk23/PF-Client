@@ -1,6 +1,7 @@
 import Card from "../card/Card";
 import styles from "./cards.module.css";
 
+
 const Cards = ({products}) => {
   
   return (
