@@ -15,6 +15,8 @@ import {
   ERROR,
   POPUPINITIAL,
   CLEANSINGLEPROD,
+  CLEANSEARCHBAR, 
+  NAMESEARCH,
   TYPEUSER,
 } from "../action/actionsType";
 
@@ -200,5 +202,18 @@ export const isUser = (type) => {
   return {
     type: TYPEUSER,
     payload: type
+  }
+}
+export const cleanSearchBar=()=> {
+  return {
+      type: CLEANSEARCHBAR,
+      payload: []
+  }
+
+}
+export const setNameSearch = (nameSearch)=>{
+  return {
+    type: NAMESEARCH,
+    payload: nameSearch
   }
 }

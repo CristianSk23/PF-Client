@@ -15,6 +15,8 @@ import {
   ERROR,
   POPUPINITIAL,
   CLEANSINGLEPROD,
+  CLEANSEARCHBAR,
+  NAMESEARCH,
   TYPEUSER,
 } from "../action/actionsType";
 
@@ -24,7 +26,9 @@ const initialState = {
     allProducts: [], //backup
     currentPage: 0,
     productsFiltered: [],
+    productsSearch: [],
     filterType: undefined, // orderPrice, productsSearched, filterType, etc.
+    nameSearch: ""
   },
   users: [],
   prodCategories: [],
@@ -179,7 +183,9 @@ const reducer = (state = initialState, action) => {
 
     // --------------------------------FILTROS --------------------------------------------//
     case FILTER:
-      let filtered = [...state.products?.allProducts] || [];
+      let filtered = state.products.productsSearch && state.products.productsSearch.length !== 0
+  ? [...state.products.productsSearch]
+  : [...state.products.allProducts];
 
       if (action.payload.type !== "all") {
         filtered = filtered.filter(
@@ -273,8 +279,9 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         products: {
+          ...state.products,
           data: [...action.payload].splice(0, ITEM_PER_PAGE),
-          //allProducts: action.payload,
+          productsSearch: action.payload,
           currentPage: 0,
           productsFiltered: action.payload,
         },
@@ -289,6 +296,17 @@ const reducer = (state = initialState, action) => {
         ...state,
         isUser: action.payload,
       };
+      case CLEANSEARCHBAR:
+      return {
+        ...state, 
+        productsSearch: action.payload,
+        nameSearch: "",
+      }
+    case NAMESEARCH: 
+      return{
+        ...state, 
+        nameSearch: action.payload
+      }
     default:
       return { ...state };
   }

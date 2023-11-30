@@ -13,4 +13,6 @@ export const FILTER = "FILTER";
 export const ERROR = "ERROR";
 export const POPUPINITIAL = "POPUPINITIAL";
 export const CLEANSINGLEPROD = "CLEANSINGLEPROD";
+export const CLEANSEARCHBAR = "CLEANSEARCHBAR";
+export const NAMESEARCH = "NAMESEARCH";
 export const TYPEUSER = "TYPEUSER";
