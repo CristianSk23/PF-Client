@@ -180,6 +180,7 @@ const reducer = (state = initialState, action) => {
 
     // --------------------------------FILTROS --------------------------------------------//
     case FILTER:
+      //Se agrega validacion
       let filtered = state.products.productsSearch && state.products.productsSearch.length !== 0
   ? [...state.products.productsSearch]
   : [...state.products.allProducts];
