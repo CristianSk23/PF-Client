@@ -287,28 +287,7 @@ const reducer = (state = initialState, action) => {
         isShowPopup: action.payload
       }
       
-            // -------------------------------- USERS --------------------------------------- //
-
-    case LOGINUSER:
-      console.log(action.payload);
-      return {
-        ...state,
-        userAuth: action.payload
-      }
-
-    case LOGOUOTUSER:
-      console.log(action.payload);
-      return {
-        ...state,
-        userAuth: action.payload
-      }
-    
-    case CREATEUSER:
-      console.log(action.payload);
-      return {
-        ...state,
-        users: [...state.users, action.payload]
-      };
+            // -------------------------------- USERS --------------------------------------- //  
 
     default:
       return { ...state };

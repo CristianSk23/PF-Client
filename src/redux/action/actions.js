@@ -219,7 +219,7 @@ export const loginUser = (isAuth) => {
     try {
       dispatch({
         type: LOGINUSER,
-        payload: isAuth,
+        payload: true,
       });
     } catch (error) {
       dispatch({

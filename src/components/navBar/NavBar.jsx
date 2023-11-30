@@ -18,12 +18,10 @@ const NavBar = ({ onSearch, filterCond }) => {
 
   const handleLogin= async() => {
     await loginWithRedirect()
-    .then(dispatch(loginUser(isAuthenticated)))
   }
 
   const handleLogout = async() => {
     await logout({ logoutParams: { returnTo: window.location.origin } })
-    .then(dispatch(logOut(isAuthenticated)))
   }
 
   useEffect(() => {
