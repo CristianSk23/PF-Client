@@ -3,10 +3,6 @@ import { useSelector } from "react-redux/es/hooks/useSelector"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 
-const TotalPrice = () => {200}
-
-const TotalCart = () => {500}
-
 export const ShoppingCart = ({}) => {
 
  const dispatch = useDispatch();  
@@ -16,6 +12,10 @@ export const ShoppingCart = ({}) => {
  useEffect(() => {
     console.log('Carrito actualizado:', products);
   }, [products]);
+
+  const totalCart = products.reduce((accumulator, item) => {
+    return accumulator + item.price * item.quantity;
+  }, 0).toFixed(2);
 
  const DeleteCart = (productsid) => {
     dispatch(removeOneCart(productsid))
@@ -53,7 +53,7 @@ export const ShoppingCart = ({}) => {
                                     <span className="btn btn-info">{item.quantity}</span>
                                     <span className="btn btn-primary" style={{margin:'2px'}} onClick={()=>IncreaseQuantity(item.id)}>+</span>
                             </td>
-                            <td>{ TotalPrice(item.price,item.quantity)} $</td>
+                            <td>{(item.price*item.quantity).toFixed(2)}$</td>
                             <button onClick={()=>DeleteCart(item.id)}>X</button>
                         </tr>
                         )
@@ -62,7 +62,7 @@ export const ShoppingCart = ({}) => {
                 }
                 <tr>
                     <td colSpan="5">Total Carts</td>
-                    <td>{Number(TotalCart).toLocaleString('en-US')} $</td>
+                    <td>{totalCart} $</td>
                 </tr>
                 </tbody>
               
