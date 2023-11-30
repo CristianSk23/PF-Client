@@ -1,19 +1,15 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import styles from "./navBar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { filter, getProdCategories } from "../../redux/action/actions";
+import { getProdCategories } from "../../redux/action/actions";
+import { UserType } from "../../utils/userType";
 
 const NavBar = ({ onSearch, filterCond }) => {
   const [name, setName] = useState("");
   const dispatch = useDispatch();
   const prodCategories = useSelector((state) => state.prodCategories) || [];
-
-  useEffect(() => {
-    dispatch(filter(filterCond, name));
-  }, [filterCond]);
+  const isUser = UserType.ADMIN
 
   useEffect(() => {
     if (prodCategories.length === 0) {
@@ -46,19 +42,50 @@ const NavBar = ({ onSearch, filterCond }) => {
           <button type="button" className="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div className="offcanvas-body">
-          <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
-            <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  User
-                </a>
-                <ul className="dropdown-menu dropdown-menu-dark">
-                  <li><a className="dropdown-item" href="#">Login</a></li>
-                  <li><a className="dropdown-item" href="#">Register</a></li>
-                </ul>
-              </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/createProduct">Create Product</a>
-            </li>
+        <ul>
+        {isUser === UserType.ADMIN ? (
+              /* Admin Options */
+              <>
+                <li className="nav-item dropdown">
+                  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Admin
+                  </a>
+                  <ul className="dropdown-menu dropdown-menu-dark">
+                  <li className="nav-item"><a className="nav-link" href="/createProduct">Create Product</a></li>
+                  <li className="nav-item"><a className="nav-link" href="">Logout</a></li>
+                  </ul>
+                </li>
+              </>
+             
+            ) : isUser === UserType.USER ? (
+              /* User Options */
+              <>
+                <li className="nav-item dropdown">
+                  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    User
+                  </a>
+                  <ul className="dropdown-menu dropdown-menu-dark">
+                    <li><a className="dropdown-item" href="#">My account</a></li>
+                    <li><a className="dropdown-item" href="#">My cart</a></li>
+                    <li><a className="dropdown-item" href="#">Logout</a></li>
+                  </ul>
+                </li>
+                {/* Add other user-specific options here */}
+              </>
+            ) : isUser === UserType.INVITE ? (
+              /* Invite Options */
+              <>
+                <li className="nav-item dropdown">
+                  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Invite
+                  </a>
+                  <ul className="dropdown-menu dropdown-menu-dark">
+                    <li><a className="dropdown-item" href="/login">Login</a></li>
+                    <li><a className="dropdown-item" href="#">Register</a></li>
+                  </ul>
+                </li>
+              </>
+            ) : null}
           </ul>
         </div>
       </div>

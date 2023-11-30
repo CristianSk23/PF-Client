@@ -14,7 +14,10 @@ import {
   FILTER,
   ERROR,
   POPUPINITIAL,
-  CLEANSINGLEPROD
+  CLEANSINGLEPROD,
+  CLEANSEARCHBAR, 
+  NAMESEARCH,
+  TYPEUSER,
 } from "../action/actionsType";
 
 // GET PARA TRAER PRODUCTOS, de momento se esta usando el que cree en el archivo data.js luego deberiamos de descomentar y modificar lo necesario
@@ -167,9 +170,8 @@ export const changePage = (order) => {
   return { type: PAGINATION, payload: order };
 };
 
-export const filter = (cond, name) => {
+export const filter = (cond) => {
   return async (dispatch) => {
-    cond.name = name.toLowerCase();
     return dispatch({
       type: FILTER,
       payload: cond,
@@ -190,4 +192,24 @@ export const resetError=()=>{
       type: ERROR, 
       payload: ''
       }
+}
+
+export const isUser = (type) => {
+  return {
+    type: TYPEUSER,
+    payload: type
+  }
+}
+export const cleanSearchBar=()=> {
+  return {
+      type: CLEANSEARCHBAR,
+      payload: []
+  }
+
+}
+export const setNameSearch = (nameSearch)=>{
+  return {
+    type: NAMESEARCH,
+    payload: nameSearch
+  }
 }

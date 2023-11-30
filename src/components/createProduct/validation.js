@@ -27,9 +27,6 @@ const validation = (product, productNames, nameProds) => {
   } else if (product.brand?.length < 2) {
     errors.brand = "Brand can´t be less than 2 characters";
     return errors;
-  } else if (isNaN(product?.price)) {
-    errors.price = "Price can only be numbers";
-    return errors;
   } else if (Number(product?.price) < 1) {
     errors.price = "Price is too low";
     return errors;
