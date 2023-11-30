@@ -69,11 +69,25 @@ const CreateProduct = () => {
   };
 
   const handleChange = async (event) => {
+    if (event.target.name === "price") {
+      // Validar que el valor ingresado sea un número con hasta dos decimales después de la coma, sin aceptar puntos
+      const isValidInput = /^(?!0)(\d+(\.\d{0,2})?)?$/.test(event.target.value);
+  
+      if (isValidInput || event.target.value === "") {
+        // Reemplazar comas adicionales por una sola coma
+        const cleanedValue = event.target.value.replace(/,+/g, '.');
+        
+        setProduct({
+          ...product,
+          [event.target.name]: cleanedValue,
+        });
+      }
+    } else {
     setProduct({
       ...product,
       [event.target.name]: event.target.value,
     });
-
+  }
     if (event.target.name === "active"){
       const isActive = event.target.value === "true";
       setProduct({
@@ -97,10 +111,10 @@ const handleSubmit = async (event) => {
     const newProduct = {
       nameProd: product.name,
       brand: product.brand,
-      price: product.price,
+      price: parseFloat(product.price),
       discountPercentage: product.discountPercentage,
       stock: product.stock,
-      CategoryId: product.category,
+      CategoryId: parseInt(product.category),
       tags: product.tags,
       active: Boolean(product.active),
       image: newUrls, 
@@ -266,7 +280,6 @@ const handleSubmit = async (event) => {
               >
                 <option
                   value=""
-                  defaultValue=""
                   disabled
                   hidden
                 ></option>

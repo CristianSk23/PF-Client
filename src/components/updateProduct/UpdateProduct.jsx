@@ -126,11 +126,25 @@ const UpdateProduct = () => {
   };
 
   const handleChange = async (event) => {
-    setProduct({
+    if (event.target.name === "price") {
+      // Validar que el valor ingresado sea un número con hasta dos decimales después de la coma, sin aceptar puntos
+      const isValidInput = /^(?!0)(\d+(\.\d{0,2})?)?$/.test(event.target.value);
+  
+      if (isValidInput || event.target.value === "") {
+        // Reemplazar comas adicionales por una sola coma
+        const cleanedValue = event.target.value.replace(/,+/g, '.');
+  
+        setProduct({
+          ...product,
+          [event.target.name]: cleanedValue,
+        });
+      }
+    } else {
+      setProduct({
       ...product,
       [event.target.name]: event.target.value,
     });
-
+  }
     if (event.target.name === "active") {
       const isActive = event.target.value === "true";
       setProduct({
@@ -154,16 +168,17 @@ const UpdateProduct = () => {
       const newProduct = {
         id: id,
         nameProd: product.name,
-        CategoryId: product.category,
+        CategoryId: parseInt(product.category),
         brand: product.brand,
         description: product.description,
-        price: product.price,
+        price: parseFloat(product.price),
         discountPercentage: product.discountPercentage,
         image: newUrls,
         active: Boolean(product.active),
         tags: product.tags,
         stock: product.stock,
       };
+      console.log(newProduct);
       dispatch(updateProduct(newProduct));
       setShowConfirmation(true);
     } catch (error) {
@@ -179,6 +194,7 @@ const UpdateProduct = () => {
     setShowConfirmation(false);
     navigate(-1);
   };
+  
 
   return (
     <div>
@@ -235,8 +251,7 @@ const UpdateProduct = () => {
               <Form.Control
                 id="price"
                 className={styles.form_input}
-                type="number"
-                step="0.01"
+                type="text"
                 placeholder="Price"
                 name="price"
                 min="0"
@@ -305,14 +320,12 @@ const UpdateProduct = () => {
                 className={styles.form_input}
                 id="category"
                 name="category"
-                defaultValue=""
                 size="1"
                 onChange={handleChange}
                 value={product.category}
               >
                 <option
                   value=""
-                  defaultValue=""
                   disabled
                   hidden
                 ></option>

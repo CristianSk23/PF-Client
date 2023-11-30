@@ -37,7 +37,7 @@ const handleOrderByName = (event) => {
       <div className="row">
         <div className="col-sm">
           <select name="type" defaultValue="all" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleOpChange}>
-            <option value="all" defaultValue="" disabled hidden>Category</option>
+            <option value="all" disabled hidden>Category</option>
             <option value="all">All Categories</option>
             {prodCategories?.map((category) => {
               return (
