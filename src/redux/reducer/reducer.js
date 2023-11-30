@@ -1,3 +1,4 @@
+import { UserType } from "../../utils/userType";
 import {
   GETALLPRODUCTS,
   GETUSERS,
@@ -18,7 +19,10 @@ import {
   REMOVEALLCART,
   REMOVEONECART,
   INCREASEQUANTITY,
-  DECREASEQUANTITY
+  DECREASEQUANTITY,
+  CLEANSEARCHBAR,
+  NAMESEARCH,
+  TYPEUSER,
 } from "../action/actionsType";
 
 const initialState = {
@@ -27,7 +31,9 @@ const initialState = {
     allProducts: [], //backup
     currentPage: 0,
     productsFiltered: [],
+    productsSearch: [],
     filterType: undefined, // orderPrice, productsSearched, filterType, etc.
+    nameSearch: ""
   },
   users: [],
   prodCategories: [],
@@ -36,7 +42,8 @@ const initialState = {
   isShowPopup: true,
   cart: {
     items: [],
-  }
+  },
+  isUser: UserType.ADMIN,
 };
 
 const reducer = (state = initialState, action) => {
@@ -80,7 +87,7 @@ const reducer = (state = initialState, action) => {
 
     case GETPRODBYID:
       return { ...state, singleProduct: action.payload };
-      
+
     case CLEANSINGLEPROD:
       return { ...state, singleProduct: action.payload };
 
@@ -184,44 +191,52 @@ const reducer = (state = initialState, action) => {
 
     // --------------------------------FILTROS --------------------------------------------//
     case FILTER:
-      let filtered = [...state.products?.allProducts] || [];
-
-      if (action.payload.type !== "all") {
-        filtered = filtered.filter(
-          (product) =>
-            ///////////REVISAR
-            product.category == action.payload.type
-        );
+      try {
+        let filtered = state.products && state.products.productsSearch && state.products.productsSearch.length !== 0
+        ? [...state.products.productsSearch]
+        : [...state.products.allProducts];
+      
+            if (action.payload.type !== "all") {
+              filtered = filtered.filter(
+                (product) =>
+                  ///////////REVISAR
+                  product.category == action.payload.type
+              );
+            }
+      
+            if (action.payload.price !== "all") {
+              if (action.payload.price === "100") {
+                filtered = [...filtered].filter(
+                  (product) => product.price < action.payload.price
+                );
+              }
+      
+              if (action.payload.price === "300") {
+                filtered = [...filtered].filter(
+                  (product) =>
+                    product.price <= action.payload.price && product.price >= 100
+                );
+              }
+      
+              if (action.payload.price === "500") {
+                filtered = [...filtered].filter((product) => product.price > 301);
+              }
+            }
+      
+            return {
+              ...state,
+              products: {
+                ...state.products,
+                data: [...filtered].splice(0, ITEM_PER_PAGE),
+                productsFiltered: [...filtered],
+                currentPage: 0,
+              },}
+      } catch (error) {
+        //console.error('Error en la acción FILTER:', error);
+        
+        return {...state,
+          catchError: error }
       }
-
-      if (action.payload.price !== "all") {
-        if (action.payload.price === "100") {
-          filtered = [...filtered].filter(
-            (product) => product.price < action.payload.price
-          );
-        }
-
-        if (action.payload.price === "300") {
-          filtered = [...filtered].filter(
-            (product) =>
-              product.price <= action.payload.price && product.price >= 100
-          );
-        }
-
-        if (action.payload.price === "500") {
-          filtered = [...filtered].filter((product) => product.price > 301);
-        }
-      }
-
-      return {
-        ...state,
-        products: {
-          ...state.products,
-          data: [...filtered].splice(0, ITEM_PER_PAGE),
-          productsFiltered: [...filtered],
-          currentPage: 0,
-        },
-      };
 
     // -------------------------------- PAGINATION --------------------------------------- //
 
@@ -365,16 +380,36 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         products: {
+          ...state.products,
           data: [...action.payload].splice(0, ITEM_PER_PAGE),
-          //allProducts: action.payload,
+          productsSearch: action.payload,
           currentPage: 0,
           productsFiltered: action.payload,
         },
       };
-    case POPUPINITIAL: 
-      return{
+    case POPUPINITIAL:
+      return {
         ...state,
-        isShowPopup: action.payload
+        isShowPopup: action.payload,
+      };
+    case TYPEUSER:
+      return {
+        ...state,
+        isUser: action.payload,
+      };
+      case CLEANSEARCHBAR:
+      return {
+        ...state,
+      products: {
+          ...state.products,
+          productsSearch: action.payload,
+    },
+    nameSearch: "", // También asegúrate de limpiar nameSearch si es necesario
+  };
+    case NAMESEARCH: 
+      return{
+        ...state, 
+        nameSearch: action.payload
       }
     default:
       return { ...state };

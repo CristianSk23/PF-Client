@@ -14,10 +14,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import { ShoppingCart } from "../shoppingCart/ShoppingCart";
 
+
 const LandingPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products?.data);
-
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
   };
@@ -76,7 +76,7 @@ const LandingPage = () => {
         </button>
       </div>
 
-      <Cards products={products} />
+      <Cards products={products}/>
 
       <ShoppingCart products={products}/>
 

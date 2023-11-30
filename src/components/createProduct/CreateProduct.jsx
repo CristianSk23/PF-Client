@@ -8,6 +8,7 @@ import { uploadImageToCloudinary } from "../../utils/cloudinary";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import PopupGeneral from "../popupGeneral/PopupGeneral";
 
 
 const CreateProduct = () => {
@@ -17,6 +18,7 @@ const CreateProduct = () => {
   const allProducts = useSelector((state) => state.products?.allProducts);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [product, setProduct] = useState({
     name: "",
     category: "",
@@ -56,9 +58,7 @@ const CreateProduct = () => {
   };
 
   const handleImageAdd = () => {
-
     setProduct({ ...product, image: [...product.image, ""] });
-
   };
 
   const handleImageRemove = (index) => {
@@ -69,11 +69,25 @@ const CreateProduct = () => {
   };
 
   const handleChange = async (event) => {
+    if (event.target.name === "price") {
+      // Validar que el valor ingresado sea un número con hasta dos decimales después de la coma, sin aceptar puntos
+      const isValidInput = /^(?!0)(\d+(\.\d{0,2})?)?$/.test(event.target.value);
+  
+      if (isValidInput || event.target.value === "") {
+        // Reemplazar comas adicionales por una sola coma
+        const cleanedValue = event.target.value.replace(/,+/g, '.');
+        
+        setProduct({
+          ...product,
+          [event.target.name]: cleanedValue,
+        });
+      }
+    } else {
     setProduct({
       ...product,
       [event.target.name]: event.target.value,
     });
-
+  }
     if (event.target.name === "active"){
       const isActive = event.target.value === "true";
       setProduct({
@@ -94,14 +108,13 @@ const handleSubmit = async (event) => {
     );
 
 
-
     const newProduct = {
       nameProd: product.name,
       brand: product.brand,
-      price: product.price,
+      price: parseFloat(product.price),
       discountPercentage: product.discountPercentage,
       stock: product.stock,
-      CategoryId: product.category,
+      CategoryId: parseInt(product.category),
       tags: product.tags,
       active: Boolean(product.active),
       image: newUrls, 
@@ -122,6 +135,7 @@ const handleSubmit = async (event) => {
       tags: "None",
       stock: 0,
     });
+    setShowConfirmation(true)
   } catch (error) {
     // Aquí puedes manejar el error si es necesario
   }
@@ -129,6 +143,10 @@ const handleSubmit = async (event) => {
 
   const handleCancel = () => {
     navigate(-1);
+  };
+  const handleConfirmationClose = () => {
+    //setShowConfirmation(false);
+    navigate(-1)
   };
 
   return (
@@ -256,14 +274,13 @@ const handleSubmit = async (event) => {
                 className={styles.form_input}
                 id="category"
                 name="category"
+                defaultValue=""
                 size="1"
                 onChange={handleChange}
               >
                 <option
                   value=""
-                  defaultValue=""
                   disabled
-                  selected
                   hidden
                 ></option>
                 {prodCategories?.map((category) => {
@@ -413,10 +430,13 @@ const handleSubmit = async (event) => {
             className="btn btn-danger"
             style={{ marginTop: "-25px", marginBottom:"15px" }}
           >
-            Cancelar
+            Cancel
           </a>
         </div>
       </Form>
+      {showConfirmation && (
+        <PopupGeneral textButton="Go home"  descripcion="Successfully created product" onClick={handleConfirmationClose} />
+      )}
     </div>
   );
 };
