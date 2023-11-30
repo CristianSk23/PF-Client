@@ -14,7 +14,8 @@ import {
   FILTER,
   ERROR,
   POPUPINITIAL,
-  CLEANSINGLEPROD
+  CLEANSINGLEPROD,
+  TYPEUSER,
 } from "../action/actionsType";
 
 const URLEXAMPLE = "http://localhost:3001";
@@ -169,9 +170,10 @@ export const changePage = (order) => {
   return { type: PAGINATION, payload: order };
 };
 
-export const filter = (cond, name) => {
+export const filter = (cond) => {
   return async (dispatch) => {
-    cond.name = name.toLowerCase();
+    console.log(cond);
+    //cond.name = name.toLowerCase();
     return dispatch({
       type: FILTER,
       payload: cond,
@@ -192,4 +194,11 @@ export const resetError=()=>{
       type: ERROR, 
       payload: ''
       }
+}
+
+export const isUser = (type) => {
+  return {
+    type: TYPEUSER,
+    payload: type
+  }
 }

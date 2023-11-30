@@ -1,3 +1,4 @@
+import { UserType } from "../../utils/userType";
 import {
   GETALLPRODUCTS,
   GETUSERS,
@@ -13,7 +14,8 @@ import {
   FILTER,
   ERROR,
   POPUPINITIAL,
-  CLEANSINGLEPROD
+  CLEANSINGLEPROD,
+  TYPEUSER,
 } from "../action/actionsType";
 
 const initialState = {
@@ -28,7 +30,8 @@ const initialState = {
   prodCategories: [],
   singleProduct: "",
   catchError: "",
-  isShowPopup: true
+  isShowPopup: true,
+  isUser: UserType.ADMIN,
 };
 
 const reducer = (state = initialState, action) => {
@@ -72,7 +75,7 @@ const reducer = (state = initialState, action) => {
 
     case GETPRODBYID:
       return { ...state, singleProduct: action.payload };
-      
+
     case CLEANSINGLEPROD:
       return { ...state, singleProduct: action.payload };
 
@@ -276,11 +279,16 @@ const reducer = (state = initialState, action) => {
           productsFiltered: action.payload,
         },
       };
-    case POPUPINITIAL: 
-      return{
+    case POPUPINITIAL:
+      return {
         ...state,
-        isShowPopup: action.payload
-      }
+        isShowPopup: action.payload,
+      };
+    case TYPEUSER:
+      return {
+        ...state,
+        isUser: action.payload,
+      };
     default:
       return { ...state };
   }

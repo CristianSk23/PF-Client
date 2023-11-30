@@ -12,4 +12,5 @@ export const ORDERNAME = "ORDERNAME";
 export const FILTER = "FILTER";
 export const ERROR = "ERROR";
 export const POPUPINITIAL = "POPUPINITIAL";
-export const CLEANSINGLEPROD = "CLEANSINGLEPROD"
+export const CLEANSINGLEPROD = "CLEANSINGLEPROD";
+export const TYPEUSER = "TYPEUSER";

@@ -40,7 +40,7 @@ const DeleteProduct = () => {
 
   const handleConfirmationClose = () => {
     setShowConfirmation(false);
-    navigate("/");
+    navigate(-1);
   };
 
   return (
@@ -55,8 +55,8 @@ const DeleteProduct = () => {
                  <h5 className="card-title">{prodById?.nameProd}</h5>
                  <p className="card-text">{prodById?.description}</p>
                     <div className="text-center">
-                      <a onClick={handleDelete} className="btn btn-success" style={{margin:"2px"}}>Confirmar</a>
-                      <a onClick={handleCancel} className="btn btn-danger" style={{margin:"2px"}}>Cancelar</a>
+                      <a onClick={handleDelete} className="btn btn-success" style={{margin:"2px"}}>Confirm</a>
+                      <a onClick={handleCancel} className="btn btn-danger" style={{margin:"2px"}}>Cancel</a>
             </div>
           </div>
         </div>
@@ -65,8 +65,8 @@ const DeleteProduct = () => {
         <div className={styles.confirmationModalContainer}>
           <div className={styles.confirmationModalBackdrop}></div>
           <div className={styles.confirmationModal}>
-            <p>Producto eliminado con éxito.</p>
-            <button onClick={handleConfirmationClose}>Ir a Home</button>
+            <p>Product successfully removed</p>
+            <button onClick={handleConfirmationClose}>Go home</button>
           </div>
         </div>
       )}

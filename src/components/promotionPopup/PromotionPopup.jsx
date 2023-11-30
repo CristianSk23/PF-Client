@@ -10,6 +10,7 @@ const PromotionPopup = () => {
 
   const showPopup = useSelector((state) => state.isShowPopup);
   const [currentImage, setCurrentImage] = useState(0); // para el slider, cambiar por la libreria que se use
+  const isUser = useSelector((state) => state.isUser)
 
   const closetPopup = () => {
     dispatch(showThePopup(false));
@@ -30,8 +31,7 @@ const PromotionPopup = () => {
     "https://static.eldiario.es/clip/d210311d-65b7-4359-ae7a-11bf2ef96f22_16-9-discover-aspect-ratio_default_0.jpg",
   ];
 
-  return (
-      showPopup && <div className={styles.popup}>
+  return (isUser === "invite" || isUser === "user") && showPopup && ( <div className={styles.popup}>
         <div className={styles["poput-content"]}>
           <div className="card" style={{position:"relative", overflow:"hidden", }}>
             <img src={images[currentImage]} alt={`Imagen ${currentImage + 1}`} className="card-img-top" style={{width:"350px"}}/>
@@ -50,26 +50,3 @@ const PromotionPopup = () => {
     )
 };
 export default PromotionPopup;
-
-{/*    
-
-
-
-
-
-
-showPopup && (
-      <div className={styles.popup}>
-        <div className={styles["poput-content"]}>
-          <h2>50% OFF</h2>
-          <div className={styles.slider}>
-            <img
-              src={images[currentImage]}
-              alt={`Imagen ${currentImage + 1}`}
-            />
-            <button onClick={prevImage}>&lt;</button>
-            <button onClick={nextImage}>&gt;</button>
-          </div>
-          <p>Descripcion</p>
-          <button onClick={closetPopup}>Close</button>
-        </div> */}

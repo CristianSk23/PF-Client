@@ -8,6 +8,7 @@ import { uploadImageToCloudinary } from "../../utils/cloudinary";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import PopupGeneral from "../popupGeneral/PopupGeneral";
 
 
 const CreateProduct = () => {
@@ -17,6 +18,7 @@ const CreateProduct = () => {
   const allProducts = useSelector((state) => state.products?.allProducts);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [product, setProduct] = useState({
     name: "",
     category: "",
@@ -56,9 +58,7 @@ const CreateProduct = () => {
   };
 
   const handleImageAdd = () => {
-
     setProduct({ ...product, image: [...product.image, ""] });
-
   };
 
   const handleImageRemove = (index) => {
@@ -94,6 +94,7 @@ const handleSubmit = async (event) => {
     );
 
 
+    setShowConfirmation(true)
 
     const newProduct = {
       nameProd: product.name,
@@ -129,6 +130,10 @@ const handleSubmit = async (event) => {
 
   const handleCancel = () => {
     navigate(-1);
+  };
+  const handleConfirmationClose = () => {
+    //setShowConfirmation(false);
+    navigate(-1)
   };
 
   return (
@@ -413,10 +418,13 @@ const handleSubmit = async (event) => {
             className="btn btn-danger"
             style={{ marginTop: "-25px", marginBottom:"15px" }}
           >
-            Cancelar
+            Cancel
           </a>
         </div>
       </Form>
+      {showConfirmation && (
+        <PopupGeneral textButton="Go home"  descripcion="Successfully created product" onClick={handleConfirmationClose} />
+      )}
     </div>
   );
 };
