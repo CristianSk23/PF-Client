@@ -10,7 +10,7 @@ const PromotionPopup = () => {
 
   const showPopup = useSelector((state) => state.isShowPopup);
   const [currentImage, setCurrentImage] = useState(0); // para el slider, cambiar por la libreria que se use
-  const isUser = useSelector((state) => state.isUser)
+  const isUser = UserType.ADMIN
 
   const closetPopup = () => {
     dispatch(showThePopup(false));

@@ -9,7 +9,7 @@ const NavBar = ({ onSearch, filterCond }) => {
   const [name, setName] = useState("");
   const dispatch = useDispatch();
   const prodCategories = useSelector((state) => state.prodCategories) || [];
-  const isUser = useSelector((state) => state.isUser)
+  const isUser = UserType.ADMIN
 
   useEffect(() => {
     if (prodCategories.length === 0) {
