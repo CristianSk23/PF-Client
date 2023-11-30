@@ -4,7 +4,7 @@ import styles from "./navBar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { filter, getProdCategories, loginUser, logOut } from "../../redux/action/actions";
+import { filter, getProdCategories } from "../../redux/action/actions";
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 

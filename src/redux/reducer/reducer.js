@@ -14,9 +14,6 @@ import {
   ERROR,
   POPUPINITIAL,
   CLEANSINGLEPROD,
-  LOGINUSER,
-  LOGOUOTUSER,
-  CREATEUSER
 
 } from "../action/actionsType";
 

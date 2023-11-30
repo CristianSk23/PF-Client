@@ -16,9 +16,6 @@ import {
   ERROR,
   POPUPINITIAL,
   CLEANSINGLEPROD,
-  CREATEUSER,
-  LOGINUSER,
-  LOGOUOTUSER
 } from "../action/actionsType";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 
@@ -213,36 +210,3 @@ export const resetError=()=>{
 //     }
 //   }
 // }
-
-export const loginUser = (isAuth) => {
-  return async (dispatch) => {
-    try {
-      dispatch({
-        type: LOGINUSER,
-        payload: true,
-      });
-    } catch (error) {
-      dispatch({
-        type: ERROR,
-        payload: error.message,
-      });
-    }
-  };
-};
-
-export const logOut = (logout, returnTo) => {
-  return async (dispatch) => {
-    try {
-      logout({ returnTo });
-      dispatch({
-        type: LOGOUOTUSER,
-        payload: false,
-      });
-    } catch (error) {
-      dispatch({
-        type: ERROR,
-        payload: error.message,
-      });
-    }
-  };
-};
