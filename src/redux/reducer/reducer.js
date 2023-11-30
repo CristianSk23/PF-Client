@@ -284,6 +284,7 @@ const reducer = (state = initialState, action) => {
         isShowPopup: action.payload
       }
       
+      
             // -------------------------------- USERS --------------------------------------- //  
 
     default:
