@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { showThePopup } from "../../redux/action/actions";
 import { useEffect } from "react";
+import { UserType } from "../../utils/userType";
 
 import styles from "./promotionPopup.module.css";
 
