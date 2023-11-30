@@ -260,6 +260,7 @@ const handleSubmit = async (event) => {
                 className={styles.form_input}
                 id="category"
                 name="category"
+                defaultValue=""
                 size="1"
                 onChange={handleChange}
               >
@@ -267,7 +268,6 @@ const handleSubmit = async (event) => {
                   value=""
                   defaultValue=""
                   disabled
-                  selected
                   hidden
                 ></option>
                 {prodCategories?.map((category) => {

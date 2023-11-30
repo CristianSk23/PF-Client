@@ -174,8 +174,6 @@ export const changePage = (order) => {
 
 export const filter = (cond) => {
   return async (dispatch) => {
-    console.log(cond);
-    //cond.name = name.toLowerCase();
     return dispatch({
       type: FILTER,
       payload: cond,

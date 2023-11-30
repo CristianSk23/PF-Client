@@ -305,6 +305,7 @@ const UpdateProduct = () => {
                 className={styles.form_input}
                 id="category"
                 name="category"
+                defaultValue=""
                 size="1"
                 onChange={handleChange}
                 value={product.category}
@@ -313,7 +314,6 @@ const UpdateProduct = () => {
                   value=""
                   defaultValue=""
                   disabled
-                  selected
                   hidden
                 ></option>
                 {prodCategories?.map((category) => {

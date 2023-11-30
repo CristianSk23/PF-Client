@@ -183,46 +183,52 @@ const reducer = (state = initialState, action) => {
 
     // --------------------------------FILTROS --------------------------------------------//
     case FILTER:
-      let filtered = state.products && state.products.productsSearch && state.products.productsSearch.length !== 0
-  ? [...state.products.productsSearch]
-  : [...state.products.allProducts];
-
-      if (action.payload.type !== "all") {
-        filtered = filtered.filter(
-          (product) =>
-            ///////////REVISAR
-            product.category == action.payload.type
-        );
+      try {
+        let filtered = state.products && state.products.productsSearch && state.products.productsSearch.length !== 0
+        ? [...state.products.productsSearch]
+        : [...state.products.allProducts];
+      
+            if (action.payload.type !== "all") {
+              filtered = filtered.filter(
+                (product) =>
+                  ///////////REVISAR
+                  product.category == action.payload.type
+              );
+            }
+      
+            if (action.payload.price !== "all") {
+              if (action.payload.price === "100") {
+                filtered = [...filtered].filter(
+                  (product) => product.price < action.payload.price
+                );
+              }
+      
+              if (action.payload.price === "300") {
+                filtered = [...filtered].filter(
+                  (product) =>
+                    product.price <= action.payload.price && product.price >= 100
+                );
+              }
+      
+              if (action.payload.price === "500") {
+                filtered = [...filtered].filter((product) => product.price > 301);
+              }
+            }
+      
+            return {
+              ...state,
+              products: {
+                ...state.products,
+                data: [...filtered].splice(0, ITEM_PER_PAGE),
+                productsFiltered: [...filtered],
+                currentPage: 0,
+              },}
+      } catch (error) {
+        //console.error('Error en la acción FILTER:', error);
+        
+        return {...state,
+          catchError: error }
       }
-
-      if (action.payload.price !== "all") {
-        if (action.payload.price === "100") {
-          filtered = [...filtered].filter(
-            (product) => product.price < action.payload.price
-          );
-        }
-
-        if (action.payload.price === "300") {
-          filtered = [...filtered].filter(
-            (product) =>
-              product.price <= action.payload.price && product.price >= 100
-          );
-        }
-
-        if (action.payload.price === "500") {
-          filtered = [...filtered].filter((product) => product.price > 301);
-        }
-      }
-
-      return {
-        ...state,
-        products: {
-          ...state.products,
-          data: [...filtered].splice(0, ITEM_PER_PAGE),
-          productsFiltered: [...filtered],
-          currentPage: 0,
-        },
-      };
 
     // -------------------------------- PAGINATION --------------------------------------- //
 

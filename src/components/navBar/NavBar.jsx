@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import styles from "./navBar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { filter, getProdCategories } from "../../redux/action/actions";
+import { getProdCategories } from "../../redux/action/actions";
 import { UserType } from "../../utils/userType";
 
 const NavBar = ({ onSearch, filterCond }) => {
@@ -12,10 +10,6 @@ const NavBar = ({ onSearch, filterCond }) => {
   const dispatch = useDispatch();
   const prodCategories = useSelector((state) => state.prodCategories) || [];
   const isUser = useSelector((state) => state.isUser)
-
-  useEffect(() => {
-    dispatch(filter(filterCond));
-  }, [filterCond]);
 
   useEffect(() => {
     if (prodCategories.length === 0) {

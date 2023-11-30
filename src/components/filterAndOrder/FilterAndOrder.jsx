@@ -36,8 +36,8 @@ const handleOrderByName = (event) => {
     <div className="pagination justify-content-center" style={{ marginTop: "60px" }}>
       <div className="row">
         <div className="col-sm">
-          <select name="type" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleOpChange}>
-            <option value="all" defaultValue="" disabled selected hidden>Category</option>
+          <select name="type" defaultValue="all" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleOpChange}>
+            <option value="all" defaultValue="" disabled hidden>Category</option>
             <option value="all">All Categories</option>
             {prodCategories?.map((category) => {
               return (
@@ -49,8 +49,8 @@ const handleOrderByName = (event) => {
           </select>
         </div>
         <div className="col-sm">
-          <select name="price" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleOpChange}>
-            <option value="all" disabled selected hidden>Filter by Price</option>
+          <select name="price" defaultValue="all" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleOpChange}>
+            <option value="all" disabled hidden>Filter by Price</option>
             <option value="all" style={{textAlign:"center"}}>All Prices</option>
             <option value="100" style={{textAlign:"center"}}>Less than 100</option>
             <option value="300" style={{textAlign:"center"}}>Between 100 to 300</option>
@@ -58,15 +58,15 @@ const handleOrderByName = (event) => {
           </select>
         </div>
         <div className="col-sm">
-          <select name="select" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleOrderByName}>
-            <option value="all" disabled selected hidden>Sort by Name</option>
+          <select name="select" defaultValue="all" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleOrderByName}>
+            <option value="all" disabled hidden>Sort by Name</option>
             <option value="A">Ascendant</option>
             <option value="D">Descendant</option>
           </select>
         </div>
         <div className="col-sm">
-          <select name="select" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleOrderByPrice}>
-            <option value="all" disabled selected hidden>Sort by Price</option>
+          <select name="select" defaultValue="all" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleOrderByPrice}>
+            <option value="all" disabled hidden>Sort by Price</option>
             <option value="A">Max Price</option>
             <option value="D">Min Price</option>
           </select>
