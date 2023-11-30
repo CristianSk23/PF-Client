@@ -16,6 +16,12 @@ import {
   ERROR,
   POPUPINITIAL,
   CLEANSINGLEPROD,
+<<<<<<< HEAD
+=======
+  CLEANSEARCHBAR, 
+  NAMESEARCH,
+  TYPEUSER,
+>>>>>>> develop
 } from "../action/actionsType";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 
@@ -169,9 +175,8 @@ export const changePage = (order) => {
   return { type: PAGINATION, payload: order };
 };
 
-export const filter = (cond, name) => {
+export const filter = (cond) => {
   return async (dispatch) => {
-    cond.name = name.toLowerCase();
     return dispatch({
       type: FILTER,
       payload: cond,
@@ -194,6 +199,7 @@ export const resetError=()=>{
       }
 }
 
+<<<<<<< HEAD
 // export const createUser = (user) => {
 //   return async (dispatch) => {
 //     try {
@@ -210,3 +216,24 @@ export const resetError=()=>{
 //     }
 //   }
 // }
+=======
+export const isUser = (type) => {
+  return {
+    type: TYPEUSER,
+    payload: type
+  }
+}
+export const cleanSearchBar=()=> {
+  return {
+      type: CLEANSEARCHBAR,
+      payload: []
+  }
+
+}
+export const setNameSearch = (nameSearch)=>{
+  return {
+    type: NAMESEARCH,
+    payload: nameSearch
+  }
+}
+>>>>>>> develop

@@ -12,8 +12,15 @@ export const ORDERNAME = "ORDERNAME";
 export const FILTER = "FILTER";
 export const ERROR = "ERROR";
 export const POPUPINITIAL = "POPUPINITIAL";
+<<<<<<< HEAD
 export const CLEANSINGLEPROD = "CLEANSINGLEPROD"
 
 export const GENERATEUSER = "GENERATEUSER"
 
 
+=======
+export const CLEANSINGLEPROD = "CLEANSINGLEPROD";
+export const CLEANSEARCHBAR = "CLEANSEARCHBAR";
+export const NAMESEARCH = "NAMESEARCH";
+export const TYPEUSER = "TYPEUSER";
+>>>>>>> develop
