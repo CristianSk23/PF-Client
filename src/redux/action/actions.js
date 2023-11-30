@@ -20,7 +20,6 @@ import {
   TYPEUSER,
 } from "../action/actionsType";
 
-
 // GET PARA TRAER PRODUCTOS, de momento se esta usando el que cree en el archivo data.js luego deberiamos de descomentar y modificar lo necesario
 export const getAllProducts = () => {
   return async (dispatch) => {
