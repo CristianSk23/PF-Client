@@ -14,7 +14,12 @@ import {
   FILTER,
   ERROR,
   POPUPINITIAL,
-  CLEANSINGLEPROD
+  CLEANSINGLEPROD,
+  ADDTOCART,
+  REMOVEALLCART,
+  REMOVEONECART,
+  INCREASEQUANTITY,
+  DECREASEQUANTITY,
 } from "../action/actionsType";
 
 const URLEXAMPLE = "http://localhost:3001";
@@ -192,4 +197,63 @@ export const resetError=()=>{
       type: ERROR, 
       payload: ''
       }
-}
+    }
+
+  export const addToCart = (id) => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get(`${URLEXAMPLE}/products/${id}`);
+        dispatch({
+          type: ADDTOCART,
+          payload: response.data,
+        })
+      } catch (error) {
+        dispatch({
+          type: ERROR,
+          payload: error.message,
+        });
+      }
+    };
+};
+
+export const removeOneCart = (id, all=false) => {
+  return async (dispatch) => {
+  try {
+  dispatch({type: REMOVEONECART, payload: id
+  })} 
+  catch (error) {
+  dispatch({
+    type: ERROR,
+    payload: error.message,
+  });
+  }
+  }
+  }
+
+  export const increaseQuantity = (id) => {
+    return async (dispatch) => {
+      try{
+        dispatch({type: INCREASEQUANTITY, payload: id})
+      }
+      catch(error) {
+        dispatch({
+          type: ERROR,
+          payload: error.message,
+        })
+      }
+    }
+  }
+
+  export const decreaseQuantity = (id) => {
+    return async (dispatch) => {
+      try{
+        dispatch({type: DECREASEQUANTITY, payload: id})
+      }
+      catch(error) {
+        dispatch({
+          type: ERROR,
+          payload: error.message,
+        })
+      }
+    }
+  }

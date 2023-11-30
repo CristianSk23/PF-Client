@@ -13,7 +13,12 @@ import {
   FILTER,
   ERROR,
   POPUPINITIAL,
-  CLEANSINGLEPROD
+  CLEANSINGLEPROD,
+  ADDTOCART,
+  REMOVEALLCART,
+  REMOVEONECART,
+  INCREASEQUANTITY,
+  DECREASEQUANTITY
 } from "../action/actionsType";
 
 const initialState = {
@@ -28,7 +33,10 @@ const initialState = {
   prodCategories: [],
   singleProduct: "",
   catchError: "",
-  isShowPopup: true
+  isShowPopup: true,
+  cart: {
+    items: [],
+  }
 };
 
 const reducer = (state = initialState, action) => {
@@ -266,6 +274,93 @@ const reducer = (state = initialState, action) => {
         },
       };
 
+    case ADDTOCART:
+      
+    const existingItem = state.cart.items.find((item) => item.id === action.payload.id);
+
+    if (existingItem) {
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          items: state.cart.items.map((item) =>
+            item.id === existingItem.id ? { ...item, quantity: item.quantity + 1 } : item
+          ),
+        },
+      };
+    } else {
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          items: [...state.cart.items, { ...action.payload, quantity: 1 }],
+        },
+      };
+    }
+
+    case REMOVEONECART: 
+
+      let filteredItems = state.cart.items.filter(
+        (product) =>
+          product.id !== action.payload
+      );
+
+      return{
+          ...state,
+          cart: {
+            ...state.cart,
+            items: filteredItems, 
+          }
+          }
+    
+    case INCREASEQUANTITY:
+
+    return {
+      ...state,
+      cart: {
+        ...state.cart,
+        items: state.cart.items.map((item) =>
+          item.id === action.payload ? { ...item, quantity: item.quantity + 1 } : item
+        ),
+      },
+    };
+
+    case DECREASEQUANTITY:
+
+    let itemToDec = (state.cart.items.find((item) => item.id === action.payload));
+    console.log(itemToDec.quantity)
+
+    if(itemToDec.quantity<=1) {
+
+        let filteredItemsDEC = state.cart.items.filter(
+          (product) =>
+            product.id !== action.payload
+        );
+  
+        return{
+            ...state,
+            cart: {
+              ...state.cart,
+              items: filteredItemsDEC, 
+            }
+            }
+      }
+    
+     else {
+
+    return {
+      ...state,
+      cart: {
+        ...state.cart,
+        items: state.cart.items.map((item) =>
+          item.id === action.payload ? { ...item, quantity: item.quantity - 1 } : item
+        ),
+      },
+    };
+    };
+
+
+
     case GETPRODUCTBYNAME:
       return {
         ...state,
@@ -286,3 +381,66 @@ const reducer = (state = initialState, action) => {
   }
 };
 export default reducer;
+
+/*
+case ADD_CART:
+            if(state.numberCart==0){
+                let cart = {
+                    id:action.payload.id,
+                    quantity:1,
+                    name:action.payload.name,
+                    image:action.payload.image,
+                    price:action.payload.price
+                } 
+                state.Carts.push(cart); 
+            }
+            else{
+                let check = false;
+                state.Carts.map((item,key)=>{
+                    if(item.id==action.payload.id){
+                        state.Carts[key].quantity++;
+                        check=true;
+                    }
+                });
+                if(!check){
+                    let _cart = {
+                        id:action.payload.id,
+                        quantity:1,
+                        name:action.payload.name,
+                        image:action.payload.image,
+                        price:action.payload.price
+                    }
+                    state.Carts.push(_cart);
+                }
+            }
+            return{
+                ...state,
+                numberCart:state.numberCart+1
+            }
+            case INCREASE_QUANTITY:
+                state.numberCart++
+                state.Carts[action.payload].quantity++;
+              
+               return{
+                   ...state
+               }
+            case DECREASE_QUANTITY:
+                let quantity = state.Carts[action.payload].quantity;
+                if(quantity>1){
+                    state.numberCart--;
+                    state.Carts[action.payload].quantity--;
+                }
+              
+                return{
+                    ...state
+                }
+            case DELETE_CART:
+                let quantity_ = state.Carts[action.payload].quantity;
+                return{
+                    ...state,
+                    numberCart:state.numberCart - quantity_,
+                    Carts:state.Carts.filter(item=>{
+                        return item.id!=state.Carts[action.payload].id
+                    })
+                   
+                }*/
