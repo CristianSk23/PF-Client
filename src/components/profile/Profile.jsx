@@ -1,9 +1,11 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const Profile = () => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { user, isAuthenticated, isLoading, getAccessTokenSilently, getIdTokenClaims } = useAuth0();
+  const [token, setToken] = useState()
   const [userInfo, setUserInfo] = useState({
         picture: user?.picture,
         name: user?.username,
@@ -16,6 +18,22 @@ const Profile = () => {
         city: "",
         typeUser: ""
         })
+    
+        useEffect(() => {
+          const fetchToken = async () => {
+            try {
+              const idTokenClaims = await getIdTokenClaims();
+              const idToken = idTokenClaims?.__raw;
+              setToken(idToken);
+            } catch (error) {
+              console.error('Error fetching id token:', error);
+            }
+          };
+      
+          if (isAuthenticated) {
+            fetchToken();
+          }
+        }, [isAuthenticated]);
 
   if (isLoading) {
     return <div>Loading ...</div>;
@@ -24,9 +42,12 @@ const Profile = () => {
   return (
     isAuthenticated && (
       <div>
-        <img src={userInfo?.picture} alt={userInfo?.name} />
-        <h2>{userInfo?.name}</h2>
-        <p>{userInfo?.email}</p>
+        <h2>{user?.name}</h2>
+        <h3>{user?.email}</h3>
+      <br/>
+      <br/>
+      <br/>
+        <p>{token}</p>
 
       </div>
     )

@@ -14,6 +14,7 @@ import {
   ERROR,
   POPUPINITIAL,
   CLEANSINGLEPROD,
+  GENERATEUSER,
 
 } from "../action/actionsType";
 
@@ -30,7 +31,7 @@ const initialState = {
   singleProduct: "",
   catchError: "",
   isShowPopup: true,
-  userAuth: false
+  user: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -286,6 +287,12 @@ const reducer = (state = initialState, action) => {
       
       
             // -------------------------------- USERS --------------------------------------- //  
+    case GENERATEUSER:
+      return {
+        ...state,
+        users: [...state.users, action.payload],
+        user: action.payload
+      }
 
     default:
       return { ...state };
