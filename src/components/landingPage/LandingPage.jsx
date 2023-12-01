@@ -20,7 +20,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const LandingPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products?.data);
-  const {isUser} = useSelector((state) => state)
+  const isUser = useSelector((state) => state.isUser)
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
   };

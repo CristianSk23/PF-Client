@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const NavBar = ({ onSearch, filterCond }) => {
   const [name, setName] = useState("");
-  const {isUser} = useSelector((state) => state)
+  const isUser = useSelector((state) => state.isUser)
   const dispatch = useDispatch();
   const prodCategories = useSelector((state) => state.prodCategories) || [];
 
