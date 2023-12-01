@@ -1,4 +1,5 @@
 import axios from "axios";
+import {useAuth0} from "@auth0/auth0-react"
 import {
   GETALLPRODUCTS,
   GETUSERS,
@@ -19,6 +20,7 @@ import {
   NAMESEARCH,
   TYPEUSER,
 } from "../action/actionsType";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 // GET PARA TRAER PRODUCTOS, de momento se esta usando el que cree en el archivo data.js luego deberiamos de descomentar y modificar lo necesario
 export const getAllProducts = () => {
@@ -193,6 +195,23 @@ export const resetError=()=>{
       payload: ''
       }
 }
+
+// export const createUser = (user) => {
+//   return async (dispatch) => {
+//     try {
+//       const response = await axios.post(`${URLEXAMPLE}/users`, user);
+//       dispatch({
+//         type: CREATEUSER,
+//         payload: response.data,
+//       });
+//     } catch (error) {
+//       dispatch({
+//         type: ERROR,
+//         payload: error.message,
+//       });
+//     }
+//   }
+// }
 
 export const isUser = (type) => {
   return {

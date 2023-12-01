@@ -2,14 +2,30 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { getProdCategories } from "../../redux/action/actions";
 import { UserType } from "../../utils/userType";
+import { Link } from "react-router-dom";
 
 const NavBar = ({ onSearch, filterCond }) => {
   const [name, setName] = useState("");
+  const {userAuth} = useSelector(state => state)
   const dispatch = useDispatch();
   const prodCategories = useSelector((state) => state.prodCategories) || [];
-  const isUser = UserType.ADMIN
+
+
+  const { logout, loginWithRedirect, isAuthenticated } = useAuth0()
+
+  const handleLogin= async() => {
+    await loginWithRedirect()
+  }
+
+  const handleLogout = async() => {
+    await logout({ logoutParams: { returnTo: window.location.origin } })
+  }
+
+  const isUser = UserType.USER
 
   useEffect(() => {
     if (prodCategories.length === 0) {
@@ -52,7 +68,9 @@ const NavBar = ({ onSearch, filterCond }) => {
                   </a>
                   <ul className="dropdown-menu dropdown-menu-dark">
                   <li className="nav-item"><a className="nav-link" href="/createProduct">Create Product</a></li>
-                  <li className="nav-item"><a className="nav-link" href="">Logout</a></li>
+                  {!isAuthenticated && <li><a className="dropdown-item" onClick={handleLogin}>Login</a></li>}
+                  {isAuthenticated && <li><Link to="/profile" className="dropdown-item">My Account</Link></li>}
+                  {isAuthenticated && <li><a className="dropdown-item" onClick={handleLogout}>Logout</a></li>}
                   </ul>
                 </li>
               </>
@@ -65,9 +83,10 @@ const NavBar = ({ onSearch, filterCond }) => {
                     User
                   </a>
                   <ul className="dropdown-menu dropdown-menu-dark">
-                    <li><a className="dropdown-item" href="#">My account</a></li>
-                    <li><a className="dropdown-item" href="#">My cart</a></li>
-                    <li><a className="dropdown-item" href="#">Logout</a></li>
+                  {!isAuthenticated && <li><a className="dropdown-item" onClick={handleLogin}>Login</a></li>}
+                  {isAuthenticated && <li><Link to="/profile" className="dropdown-item">My Account</Link></li>}
+                  {isAuthenticated &&<li><a className="dropdown-item" href="#">My cart</a></li>}
+                  {isAuthenticated && <li><a className="dropdown-item" onClick={handleLogout}>Logout</a></li>}
                   </ul>
                 </li>
                 {/* Add other user-specific options here */}
@@ -80,8 +99,8 @@ const NavBar = ({ onSearch, filterCond }) => {
                     Invite
                   </a>
                   <ul className="dropdown-menu dropdown-menu-dark">
-                    <li><a className="dropdown-item" href="/login">Login</a></li>
-                    <li><a className="dropdown-item" href="#">Register</a></li>
+                  {!isAuthenticated && <li><a className="dropdown-item" onClick={handleLogin}>Login</a></li>}
+                  {isAuthenticated && <li><a className="dropdown-item" onClick={handleLogout}>Logout</a></li>}
                   </ul>
                 </li>
               </>
