@@ -13,10 +13,10 @@ import styles from "./landingPage.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 
+
 const LandingPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products?.data);
-
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
   };
@@ -75,7 +75,7 @@ const LandingPage = () => {
         </button>
       </div>
 
-      <Cards products={products} />
+      <Cards products={products}/>
 
       <nav aria-label="Page navigation example" style={{ marginTop: "22px" }}>
         <ul className="pagination justify-content-center">
