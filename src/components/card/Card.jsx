@@ -50,7 +50,7 @@ const Card = ({
               /* User Options */
              <>
                   <button type="button" className="btn btn-success" style={{margin:"2px"}}>
-                    <Link to={`/`} style={{textDecoration:"none", color:"black", margin:"5px"}}>Add to my cart</Link>
+                    <Link to={`/shopping`} style={{textDecoration:"none", color:"black", margin:"5px"}}>Add to my cart</Link>
                   </button>
             </>   
             ) : isUser === UserType.INVITE ? (
