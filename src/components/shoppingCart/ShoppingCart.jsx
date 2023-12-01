@@ -1,10 +1,44 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import styles from "./shoppingCart.module.css"
+import RingLoader  from "react-spinners/RingLoader";
+import axios from "axios"; // hay que hacer redux. hasta entonces, no eliminar
+import data from "../../assets/data" // Eliminar - es del carrito -
 
 export default function ShoppingCart(){
     const [cantidad, setCantidad] = useState(0);
+    
+    // Confirmation button functions -----------------------------------------------------
+    useEffect(() => {
+        return setLoading(false)
+    }, [])
+    
+    const [loading, setLoading] = useState(false);
+
+    const items = data.items.map((item)=>{
+        let sellPrice = item.priceOnSale > 0 ? item.priceOnSale : item.price;
+            return {
+                title: item.nameProd,
+                quantity: item.quantityProd,
+                unit_price: sellPrice,  
+                currency_id: "ARG",
+                picture_url: item.image,
+                description: item.description, 
+                }
+        });
+
+    const purchaseHandler = () => {
+        setLoading(!loading)
+        axios
+        .post("http://localhost:3001/payments/createOrder", {...data, items: items})
+        .then((response) => {
+            window.location.href = response.data.init_point;
+        })
+        .catch((error) => console.log(error));
+        setLoading(!loading)
+    };
+// ----------------------------------------------------------------------------------------
 
     const sumar = () => {
       setCantidad(cantidad + 1);
@@ -104,8 +138,18 @@ export default function ShoppingCart(){
                 </tbody>
             </table>
             <div className="d-grid gap-2">
-                <button className="btn btn-primary" type="button">Confirm</button>
+                <button className="btn btn-primary" type="button" onClick={purchaseHandler}>Confirm</button>
             </div>
+            {loading && <div className={styles.overlay}>
+                <RingLoader
+                color="#36d7b7"
+                loading={loading}
+                cssOverride={{}}
+                height={15}
+                radius={0}
+                width={2}
+                />
+            </div>}
         </div>
 
     );
