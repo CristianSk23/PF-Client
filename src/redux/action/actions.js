@@ -219,12 +219,28 @@ export const createUser = (email, token) => {
   }
 }
 
-export const isUser = (type) => {
-  return {
-    type: TYPEUSER,
-    payload: type
+export const typeUser = (email) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`/users/create`, 
+        { email }, {
+          headers: {
+            "Content-Type": "application/json"
+      }
+    });
+      dispatch({
+        type: TYPEUSER,
+        payload: response.data.typeUser,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
   }
 }
+
 export const cleanSearchBar=()=> {
   return {
       type: CLEANSEARCHBAR,

@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { UserType } from "../../utils/userType";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { typeUser } from "../../redux/action/actions";
 
 
 //AUMENTE EL PAGINADO A 12 PRODUCTOS POR PAGINA, MUESTRA DE A 4 O DE A 5 SEGUN LA RESOLUCION DEL MONITOR
@@ -20,10 +23,17 @@ const Card = ({
 }) => {
 
     const { isAuthenticated, loginWithRedirect } = useAuth0()
+    const dispatch = useDispatch()
     const handleLogin= async() => {
       await loginWithRedirect()
     }
-    const isUser = UserType.USER
+    const {isUser} = useSelector((state) => state)
+
+    useEffect(() => {
+        dispatch(typeUser())
+    }, [isAuthenticated, isUser, loginWithRedirect])
+
+
   return (
     <div>
       <div className="card" style={{width:"300px", height:"580px"}}>
@@ -35,7 +45,7 @@ const Card = ({
               <div className="card-footer" style={{textAlign:"center"}}>
                 <small className="text-body-secondary" style={{fontWeight:"bold"}}>${price}</small>
                 <div className="text-center" style={{marginTop:"10px"}}>
-        {isUser === UserType.ADMIN ? (
+        {isUser === "Admin" ? (
               /* Admin Options */
               <>
                   <button type="button" className="btn btn-success" style={{margin:"2px"}}>
@@ -46,14 +56,14 @@ const Card = ({
                   </button>
                   
               </>
-            ) : isUser === UserType.USER ? (
+            ) : isUser === "User" ? (
               /* User Options */
              <>
                   <button type="button" className="btn btn-success" style={{margin:"2px"}}>
                     <Link to={`/shopping`} style={{textDecoration:"none", color:"black", margin:"5px"}}>Add to my cart</Link>
                   </button>
             </>   
-            ) : isUser === UserType.INVITE ? (
+            ) : isUser === "Invited" ? (
               /* Invite Options */
              <>
             {!isAuthenticated && <button className="dropdown-item" onClick={handleLogin}>Add to my cart</button>}
