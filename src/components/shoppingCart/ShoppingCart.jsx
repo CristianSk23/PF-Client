@@ -33,6 +33,7 @@ export default function ShoppingCart(){
         axios
         .post("http://localhost:3001/payments/createOrder", {...data, items: items})
         .then((response) => {
+            console.log("Seria los datos de pago ", response);
             window.location.href = response.data.init_point;
         })
         .catch((error) => console.log(error));
