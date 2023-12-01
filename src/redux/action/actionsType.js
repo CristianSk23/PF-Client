@@ -14,6 +14,7 @@ export const ERROR = "ERROR";
 export const POPUPINITIAL = "POPUPINITIAL";
 
 export const GENERATEUSER = "GENERATEUSER"
+export const LOGOUT = 'LOGOUT'
 
 export const CLEANSINGLEPROD = "CLEANSINGLEPROD";
 export const CLEANSEARCHBAR = "CLEANSEARCHBAR";
