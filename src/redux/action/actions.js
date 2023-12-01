@@ -113,13 +113,16 @@ export const updateProduct = (product) => {
 
 export const getProductsById = (id) => {
   return async (dispatch) => {
+    console.log(id);
     try {
       const response = await axios.get(`/products/${id}`);
+      console.log(response.data);
       dispatch({
         type: GETPRODBYID,
         payload: response.data,
       });
     } catch (error) {
+      console.log(error);
       dispatch({
         type: ERROR,
         payload: error.message,

@@ -25,9 +25,11 @@ const Card = ({
     }
     const isUser = UserType.USER
   return (
+    
     <div>
       <div className="card" style={{width:"300px", height:"580px"}}>
-              <img src={image[0]} className="card-img-top" alt="product" style={{width:"100%", height:"200px", objectFit:"contain"}}/>
+      <Link to={`/detail/${productId}`} style={{ textDecoration: "none", color: "black" }}>
+              <img src={image[0]} className="card-img-top" alt="product" style={{width:"100%", height:"200px", objectFit:"contain"}}/></Link>
               <div className="card-body" style={{textAlign:"center"}}>
                 <h5 className="card-title">{nameProd}</h5>
                 <p className="card-text">{description}</p>
