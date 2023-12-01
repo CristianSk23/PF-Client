@@ -4,6 +4,7 @@ import {
   getAllProducts,
   changePage,
   getProductsByName,
+  createUser,
 } from "../../redux/action/actions";
 import NavBar from "../navBar/NavBar";
 import FilterAndOrder from "../filterAndOrder/FilterAndOrder";
@@ -12,6 +13,7 @@ import Cards from "../cards/Cards";
 import styles from "./landingPage.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
+import { useAuth0 } from "@auth0/auth0-react";
 
 
 const LandingPage = () => {
@@ -20,6 +22,28 @@ const LandingPage = () => {
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
   };
+  const [token, setToken] = useState()
+  const { isAuthenticated, user, getIdTokenClaims } = useAuth0()
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const idTokenClaims = await getIdTokenClaims();
+        const idToken = idTokenClaims?.__raw;
+        setToken(idToken);
+      } catch (error) {
+        console.error('Error fetching id token:', error);
+      }
+    };
+  
+    if (isAuthenticated) {
+      fetchToken();
+    }
+  }, [isAuthenticated])
+
+  useEffect(() => {
+    if(isAuthenticated) dispatch(createUser(user?.email, token));
+  }, [token])
 
   // obtengo los productos
   useEffect(() => {

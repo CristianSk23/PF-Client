@@ -326,7 +326,6 @@ const reducer = (state = initialState, action) => {
     case GENERATEUSER:
       return {
         ...state,
-        users: [...state.users, action.payload],
         user: action.payload
       }
 
