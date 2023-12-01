@@ -12,6 +12,8 @@ export const ORDERNAME = "ORDERNAME";
 export const FILTER = "FILTER";
 export const ERROR = "ERROR";
 export const POPUPINITIAL = "POPUPINITIAL";
+export const GENERATEUSER = "GENERATEUSER"
+export const LOGOUT = 'LOGOUT'
 export const CLEANSINGLEPROD = "CLEANSINGLEPROD";
 export const ADDTOCART = "ADDTOCART";
 export const REMOVEALLCART = "REMOVEALLCART";
@@ -21,4 +23,3 @@ export const DECREASEQUANTITY = "DECREASEQUANTITY";
 export const CLEANSEARCHBAR = "CLEANSEARCHBAR";
 export const NAMESEARCH = "NAMESEARCH";
 export const TYPEUSER = "TYPEUSER";
-

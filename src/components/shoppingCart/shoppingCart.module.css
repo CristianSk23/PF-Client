@@ -1,0 +1,22 @@
+.button{
+    border: none;
+    background: transparent;
+}
+
+.th, .td {
+    padding: 10px;
+    text-align: center;
+}
+.overlay {
+    position: fixed; /* Fixed position */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    display: flex; /* Center the loader horizontally and vertically */
+    align-items: center;
+    justify-content: center;
+  }
