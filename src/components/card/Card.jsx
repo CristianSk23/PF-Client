@@ -27,7 +27,7 @@ const Card = ({
     const handleLogin= async() => {
       await loginWithRedirect()
     }
-    const {isUser} = useSelector((state) => state)
+    const isUser = useSelector((state) => state.isUser)
 
     useEffect(() => {
         dispatch(typeUser())
