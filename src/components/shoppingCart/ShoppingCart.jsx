@@ -4,7 +4,7 @@ import { useSelector } from "react-redux/es/hooks/useSelector"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 
-export const ShoppingCart = ({}) => {
+const ShoppingCart = ({}) => {
 
  const dispatch = useDispatch();  
 
@@ -74,7 +74,7 @@ export const ShoppingCart = ({}) => {
     )}
         
     
-
+export default ShoppingCart;
   /*
 import React, {useState, useEffect} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -27,7 +27,7 @@ import {
   GENERATEUSER
 } from "../action/actionsType";
 import { faL } from "@fortawesome/free-solid-svg-icons";
-
+const URLEXAMPLE = ""
 // GET PARA TRAER PRODUCTOS, de momento se esta usando el que cree en el archivo data.js luego deberiamos de descomentar y modificar lo necesario
 export const getAllProducts = () => {
   return async (dispatch) => {
@@ -207,14 +207,17 @@ export const resetError=()=>{
     }
 
   export const addToCart = (id) => {
+    console.log("ACTION ");
     return async (dispatch) => {
       try {
-        const response = await axios.get(`${URLEXAMPLE}/products/${id}`);
+        const response = await axios.get(`products/${id}`);
+        console.log(response.data);
         dispatch({
           type: ADDTOCART,
           payload: response.data,
         })
       } catch (error) {
+        console.log(error.message);
         dispatch({
           type: ERROR,
           payload: error.message,
@@ -264,8 +267,6 @@ export const removeOneCart = (id, all=false) => {
       }
     }
   }
-
-}
 
 export const createUser = (email, token) => {
   return async (dispatch) => {
