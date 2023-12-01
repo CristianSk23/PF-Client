@@ -219,9 +219,25 @@ export const createUser = (email, token) => {
   }
 }
 
-export const typeUser = () => {
-  return {
-    type: TYPEUSER,
+export const typeUser = (email) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`/users/create`, 
+        { email }, {
+          headers: {
+            "Content-Type": "application/json"
+      }
+    });
+      dispatch({
+        type: TYPEUSER,
+        payload: response.data.typeUser,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
   }
 }
 

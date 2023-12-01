@@ -303,17 +303,16 @@ const reducer = (state = initialState, action) => {
       };
 
     case TYPEUSER:
-      if(state.user.type){
-        return {
-          ...state,
-          isUser: user.typeUser,
-        }
-      } else {
+      if(state.user && state.user.typeUser){
+      return {
+        ...state,
+        isUser: state.user.typeUser
+      }} else {
         return {
           ...state,
           isUser: "Invited"
-        }
-      };
+      }}
+
 
       case CLEANSEARCHBAR:
       return {

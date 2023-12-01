@@ -5,6 +5,7 @@ import {
   changePage,
   getProductsByName,
   createUser,
+  typeUser
 } from "../../redux/action/actions";
 import NavBar from "../navBar/NavBar";
 import FilterAndOrder from "../filterAndOrder/FilterAndOrder";
@@ -19,6 +20,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const LandingPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products?.data);
+  const {isUser} = useSelector((state) => state)
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
   };
@@ -44,6 +46,10 @@ const LandingPage = () => {
   useEffect(() => {
     if(isAuthenticated) dispatch(createUser(user?.email, token));
   }, [token])
+
+  useEffect(() => {
+    if(token) dispatch(typeUser(user?.email))
+}, [isAuthenticated, token])
 
   // obtengo los productos
   useEffect(() => {

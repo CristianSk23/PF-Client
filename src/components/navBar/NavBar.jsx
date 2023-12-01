@@ -5,12 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getProdCategories } from "../../redux/action/actions";
-import { UserType } from "../../utils/userType";
+import { typeUser } from "../../redux/action/actions";
 import { Link } from "react-router-dom";
 
 const NavBar = ({ onSearch, filterCond }) => {
   const [name, setName] = useState("");
-  const {userAuth} = useSelector(state => state)
+  const {isUser} = useSelector((state) => state)
   const dispatch = useDispatch();
   const prodCategories = useSelector((state) => state.prodCategories) || [];
 
@@ -24,8 +24,6 @@ const NavBar = ({ onSearch, filterCond }) => {
   const handleLogout = async() => {
     await logout({ logoutParams: { returnTo: window.location.origin } })
   }
-
-  const isUser = UserType.USER
 
   useEffect(() => {
     if (prodCategories.length === 0) {
@@ -59,7 +57,7 @@ const NavBar = ({ onSearch, filterCond }) => {
         </div>
         <div className="offcanvas-body">
         <ul>
-        {isUser === UserType.ADMIN ? (
+        {isUser === "Admin" ? (
               /* Admin Options */
               <>
                 <li className="nav-item dropdown">
@@ -75,7 +73,7 @@ const NavBar = ({ onSearch, filterCond }) => {
                 </li>
               </>
              
-            ) : isUser === UserType.USER ? (
+            ) : isUser === "User" ? (
               /* User Options */
               <>
                 <li className="nav-item dropdown">
@@ -91,7 +89,7 @@ const NavBar = ({ onSearch, filterCond }) => {
                 </li>
                 {/* Add other user-specific options here */}
               </>
-            ) : isUser === UserType.INVITE ? (
+            ) : isUser === "Invited" ? (
               /* Invite Options */
               <>
                 <li className="nav-item dropdown">
