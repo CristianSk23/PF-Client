@@ -1,4 +1,5 @@
 import axios from "axios";
+import {useAuth0} from "@auth0/auth0-react"
 import {
   GETALLPRODUCTS,
   GETUSERS,
@@ -18,7 +19,9 @@ import {
   CLEANSEARCHBAR, 
   NAMESEARCH,
   TYPEUSER,
+  GENERATEUSER
 } from "../action/actionsType";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 // GET PARA TRAER PRODUCTOS, de momento se esta usando el que cree en el archivo data.js luego deberiamos de descomentar y modificar lo necesario
 export const getAllProducts = () => {
@@ -194,12 +197,50 @@ export const resetError=()=>{
       }
 }
 
-export const isUser = (type) => {
-  return {
-    type: TYPEUSER,
-    payload: type
+export const createUser = (email, token) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`/users/create`, 
+        { email, token }, {
+          headers: {
+            "Content-Type": "application/json"
+      }
+    });
+      dispatch({
+        type: GENERATEUSER,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
   }
 }
+
+export const typeUser = (email) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`/users/create`, 
+        { email }, {
+          headers: {
+            "Content-Type": "application/json"
+      }
+    });
+      dispatch({
+        type: TYPEUSER,
+        payload: response.data.typeUser,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  }
+}
+
 export const cleanSearchBar=()=> {
   return {
       type: CLEANSEARCHBAR,

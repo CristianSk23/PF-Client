@@ -18,6 +18,8 @@ import {
   CLEANSEARCHBAR,
   NAMESEARCH,
   TYPEUSER,
+
+  GENERATEUSER,
 } from "../action/actionsType";
 
 const initialState = {
@@ -35,7 +37,9 @@ const initialState = {
   singleProduct: "",
   catchError: "",
   isShowPopup: true,
-  isUser: UserType.ADMIN,
+  isUser: "",
+  user: {},
+
 };
 
 const reducer = (state = initialState, action) => {
@@ -297,11 +301,19 @@ const reducer = (state = initialState, action) => {
         ...state,
         isShowPopup: action.payload,
       };
+
     case TYPEUSER:
+      if(state.user && state.user.typeUser){
       return {
         ...state,
-        isUser: action.payload,
-      };
+        isUser: state.user.typeUser
+      }} else {
+        return {
+          ...state,
+          isUser: "Invited"
+      }}
+
+
       case CLEANSEARCHBAR:
       return {
         ...state,
@@ -316,6 +328,15 @@ const reducer = (state = initialState, action) => {
         ...state, 
         nameSearch: action.payload
       }
+      
+      
+            // -------------------------------- USERS --------------------------------------- //  
+    case GENERATEUSER:
+      return {
+        ...state,
+        user: action.payload
+      }
+
     default:
       return { ...state };
   }
