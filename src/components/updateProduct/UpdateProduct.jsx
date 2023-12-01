@@ -14,6 +14,7 @@ import {
   cleanSingleProd,
 } from "../../redux/action/actions";
 import PopupGeneral from "../popupGeneral/PopupGeneral";
+import NavBar from "../navBar/NavBar";
 
 const UpdateProduct = () => {
   const dispatch = useDispatch();
@@ -197,7 +198,9 @@ const UpdateProduct = () => {
   
 
   return (
-    <div>
+    <div style={{backgroundColor: "#F8F9F9", minHeight:"900px"}}>
+      <NavBar />
+      <div style={{marginTop: "60px"}}>
       <h1 className="text-center m-5">Update Product</h1>
       <Form onSubmit={handleSubmit} className={styles.container}>
         <div className={styles.input_container}>
@@ -482,6 +485,7 @@ const UpdateProduct = () => {
           onClick={handleConfirmationClose}
         />
       )}
+    </div>
     </div>
   );
 };
