@@ -37,7 +37,7 @@ const initialState = {
   singleProduct: "",
   catchError: "",
   isShowPopup: true,
-  isUser: UserType.ADMIN,
+  isUser: "",
   user: {},
 
 };
@@ -301,11 +301,20 @@ const reducer = (state = initialState, action) => {
         ...state,
         isShowPopup: action.payload,
       };
+
     case TYPEUSER:
-      return {
-        ...state,
-        isUser: action.payload,
+      if(state.user.type){
+        return {
+          ...state,
+          isUser: user.typeUser,
+        }
+      } else {
+        return {
+          ...state,
+          isUser: "Invited"
+        }
       };
+
       case CLEANSEARCHBAR:
       return {
         ...state,

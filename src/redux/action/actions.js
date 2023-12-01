@@ -219,12 +219,12 @@ export const createUser = (email, token) => {
   }
 }
 
-export const isUser = (type) => {
+export const typeUser = () => {
   return {
     type: TYPEUSER,
-    payload: type
   }
 }
+
 export const cleanSearchBar=()=> {
   return {
       type: CLEANSEARCHBAR,
