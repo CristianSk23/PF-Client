@@ -12,6 +12,7 @@ import PopupGeneral from "../popupGeneral/PopupGeneral";
 import NavBar from "../navBar/NavBar";
 
 
+
 const CreateProduct = () => {
   const dispatch = useDispatch();
   const catchError = useSelector((state) => state.catchError);
