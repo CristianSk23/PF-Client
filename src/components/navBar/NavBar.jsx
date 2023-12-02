@@ -13,6 +13,7 @@ const NavBar = ({ onSearch, filterCond }) => {
   const isUser = useSelector((state) => state.isUser)
   const dispatch = useDispatch();
   const prodCategories = useSelector((state) => state.prodCategories) || [];
+  const isLandingPage = location.pathname === '/';
 
 
   const { logout, loginWithRedirect, isAuthenticated } = useAuth0()
@@ -39,6 +40,7 @@ const NavBar = ({ onSearch, filterCond }) => {
     <nav className="navbar navbar-dark bg-dark fixed-top">
     <div className="container-fluid">
       <a className="navbar-brand" href="/">Logo</a>
+      {isLandingPage && (
       <div className="d-flex" role="search">
           <input id="search" value={name} className="form-control me-2" type="search" placeholder="Product name..." aria-label="Search" onChange={handleChange}/>
           <button className="btn btn-outline-light" disabled={name == ""} onClick={() => onSearch(name)}>
@@ -47,6 +49,7 @@ const NavBar = ({ onSearch, filterCond }) => {
           />
           </button>
       </div>
+      )}
       <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
@@ -56,7 +59,7 @@ const NavBar = ({ onSearch, filterCond }) => {
           <button type="button" className="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div className="offcanvas-body">
-        <ul>
+        <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
         {isUser === "Admin" ? (
               /* Admin Options */
               <>
@@ -65,7 +68,7 @@ const NavBar = ({ onSearch, filterCond }) => {
                     Admin
                   </a>
                   <ul className="dropdown-menu dropdown-menu-dark">
-                  <li className="nav-item"><a className="nav-link" href="/createProduct">Create Product</a></li>
+                  <li><a className="dropdown-item" href="/createProduct">Create Product</a></li>
                   {!isAuthenticated && <li><a className="dropdown-item" onClick={handleLogin}>Login</a></li>}
                   {isAuthenticated && <li><Link to="/profile" className="dropdown-item">My Account</Link></li>}
                   {isAuthenticated && <li><a className="dropdown-item" onClick={handleLogout}>Logout</a></li>}
