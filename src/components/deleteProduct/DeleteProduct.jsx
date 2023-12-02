@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteProduct, getProductsById } from "../../redux/action/actions";
 import { useEffect, useState } from "react";
 import styles from "./deleteProduct.module.css";
+import NavBar from "../navBar/NavBar";
 
 const DeleteProduct = () => {
   const { id } = useParams();
@@ -44,10 +45,12 @@ const DeleteProduct = () => {
   };
 
   return (
-    <div className={styles.container} style={{marginTop:"25px"}}>
+    <div style={{backgroundColor: "#F8F9F9", minHeight:"700px"}}>
+      <NavBar />
+    <div className={styles.container}>
         <div className= "d-flex align-items-center justify-content-center">
-          <div className="card" style={{width: "30rem"}}>
-            <h1>Deleting Product</h1>
+          <div className="card" style={{width: "30rem", marginTop:"70px"}}>
+            <h1 className="text-center">Deleting Product</h1>
               {productLoaded && (
                 <img src={prodById?.image} className="card-img-top" alt="..."/>
               )}
@@ -72,6 +75,7 @@ const DeleteProduct = () => {
       )}
 
 
+      </div>
       </div>
   );
 };

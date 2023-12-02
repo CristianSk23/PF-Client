@@ -5,9 +5,12 @@ import styles from "./shoppingCart.module.css"
 import RingLoader  from "react-spinners/RingLoader";
 import axios from "axios"; // hay que hacer redux. hasta entonces, no eliminar
 import data from "../../assets/data" // Eliminar - es del carrito -
+import { useNavigate } from "react-router-dom";
+import NavBar from "../navBar/NavBar";
 
 export default function ShoppingCart(){
     const [cantidad, setCantidad] = useState(0);
+    const navigate = useNavigate();
     
     // Confirmation button functions -----------------------------------------------------
     useEffect(() => {
@@ -49,11 +52,18 @@ export default function ShoppingCart(){
         setCantidad(cantidad - 1);
       }
     };
+
+    const handleCancel = () => {
+        navigate(-1);
+      };
   
     return(
-        
-        <div className="container" style={{marginTop: "20px"}}>
-            <h1 style={{textAlign:"center", marginBottom:"20px"}}>Shopping Cart</h1>
+        <div style={{backgroundColor:"#F8F9F9", minHeight:"800px"}}>
+
+        <NavBar />
+
+        <div className="container" style={{marginTop: "56px"}}>
+            <h1 style={{textAlign:"center", marginBottom:"40px"}}>Shopping Cart</h1>
             <table className="table table-hover">
                 <thead>
                     <tr>
@@ -139,6 +149,7 @@ export default function ShoppingCart(){
             </table>
             <div className="d-grid gap-2">
                 <button className="btn btn-primary" type="button" onClick={purchaseHandler}>Confirm</button>
+                <button className="btn btn-danger" type="button" onClick={handleCancel}>Cancel</button>
             </div>
             {loading && <div className={styles.overlay}>
                 <RingLoader
@@ -151,6 +162,8 @@ export default function ShoppingCart(){
                 />
             </div>}
         </div>
+
+</div>
 
     );
 }

@@ -33,14 +33,15 @@ const Card = ({
 
   return (
     <div>
-      <div className="card" style={{width:"300px", height:"580px"}}>
-              <img src={image[0]} className="card-img-top" alt="product" style={{width:"100%", height:"200px", objectFit:"contain"}}/>
+      <div className="card" style={{width:"300px", height:"620px"}}>
+      <Link to={`/detail/${productId}`} style={{ textDecoration: "none", color: "black" }}>
+              <img src={image[0]} className="card-img-top" alt="product" style={{width:"100%", height:"200px", objectFit:"contain"}}/></Link>
               <div className="card-body" style={{textAlign:"center"}}>
                 <h5 className="card-title">{nameProd}</h5>
                 <p className="card-text">{description}</p>
               </div>
               <div className="card-footer" style={{textAlign:"center"}}>
-                <small className="text-body-secondary" style={{fontWeight:"bold"}}>${price}</small>
+                <small className="text-body-secondary" style={{fontWeight:"bold", fontSize:"26px"}}>${price}</small>
                 <div className="text-center" style={{marginTop:"10px"}}>
         {isUser === "Admin" ? (
               /* Admin Options */
@@ -56,15 +57,15 @@ const Card = ({
             ) : isUser === "User" ? (
               /* User Options */
              <>
-                  <button type="button" className="btn btn-success" style={{margin:"2px"}}>
-                    <Link to={`/`} style={{textDecoration:"none", color:"black", margin:"5px"}}>Add to my cart</Link>
+                  <button type="button" className="btn btn-info" style={{margin:"2px"}}>
+                    <Link to={`/shopping`} style={{textDecoration:"none", color:"black", margin:"5px"}}>Add to my cart</Link>
                   </button>
             </>   
             ) : isUser === "Invited" ? (
               /* Invite Options */
              <>
-            {!isAuthenticated && <button className="dropdown-item" onClick={handleLogin}>Add to my cart</button>}
-            {isAuthenticated && <button className="dropdown-item">Add to my cart</button>}
+            {!isAuthenticated && <button type="button" className="btn btn-secondary" onClick={handleLogin} style={{margin:"5px"}}>Add to my cart</button>}
+            {isAuthenticated && <button type="button" className="btn btn-secondary">Add to my cart</button>}
             </>
  
             ) : null}
