@@ -207,11 +207,9 @@ export const resetError=()=>{
     }
 
   export const addToCart = (id) => {
-    console.log("ACTION ");
     return async (dispatch) => {
       try {
         const response = await axios.get(`products/${id}`);
-        console.log(response.data);
         dispatch({
           type: ADDTOCART,
           payload: response.data,

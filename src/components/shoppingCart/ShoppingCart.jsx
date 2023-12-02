@@ -29,10 +29,12 @@ const ShoppingCart = ({}) => {
  const DecreaseQuantity = (productsid) => {
     dispatch(decreaseQuantity(productsid))
  }
+
+ const handleConfirmAndPay = () => {}
   
  return(
  <div>
-      
+      {products.length > 0 && (
           <table className="table">
                 <thead>
                     <tr>
@@ -48,7 +50,7 @@ const ShoppingCart = ({}) => {
                         return(
                             <tr>
                             <td><img src={item.image} style={{width:'100px',height:'80px'}}/></td>
-                            <td>{item.price} $</td>  
+                            <td>{item.price.toFixed(2)} $</td>  
                             <td>
                                     <span className="btn btn-primary" style={{margin:'2px'}} onClick={()=>DecreaseQuantity(item.id)}>-</span>
                                     <span className="btn btn-info">{item.quantity}</span>
@@ -65,10 +67,17 @@ const ShoppingCart = ({}) => {
                     <td colSpan="5">Total Carts</td>
                     <td>{totalCart} $</td>
                 </tr>
+                <tr>
+                <td colSpan="6">
+                <button className="btn btn-success" onClick={handleConfirmAndPay}>
+                Confirm and Proceed to Payment
+                </button>
+                </td>
+                </tr>
                 </tbody>
               
             </table>
-        
+      )}
     </div>
     
     )}
