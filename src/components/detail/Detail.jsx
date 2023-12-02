@@ -3,7 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useState } from "react";
+
 import { getProductsById, cleanSingleProd, addToCart } from "../../redux/action/actions";
+import NavBar from "../navBar/NavBar";
+
 
 
 const Detail = () => {
@@ -88,12 +91,13 @@ const Detail = () => {
   }, [id, productLoaded, prodById, product]);
 
   return (
-
+    <div>
+    <NavBar />
     <div style={{ backgroundColor: "#F8F9F9", minHeight: "100vh" }}>
       <div className="d-flex align-items-center justify-content-center">
         <div
           className="card mb-3"
-          style={{ width: "1080px", marginTop: "120px" }}
+          style={{ width: "1080px", marginTop: "160px" }}
         >
           <div className="row g-0">
             <div className="col-md-4">
@@ -146,6 +150,8 @@ const Detail = () => {
           </div>
         </div>
       </div>
+    </div>
+
     </div>
   );
 }

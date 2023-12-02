@@ -8,6 +8,7 @@ import ShoppingCart from "./components/shoppingCart/ShoppingCart";
 import Profile from "./components/profile/Profile";
 import Detail from "./components/detail/Detail";
 import Login from "./components/login/Login";
+import MyProfile from "./components/myProfile/myProfile";
 
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/login" element={<Login />} />
           <Route path="/detail/:id" element={<Detail />} />
+          <Route path="/myProfile" element={<MyProfile />} />
         </Route>
       </Routes>
     </div>

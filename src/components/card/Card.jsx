@@ -42,7 +42,7 @@ const dispatch = useDispatch();
   return (
     
     <div>
-      <div className="card" style={{width:"300px", height:"580px"}}>
+      <div className="card" style={{width:"300px", height:"620px"}}>
       <Link to={`/detail/${productId}`} style={{ textDecoration: "none", color: "black" }}>
               <img src={image[0]} className="card-img-top" alt="product" style={{width:"100%", height:"200px", objectFit:"contain"}}/></Link>
               <div className="card-body" style={{textAlign:"center"}}>
@@ -50,7 +50,7 @@ const dispatch = useDispatch();
                 <p className="card-text">{description}</p>
               </div>
               <div className="card-footer" style={{textAlign:"center"}}>
-                <small className="text-body-secondary" style={{fontWeight:"bold"}}>${price}</small>
+                <small className="text-body-secondary" style={{fontWeight:"bold", fontSize:"26px"}}>${price}</small>
                 <div className="text-center" style={{marginTop:"10px"}}>
         {isUser === "Admin" ? (
               /* Admin Options */
@@ -65,6 +65,7 @@ const dispatch = useDispatch();
               </>
             ) : isUser === "User" ? (
               /* User Options */
+
              <> 
               {isAuthenticated && <button type="button" className="btn btn-success" style={{margin:"2px"}} onClick={handleBuy}>
               🛒
@@ -77,7 +78,6 @@ const dispatch = useDispatch();
               {isAuthenticated && <button type="button" className="btn btn-success" style={{margin:"2px"}} onClick={handleBuy}>
               🛒
             </button>}
-
             </>
  
             ) : null}
