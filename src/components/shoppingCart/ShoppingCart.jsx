@@ -70,7 +70,7 @@ const ShoppingCart = ({}) => {
                 <tr>
                 <td colSpan="6">
                 <button className="btn btn-success" onClick={handleConfirmAndPay}>
-                Confirm and Proceed to Payment
+                Confirm and Payment
                 </button>
                 </td>
                 </tr>

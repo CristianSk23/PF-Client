@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useState } from "react";
-import { getProductsById, cleanSingleProd } from "../../redux/action/actions";
+import { getProductsById, cleanSingleProd, addToCart } from "../../redux/action/actions";
 
 
 const Detail = () => {
@@ -30,6 +30,10 @@ const Detail = () => {
     navigate(-1);
   };
 
+  const handleBuy = () => {
+    dispatch(addToCart(id));
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -37,6 +41,8 @@ const Detail = () => {
         await dispatch(getProductsById(id));
       } catch (error) {}
     };
+
+    
 
     // Call fetchData
 
@@ -119,19 +125,9 @@ const Detail = () => {
                 <h5 className="card-title">
                   <span style={{ fontWeight: "bold" }}>Price:</span> $ {product.price}
                 </h5>
-                <a
-                  className="btn btn-primary"
-                  style={{
-                    position: "absolute",
-                    bottom: 0,
-                    right: 0,
-                    margin: "10px",
-                    marginRight: "140px",
-                    width: "120px",
-                  }}
-                >
-                  Add to cart
-                </a>
+                <button type="button" className="btn btn-success" style={{margin:"2px"}} onClick={handleBuy}>
+              🛒
+              </button>
                 <a
                   onClick={handleCancel}
                   className="btn btn-light"

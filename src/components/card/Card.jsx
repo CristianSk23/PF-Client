@@ -24,10 +24,6 @@ const Card = ({
 }) => {
 const dispatch = useDispatch();
 
-  
-
-
-
     const { isAuthenticated, loginWithRedirect } = useAuth0()
 
     const isUser = useSelector((state) => state.isUser)
