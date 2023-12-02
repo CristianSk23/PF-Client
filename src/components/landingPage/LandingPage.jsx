@@ -5,7 +5,8 @@ import {
   changePage,
   getProductsByName,
   createUser,
-  typeUser
+  typeUser,
+  logOut
 } from "../../redux/action/actions";
 import NavBar from "../navBar/NavBar";
 import FilterAndOrder from "../filterAndOrder/FilterAndOrder";
@@ -20,12 +21,13 @@ import { useAuth0 } from "@auth0/auth0-react";
 const LandingPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products?.data);
+  const userAuth = useSelector((state) => state.user)
   const isUser = useSelector((state) => state.isUser)
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
   };
   const [token, setToken] = useState()
-  const { isAuthenticated, user, getIdTokenClaims } = useAuth0()
+  const { isAuthenticated, user, getIdTokenClaims, logout } = useAuth0()
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -44,12 +46,17 @@ const LandingPage = () => {
   }, [isAuthenticated])
 
   useEffect(() => {
-    if(isAuthenticated) dispatch(createUser(user?.email, token));
+    if(isAuthenticated) dispatch(createUser(user?.email, token))
   }, [token])
 
   useEffect(() => {
-    if(token) dispatch(typeUser(user?.email))
-}, [isAuthenticated, token])
+    console.log(userAuth.typeUser);
+    if(isAuthenticated) dispatch(typeUser(userAuth.typeUser));
+  }, [userAuth]);
+
+  useEffect(() => {
+    dispatch(logOut());
+}, [logout])
 
   // obtengo los productos
   useEffect(() => {

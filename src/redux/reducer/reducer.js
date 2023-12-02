@@ -20,6 +20,7 @@ import {
   TYPEUSER,
 
   GENERATEUSER,
+  LOGOUT,
 } from "../action/actionsType";
 
 const initialState = {
@@ -303,15 +304,17 @@ const reducer = (state = initialState, action) => {
       };
 
     case TYPEUSER:
-      if(state.user && state.user.typeUser){
       return {
         ...state,
-        isUser: state.user.typeUser
-      }} else {
-        return {
-          ...state,
-          isUser: "Invited"
-      }}
+        isUser: action.payload
+      }
+
+    case LOGOUT:
+      return {
+        ...state,
+        user: {},
+        isUser: "Invited"
+    }
 
 
       case CLEANSEARCHBAR:

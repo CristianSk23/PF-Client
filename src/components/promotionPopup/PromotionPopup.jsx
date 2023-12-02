@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { showThePopup } from "../../redux/action/actions";
 import { useEffect } from "react";
-import { typeUser } from "../../redux/action/actions";
+// import { typeUser } from "../../redux/action/actions";
 
 import styles from "./promotionPopup.module.css";
 import { useAuth0 } from "@auth0/auth0-react";

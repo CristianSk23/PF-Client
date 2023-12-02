@@ -5,12 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getProdCategories } from "../../redux/action/actions";
-import { typeUser } from "../../redux/action/actions";
 import { Link } from "react-router-dom";
 
 const NavBar = ({ onSearch, filterCond }) => {
   const [name, setName] = useState("");
   const isUser = useSelector((state) => state.isUser)
+  const user = useSelector((state) => state.user)
   const dispatch = useDispatch();
   const prodCategories = useSelector((state) => state.prodCategories) || [];
 
@@ -62,7 +62,7 @@ const NavBar = ({ onSearch, filterCond }) => {
               <>
                 <li className="nav-item dropdown">
                   <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Admin
+                    Hola {user.email}
                   </a>
                   <ul className="dropdown-menu dropdown-menu-dark">
                   <li className="nav-item"><a className="nav-link" href="/createProduct">Create Product</a></li>
@@ -78,7 +78,7 @@ const NavBar = ({ onSearch, filterCond }) => {
               <>
                 <li className="nav-item dropdown">
                   <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    User
+                    Hola {user.email}
                   </a>
                   <ul className="dropdown-menu dropdown-menu-dark">
                   {!isAuthenticated && <li><a className="dropdown-item" onClick={handleLogin}>Login</a></li>}
@@ -94,7 +94,7 @@ const NavBar = ({ onSearch, filterCond }) => {
               <>
                 <li className="nav-item dropdown">
                   <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Invite
+                    Guest User 
                   </a>
                   <ul className="dropdown-menu dropdown-menu-dark">
                   {!isAuthenticated && <li><a className="dropdown-item" onClick={handleLogin}>Login</a></li>}

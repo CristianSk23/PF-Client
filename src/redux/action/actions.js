@@ -19,7 +19,8 @@ import {
   CLEANSEARCHBAR, 
   NAMESEARCH,
   TYPEUSER,
-  GENERATEUSER
+  LOGOUT,
+  GENERATEUSER,
 } from "../action/actionsType";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 
@@ -222,25 +223,19 @@ export const createUser = (email, token) => {
   }
 }
 
-export const typeUser = (email) => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.post(`/users/create`, 
-        { email }, {
-          headers: {
-            "Content-Type": "application/json"
-      }
-    });
-      dispatch({
-        type: TYPEUSER,
-        payload: response.data.typeUser,
-      });
-    } catch (error) {
-      dispatch({
-        type: ERROR,
-        payload: error.message,
-      });
-    }
+export const typeUser = (typeUser) => {
+  return (dispatch) => {
+    dispatch({
+      type: TYPEUSER,
+      payload: typeUser
+    })
+  }
+}
+
+export const logOut = () => {
+  return {
+    type: LOGOUT,
+    payload: ""
   }
 }
 

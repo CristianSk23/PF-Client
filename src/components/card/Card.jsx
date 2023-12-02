@@ -3,7 +3,7 @@ import { UserType } from "../../utils/userType";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { typeUser } from "../../redux/action/actions";
+// import { typeUser } from "../../redux/action/actions";
 
 
 //AUMENTE EL PAGINADO A 12 PRODUCTOS POR PAGINA, MUESTRA DE A 4 O DE A 5 SEGUN LA RESOLUCION DEL MONITOR
@@ -29,17 +29,12 @@ const Card = ({
     }
     const isUser = useSelector((state) => state.isUser)
 
-    useEffect(() => {
-        dispatch(typeUser())
-    }, [isAuthenticated, isUser, loginWithRedirect])
 
 
   return (
-    
     <div>
       <div className="card" style={{width:"300px", height:"580px"}}>
-      <Link to={`/detail/${productId}`} style={{ textDecoration: "none", color: "black" }}>
-              <img src={image[0]} className="card-img-top" alt="product" style={{width:"100%", height:"200px", objectFit:"contain"}}/></Link>
+              <img src={image[0]} className="card-img-top" alt="product" style={{width:"100%", height:"200px", objectFit:"contain"}}/>
               <div className="card-body" style={{textAlign:"center"}}>
                 <h5 className="card-title">{nameProd}</h5>
                 <p className="card-text">{description}</p>
@@ -62,7 +57,7 @@ const Card = ({
               /* User Options */
              <>
                   <button type="button" className="btn btn-success" style={{margin:"2px"}}>
-                    <Link to={`/shopping`} style={{textDecoration:"none", color:"black", margin:"5px"}}>Add to my cart</Link>
+                    <Link to={`/`} style={{textDecoration:"none", color:"black", margin:"5px"}}>Add to my cart</Link>
                   </button>
             </>   
             ) : isUser === "Invited" ? (
