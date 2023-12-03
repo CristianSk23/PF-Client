@@ -21,6 +21,7 @@ import {
 
   GENERATEUSER,
   LOGOUT,
+  COUNTRY
 } from "../action/actionsType";
 
 const initialState = {
@@ -40,7 +41,7 @@ const initialState = {
   isShowPopup: true,
   isUser: "",
   user: {},
-
+  country: ""
 };
 
 const reducer = (state = initialState, action) => {
@@ -303,20 +304,6 @@ const reducer = (state = initialState, action) => {
         isShowPopup: action.payload,
       };
 
-    case TYPEUSER:
-      return {
-        ...state,
-        isUser: action.payload
-      }
-
-    case LOGOUT:
-      return {
-        ...state,
-        user: {},
-        isUser: "Invited"
-    }
-
-
       case CLEANSEARCHBAR:
       return {
         ...state,
@@ -340,8 +327,30 @@ const reducer = (state = initialState, action) => {
         user: action.payload
       }
 
+    case TYPEUSER:
+      return {
+        ...state,
+        isUser: action.payload
+      }
+
+    case COUNTRY:
+      return {
+        ...state,
+        country: action.payload
+      }
+
+    case LOGOUT:
+      return {
+        ...state,
+        user: {},
+        isUser: "Invited",
+        country: ""
+    }
+
     default:
       return { ...state };
   }
+
+    
 };
 export default reducer;

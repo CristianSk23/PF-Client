@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row, Col, Card, Table, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { useDispatch } from "react-redux"
 
 const MyProfile = () => {
+    const user = useSelector((state) => state.user)
+    const country = useSelector((state) => state.country)
     const navigate = useNavigate();
+    const dispatch = useDispatch()
 
     const handleCancel = () => {
         navigate(-1);
       };
-
 
     return (
         <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
@@ -27,14 +31,14 @@ const MyProfile = () => {
                     <div className="bd-example-snippet bd-code-snippet">
                         <div className="bd-example m-0 border-0">
                             <ul className="list-group list-group-flush">
-                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Name:</span> Diego</li>
-                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Last Name:</span> Contreras</li>
-                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Mail:</span> contrerasdiegof@gmail.com</li>
-                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Address:</span> San Martin 955</li>
-                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Identy Card:</span> 40123890</li>
-                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Country:</span> Argentina</li>
-                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>City:</span> Buenos Aires</li>
-                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Postal Code:</span> 1004</li>
+                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Name:</span> {user?.name ? user?.name : <i>Please update your info</i>}</li>
+                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Last Name:</span> {user?.lastName ? user?.lastName : <i>Please update your info</i>}</li>
+                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Mail:</span> {user?.email}</li>
+                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Address:</span> {user?.address ? user?.address : <i>Please update your info</i>}</li>
+                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Identy Card:</span> {user?.identityCard ? user?.identityCard : <i>Please update your info</i>}</li>
+                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Country:</span> {user?.CountryId ? country : <i>Please update your info</i>}</li>
+                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>City:</span> {user?.city ? user?.city : <i>Please update your info</i>}</li>
+                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Postal Code:</span> {user?.postalCode ? user?.postalCode : <i>Please update your info</i>}</li>
                             </ul>
                         </div>
                     </div>

@@ -6,7 +6,8 @@ import {
   getProductsByName,
   createUser,
   typeUser,
-  logOut
+  logOut,
+  getCountry 
 } from "../../redux/action/actions";
 import NavBar from "../navBar/NavBar";
 import FilterAndOrder from "../filterAndOrder/FilterAndOrder";
@@ -22,7 +23,7 @@ const LandingPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products?.data);
   const userAuth = useSelector((state) => state.user)
-  const isUser = useSelector((state) => state.isUser)
+  const [userAux, setUserAux] = useState(true)
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
   };
@@ -41,21 +42,26 @@ const LandingPage = () => {
     };
   
     if (isAuthenticated) {
-      fetchToken();
+      fetchToken(true);
     }
   }, [isAuthenticated])
 
   useEffect(() => {
-    if(isAuthenticated) dispatch(createUser(user?.email, token))
-  }, [token])
+    if(isAuthenticated) dispatch(createUser(user?.email, token))    
+  }, [user])
 
   useEffect(() => {
-    console.log(userAuth.typeUser);
     if(isAuthenticated) dispatch(typeUser(userAuth.typeUser));
   }, [userAuth]);
 
   useEffect(() => {
+    console.log(userAuth?.CountryId)
+    dispatch(getCountry(userAuth?.CountryId))
+  }, [userAuth.CountryId])
+
+  useEffect(() => {
     dispatch(logOut());
+    setUserAux(false)
 }, [logout])
 
   // obtengo los productos

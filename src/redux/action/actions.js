@@ -21,6 +21,7 @@ import {
   TYPEUSER,
   LOGOUT,
   GENERATEUSER,
+  COUNTRY,
 } from "../action/actionsType";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 
@@ -212,6 +213,23 @@ export const createUser = (email, token) => {
     });
       dispatch({
         type: GENERATEUSER,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  }
+}
+
+export const getCountry = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`country/id?id=${id}`)
+      dispatch({
+        type: COUNTRY,
         payload: response.data,
       });
     } catch (error) {
