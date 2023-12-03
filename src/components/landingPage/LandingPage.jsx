@@ -23,12 +23,21 @@ const LandingPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products?.data);
   const userAuth = useSelector((state) => state.user)
-  const [userAux, setUserAux] = useState(true)
+  const showPopup = useSelector((state) => state.isShowPopup);
+  const isUser = useSelector((state) => state.isUser)
+  const [auxUser, setAuxUser] = useState(false) 
+  const [promotionPopupVisible, setPromotionPopupVisible] = useState(false);
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
   };
   const [token, setToken] = useState()
-  const { isAuthenticated, user, getIdTokenClaims, logout } = useAuth0()
+  const { isAuthenticated, user, getIdTokenClaims, loginWithRedirect, logout } = useAuth0()
+
+  const shouldRenderPromotionPopup =
+    auxUser === false ||
+    (auxUser === true &&
+      userAuth.typeUser !== undefined &&
+      (isUser === "Invited" || isUser === "User"));
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -40,29 +49,37 @@ const LandingPage = () => {
         console.error('Error fetching id token:', error);
       }
     };
-  
+
     if (isAuthenticated) {
       fetchToken(true);
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, getIdTokenClaims]);
 
   useEffect(() => {
-    if(isAuthenticated) dispatch(createUser(user?.email, token))    
-  }, [user])
+    if (token) {
+      setAuxUser(true)
+      console.log(user?.email);
+      dispatch(createUser(user?.email, token));
+    }
+  }, [token, user]);
 
   useEffect(() => {
-    if(isAuthenticated) dispatch(typeUser(userAuth.typeUser));
+    if (userAuth?.email) {
+      console.log(userAuth.typeUser);
+      setAuxUser(true)
+      dispatch(typeUser(userAuth.typeUser));
+    }
   }, [userAuth]);
 
   useEffect(() => {
-    console.log(userAuth?.CountryId)
-    dispatch(getCountry(userAuth?.CountryId))
-  }, [userAuth.CountryId])
+    if(userAuth?.CountryId){
+    console.log(userAuth?.CountryId);
+    dispatch(getCountry(userAuth?.CountryId))};
+  }, [userAuth]);
 
   useEffect(() => {
     dispatch(logOut());
-    setUserAux(false)
-}, [logout])
+  }, [logout]);
 
   // obtengo los productos
   useEffect(() => {
@@ -90,8 +107,8 @@ const LandingPage = () => {
 
   return (
     <div className={styles.container}>
-    
-        <PromotionPopup />
+
+        {shouldRenderPromotionPopup && showPopup && <PromotionPopup />}
         <NavBar
           onSearch={onSearch}
           setFilterCond={setFilterCond}
