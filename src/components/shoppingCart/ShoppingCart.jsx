@@ -1,3 +1,92 @@
+
+import { removeOneCart, increaseQuantity, decreaseQuantity } from "../../redux/action/actions"
+import { useSelector } from "react-redux/es/hooks/useSelector"
+import { useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { Link } from 'react-router-dom';
+
+const ShoppingCart = ({}) => {
+
+ const dispatch = useDispatch();  
+
+ const products = useSelector((state) => state.cart.items)
+ 
+ useEffect(() => {
+    console.log('Carrito actualizado:', products);
+  }, [products]);
+
+  const totalCart = products.reduce((accumulator, item) => {
+    let newPrice = item.priceOnSale || item.price;
+    return accumulator + newPrice * item.quantity;
+  }, 0).toFixed(2);
+
+ const DeleteCart = (productsid) => {
+    dispatch(removeOneCart(productsid))
+ }
+
+ const IncreaseQuantity = (productsid) => {
+    dispatch(increaseQuantity(productsid))
+ }
+
+ const DecreaseQuantity = (productsid) => {
+    dispatch(decreaseQuantity(productsid))
+ }
+
+  
+ return(
+ <div>
+      {products.length > 0 && (
+          <table className="table">
+                <thead>
+                    <tr>
+                        <th>Products</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {
+                    products.map((item)=>{
+                        return(
+                            <tr>
+                            <td><img src={item.image} style={{width:'100px',height:'80px'}}/></td>
+                            <td>{item.priceOnSale?.toFixed(2) || item.price.toFixed(2)} $</td>  
+                            <td>
+                                    <span className="btn btn-primary" style={{margin:'2px'}} onClick={()=>DecreaseQuantity(item.id)}>-</span>
+                                    <span className="btn btn-info">{item.quantity}</span>
+                                    <span className="btn btn-primary" style={{margin:'2px'}} onClick={()=>IncreaseQuantity(item.id)}>+</span>
+                            </td>
+                            <td>{((item.priceOnSale?.toFixed(2) || item.price.toFixed(2))*item.quantity).toFixed(2)}$</td>
+                            <button onClick={()=>DeleteCart(item.id)}>X</button>
+                        </tr>
+                        )
+                    })
+                        
+                }
+                <tr>
+                    <td colSpan="5">Total Carts</td>
+                    <td>{totalCart} $</td>
+                </tr>
+                <tr>
+                    <td colSpan="6">
+                    {products.length > 0 && (
+                        <Link to="/paymentGateway" className="btn btn-success">
+                            Confirm and Payment
+                        </Link>
+                    )}
+                    </td>
+                </tr>
+                </tbody>    
+            </table>
+      )}
+    </div>
+    
+    )}
+        
+    
+export default ShoppingCart;
+  /*
 import React, {useState, useEffect} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -166,4 +255,5 @@ export default function ShoppingCart(){
 </div>
 
     );
-}
+}*/
+

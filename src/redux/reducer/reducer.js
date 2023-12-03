@@ -15,10 +15,15 @@ import {
   ERROR,
   POPUPINITIAL,
   CLEANSINGLEPROD,
+  ADDTOCART,
+  REMOVEALLCART,
+  REMOVEONECART,
+  INCREASEQUANTITY,
+  DECREASEQUANTITY,
   CLEANSEARCHBAR,
   NAMESEARCH,
   TYPEUSER,
-
+  UPDATEUSER,
   GENERATEUSER,
   LOGOUT,
   COUNTRY
@@ -39,6 +44,9 @@ const initialState = {
   singleProduct: "",
   catchError: "",
   isShowPopup: true,
+  cart: {
+    items: [],
+  },
   isUser: "",
   user: {},
   country: ""
@@ -77,8 +85,9 @@ const reducer = (state = initialState, action) => {
         return product.prodName !== action.payload.prodName;
       });
       return {
+        ...state,
         products: {
-          ...state,
+          ...state.products,
           allProducts: [...updatedProducts, action.payload],
         },
       };
@@ -94,8 +103,9 @@ const reducer = (state = initialState, action) => {
         return product.id != action.payload;
       });
       return {
-        product: {
-          ...state,
+        ...state,
+        products: {
+          ...state.products,
           allProducts: deletedProduct,
         },
       };
@@ -108,6 +118,10 @@ const reducer = (state = initialState, action) => {
         ...state,
         users: action.payload,
       };
+  
+    case UPDATEUSER:
+      return { ...state, 
+        user: {...state.user, ...action.payload} };
 
     //-------------------------------- ORDERS ---------------------------------------------//
 
@@ -286,6 +300,120 @@ const reducer = (state = initialState, action) => {
           productsFiltered: [],
         },
       };
+
+    case ADDTOCART:
+
+    if(action.payload.stock == 0) {
+      alert("This product is out of stock")
+      return {
+        ...state,
+      }
+    } 
+      
+    const existingItem = state.cart.items.find((item) => item.id === action.payload.id);
+
+    if (existingItem) {
+      
+      if(action.payload.stock < existingItem.quantity + 1){
+       alert("There are no more units available for this product") 
+      
+      return {
+        ...state,
+      }}
+
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          items: state.cart.items.map((item) =>
+            item.id === existingItem.id ? { ...item, quantity: item.quantity + 1 } : item
+          ),
+        },
+      };
+    } else {
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          items: [{ ...action.payload, quantity: 1 }, ...state.cart.items],
+        },
+      };
+    }
+
+    case REMOVEONECART: 
+
+      let filteredItems = state.cart.items.filter(
+        (product) =>
+          product.id !== action.payload
+      );
+
+      return{
+          ...state,
+          cart: {
+            ...state.cart,
+            items: filteredItems, 
+          }
+          }
+    
+    case INCREASEQUANTITY:
+
+    let itemToCheck = state.cart.items.find((item) => item.id === action.payload);
+
+    if(itemToCheck.stock < itemToCheck.quantity + 1) {
+
+      alert("There are no more units available for this product") 
+      
+      return {
+        ...state,
+      }
+      
+    }
+
+    return {
+      ...state,
+      cart: {
+        ...state.cart,
+        items: state.cart.items.map((item) =>
+          item.id === action.payload ? { ...item, quantity: item.quantity + 1 } : item
+        ),
+      },
+    };
+
+    case DECREASEQUANTITY:
+
+    let itemToDec = (state.cart.items.find((item) => item.id === action.payload));
+    console.log(itemToDec.quantity)
+
+    if(itemToDec.quantity<=1) {
+
+        let filteredItemsDEC = state.cart.items.filter(
+          (product) =>
+            product.id !== action.payload
+        );
+  
+        return{
+            ...state,
+            cart: {
+              ...state.cart,
+              items: filteredItemsDEC, 
+            }
+            }
+      }
+    
+     else {
+
+    return {
+      ...state,
+      cart: {
+        ...state.cart,
+        items: state.cart.items.map((item) =>
+          item.id === action.payload ? { ...item, quantity: item.quantity - 1 } : item
+        ),
+      },
+    };
+    };
+
+
 
     case GETPRODUCTBYNAME:
       return {
