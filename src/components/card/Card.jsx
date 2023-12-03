@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
-import { UserType } from "../../utils/userType";
-import { useAuth0 } from "@auth0/auth0-react";
+import styles from "./card.module.css";
 import { useDispatch, useSelector } from "react-redux";
+import { UserType } from "../../utils/userType";
+import { typeUser, addToCart} from "../../redux/action/actions";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
-import { typeUser } from "../../redux/action/actions";
 
 
 //AUMENTE EL PAGINADO A 12 PRODUCTOS POR PAGINA, MUESTRA DE A 4 O DE A 5 SEGUN LA RESOLUCION DEL MONITOR
@@ -21,23 +22,27 @@ const Card = ({
   tags,
   stock,
 }) => {
+const dispatch = useDispatch();
 
     const { isAuthenticated, loginWithRedirect } = useAuth0()
-    const dispatch = useDispatch()
+
+    const isUser = useSelector((state) => state.isUser)
     const handleLogin= async() => {
       await loginWithRedirect()
     }
-    const isUser = useSelector((state) => state.isUser)
+    const handleBuy = () => {
+       dispatch(addToCart(productId));
+     };
+
 
     useEffect(() => {
         dispatch(typeUser())
     }, [isAuthenticated, isUser, loginWithRedirect])
 
-
   return (
     
     <div>
-      <div className="card" style={{width:"300px", height:"580px"}}>
+      <div className="card" style={{width:"300px", height:"620px"}}>
       <Link to={`/detail/${productId}`} style={{ textDecoration: "none", color: "black" }}>
               <img src={image[0]} className="card-img-top" alt="product" style={{width:"100%", height:"200px", objectFit:"contain"}}/></Link>
               <div className="card-body" style={{textAlign:"center"}}>
@@ -45,7 +50,7 @@ const Card = ({
                 <p className="card-text">{description}</p>
               </div>
               <div className="card-footer" style={{textAlign:"center"}}>
-                <small className="text-body-secondary" style={{fontWeight:"bold"}}>${price}</small>
+                <small className="text-body-secondary" style={{fontWeight:"bold", fontSize:"26px"}}>${price}</small>
                 <div className="text-center" style={{marginTop:"10px"}}>
         {isUser === "Admin" ? (
               /* Admin Options */
@@ -60,22 +65,25 @@ const Card = ({
               </>
             ) : isUser === "User" ? (
               /* User Options */
-             <>
-                  <button type="button" className="btn btn-success" style={{margin:"2px"}}>
-                    <Link to={`/shopping`} style={{textDecoration:"none", color:"black", margin:"5px"}}>Add to my cart</Link>
-                  </button>
+
+             <> 
+              {isAuthenticated && <button type="button" className="btn btn-success" style={{margin:"2px"}} onClick={handleBuy}>
+              🛒
+              </button>}
             </>   
             ) : isUser === "Invited" ? (
               /* Invite Options */
              <>
-            {!isAuthenticated && <button className="dropdown-item" onClick={handleLogin}>Add to my cart</button>}
-            {isAuthenticated && <button className="dropdown-item">Add to my cart</button>}
+              {!isAuthenticated && <button className="dropdown-item" onClick={handleLogin}>Add to my cart</button>}
+              {isAuthenticated && <button type="button" className="btn btn-success" style={{margin:"2px"}} onClick={handleBuy}>
+              🛒
+            </button>}
             </>
  
             ) : null}
          
-    </div>
-    </div>
+                  </div>
+                </div>
               </div>
           </div> 
   );

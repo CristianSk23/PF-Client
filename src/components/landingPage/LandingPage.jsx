@@ -14,7 +14,9 @@ import Cards from "../cards/Cards";
 import styles from "./landingPage.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
+import ShoppingCart from "../shoppingCart/ShoppingCart";
 import { useAuth0 } from "@auth0/auth0-react";
+
 
 
 const LandingPage = () => {
@@ -110,6 +112,8 @@ const LandingPage = () => {
       </div>
 
       <Cards products={products}/>
+
+      <ShoppingCart products={products}/>
 
       <nav aria-label="Page navigation example" style={{ marginTop: "22px" }}>
         <ul className="pagination justify-content-center">
