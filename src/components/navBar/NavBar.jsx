@@ -6,7 +6,6 @@ import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getProdCategories } from "../../redux/action/actions";
 import { typeUser } from "../../redux/action/actions";
-import { Link, NavLink } from "react-router-dom";
 
 const NavBar = ({ onSearch, filterCond }) => {
   const [name, setName] = useState("");
