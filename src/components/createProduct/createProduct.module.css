@@ -48,3 +48,23 @@
     margin-top: 15px;
     margin-right: 6px;
 }
+.buttonContainer {
+    text-align: center;
+  }
+  
+  .customButton {
+    background-color: #9ea1a2;
+    color: #ffffff;
+    margin: 15px;
+    padding: 10px 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+  
+    &:hover {
+      background-color: #6a6c6d;
+    }
+  }
+  
