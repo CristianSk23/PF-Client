@@ -24,10 +24,28 @@ import {
   CLEANSEARCHBAR, 
   NAMESEARCH,
   TYPEUSER,
-  GENERATEUSER
+  GENERATEUSER,
+  UPDATEUSER
 } from "../action/actionsType";
-import { faL } from "@fortawesome/free-solid-svg-icons";
-const URLEXAMPLE = ""
+
+
+export const updateUser = (user) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(`/users`, user);
+      dispatch({
+        type: UPDATEUSER,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
 // GET PARA TRAER PRODUCTOS, de momento se esta usando el que cree en el archivo data.js luego deberiamos de descomentar y modificar lo necesario
 export const getAllProducts = () => {
   return async (dispatch) => {

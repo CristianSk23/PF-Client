@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteProduct, getProductsById } from "../../redux/action/actions";
+import { cleanSingleProd, deleteProduct, getProductsById } from "../../redux/action/actions";
 import { useEffect, useState } from "react";
 import styles from "./deleteProduct.module.css";
 import NavBar from "../navBar/NavBar";
@@ -23,6 +23,7 @@ const DeleteProduct = () => {
       }
     };
     fetchData();
+    return ()=> dispatch(cleanSingleProd())
   }, [id]);
 
   const handleDelete = async () => {
