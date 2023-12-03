@@ -6,7 +6,7 @@ import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getProdCategories } from "../../redux/action/actions";
 import { typeUser } from "../../redux/action/actions";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const NavBar = ({ onSearch, filterCond }) => {
   const [name, setName] = useState("");
@@ -64,13 +64,13 @@ const NavBar = ({ onSearch, filterCond }) => {
               /* Admin Options */
               <>
                 <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <a className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Admin
                   </a>
                   <ul className="dropdown-menu dropdown-menu-dark">
                   <li><a className="dropdown-item" href="/createProduct">Create Product</a></li>
                   {!isAuthenticated && <li><a className="dropdown-item" onClick={handleLogin}>Login</a></li>}
-                  {isAuthenticated && <li><Link to="/profile" className="dropdown-item">My Account</Link></li>}
+                  {isAuthenticated && <li><a href="/profile" className="dropdown-item" >My Account</a></li>}
                   {isAuthenticated && <li><a className="dropdown-item" onClick={handleLogout}>Logout</a></li>}
                   </ul>
                 </li>
@@ -80,13 +80,13 @@ const NavBar = ({ onSearch, filterCond }) => {
               /* User Options */
               <>
                 <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <a className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     User
                   </a>
                   <ul className="dropdown-menu dropdown-menu-dark">
                   {!isAuthenticated && <li><a className="dropdown-item" onClick={handleLogin}>Login</a></li>}
-                  {isAuthenticated && <li><Link to="/profile" className="dropdown-item">My Account</Link></li>}
-                  {isAuthenticated && <li><Link to="/shopping" className="dropdown-item">My Cart</Link></li>}
+                  {isAuthenticated && <li><a href="/profile" className="dropdown-item">My Account</a></li>}
+                  {isAuthenticated && <li><a href="/shopping" className="dropdown-item">My Cart</a></li>}
                   {isAuthenticated && <li><a className="dropdown-item" onClick={handleLogout}>Logout</a></li>}
                   </ul>
                 </li>
@@ -96,7 +96,7 @@ const NavBar = ({ onSearch, filterCond }) => {
               /* Invite Options */
               <>
                 <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <a className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Invite
                   </a>
                   <ul className="dropdown-menu dropdown-menu-dark">

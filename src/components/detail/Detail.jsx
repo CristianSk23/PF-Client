@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
 import { getProductsById, cleanSingleProd, addToCart } from "../../redux/action/actions";
 import NavBar from "../navBar/NavBar";
@@ -129,9 +131,20 @@ const Detail = () => {
                 <h5 className="card-title">
                   <span style={{ fontWeight: "bold" }}>Price:</span> $ {product.price}
                 </h5>
-                <button type="button" className="btn btn-success" style={{margin:"2px"}} onClick={handleBuy}>
-              🛒
-              </button>
+              <a
+                  className="btn btn-success"
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    right: 0,
+                    margin: "10px",
+                    marginRight: "140px",
+                    width: "120px",
+                  }}
+                  onClick={handleBuy}
+                >
+                  <FontAwesomeIcon icon={faCartShopping} />
+                </a>
                 <a
                   onClick={handleCancel}
                   className="btn btn-light"

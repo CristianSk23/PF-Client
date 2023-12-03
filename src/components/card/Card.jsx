@@ -5,7 +5,8 @@ import { UserType } from "../../utils/userType";
 import { typeUser, addToCart} from "../../redux/action/actions";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
 //AUMENTE EL PAGINADO A 12 PRODUCTOS POR PAGINA, MUESTRA DE A 4 O DE A 5 SEGUN LA RESOLUCION DEL MONITOR
 const Card = ({
@@ -68,15 +69,15 @@ const dispatch = useDispatch();
 
              <> 
               {isAuthenticated && <button type="button" className="btn btn-success" style={{margin:"2px"}} onClick={handleBuy}>
-              🛒
+              <FontAwesomeIcon icon={faCartShopping} />
               </button>}
             </>   
             ) : isUser === "Invited" ? (
               /* Invite Options */
              <>
-              {!isAuthenticated && <button className="dropdown-item" onClick={handleLogin}>Add to my cart</button>}
+              {!isAuthenticated && <button className="btn btn-secondary" onClick={handleLogin} style={{margin:"2px"}}><FontAwesomeIcon icon={faCartShopping} /></button>}
               {isAuthenticated && <button type="button" className="btn btn-success" style={{margin:"2px"}} onClick={handleBuy}>
-              🛒
+              <FontAwesomeIcon icon={faCartShopping} />
             </button>}
             </>
  
