@@ -53,7 +53,6 @@ const PaymentGateway=()=>{
               currency_id: "ARG",
               picture_url: item.image[0],
               description: item.description, 
-              quantity: item.quantity
               }
       });
 
@@ -118,7 +117,7 @@ const PaymentGateway=()=>{
               </h4>
               <ul className="list-group mb-3">
                 {cart.items.map((item,index)=>{
-                  let sellPrice = item.priceOnSale > 0 ? item.priceOnSale.toFixed(2) : item.price.toFixed(2);
+                  let sellPrice = item.priceOnSale > 0 ? item.priceOnSale?.toFixed(2) : item.price?.toFixed(2);
                   cart.totalPrice += sellPrice*item.quantity;
                   return (
                   <li className="list-group-item d-flex justify-content-between lh-sm" key={index}>

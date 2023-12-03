@@ -51,13 +51,13 @@ const ShoppingCart = ({}) => {
                         return(
                             <tr>
                             <td><img src={item.image} style={{width:'100px',height:'80px'}}/></td>
-                            <td>{item.priceOnSale.toFixed(2) || item.price.toFixed(2)} $</td>  
+                            <td>{item.priceOnSale?.toFixed(2) || item.price.toFixed(2)} $</td>  
                             <td>
                                     <span className="btn btn-primary" style={{margin:'2px'}} onClick={()=>DecreaseQuantity(item.id)}>-</span>
                                     <span className="btn btn-info">{item.quantity}</span>
                                     <span className="btn btn-primary" style={{margin:'2px'}} onClick={()=>IncreaseQuantity(item.id)}>+</span>
                             </td>
-                            <td>{((item.priceOnSale.toFixed(2) || item.price.toFixed(2))*item.quantity).toFixed(2)}$</td>
+                            <td>{((item.priceOnSale?.toFixed(2) || item.price.toFixed(2))*item.quantity).toFixed(2)}$</td>
                             <button onClick={()=>DeleteCart(item.id)}>X</button>
                         </tr>
                         )
