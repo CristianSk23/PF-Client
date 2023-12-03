@@ -3,6 +3,7 @@ import { removeOneCart, increaseQuantity, decreaseQuantity } from "../../redux/a
 import { useSelector } from "react-redux/es/hooks/useSelector"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
+import { Link } from 'react-router-dom';
 
 const ShoppingCart = ({}) => {
 
@@ -15,7 +16,8 @@ const ShoppingCart = ({}) => {
   }, [products]);
 
   const totalCart = products.reduce((accumulator, item) => {
-    return accumulator + item.price * item.quantity;
+    let newPrice = item.priceOnSale || item.price;
+    return accumulator + newPrice * item.quantity;
   }, 0).toFixed(2);
 
  const DeleteCart = (productsid) => {
@@ -30,7 +32,6 @@ const ShoppingCart = ({}) => {
     dispatch(decreaseQuantity(productsid))
  }
 
- const handleConfirmAndPay = () => {}
   
  return(
  <div>
@@ -50,13 +51,13 @@ const ShoppingCart = ({}) => {
                         return(
                             <tr>
                             <td><img src={item.image} style={{width:'100px',height:'80px'}}/></td>
-                            <td>{item.price.toFixed(2)} $</td>  
+                            <td>{item.priceOnSale?.toFixed(2) || item.price.toFixed(2)} $</td>  
                             <td>
                                     <span className="btn btn-primary" style={{margin:'2px'}} onClick={()=>DecreaseQuantity(item.id)}>-</span>
                                     <span className="btn btn-info">{item.quantity}</span>
                                     <span className="btn btn-primary" style={{margin:'2px'}} onClick={()=>IncreaseQuantity(item.id)}>+</span>
                             </td>
-                            <td>{(item.price*item.quantity).toFixed(2)}$</td>
+                            <td>{((item.priceOnSale?.toFixed(2) || item.price.toFixed(2))*item.quantity).toFixed(2)}$</td>
                             <button onClick={()=>DeleteCart(item.id)}>X</button>
                         </tr>
                         )
@@ -68,14 +69,15 @@ const ShoppingCart = ({}) => {
                     <td>{totalCart} $</td>
                 </tr>
                 <tr>
-                <td colSpan="6">
-                <button className="btn btn-success" onClick={handleConfirmAndPay}>
-                Confirm and Payment
-                </button>
-                </td>
+                    <td colSpan="6">
+                    {products.length > 0 && (
+                        <Link to="/paymentGateway" className="btn btn-success">
+                            Confirm and Payment
+                        </Link>
+                    )}
+                    </td>
                 </tr>
-                </tbody>
-              
+                </tbody>    
             </table>
       )}
     </div>
