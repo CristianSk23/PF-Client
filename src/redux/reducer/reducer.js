@@ -23,8 +23,8 @@ import {
   CLEANSEARCHBAR,
   NAMESEARCH,
   TYPEUSER,
-
-  GENERATEUSER,
+  UPDATEUSER,
+  GENERATEUSER
 } from "../action/actionsType";
 
 const initialState = {
@@ -82,8 +82,9 @@ const reducer = (state = initialState, action) => {
         return product.prodName !== action.payload.prodName;
       });
       return {
+        ...state,
         products: {
-          ...state,
+          ...state.products,
           allProducts: [...updatedProducts, action.payload],
         },
       };
@@ -99,8 +100,9 @@ const reducer = (state = initialState, action) => {
         return product.id != action.payload;
       });
       return {
-        product: {
-          ...state,
+        ...state,
+        products: {
+          ...state.products,
           allProducts: deletedProduct,
         },
       };
@@ -113,6 +115,10 @@ const reducer = (state = initialState, action) => {
         ...state,
         users: action.payload,
       };
+  
+    case UPDATEUSER:
+      return { ...state, 
+        user: {...state.user, ...action.payload} };
 
     //-------------------------------- ORDERS ---------------------------------------------//
 
