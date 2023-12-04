@@ -71,10 +71,6 @@ const LandingPage = () => {
           aux={aux}
         />
 
-        {/*<SideBar />
-        <p>Filters</p>
-        <DropdownMenu /> Comento estos componentes ya que hice unos nuevos*/}
-
 <FilterAndOrder
           setFilterCond={setFilterCond}
           filterCond={filterCond}
@@ -124,4 +120,3 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-
