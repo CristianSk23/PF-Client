@@ -90,12 +90,6 @@ const LandingPage = () => {
     }
   }, [userAuth.typeUser]);
 
-  useEffect(() => {
-    if (user) {
-      console.log(false);
-      setShouldRenderPromotionPopup(false);
-    }
-  }, [loginWithRedirect]);
 
   // obtengo los productos
   useEffect(() => {
@@ -125,7 +119,7 @@ const LandingPage = () => {
     <div className={styles.container}>
 
       
-        <PromotionPopup />
+       {shouldRenderPromotionPopup && <PromotionPopup />}
       
 
         <NavBar
