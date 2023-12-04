@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
-import { UserType } from "../../utils/userType";
-import { useAuth0 } from "@auth0/auth0-react";
+import styles from "./card.module.css";
 import { useDispatch, useSelector } from "react-redux";
+import { UserType } from "../../utils/userType";
+import { typeUser, addToCart} from "../../redux/action/actions";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
-import { typeUser } from "../../redux/action/actions";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
 //AUMENTE EL PAGINADO A 12 PRODUCTOS POR PAGINA, MUESTRA DE A 4 O DE A 5 SEGUN LA RESOLUCION DEL MONITOR
 const Card = ({
@@ -21,21 +23,20 @@ const Card = ({
   tags,
   stock,
 }) => {
+const dispatch = useDispatch();
 
     const { isAuthenticated, loginWithRedirect } = useAuth0()
-    const dispatch = useDispatch()
+
+    const isUser = useSelector((state) => state.isUser)
     const handleLogin= async() => {
       await loginWithRedirect()
     }
-    const isUser = useSelector((state) => state.isUser)
-
-    useEffect(() => {
-        dispatch(typeUser())
-    }, [isAuthenticated, isUser, loginWithRedirect])
+    const handleBuy = () => {
+       dispatch(addToCart(productId));
+     };
 
 
   return (
-    
     <div>
       <div className="card" style={{width:"300px", height:"620px"}}>
       <Link to={`/detail/${productId}`} style={{ textDecoration: "none", color: "black" }}>
@@ -60,22 +61,25 @@ const Card = ({
               </>
             ) : isUser === "User" ? (
               /* User Options */
-             <>
-                  <button type="button" className="btn btn-info" style={{margin:"2px"}}>
-                    <Link to={`/shopping`} style={{textDecoration:"none", color:"black", margin:"5px"}}>Add to my cart</Link>
-                  </button>
+
+             <> 
+              {isAuthenticated && <button type="button" className="btn btn-success" style={{margin:"2px"}} onClick={handleBuy}>
+              <FontAwesomeIcon icon={faCartShopping} />
+              </button>}
             </>   
             ) : isUser === "Invited" ? (
               /* Invite Options */
              <>
-            {!isAuthenticated && <button type="button" className="btn btn-secondary" onClick={handleLogin} style={{margin:"5px"}}>Add to my cart</button>}
-            {isAuthenticated && <button type="button" className="btn btn-secondary">Add to my cart</button>}
+              {!isAuthenticated && <button className="btn btn-secondary" onClick={handleLogin} style={{margin:"2px"}}><FontAwesomeIcon icon={faCartShopping} /></button>}
+              {isAuthenticated && <button type="button" className="btn btn-success" style={{margin:"2px"}} onClick={handleBuy}>
+              <FontAwesomeIcon icon={faCartShopping} />
+            </button>}
             </>
  
             ) : null}
          
-    </div>
-    </div>
+                  </div>
+                </div>
               </div>
           </div> 
   );

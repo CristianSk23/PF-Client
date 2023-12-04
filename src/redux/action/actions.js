@@ -16,12 +16,37 @@ import {
   ERROR,
   POPUPINITIAL,
   CLEANSINGLEPROD,
+  ADDTOCART,
+  REMOVEALLCART,
+  REMOVEONECART,
+  INCREASEQUANTITY,
+  DECREASEQUANTITY,
   CLEANSEARCHBAR, 
   NAMESEARCH,
   TYPEUSER,
-  GENERATEUSER
+  LOGOUT,
+  GENERATEUSER,
+  UPDATEUSER,
+  COUNTRY,
 } from "../action/actionsType";
-import { faL } from "@fortawesome/free-solid-svg-icons";
+
+
+export const updateUser = (user) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(`/users`, user);
+      dispatch({
+        type: UPDATEUSER,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
 
 // GET PARA TRAER PRODUCTOS, de momento se esta usando el que cree en el archivo data.js luego deberiamos de descomentar y modificar lo necesario
 export const getAllProducts = () => {
@@ -198,7 +223,68 @@ export const resetError=()=>{
       type: ERROR, 
       payload: ''
       }
-}
+
+    }
+
+  export const addToCart = (id) => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get(`products/${id}`);
+        dispatch({
+          type: ADDTOCART,
+          payload: response.data,
+        })
+      } catch (error) {
+        console.log(error.message);
+        dispatch({
+          type: ERROR,
+          payload: error.message,
+        });
+      }
+    };
+};
+
+export const removeOneCart = (id, all=false) => {
+  return async (dispatch) => {
+  try {
+  dispatch({type: REMOVEONECART, payload: id
+  })} 
+  catch (error) {
+  dispatch({
+    type: ERROR,
+    payload: error.message,
+  });
+  }
+  }
+  }
+
+  export const increaseQuantity = (id) => {
+    return async (dispatch) => {
+      try{
+        dispatch({type: INCREASEQUANTITY, payload: id})
+      }
+      catch(error) {
+        dispatch({
+          type: ERROR,
+          payload: error.message,
+        })
+      }
+    }
+  }
+
+  export const decreaseQuantity = (id) => {
+    return async (dispatch) => {
+      try{
+        dispatch({type: DECREASEQUANTITY, payload: id})
+      }
+      catch(error) {
+        dispatch({
+          type: ERROR,
+          payload: error.message,
+        })
+      }
+    }
+  }
 
 export const createUser = (email, token) => {
   return async (dispatch) => {
@@ -222,18 +308,13 @@ export const createUser = (email, token) => {
   }
 }
 
-export const typeUser = (email) => {
+export const getCountry = (id) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`/users/create`, 
-        { email }, {
-          headers: {
-            "Content-Type": "application/json"
-      }
-    });
+      const response = await axios.get(`country/id?id=${id}`)
       dispatch({
-        type: TYPEUSER,
-        payload: response.data.typeUser,
+        type: COUNTRY,
+        payload: response.data,
       });
     } catch (error) {
       dispatch({
@@ -241,6 +322,22 @@ export const typeUser = (email) => {
         payload: error.message,
       });
     }
+  }
+}
+
+export const typeUser = (typeUser) => {
+  return (dispatch) => {
+    dispatch({
+      type: TYPEUSER,
+      payload: typeUser
+    })
+  }
+}
+
+export const logOut = () => {
+  return {
+    type: LOGOUT,
+    payload: ""
   }
 }
 
@@ -257,3 +354,4 @@ export const setNameSearch = (nameSearch)=>{
     payload: nameSearch
   }
 }
+

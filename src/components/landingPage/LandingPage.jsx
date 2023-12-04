@@ -5,7 +5,9 @@ import {
   changePage,
   getProductsByName,
   createUser,
-  typeUser
+  typeUser,
+  logOut,
+  getCountry 
 } from "../../redux/action/actions";
 import NavBar from "../navBar/NavBar";
 import FilterAndOrder from "../filterAndOrder/FilterAndOrder";
@@ -17,15 +19,26 @@ import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import { useAuth0 } from "@auth0/auth0-react";
 
 
+
 const LandingPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products?.data);
+  const userAuth = useSelector((state) => state.user)
+  const showPopup = useSelector((state) => state.isShowPopup);
   const isUser = useSelector((state) => state.isUser)
+  const [auxUser, setAuxUser] = useState(false) 
+  const [promotionPopupVisible, setPromotionPopupVisible] = useState(false);
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
   };
   const [token, setToken] = useState()
-  const { isAuthenticated, user, getIdTokenClaims } = useAuth0()
+  const { isAuthenticated, user, getIdTokenClaims, loginWithRedirect, logout } = useAuth0()
+
+  const shouldRenderPromotionPopup =
+    auxUser === false ||
+    (auxUser === true &&
+      userAuth.typeUser !== undefined &&
+      (isUser === "Invited" || isUser === "User"));
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -37,19 +50,37 @@ const LandingPage = () => {
         console.error('Error fetching id token:', error);
       }
     };
-  
+
     if (isAuthenticated) {
-      fetchToken();
+      fetchToken(true);
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, getIdTokenClaims]);
 
   useEffect(() => {
-    if(isAuthenticated) dispatch(createUser(user?.email, token));
-  }, [token])
+    if (token) {
+      setAuxUser(true)
+      console.log(user?.email);
+      dispatch(createUser(user?.email, token));
+    }
+  }, [token, user]);
 
   useEffect(() => {
-    if(token) dispatch(typeUser(user?.email))
-}, [isAuthenticated, token])
+    if (userAuth?.email) {
+      console.log(userAuth.typeUser);
+      setAuxUser(true)
+      dispatch(typeUser(userAuth.typeUser));
+    }
+  }, [userAuth]);
+
+  useEffect(() => {
+    if(userAuth?.CountryId){
+    console.log(userAuth?.CountryId);
+    dispatch(getCountry(userAuth?.CountryId))};
+  }, [userAuth]);
+
+  useEffect(() => {
+    dispatch(logOut());
+  }, [logout]);
 
   // obtengo los productos
   useEffect(() => {
@@ -77,8 +108,8 @@ const LandingPage = () => {
 
   return (
     <div className={styles.container}>
-    
-        <PromotionPopup />
+
+        {shouldRenderPromotionPopup && showPopup && <PromotionPopup />}
         <NavBar
           onSearch={onSearch}
           setFilterCond={setFilterCond}
@@ -86,10 +117,6 @@ const LandingPage = () => {
           setAux={setAux}
           aux={aux}
         />
-
-        {/*<SideBar />
-        <p>Filters</p>
-        <DropdownMenu /> Comento estos componentes ya que hice unos nuevos*/}
 
 <FilterAndOrder
           setFilterCond={setFilterCond}
@@ -140,4 +167,3 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-

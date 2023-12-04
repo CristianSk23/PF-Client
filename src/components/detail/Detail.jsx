@@ -3,8 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useState } from "react";
-import { getProductsById, cleanSingleProd } from "../../redux/action/actions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+
+import { getProductsById, cleanSingleProd, addToCart } from "../../redux/action/actions";
 import NavBar from "../navBar/NavBar";
+
 
 
 const Detail = () => {
@@ -31,6 +35,10 @@ const Detail = () => {
     navigate(-1);
   };
 
+  const handleBuy = () => {
+    dispatch(addToCart(id));
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,6 +46,8 @@ const Detail = () => {
         await dispatch(getProductsById(id));
       } catch (error) {}
     };
+
+    
 
     // Call fetchData
 
@@ -121,8 +131,8 @@ const Detail = () => {
                 <h5 className="card-title">
                   <span style={{ fontWeight: "bold" }}>Price:</span> $ {product.price}
                 </h5>
-                <a
-                  className="btn btn-primary"
+              <a
+                  className="btn btn-success"
                   style={{
                     position: "absolute",
                     bottom: 0,
@@ -131,8 +141,9 @@ const Detail = () => {
                     marginRight: "140px",
                     width: "120px",
                   }}
+                  onClick={handleBuy}
                 >
-                  Add to cart
+                  <FontAwesomeIcon icon={faCartShopping} />
                 </a>
                 <a
                   onClick={handleCancel}
