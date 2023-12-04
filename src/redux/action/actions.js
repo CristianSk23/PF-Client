@@ -335,9 +335,11 @@ export const typeUser = (typeUser) => {
 }
 
 export const logOut = () => {
-  return {
+  return (dispatch) => {
+    dispatch({
     type: LOGOUT,
     payload: ""
+    })
   }
 }
 

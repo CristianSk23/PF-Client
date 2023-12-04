@@ -14,6 +14,7 @@ const PromotionPopup = () => {
   const showPopup = useSelector((state) => state.isShowPopup);
   const [currentImage, setCurrentImage] = useState(0); // para el slider, cambiar por la libreria que se use
   const isUser = useSelector((state) => state.isUser)
+  const typeUser = useSelector((state) => state.user.typeUser)
 
   const closetPopup = () => {
     dispatch(showThePopup(false));
@@ -34,10 +35,13 @@ const PromotionPopup = () => {
     "https://static.eldiario.es/clip/d210311d-65b7-4359-ae7a-11bf2ef96f22_16-9-discover-aspect-ratio_default_0.jpg",
   ];
 
+
   //SI VAMOS A TRAER IMAGENES Y PROMOCIONES REALES MAPEAR DENTRO DEL DIV QUE TIENE EL CLASSNAME "carousel-item" Y SI VAN A SER MAS DE 3 IMAGENES DEBEMOS 
   //MANEJAR LOS BOTONES DE LA CLASE "carousel-indicators"
 
-  return (isUser === "Invited" || isUser === "User") && showPopup && ( <div className={styles.popup}>
+  return (!typeUser || isUser === "Invited" || isUser === "User") &&
+  typeUser === isUser &&
+  showPopup && ( <div className={styles.popup}>
     <div className={styles["poput-content"]}>
       <div id="carouselExampleDark" className={`carousel carousel-dark slide ${styles["carousel-fade"]}`} data-bs-ride="carousel" data-bs-interval="5000" data-bs-pause="hover">
         <button type="button" className={`btn-close ${styles["close-button"]}`} aria-label="Close" onClick={closetPopup}></button>
