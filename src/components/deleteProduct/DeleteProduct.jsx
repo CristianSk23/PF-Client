@@ -1,9 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteProduct, getProductsById } from "../../redux/action/actions";
+import { cleanSingleProd, deleteProduct, getProductsById } from "../../redux/action/actions";
 import { useEffect, useState } from "react";
 import styles from "./deleteProduct.module.css";
 import NavBar from "../navBar/NavBar";
+import PopupGeneral from "../popupGeneral/PopupGeneral";
 
 const DeleteProduct = () => {
   const { id } = useParams();
@@ -23,6 +24,7 @@ const DeleteProduct = () => {
       }
     };
     fetchData();
+    return ()=> dispatch(cleanSingleProd())
   }, [id]);
 
   const handleDelete = async () => {
@@ -65,13 +67,11 @@ const DeleteProduct = () => {
         </div>
       </div>
       {showConfirmation && (
-        <div className={styles.confirmationModalContainer}>
-          <div className={styles.confirmationModalBackdrop}></div>
-          <div className={styles.confirmationModal}>
-            <p>Product successfully removed</p>
-            <button onClick={handleConfirmationClose}>Go home</button>
-          </div>
-        </div>
+        <PopupGeneral
+          textButton="Go home"
+          descripcion="Product successfully removed"
+          onClick={handleConfirmationClose}
+        />
       )}
 
 
@@ -81,3 +81,5 @@ const DeleteProduct = () => {
 };
 
 export default DeleteProduct;
+
+//Product successfully removed

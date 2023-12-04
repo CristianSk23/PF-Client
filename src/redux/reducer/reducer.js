@@ -23,8 +23,10 @@ import {
   CLEANSEARCHBAR,
   NAMESEARCH,
   TYPEUSER,
-
+  UPDATEUSER,
   GENERATEUSER,
+  LOGOUT,
+  COUNTRY
 } from "../action/actionsType";
 
 const initialState = {
@@ -45,8 +47,9 @@ const initialState = {
   cart: {
     items: [],
   },
-  isUser: "",
+  isUser: "Invited",
   user: {},
+  country: ""
 };
 
 const reducer = (state = initialState, action) => {
@@ -82,8 +85,9 @@ const reducer = (state = initialState, action) => {
         return product.prodName !== action.payload.prodName;
       });
       return {
+        ...state,
         products: {
-          ...state,
+          ...state.products,
           allProducts: [...updatedProducts, action.payload],
         },
       };
@@ -99,8 +103,9 @@ const reducer = (state = initialState, action) => {
         return product.id != action.payload;
       });
       return {
-        product: {
-          ...state,
+        ...state,
+        products: {
+          ...state.products,
           allProducts: deletedProduct,
         },
       };
@@ -113,6 +118,10 @@ const reducer = (state = initialState, action) => {
         ...state,
         users: action.payload,
       };
+  
+    case UPDATEUSER:
+      return { ...state, 
+        user: {...state.user, ...action.payload} };
 
     //-------------------------------- ORDERS ---------------------------------------------//
 
@@ -423,18 +432,6 @@ const reducer = (state = initialState, action) => {
         isShowPopup: action.payload,
       };
 
-    case TYPEUSER:
-      if(state.user && state.user.typeUser){
-      return {
-        ...state,
-        isUser: state.user.typeUser
-      }} else {
-        return {
-          ...state,
-          isUser: "Invited"
-      }}
-
-
       case CLEANSEARCHBAR:
       return {
         ...state,
@@ -458,8 +455,30 @@ const reducer = (state = initialState, action) => {
         user: action.payload
       }
 
+    case TYPEUSER:
+      return {
+        ...state,
+        isUser: action.payload
+      }
+
+    case COUNTRY:
+      return {
+        ...state,
+        country: action.payload
+      }
+
+    case LOGOUT:
+      return {
+        ...state,
+        user: {typeUser: "Invited"},
+        isUser: "Invited",
+        country: ""
+    }
+
     default:
       return { ...state };
   }
+
+    
 };
 export default reducer;
