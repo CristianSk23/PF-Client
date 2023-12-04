@@ -8,7 +8,6 @@ import { getProdCategories, logOut } from "../../redux/action/actions";
 
 const NavBar = ({ onSearch, filterCond }) => {
   const [name, setName] = useState("");
-  const [clean, setClean] = useState(true)
   const isUser = useSelector((state) => state.isUser)
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch();
@@ -24,8 +23,8 @@ const NavBar = ({ onSearch, filterCond }) => {
 
   const handleLogout = async() => {
     try {
-      dispatch(logOut())
       await logout({ logoutParams: { returnTo: window.location.origin } })
+      dispatch(logOut())
     } catch (error) {
       console.error('Error during logout:', error);
     }

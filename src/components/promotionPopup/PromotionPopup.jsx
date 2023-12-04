@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { showThePopup } from "../../redux/action/actions";
-import { useEffect } from "react";
-import { typeUser } from "../../redux/action/actions";
 
 import styles from "./promotionPopup.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -10,7 +8,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const PromotionPopup = () => {
   const dispatch = useDispatch();
 
-  const {isAuthenticated} = useAuth0()
+  const {isAuthenticated, isLoading} = useAuth0()
   const showPopup = useSelector((state) => state.isShowPopup);
   const [currentImage, setCurrentImage] = useState(0); // para el slider, cambiar por la libreria que se use
   const isUser = useSelector((state) => state.isUser)
@@ -36,12 +34,15 @@ const PromotionPopup = () => {
   ];
 
 
+
   //SI VAMOS A TRAER IMAGENES Y PROMOCIONES REALES MAPEAR DENTRO DEL DIV QUE TIENE EL CLASSNAME "carousel-item" Y SI VAN A SER MAS DE 3 IMAGENES DEBEMOS 
   //MANEJAR LOS BOTONES DE LA CLASE "carousel-indicators"
+  if (
+    !isLoading && (!isAuthenticated || typeUser === isUser) && (isUser === "Invited" || isUser === "User") &&
+    showPopup
+  )
 
-  return (!typeUser || isUser === "Invited" || isUser === "User") &&
-  typeUser === isUser &&
-  showPopup && ( <div className={styles.popup}>
+  return ( <div className={styles.popup}>
     <div className={styles["poput-content"]}>
       <div id="carouselExampleDark" className={`carousel carousel-dark slide ${styles["carousel-fade"]}`} data-bs-ride="carousel" data-bs-interval="5000" data-bs-pause="hover">
         <button type="button" className={`btn-close ${styles["close-button"]}`} aria-label="Close" onClick={closetPopup}></button>
