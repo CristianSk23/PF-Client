@@ -46,6 +46,7 @@ const Profile = () => {
       <div>
         <h2>{user?.name}</h2>
         <h3>{user?.email}</h3>
+        <h4>{userInSession?.typeUser}</h4>
       <p>{userInSession?.email}</p>
       <br/>
       <br/>

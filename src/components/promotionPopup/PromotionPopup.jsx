@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { showThePopup } from "../../redux/action/actions";
 import { useEffect } from "react";
-import { typeUser } from "../../redux/action/actions";
+// import { typeUser } from "../../redux/action/actions";
 
 import styles from "./promotionPopup.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -11,9 +11,7 @@ const PromotionPopup = () => {
   const dispatch = useDispatch();
 
   const {isAuthenticated} = useAuth0()
-  const showPopup = useSelector((state) => state.isShowPopup);
   const [currentImage, setCurrentImage] = useState(0); // para el slider, cambiar por la libreria que se use
-  const isUser = useSelector((state) => state.isUser)
 
   const closetPopup = () => {
     dispatch(showThePopup(false));
@@ -34,7 +32,7 @@ const PromotionPopup = () => {
     "https://static.eldiario.es/clip/d210311d-65b7-4359-ae7a-11bf2ef96f22_16-9-discover-aspect-ratio_default_0.jpg",
   ];
 
-  return (isUser === "Invited" || isUser === "User") && showPopup && ( <div className={styles.popup}>
+  return (<div className={styles.popup}>
         <div className={styles["poput-content"]}>
           <div className="card" style={{position:"relative", overflow:"hidden", }}>
             <img src={images[currentImage]} alt={`Imagen ${currentImage + 1}`} className="card-img-top" style={{width:"350px"}}/>
