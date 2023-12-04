@@ -16,33 +16,25 @@ import Cards from "../cards/Cards";
 import styles from "./landingPage.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
-import ShoppingCart from "../shoppingCart/ShoppingCart";
 import { useAuth0 } from "@auth0/auth0-react";
-
 
 
 const LandingPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products?.data);
   const userAuth = useSelector((state) => state.user)
-  const showPopup = useSelector((state) => state.isShowPopup);
   const isUser = useSelector((state) => state.isUser)
-  const [auxUser, setAuxUser] = useState(false) 
-  const [promotionPopupVisible, setPromotionPopupVisible] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
+  const [shouldRenderPromotionPopup, setShouldRenderPromotionPopup] = useState(false);
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
   };
   const [token, setToken] = useState()
-  const { isAuthenticated, user, getIdTokenClaims, loginWithRedirect, logout } = useAuth0()
-
-  const shouldRenderPromotionPopup =
-    auxUser === false ||
-    (auxUser === true &&
-      userAuth.typeUser !== undefined &&
-      (isUser === "Invited" || isUser === "User"));
+  const { isAuthenticated, user, getIdTokenClaims, logout, loginWithRedirect } = useAuth0()
 
   useEffect(() => {
-    const fetchToken = async () => {
+    const fetchUserInformation = async () => {
       try {
         const idTokenClaims = await getIdTokenClaims();
         const idToken = idTokenClaims?.__raw;
@@ -53,35 +45,57 @@ const LandingPage = () => {
     };
 
     if (isAuthenticated) {
-      fetchToken(true);
+      fetchUserInformation();
     }
   }, [isAuthenticated, getIdTokenClaims]);
 
   useEffect(() => {
+    const fetchUser = async () => {
+      if (token) {
+        console.log(user?.email);
+        await dispatch(createUser(user?.email, token));
+      }
+    };
+
     if (token) {
-      setAuxUser(true)
-      console.log(user?.email);
-      dispatch(createUser(user?.email, token));
+      fetchUser();
     }
   }, [token, user]);
 
   useEffect(() => {
     if (userAuth?.email) {
       console.log(userAuth.typeUser);
-      setAuxUser(true)
       dispatch(typeUser(userAuth.typeUser));
+
+    }
+    if (!userAuth.typeUser) {
+      console.log(true);
+      setShouldRenderPromotionPopup(true);
+    }
+
+    setIsLoading(false); // Mark user information as loaded
+  }, [userAuth]);
+
+  useEffect(() => {
+    if (userAuth?.CountryId) {
+      console.log(userAuth?.CountryId);
+      dispatch(getCountry(userAuth?.CountryId));
     }
   }, [userAuth]);
 
-  useEffect(() => {
-    if(userAuth?.CountryId){
-    console.log(userAuth?.CountryId);
-    dispatch(getCountry(userAuth?.CountryId))};
-  }, [userAuth]);
 
   useEffect(() => {
-    dispatch(logOut());
-  }, [logout]);
+    if (userAuth?.typeUser === "Admin") {
+      setShouldRenderPromotionPopup(false);
+    }
+  }, [userAuth.typeUser]);
+
+  useEffect(() => {
+    if (user) {
+      console.log(false);
+      setShouldRenderPromotionPopup(false);
+    }
+  }, [loginWithRedirect]);
 
   // obtengo los productos
   useEffect(() => {
@@ -110,7 +124,10 @@ const LandingPage = () => {
   return (
     <div className={styles.container}>
 
-        {shouldRenderPromotionPopup && showPopup && <PromotionPopup />}
+      
+        <PromotionPopup />
+      
+
         <NavBar
           onSearch={onSearch}
           setFilterCond={setFilterCond}
@@ -142,8 +159,6 @@ const LandingPage = () => {
       </div>
 
       <Cards products={products}/>
-
-      <ShoppingCart products={products}/>
 
       <nav aria-label="Page navigation example" style={{ marginTop: "22px" }}>
         <ul className="pagination justify-content-center">

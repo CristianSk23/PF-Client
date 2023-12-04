@@ -4,11 +4,12 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { getProdCategories } from "../../redux/action/actions";
+import { getProdCategories, logOut } from "../../redux/action/actions";
 import { Link } from "react-router-dom";
 
 const NavBar = ({ onSearch, filterCond }) => {
   const [name, setName] = useState("");
+  const [clean, setClean] = useState(true)
   const isUser = useSelector((state) => state.isUser)
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch();
@@ -23,7 +24,12 @@ const NavBar = ({ onSearch, filterCond }) => {
   }
 
   const handleLogout = async() => {
-    await logout({ logoutParams: { returnTo: window.location.origin } })
+    try {
+      dispatch(logOut())
+      await logout({ logoutParams: { returnTo: window.location.origin } })
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
   }
 
   useEffect(() => {
