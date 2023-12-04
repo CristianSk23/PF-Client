@@ -75,7 +75,7 @@ const NavBar = ({ onSearch, filterCond }) => {
                   <ul className="dropdown-menu dropdown-menu-dark">
                   <li><a className="dropdown-item" href="/createProduct">Create Product</a></li>
                   {!isAuthenticated && <li><a className="dropdown-item" onClick={handleLogin}>Login</a></li>}
-                  {isAuthenticated && <li><a href="/profile" className="dropdown-item" >My Account</a></li>}
+                  {isAuthenticated && <li><a href="/myProfile" className="dropdown-item" >My Account</a></li>}
 
                   {isAuthenticated && <li><a className="dropdown-item" onClick={handleLogout}>Logout</a></li>}
                   </ul>
@@ -91,7 +91,7 @@ const NavBar = ({ onSearch, filterCond }) => {
                   </a>
                   <ul className="dropdown-menu dropdown-menu-dark">
                   {!isAuthenticated && <li><a className="dropdown-item" onClick={handleLogin}>Login</a></li>}
-                  {isAuthenticated && <li><a href="/profile" className="dropdown-item">My Account</a></li>}
+                  {isAuthenticated && <li><a href="/myProfile" className="dropdown-item">My Account</a></li>}
                   {isAuthenticated && <li><a href="/shopping" className="dropdown-item">My Cart</a></li>}
                   {isAuthenticated && <li><a className="dropdown-item" onClick={handleLogout}>Logout</a></li>}
                   </ul>
