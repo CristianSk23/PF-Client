@@ -36,12 +36,7 @@ const dispatch = useDispatch();
      };
 
 
-    useEffect(() => {
-        dispatch(typeUser())
-    }, [isAuthenticated, isUser, loginWithRedirect])
-
   return (
-    
     <div>
       <div className="card" style={{width:"300px", height:"620px"}}>
       <Link to={`/detail/${productId}`} style={{ textDecoration: "none", color: "black" }}>
