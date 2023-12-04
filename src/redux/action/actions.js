@@ -24,8 +24,10 @@ import {
   CLEANSEARCHBAR, 
   NAMESEARCH,
   TYPEUSER,
+  LOGOUT,
   GENERATEUSER,
-  UPDATEUSER
+  UPDATEUSER,
+  COUNTRY,
 } from "../action/actionsType";
 
 
@@ -306,18 +308,13 @@ export const createUser = (email, token) => {
   }
 }
 
-export const typeUser = (email) => {
+export const getCountry = (id) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`/users/create`, 
-        { email }, {
-          headers: {
-            "Content-Type": "application/json"
-      }
-    });
+      const response = await axios.get(`country/id?id=${id}`)
       dispatch({
-        type: TYPEUSER,
-        payload: response.data.typeUser,
+        type: COUNTRY,
+        payload: response.data,
       });
     } catch (error) {
       dispatch({
@@ -325,6 +322,24 @@ export const typeUser = (email) => {
         payload: error.message,
       });
     }
+  }
+}
+
+export const typeUser = (typeUser) => {
+  return (dispatch) => {
+    dispatch({
+      type: TYPEUSER,
+      payload: typeUser
+    })
+  }
+}
+
+export const logOut = () => {
+  return (dispatch) => {
+    dispatch({
+    type: LOGOUT,
+    payload: ""
+    })
   }
 }
 

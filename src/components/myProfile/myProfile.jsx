@@ -1,16 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Table, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { useDispatch } from "react-redux"
+import { createUser, getCountry } from '../../redux/action/actions';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const MyProfile = () => {
+    const { user, getIdTokenClaims, isAuthenticated } = useAuth0()
+    const [token, setToken] = useState("")
+    const isuser = useSelector((state) => state.user)
+    const country = useSelector((state) => state.country)
     const navigate = useNavigate();
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        const fetchUserInformation = async () => {
+          try {
+            const idTokenClaims = await getIdTokenClaims();
+            const idToken = idTokenClaims?.__raw;
+            setToken(idToken);
+          } catch (error) {
+            console.error('Error fetching id token:', error);
+          }
+        };
+    
+        if (isAuthenticated) {
+          fetchUserInformation();
+        }
+      }, [isAuthenticated, getIdTokenClaims]);
+
+    useEffect(() => {
+        dispatch(createUser(user?.email, token))
+    }, [user])
+
+    useEffect(() => {
+        if (isuser?.CountryId) {
+          console.log(isuser?.CountryId);
+          dispatch(getCountry(isuser?.CountryId));
+        }
+      }, [isuser]);
 
     const handleCancel = () => {
         navigate(-1);
       };
-
 
     return (
         <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
@@ -27,14 +62,14 @@ const MyProfile = () => {
                     <div className="bd-example-snippet bd-code-snippet">
                         <div className="bd-example m-0 border-0">
                             <ul className="list-group list-group-flush">
-                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Name:</span> Diego</li>
-                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Last Name:</span> Contreras</li>
-                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Mail:</span> contrerasdiegof@gmail.com</li>
-                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Address:</span> San Martin 955</li>
-                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Identy Card:</span> 40123890</li>
-                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Country:</span> Argentina</li>
-                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>City:</span> Buenos Aires</li>
-                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Postal Code:</span> 1004</li>
+                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Name:</span> {isuser?.name ? isuser?.name : <i>Please update your info</i>}</li>
+                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Last Name:</span> {isuser?.lastName ? isuser?.lastName : <i>Please update your info</i>}</li>
+                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Mail:</span> {isuser?.email}</li>
+                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Address:</span> {isuser?.address ? isuser?.address : <i>Please update your info</i>}</li>
+                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Identy Card:</span> {isuser?.identityCard ? isuser?.identityCard : <i>Please update your info</i>}</li>
+                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Country:</span> {isuser?.CountryId ? country : <i>Please update your info</i>}</li>
+                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>City:</span> {isuser?.city ? isuser?.city : <i>Please update your info</i>}</li>
+                                <li className="list-group-item"><span style={{ fontWeight: 'bold' }}>Postal Code:</span> {isuser?.postalCode ? isuser?.postalCode : <i>Please update your info</i>}</li>
                             </ul>
                         </div>
                     </div>

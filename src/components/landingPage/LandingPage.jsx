@@ -5,7 +5,9 @@ import {
   changePage,
   getProductsByName,
   createUser,
-  typeUser
+  typeUser,
+  logOut,
+  getCountry 
 } from "../../redux/action/actions";
 import NavBar from "../navBar/NavBar";
 import FilterAndOrder from "../filterAndOrder/FilterAndOrder";
@@ -14,23 +16,25 @@ import Cards from "../cards/Cards";
 import styles from "./landingPage.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
-import ShoppingCart from "../shoppingCart/ShoppingCart";
 import { useAuth0 } from "@auth0/auth0-react";
-
 
 
 const LandingPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products?.data);
+  const userAuth = useSelector((state) => state.user)
   const isUser = useSelector((state) => state.isUser)
+  const [isLoggingOut, setIsLoggingOut] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
+  const [shouldRenderPromotionPopup, setShouldRenderPromotionPopup] = useState(false);
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
   };
   const [token, setToken] = useState()
-  const { isAuthenticated, user, getIdTokenClaims } = useAuth0()
+  const { isAuthenticated, user, getIdTokenClaims, logout, loginWithRedirect } = useAuth0()
 
   useEffect(() => {
-    const fetchToken = async () => {
+    const fetchUserInformation = async () => {
       try {
         const idTokenClaims = await getIdTokenClaims();
         const idToken = idTokenClaims?.__raw;
@@ -39,19 +43,53 @@ const LandingPage = () => {
         console.error('Error fetching id token:', error);
       }
     };
-  
+
     if (isAuthenticated) {
-      fetchToken();
+      fetchUserInformation();
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, getIdTokenClaims]);
 
   useEffect(() => {
-    if(isAuthenticated) dispatch(createUser(user?.email, token));
-  }, [token])
+    const fetchUser = async () => {
+      if (token) {
+        console.log(user?.email);
+        await dispatch(createUser(user?.email, token));
+      }
+    };
+
+    if (token) {
+      fetchUser();
+    }
+  }, [token, user]);
 
   useEffect(() => {
-    if(token) dispatch(typeUser(user?.email))
-}, [isAuthenticated, token])
+    if (userAuth?.email) {
+      console.log(userAuth.typeUser);
+      dispatch(typeUser(userAuth.typeUser));
+
+    }
+    if (!userAuth.typeUser) {
+      console.log(true);
+      setShouldRenderPromotionPopup(true);
+    }
+
+    setIsLoading(false); // Mark user information as loaded
+  }, [userAuth]);
+
+  useEffect(() => {
+    if (userAuth?.CountryId) {
+      console.log(userAuth?.CountryId);
+      dispatch(getCountry(userAuth?.CountryId));
+    }
+  }, [userAuth]);
+
+
+  useEffect(() => {
+    if (userAuth?.typeUser === "Admin") {
+      setShouldRenderPromotionPopup(false);
+    }
+  }, [userAuth.typeUser]);
+
 
   // obtengo los productos
   useEffect(() => {
@@ -79,8 +117,11 @@ const LandingPage = () => {
 
   return (
     <div className={styles.container}>
-    
-        <PromotionPopup />
+
+      
+       {shouldRenderPromotionPopup && <PromotionPopup />}
+      
+
         <NavBar
           onSearch={onSearch}
           setFilterCond={setFilterCond}
@@ -88,10 +129,6 @@ const LandingPage = () => {
           setAux={setAux}
           aux={aux}
         />
-
-        {/*<SideBar />
-        <p>Filters</p>
-        <DropdownMenu /> Comento estos componentes ya que hice unos nuevos*/}
 
 <FilterAndOrder
           setFilterCond={setFilterCond}
@@ -112,8 +149,6 @@ const LandingPage = () => {
       </div>
 
       <Cards products={products}/>
-
-      <ShoppingCart products={products}/>
 
       <nav aria-label="Page navigation example" style={{ marginTop: "22px" }}>
         <ul className="pagination justify-content-center">
@@ -144,4 +179,3 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-
