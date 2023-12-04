@@ -4,44 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import { useDispatch } from "react-redux"
-import { createUser, getCountry } from '../../redux/action/actions';
-import { useAuth0 } from '@auth0/auth0-react';
 
 const MyProfile = () => {
-    const { user, getIdTokenClaims, isAuthenticated } = useAuth0()
-    const [token, setToken] = useState("")
     const isuser = useSelector((state) => state.user)
     const country = useSelector((state) => state.country)
     const navigate = useNavigate();
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        const fetchUserInformation = async () => {
-          try {
-            const idTokenClaims = await getIdTokenClaims();
-            const idToken = idTokenClaims?.__raw;
-            setToken(idToken);
-          } catch (error) {
-            console.error('Error fetching id token:', error);
-          }
-        };
-    
-        if (isAuthenticated) {
-          fetchUserInformation();
-        }
-      }, [isAuthenticated, getIdTokenClaims]);
-
-    useEffect(() => {
-        dispatch(createUser(user?.email, token))
-    }, [user])
-
-    useEffect(() => {
-        if (isuser?.CountryId) {
-          console.log(isuser?.CountryId);
-          dispatch(getCountry(isuser?.CountryId));
-        }
-      }, [isuser]);
 
     const handleCancel = () => {
         navigate(-1);

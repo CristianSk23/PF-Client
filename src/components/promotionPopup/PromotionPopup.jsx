@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { showThePopup } from "../../redux/action/actions";
-import { useEffect } from "react";
-// import { typeUser } from "../../redux/action/actions";
 
 import styles from "./promotionPopup.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -10,7 +8,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const PromotionPopup = () => {
   const dispatch = useDispatch();
 
-  const {isAuthenticated, user} = useAuth0()
+  const {isAuthenticated, isLoading} = useAuth0()
   const showPopup = useSelector((state) => state.isShowPopup);
   const [currentImage, setCurrentImage] = useState(0); // para el slider, cambiar por la libreria que se use
   const isUser = useSelector((state) => state.isUser)
@@ -36,8 +34,7 @@ const PromotionPopup = () => {
   ];
 
   if (
-    (!typeUser || isUser === "Invited" || isUser === "User") &&
-    typeUser === isUser &&
+    !isLoading && (!isAuthenticated || typeUser === isUser) && (isUser === "Invited" || isUser === "User") &&
     showPopup
   )
 
