@@ -47,7 +47,7 @@ const initialState = {
   cart: {
     items: [],
   },
-  isUser: "",
+  isUser: "Invited",
   user: {},
   country: ""
 };
@@ -470,7 +470,7 @@ const reducer = (state = initialState, action) => {
     case LOGOUT:
       return {
         ...state,
-        user: {},
+        user: {typeUser: "Invited"},
         isUser: "Invited",
         country: ""
     }
