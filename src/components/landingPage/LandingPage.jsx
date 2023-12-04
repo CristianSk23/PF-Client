@@ -143,8 +143,6 @@ const LandingPage = () => {
 
       <Cards products={products}/>
 
-      <ShoppingCart products={products}/>
-
       <nav aria-label="Page navigation example" style={{ marginTop: "22px" }}>
         <ul className="pagination justify-content-center">
           <li className="page-item">
