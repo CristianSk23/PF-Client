@@ -121,7 +121,7 @@ const ShoppingCart = ({}) => {
             </thead>
             <tbody>
                 <tr>
-                <td align="center" colSpan="6"><strong>Carrito vacio...</strong></td>
+                <td align="center" colSpan="6"><strong>Empty shopping cart...</strong></td>
                 </tr>
             </tbody>
         </table>

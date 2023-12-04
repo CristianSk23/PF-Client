@@ -103,15 +103,33 @@ const Detail = () => {
         >
           <div className="row g-0">
             <div className="col-md-4">
-            {product.image.map((imageUrl, index) => (
-        <img
-          key={index}
-          src={imageUrl}
-          className="img-fluid rounded-start"
-          alt={`product-${index}`}
-          style={{ width: "100%", height: "230px", objectFit: "contain" }}
-        />
-      ))}
+              <div id="carouselExampleDark" className="carousel carousel-dark slide">
+                <div className="carousel-inner">
+                  {product.image.map((imageUrl, index) => (
+                  <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`} data-bs-interval="2000">
+                  <img
+                    src={imageUrl}
+                    className="d-block w-100"
+                    alt={`product-${index}`}
+                    style={{ width: "100%", height: "230px", objectFit: "contain" }}
+                  />
+                  </div>
+                ))}
+              </div>
+              {product.image.length > 1 && (
+                <>
+                  <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span className="visually-hidden">Previous</span>
+                  </button>
+                  <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span className="visually-hidden">Next</span>
+                  </button>
+                </>
+              )}
+                </div>
+                
             </div>
             <div className="col-md-8">
               <div className="card-body">
