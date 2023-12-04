@@ -214,6 +214,12 @@ export const resetError=()=>{
           type: ADDTOCART,
           payload: response.data,
         })
+        const responseUser = await axios.get(``)
+        const responseCart = await axios.post("cart/", {
+          "productId": "b525f9ec-33c8-43e0-9eb2-88aca761f099",
+          "UserId": 2,
+          "quantityProd":1
+        })
       } catch (error) {
         console.log(error.message);
         dispatch({
