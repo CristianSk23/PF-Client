@@ -13,7 +13,6 @@ import PaymentGateway from "./components/paymentGateway/PaymentGateway";
 import PaymentStatus from "./components/paymentStatus/PaymentStatus";
 
 
-
 const App = () => {
 
   return (

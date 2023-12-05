@@ -34,7 +34,7 @@ const PaymentGateway=()=>{
 
   useEffect(() => {
     return ()=> setLoading(false)
-  }, [userInSession]);   
+  }, []);   
 
   const handleChange = (event) =>{
     setUserInfo({
