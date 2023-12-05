@@ -9,7 +9,6 @@ const MyProfile = () => {
     const isuser = useSelector((state) => state.user)
     const country = useSelector((state) => state.country)
     const navigate = useNavigate();
-
     const handleCancel = () => {
         navigate(-1);
       };

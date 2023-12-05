@@ -28,11 +28,14 @@ const dispatch = useDispatch();
     const { isAuthenticated, loginWithRedirect } = useAuth0()
 
     const isUser = useSelector((state) => state.isUser)
+    const userID = useSelector((state) => state.user.id)
+    const quantityPROD = useSelector((state) => state.cart.items?.quantity ?? 1)
+    
     const handleLogin= async() => {
       await loginWithRedirect()
     }
-    const handleBuy = () => {
-       dispatch(addToCart(productId));
+    const handleBuy = (quantityPROD) => {
+       dispatch(addToCart(productId, userID, quantityPROD));
      };
 
 
@@ -63,7 +66,7 @@ const dispatch = useDispatch();
               /* User Options */
 
              <> 
-              {isAuthenticated && <button type="button" className="btn btn-success" style={{margin:"2px"}} onClick={handleBuy}>
+              {isAuthenticated && <button type="button" className="btn btn-success" style={{margin:"2px"}} onClick={handleBuy(quantityPROD)}>
               <FontAwesomeIcon icon={faCartShopping} />
               </button>}
             </>   

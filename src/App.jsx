@@ -45,7 +45,6 @@ const App = () => {
   useEffect(() => {
     const fetchUser = async () => {
       if (token) {
-        console.log(user?.email);
         await dispatch(createUser(user?.email, token));
       }
     };
@@ -57,7 +56,6 @@ const App = () => {
 
   useEffect(() => {
     if (userAuth?.email) {
-      console.log(userAuth.typeUser);
       dispatch(typeUser(userAuth.typeUser));
 
     }

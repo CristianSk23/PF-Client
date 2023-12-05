@@ -226,20 +226,22 @@ export const resetError=()=>{
 
     }
 
-  export const addToCart = (id) => {
+  export const addToCart = (id, userID, quantityPROD) => {
     return async (dispatch) => {
       try {
         const response = await axios.get(`products/${id}`);
+        console.log(quantityPROD)
         dispatch({
           type: ADDTOCART,
           payload: response.data,
-        })
-        const responseUser = await axios.get(``)
+        }) 
+        console.log(response)
         const responseCart = await axios.post("cart/", {
-          "productId": "b525f9ec-33c8-43e0-9eb2-88aca761f099",
-          "UserId": 2,
-          "quantityProd":1
-        })
+         "productId": id,
+         "UserId": userID,
+         "quantityProd": quantityPROD
+         })
+         console.log(responseCart)
       } catch (error) {
         console.log(error.message);
         dispatch({
