@@ -1,11 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-
 import {
   getProductsById,
   cleanSingleProd,
@@ -32,6 +29,7 @@ const Detail = () => {
     stock: 0,
     priceOnSale: 0,
   });
+
   const handleCancel = () => {
     navigate(-1);
   };
@@ -43,12 +41,9 @@ const Detail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch data
         await dispatch(getProductsById(id));
       } catch (error) {}
     };
-
-    // Call fetchData
 
     fetchData();
 
@@ -72,8 +67,6 @@ const Detail = () => {
   }, [dispatch, id]);
 
   useEffect(() => {
-    // Access the state (prodById) after the data is fetched
-
     if (id && !productLoaded && prodById?.nameProd) {
       setProduct({
         name: prodById.nameProd || "",
@@ -90,59 +83,73 @@ const Detail = () => {
       });
       setProductLoaded(true);
     }
-    // return setProductLoaded(false)
   }, [id, productLoaded, prodById, product]);
 
   return (
     <div>
-    <NavBar />
-    <div style={{ backgroundColor: "#F8F9F9", minHeight: "100vh" }}>
-      <div className="d-flex align-items-center justify-content-center">
-        <div
-          className="card mb-3"
-          style={{ width: "1080px", marginTop: "160px" }}
-        >
-          <div className="row g-0">
-            <div className="col-md-4">
-            <div id="carouselExampleDark" className="carousel carousel-dark slide">
-                <div className="carousel-inner">
-                  {product.image.map((imageUrl, index) => (
-                  <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`} data-bs-interval="2000">
-                  <img
-                    src={imageUrl}
-                    className="d-block w-100"
-                    alt={`product-${index}`}
-                    style={{ width: "100%", height: "230px", objectFit: "contain" }}
-                  />
+      <NavBar />
+      <div style={{ backgroundColor: "#F8F9F9", minHeight: "100vh" }}>
+        <div className="d-flex align-items-center justify-content-center">
+          <div
+            className="card mb-3"
+            style={{ width: "1080px", marginTop: "160px" }}
+          >
+            <div className="row g-0">
+              <div className="col-md-4">
+                <div
+                  id="carouselExampleDark"
+                  className="carousel carousel-dark slide"
+                >
+                  <div className="carousel-inner">
+                    {product.image.map((imageUrl, index) => (
+                      <div
+                        key={index}
+                        className={`carousel-item ${
+                          index === 0 ? "active" : ""
+                        }`}
+                        data-bs-interval="2000"
+                      >
+                        <img
+                          src={imageUrl}
+                          className="d-block w-100"
+                          alt={`product-${index}`}
+                          style={{
+                            width: "100%",
+                            height: "230px",
+                            objectFit: "contain",
+                          }}
+                        />
+                      </div>
+                    ))}
+                    {product.image.length > 1 && (
+                      <>
+                        <button
+                          className="carousel-control-prev"
+                          type="button"
+                          data-bs-target="#carouselExampleDark"
+                          data-bs-slide="prev"
+                        >
+                          <span
+                            className="carousel-control-prev-icon"
+                            aria-hidden="true"
+                          ></span>
+                          <span className="visually-hidden">Previous</span>
+                        </button>
+                        <button
+                          className="carousel-control-next"
+                          type="button"
+                          data-bs-target="#carouselExampleDark"
+                          data-bs-slide="next"
+                        >
+                          <span
+                            className="carousel-control-next-icon"
+                            aria-hidden="true"
+                          ></span>
+                          <span className="visually-hidden">Next</span>
+                        </button>
+                      </>
+                    )}
                   </div>
-                  {product.image.length > 1 && (
-                    <>
-                      <button
-                        className="carousel-control-prev"
-                        type="button"
-                        data-bs-target="#carouselExampleDark"
-                        data-bs-slide="prev"
-                      >
-                        <span
-                          className="carousel-control-prev-icon"
-                          aria-hidden="true"
-                        ></span>
-                        <span className="visually-hidden">Previous</span>
-                      </button>
-                      <button
-                        className="carousel-control-next"
-                        type="button"
-                        data-bs-target="#carouselExampleDark"
-                        data-bs-slide="next"
-                      >
-                        <span
-                          className="carousel-control-next-icon"
-                          aria-hidden="true"
-                        ></span>
-                        <span className="visually-hidden">Next</span>
-                      </button>
-                    </>
-                  )}
                 </div>
               </div>
               <div className="col-md-8">
@@ -172,7 +179,7 @@ const Detail = () => {
                           ${product.price}
                         </span>
                         <br />
-                        <span style={{ fontWeight: "bold",color: "green" }}>
+                        <span style={{ fontWeight: "bold", color: "green" }}>
                           {product.discountPercentage}% OFF
                         </span>{" "}
                         <br />

@@ -37,7 +37,7 @@ const Card = ({
 
   return (
     <div>
-      <div className="card" style={{ width: "300px", height: "620px" }}>
+      <div className="card" style={{ width: "300px", height: "700px" }}>
         <Link
           to={`/detail/${productId}`}
           style={{ textDecoration: "none", color: "black" }}
@@ -56,7 +56,7 @@ const Card = ({
             <>
               <p
                 className="card-text"
-                style={{ textDecoration: "line-through", marginRight: "5px" }}
+                style={{ textDecoration: "line-through", marginRight: "5px", color: "red" }}
               >
                 ${price}
               </p>
@@ -70,7 +70,7 @@ const Card = ({
                 className="text-body-secondary"
                 style={{
                   fontWeight: "bold",
-                  fontSize: "26px",
+                  fontSize: "18px",
                   marginLeft: "5px",
                 }}
               >
