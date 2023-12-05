@@ -4,10 +4,6 @@ import {
   getAllProducts,
   changePage,
   getProductsByName,
-  createUser,
-  typeUser,
-  logOut,
-  getCountry 
 } from "../../redux/action/actions";
 import NavBar from "../navBar/NavBar";
 import FilterAndOrder from "../filterAndOrder/FilterAndOrder";
@@ -16,79 +12,24 @@ import Cards from "../cards/Cards";
 import styles from "./landingPage.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
-import { useAuth0 } from "@auth0/auth0-react";
-
 
 const LandingPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products?.data);
-  const userAuth = useSelector((state) => state.user)
   const isUser = useSelector((state) => state.isUser)
-  const [isLoggingOut, setIsLoggingOut] = useState(true)
-  const [isLoading, setIsLoading] = useState(true);
   const [shouldRenderPromotionPopup, setShouldRenderPromotionPopup] = useState(false);
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
   };
-  const [token, setToken] = useState()
-  const { isAuthenticated, user, getIdTokenClaims, logout, loginWithRedirect } = useAuth0()
-
-  useEffect(() => {
-    const fetchUserInformation = async () => {
-      try {
-        const idTokenClaims = await getIdTokenClaims();
-        const idToken = idTokenClaims?.__raw;
-        setToken(idToken);
-      } catch (error) {
-        console.error('Error fetching id token:', error);
-      }
-    };
-
-    if (isAuthenticated) {
-      fetchUserInformation();
-    }
-  }, [isAuthenticated, getIdTokenClaims]);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (token) {
-        console.log(user?.email);
-        await dispatch(createUser(user?.email, token));
-      }
-    };
-
-    if (token) {
-      fetchUser();
-    }
-  }, [token, user]);
-
-  useEffect(() => {
-    if (userAuth?.email) {
-      console.log(userAuth.typeUser);
-      dispatch(typeUser(userAuth.typeUser));
-
-    }
-    if (!userAuth.typeUser) {
-      console.log(true);
-      setShouldRenderPromotionPopup(true);
-    }
-
-    setIsLoading(false); // Mark user information as loaded
-  }, [userAuth]);
-
-  useEffect(() => {
-    if (userAuth?.CountryId) {
-      console.log(userAuth?.CountryId);
-      dispatch(getCountry(userAuth?.CountryId));
-    }
-  }, [userAuth]);
 
 
   useEffect(() => {
-    if (userAuth?.typeUser === "Admin") {
+    if (isUser === "Admin") {
       setShouldRenderPromotionPopup(false);
+    } else {
+      setShouldRenderPromotionPopup(true)
     }
-  }, [userAuth.typeUser]);
+  }, [isUser]);
 
 
   // obtengo los productos
