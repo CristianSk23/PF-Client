@@ -40,6 +40,11 @@ const NavBar = ({ onSearch, filterCond }) => {
     setName(event.target.value);
   };
 
+  const clearSearch = () => {
+    // Limpiar el campo de búsqueda
+    setName('');
+  };
+
   return (
     <nav className="navbar navbar-dark bg-dark fixed-top">
     <div className="container-fluid">
@@ -47,7 +52,10 @@ const NavBar = ({ onSearch, filterCond }) => {
       {isLandingPage && (
       <div className="d-flex" role="search">
           <input id="search" value={name} className="form-control me-2" type="search" placeholder="Product name..." aria-label="Search" onChange={handleChange}/>
-          <button className="btn btn-outline-light" disabled={name == ""} onClick={() => onSearch(name)}>
+          <button className="btn btn-outline-light" disabled={name == ""} onClick={() => {
+          onSearch(name);
+          clearSearch();
+        }}>
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
           />

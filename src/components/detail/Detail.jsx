@@ -77,7 +77,7 @@ const Detail = () => {
     if (id && !productLoaded && prodById?.nameProd) {
       setProduct({
         name: prodById.nameProd || "",
-        category: prodById.CategoryId || "",
+        category: prodById.category || "",
         brand: prodById.brand || "",
         description: prodById.description || "",
         price: prodById.price || 0,
@@ -103,7 +103,7 @@ const Detail = () => {
         >
           <div className="row g-0">
             <div className="col-md-4">
-              <div id="carouselExampleDark" className="carousel carousel-dark slide">
+            <div id="carouselExampleDark" className="carousel carousel-dark slide">
                 <div className="carousel-inner">
                   {product.image.map((imageUrl, index) => (
                   <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`} data-bs-interval="2000">
