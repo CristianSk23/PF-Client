@@ -26,7 +26,8 @@ import {
   UPDATEUSER,
   GENERATEUSER,
   LOGOUT,
-  COUNTRY
+  COUNTRY,
+  POPUTSPROMOTIONS,
 } from "../action/actionsType";
 
 const initialState = {
@@ -37,7 +38,8 @@ const initialState = {
     productsFiltered: [],
     productsSearch: [],
     filterType: undefined, // orderPrice, productsSearched, filterType, etc.
-    nameSearch: ""
+    nameSearch: "",
+    promotionsProducts: []
   },
   users: [],
   prodCategories: [],
@@ -474,6 +476,18 @@ const reducer = (state = initialState, action) => {
         isUser: "Invited",
         country: ""
     }
+    case POPUTSPROMOTIONS:
+      const promotionsProduct = action.payload.filter((product) => {
+        return product.tags === "New"
+      });
+      
+  return {
+    ...state,
+    products: {
+      ...state.products,
+      promotionsProducts: promotionsProduct,
+    },
+  };
 
     default:
       return { ...state };

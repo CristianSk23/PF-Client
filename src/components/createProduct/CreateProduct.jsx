@@ -407,7 +407,7 @@ const CreateProduct = () => {
                       type="button"
                       onClick={() => sendImageUrlChange(index)}
                     >
-                      Send
+                      Save
                     </button>
                     {url && (
                       <div>
