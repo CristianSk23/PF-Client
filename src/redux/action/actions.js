@@ -1,5 +1,5 @@
 import axios from "axios";
-import {useAuth0} from "@auth0/auth0-react"
+import { useAuth0 } from "@auth0/auth0-react";
 import {
   GETALLPRODUCTS,
   GETUSERS,
@@ -21,15 +21,15 @@ import {
   REMOVEONECART,
   INCREASEQUANTITY,
   DECREASEQUANTITY,
-  CLEANSEARCHBAR, 
+  CLEANSEARCHBAR,
   NAMESEARCH,
   TYPEUSER,
   LOGOUT,
   GENERATEUSER,
   UPDATEUSER,
   COUNTRY,
+  POPUTSPROMOTIONS,
 } from "../action/actionsType";
-
 
 export const updateUser = (user) => {
   return async (dispatch) => {
@@ -53,7 +53,7 @@ export const getAllProducts = () => {
   return async (dispatch) => {
     try {
       const { data } = await axios.get(`/products`);
-
+      console.log(data);
       dispatch({
         type: GETALLPRODUCTS,
         payload: data,
@@ -86,9 +86,7 @@ export const getProdCategories = () => {
 export const getProductsByName = (name) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(
-        `/products/name?name=${name}`
-      );
+      const response = await axios.get(`/products/name?name=${name}`);
       dispatch({
         type: GETPRODUCTBYNAME,
         payload: response.data,
@@ -156,9 +154,9 @@ export const getProductsById = (id) => {
   };
 };
 
-export const cleanSingleProd =()=>{
+export const cleanSingleProd = () => {
   return { type: CLEANSINGLEPROD, payload: "" };
-}
+};
 export const deleteProduct = (id) => {
   return async (dispatch) => {
     try {
@@ -218,83 +216,82 @@ export const showThePopup = (bol) => {
   };
 };
 
-export const resetError=()=>{
-  return { 
-      type: ERROR, 
-      payload: ''
-      }
-
-    }
-
-  export const addToCart = (id) => {
-    return async (dispatch) => {
-      try {
-        const response = await axios.get(`products/${id}`);
-        dispatch({
-          type: ADDTOCART,
-          payload: response.data,
-        })
-      } catch (error) {
-        console.log(error.message);
-        dispatch({
-          type: ERROR,
-          payload: error.message,
-        });
-      }
-    };
+export const resetError = () => {
+  return {
+    type: ERROR,
+    payload: "",
+  };
 };
 
-export const removeOneCart = (id, all=false) => {
+export const addToCart = (id) => {
   return async (dispatch) => {
-  try {
-  dispatch({type: REMOVEONECART, payload: id
-  })} 
-  catch (error) {
-  dispatch({
-    type: ERROR,
-    payload: error.message,
-  });
-  }
-  }
-  }
-
-  export const increaseQuantity = (id) => {
-    return async (dispatch) => {
-      try{
-        dispatch({type: INCREASEQUANTITY, payload: id})
-      }
-      catch(error) {
-        dispatch({
-          type: ERROR,
-          payload: error.message,
-        })
-      }
+    try {
+      const response = await axios.get(`products/${id}`);
+      dispatch({
+        type: ADDTOCART,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error.message);
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
     }
-  }
+  };
+};
 
-  export const decreaseQuantity = (id) => {
-    return async (dispatch) => {
-      try{
-        dispatch({type: DECREASEQUANTITY, payload: id})
-      }
-      catch(error) {
-        dispatch({
-          type: ERROR,
-          payload: error.message,
-        })
-      }
+export const removeOneCart = (id, all = false) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: REMOVEONECART, payload: id });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
     }
-  }
+  };
+};
+
+export const increaseQuantity = (id) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: INCREASEQUANTITY, payload: id });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
+export const decreaseQuantity = (id) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: DECREASEQUANTITY, payload: id });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
 
 export const createUser = (email, token) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`/users/create`, 
-        { email, token }, {
+      const response = await axios.post(
+        `/users/create`,
+        { email, token },
+        {
           headers: {
-            "Content-Type": "application/json"
-      }
-    });
+            "Content-Type": "application/json",
+          },
+        }
+      );
       dispatch({
         type: GENERATEUSER,
         payload: response.data,
@@ -305,13 +302,13 @@ export const createUser = (email, token) => {
         payload: error.message,
       });
     }
-  }
-}
+  };
+};
 
 export const getCountry = (id) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`country/id?id=${id}`)
+      const response = await axios.get(`country/id?id=${id}`);
       dispatch({
         type: COUNTRY,
         payload: response.data,
@@ -322,38 +319,45 @@ export const getCountry = (id) => {
         payload: error.message,
       });
     }
-  }
-}
+  };
+};
 
 export const typeUser = (typeUser) => {
   return (dispatch) => {
     dispatch({
       type: TYPEUSER,
-      payload: typeUser
-    })
-  }
-}
+      payload: typeUser,
+    });
+  };
+};
 
 export const logOut = () => {
   return (dispatch) => {
     dispatch({
-    type: LOGOUT,
-    payload: ""
-    })
-  }
-}
+      type: LOGOUT,
+      payload: "",
+    });
+  };
+};
 
-export const cleanSearchBar=()=> {
+export const cleanSearchBar = () => {
   return {
-      type: CLEANSEARCHBAR,
-      payload: []
-  }
-
-}
-export const setNameSearch = (nameSearch)=>{
+    type: CLEANSEARCHBAR,
+    payload: [],
+  };
+};
+export const setNameSearch = (nameSearch) => {
   return {
     type: NAMESEARCH,
-    payload: nameSearch
-  }
-}
+    payload: nameSearch,
+  };
+};
 
+export const getPromotions = () => async (dispatch) => {
+  try {
+    const {data} = await axios.get(`/products`); // Llama a tu función de API
+    dispatch({ type: "POPUTSPROMOTIONS", payload: data });
+  } catch (error) {
+    console.error('Error fetching promotions:', error);
+  }
+};

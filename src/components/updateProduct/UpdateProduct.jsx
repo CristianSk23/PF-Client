@@ -438,12 +438,12 @@ const UpdateProduct = () => {
                     >
                       Remove
                     </button>
-                    <button
+                    {!url.includes('cloudinary') && <button
                       type="button"
                       onClick={() => sendImageUrlChange(index)}
                     >
-                      Send
-                    </button>
+                      Save
+                    </button>}
                     {url && (
                       <div>
                         <img
