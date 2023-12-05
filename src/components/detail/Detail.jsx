@@ -77,7 +77,7 @@ const Detail = () => {
     if (id && !productLoaded && prodById?.nameProd) {
       setProduct({
         name: prodById.nameProd || "",
-        category: prodById.CategoryId || "",
+        category: prodById.category || "",
         brand: prodById.brand || "",
         description: prodById.description || "",
         price: prodById.price || 0,
@@ -95,40 +95,25 @@ const Detail = () => {
 
   return (
     <div>
-      <NavBar />
-      <div style={{ backgroundColor: "#F8F9F9", minHeight: "100vh" }}>
-        <div className="d-flex align-items-center justify-content-center">
-          <div
-            className="card mb-3"
-            style={{ width: "1080px", marginTop: "160px" }}
-          >
-            <div className="row g-0">
-              <div className="col-md-4">
-                <div
-                  id="carouselExampleDark"
-                  className="carousel carousel-dark slide"
-                >
-                  <div className="carousel-inner">
-                    {product.image.map((imageUrl, index) => (
-                      <div
-                        key={index}
-                        className={`carousel-item ${
-                          index === 0 ? "active" : ""
-                        }`}
-                        data-bs-interval="2000"
-                      >
-                        <img
-                          src={imageUrl}
-                          className="d-block w-100"
-                          alt={`product-${index}`}
-                          style={{
-                            width: "100%",
-                            height: "230px",
-                            objectFit: "contain",
-                          }}
-                        />
-                      </div>
-                    ))}
+    <NavBar />
+    <div style={{ backgroundColor: "#F8F9F9", minHeight: "100vh" }}>
+      <div className="d-flex align-items-center justify-content-center">
+        <div
+          className="card mb-3"
+          style={{ width: "1080px", marginTop: "160px" }}
+        >
+          <div className="row g-0">
+            <div className="col-md-4">
+            <div id="carouselExampleDark" className="carousel carousel-dark slide">
+                <div className="carousel-inner">
+                  {product.image.map((imageUrl, index) => (
+                  <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`} data-bs-interval="2000">
+                  <img
+                    src={imageUrl}
+                    className="d-block w-100"
+                    alt={`product-${index}`}
+                    style={{ width: "100%", height: "230px", objectFit: "contain" }}
+                  />
                   </div>
                   {product.image.length > 1 && (
                     <>
