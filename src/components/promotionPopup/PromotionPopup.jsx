@@ -59,7 +59,7 @@ const PromotionPopup = () => {
                   className={`carousel-item ${index === currentImage ? "active" : ""}`}
                 >
                   <img
-                    src={product.image}
+                    src={product.image[0]}
                     className="d-block mx-auto"
                     alt={`Imagen ${index + 1}`}
                     style={{ maxWidth: "100%", height: "400px", objectFit: "cover" }}
