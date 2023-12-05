@@ -6,7 +6,6 @@ import { updateUser } from "../../redux/action/actions";
 import styles from "./paymentGateway.module.css"; // Import styles
 import RingLoader  from "react-spinners/RingLoader"; // spinner para el loading 
 import axios from "axios"; // hay que hacer redux. hasta entonces, no eliminar
-// import cart from "../../assets/data" // Eliminar - data tipo carrito, se usa para simular el pago -
 
 const PaymentGateway=()=>{
   const dispatch = useDispatch();
@@ -94,12 +93,13 @@ const PaymentGateway=()=>{
 
     if(catchError===""){
       axios
-      .post("http://localhost:3001/payments/createOrder", newOrder)
+      .post("/payments/createOrder", newOrder)
       .then((response) => {
           window.location.href = response.data.init_point;
       })
       .catch((error) => console.log(error));
     }
+    setLoading(false)   
   }
 
     return(
