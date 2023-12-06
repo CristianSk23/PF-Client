@@ -226,22 +226,21 @@ export const resetError=()=>{
 
     }
 
-  export const addToCart = (id, userID, quantityPROD) => {
+  export const addToCart = (userID, id, quantityPROD) => {
     return async (dispatch) => {
       try {
         const response = await axios.get(`products/${id}`);
-        console.log(quantityPROD)
         dispatch({
           type: ADDTOCART,
           payload: response.data,
-        }) 
-        console.log(response)
+        })
+    
         const responseCart = await axios.post("cart/", {
-         "productId": id,
          "UserId": userID,
+         "productId": id,
          "quantityProd": quantityPROD
          })
-         console.log(responseCart)
+
       } catch (error) {
         console.log(error.message);
         dispatch({
@@ -252,11 +251,20 @@ export const resetError=()=>{
     };
 };
 
-export const removeOneCart = (id, all=false) => {
+export const removeOneCart = (id, nameProd) => {
   return async (dispatch) => {
   try {
   dispatch({type: REMOVEONECART, payload: id
-  })} 
+  })
+
+  //obtenere id del carrito
+
+  const responseCart = await axios.delete("cart/", {
+    "nameProd": nameProd,
+    //"cartId": id del carrito
+    })
+
+} 
   catch (error) {
   dispatch({
     type: ERROR,
@@ -266,10 +274,18 @@ export const removeOneCart = (id, all=false) => {
   }
   }
 
-  export const increaseQuantity = (id) => {
+  export const increaseQuantity = (userID, id, quantityPROD) => {
     return async (dispatch) => {
       try{
+
         dispatch({type: INCREASEQUANTITY, payload: id})
+
+        const responseCart = await axios.put("cart/", {
+          "UserId": userID,
+          "productId": id,
+          "quantityProd": quantityPROD
+          })
+
       }
       catch(error) {
         dispatch({
@@ -280,10 +296,17 @@ export const removeOneCart = (id, all=false) => {
     }
   }
 
-  export const decreaseQuantity = (id) => {
+  export const decreaseQuantity = (userID, id, quantityPROD) => {
     return async (dispatch) => {
       try{
         dispatch({type: DECREASEQUANTITY, payload: id})
+
+        const responseCart = await axios.put("cart/", {
+          "UserId": userID,
+          "productId": id,
+          "quantityProd": quantityPROD
+          })
+
       }
       catch(error) {
         dispatch({

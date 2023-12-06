@@ -16,6 +16,7 @@ const ShoppingCart = ({}) => {
  const navigate = useNavigate();
 
  const products = useSelector((state) => state.cart.items)
+ const userID = useSelector((state) => state.user.id)
  
  useEffect(() => {
     console.log('Carrito actualizado:', products);
@@ -26,16 +27,17 @@ const ShoppingCart = ({}) => {
     return accumulator + newPrice * item.quantity;
   }, 0).toFixed(2);
 
- const DeleteCart = (productsid) => {
-    dispatch(removeOneCart(productsid))
+ const DeleteCart = (productsid, nameProd) => {
+    dispatch(removeOneCart(productsid, nameProd))
  }
 
- const IncreaseQuantity = (productsid) => {
-    dispatch(increaseQuantity(productsid))
+ const IncreaseQuantity = (userID, productsid, quantityPROD) => {
+    dispatch(increaseQuantity(userID, productsid, quantityPROD))
  }
 
- const DecreaseQuantity = (productsid) => {
-    dispatch(decreaseQuantity(productsid))
+ const DecreaseQuantity = (userID, productsid, quantityPROD) => {
+    console.log(quantityPROD)
+    dispatch(decreaseQuantity(userID, productsid, quantityPROD))
  }
 
  const handleCancel = () => {
@@ -71,13 +73,13 @@ const ShoppingCart = ({}) => {
                             <td className={styles.td}>
                             <div className="container">
                                 <div className="btn-group" role="group" aria-label="Botones de Suma y Resta">
-                                    <button type="button" className="btn btn-primary" onClick={()=>DecreaseQuantity(item.id)} style={{marginTop:"-6px"}}>
+                                    <button type="button" className="btn btn-primary" onClick={()=>DecreaseQuantity(userID, item.id, item.quantity - 1)} style={{marginTop:"-6px"}}>
                                     -
                                     </button>
                                     <div style={{padding:"10px", height:"1px", marginTop:"-9px"}}>
                                         <p>{item.quantity}</p>
                                     </div>
-                                    <button type="button" className="btn btn-primary" onClick={()=>IncreaseQuantity(item.id)} style={{marginTop:"-6px"}}>
+                                    <button type="button" className="btn btn-primary" onClick={()=>IncreaseQuantity(userID, item.id, item.quantity + 1)} style={{marginTop:"-6px"}}>
                                     +
                                     </button>
                                 </div>
@@ -85,7 +87,7 @@ const ShoppingCart = ({}) => {
                             </td>
                             <td className={styles.td}>{((item.priceOnSale?.toFixed(2) || item.price.toFixed(2))*item.quantity).toFixed(2)}$</td>
                             <td className={styles.td}>
-                                <button className={styles.button} onClick={()=>DeleteCart(item.id)}>
+                                <button className={styles.button} onClick={()=>DeleteCart(item.id, item.nameProd)}>
                                     <FontAwesomeIcon icon={faTrash} style={{ color: "#dd3636", }} />
                                 </button>
                             </td>

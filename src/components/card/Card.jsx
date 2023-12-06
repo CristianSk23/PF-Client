@@ -29,15 +29,29 @@ const dispatch = useDispatch();
 
     const isUser = useSelector((state) => state.isUser)
     const userID = useSelector((state) => state.user.id)
-    const quantityPROD = useSelector((state) => state.cart.items?.quantity ?? 1)
+    const products = useSelector((state) => state.cart.items)
+    const allproducts = useSelector((state) => state.products.allProducts)
     
     const handleLogin= async() => {
       await loginWithRedirect()
     }
-    const handleBuy = (quantityPROD) => {
-       dispatch(addToCart(productId, userID, quantityPROD));
+
+    const handleBuy = (clickedProductId) => {
+      
+      let clickedProduct = products.find((item)=> item.id == clickedProductId)
+      
+      clickedProduct == undefined ? clickedProduct = allproducts.find((item)=> item.id == clickedProductId) : clickedProduct
+      
+      if (clickedProduct) {
+        
+        dispatch(addToCart(userID, clickedProductId, (clickedProduct?.quantity + 1 || 1)));
+      }
+      
      };
 
+     useEffect(()=> {
+
+     },[handleBuy])
 
   return (
     <div>
@@ -66,7 +80,7 @@ const dispatch = useDispatch();
               /* User Options */
 
              <> 
-              {isAuthenticated && <button type="button" className="btn btn-success" style={{margin:"2px"}} onClick={handleBuy(quantityPROD)}>
+              {isAuthenticated && <button id={productId} type="button" className="btn btn-success" style={{margin:"2px"}} onClick={() => handleBuy(productId)}>
               <FontAwesomeIcon icon={faCartShopping} />
               </button>}
             </>   
