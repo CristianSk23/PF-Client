@@ -18,7 +18,6 @@ const ShoppingCart = ({}) => {
  const products = useSelector((state) => state.cart.items)
  
  useEffect(() => {
-    console.log('Carrito actualizado:', products);
   }, [products]);
 
   const totalCart = products.reduce((accumulator, item) => {
