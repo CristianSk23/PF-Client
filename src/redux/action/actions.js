@@ -54,7 +54,6 @@ export const getAllProducts = () => {
   return async (dispatch) => {
     try {
       const { data } = await axios.get(`/products`);
-      console.log(data);
       dispatch({
         type: GETALLPRODUCTS,
         payload: data,
@@ -137,16 +136,13 @@ export const updateProduct = (product) => {
 
 export const getProductsById = (id) => {
   return async (dispatch) => {
-    console.log(id);
     try {
       const response = await axios.get(`/products/${id}`);
-      console.log(response.data);
       dispatch({
         type: GETPRODBYID,
         payload: response.data,
       });
     } catch (error) {
-      console.log(error);
       dispatch({
         type: ERROR,
         payload: error.message,
@@ -233,7 +229,6 @@ export const addToCart = (id) => {
         payload: response.data,
       });
     } catch (error) {
-      console.log(error.message);
       dispatch({
         type: ERROR,
         payload: error.message,
