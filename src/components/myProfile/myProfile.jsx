@@ -8,6 +8,7 @@ import { getAllCountries, updateUser } from '../../redux/action/actions';
 
 const MyProfile = () => {
     const isuser = useSelector((state) => state.user)
+    const isUser = useSelector((state) => state.isUser)
     const country = useSelector((state) => state.country)
     const navigate = useNavigate();
     const [auxUpdateUser, setAuxUptdateUser] = useState(false)
@@ -128,11 +129,15 @@ const MyProfile = () => {
         <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
             <Container>
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 className="h2"><FontAwesomeIcon icon={faUser} /> {isuser.name ? `Admin:  ${isuser.name} ${isuser.lastName}` : `My Accounnt: ${isuser.email} ` }  </h1>
+                <h1 className="h2"><FontAwesomeIcon icon={faUser} /> {isuser.name ? `${isUser}: ${isuser.name} ${isuser.lastName}` : `My Accounnt: ${isuser.email} ` }  </h1>
             </div>
             <Form onSubmit={handleSubmit}>
             <fieldset>
                 <Row className='mb-3'>
+                    <Form.Group class="mb-3">
+                        <Form.Label for="staticEmail">Email</Form.Label>
+                        <Form.Control className="form-control-plaintext" id="staticEmail" value={isuser?.email} />
+                    </Form.Group>
                     <Col>
                     <Form.Group className="mb-3" controlId="formFirstName">
                         <Form.Label>First name</Form.Label>
