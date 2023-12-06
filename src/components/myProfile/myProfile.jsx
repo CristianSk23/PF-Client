@@ -107,20 +107,21 @@ const MyProfile = () => {
                     </div>
                     </Card.Text>
                     <div className="text-center">
-                        <Button variant="primary" size="md" onClick={handleUpdateUser}>Update Information</Button>
+                        <Button variant="dark" size="md" onClick={handleUpdateUser}>Update Information</Button>
                     </div>
                     </Card.Body>
                 </Card>
                 </Col>
             </Row>
         </Container>
-        <a
+        <Button variant="danger"
         onClick={handleCancel}
-        className="btn btn-primary mb-3"
+        className="mb-3"
+        size='lg'
         style={{ position: "absolute", bottom: "10px", right: "10px" }}
         >
         Back
-        </a>
+        </Button>
         </div>
     ) :
     auxUpdateUser && (
@@ -194,18 +195,19 @@ const MyProfile = () => {
                     </Col>
                 </Row>
                 <div className="text-center mb-3">
-                    <Button variant="primary" size="lg" type="submit">Update Information</Button>
+                    <Button variant="dark" size="lg" type="submit">Update Information</Button>
                 </div>
                 </fieldset>
             </Form>
             </Container>
-            <a
+            <Button variant="danger"
         onClick={handleUpdateUser}
         className="btn btn-primary mb-3"
         style={{ position: "absolute", bottom: "10px", right: "10px" }}
+        size='lg'
         >
         Cancel
-        </a>
+        </Button>
         </div>
     )
 };
