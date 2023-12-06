@@ -31,7 +31,6 @@ const PaymentStatus = () => {
           merchant_order_id,
         });
 
-        console.log(response.data);
 
         // Set modal content based on status
         let modalText = '';

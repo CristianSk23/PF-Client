@@ -13,7 +13,7 @@ import NavBar from "../navBar/NavBar";
 const Detail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const prodById = useSelector((state) => state.singleProduct);
+  const prodById = useSelector((state) => state.products.singleProduct);
   const dispatch = useDispatch();
   const [productLoaded, setProductLoaded] = useState(false);
   const [product, setProduct] = useState({

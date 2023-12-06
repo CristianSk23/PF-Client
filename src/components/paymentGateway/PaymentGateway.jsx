@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from "../../redux/action/actions";
-import styles from "./paymentGateway.module.css"; // Import styles
+import styles from "./paymentGateway.module.css"; 
 import RingLoader  from "react-spinners/RingLoader"; // spinner para el loading 
 import axios from "axios"; // hay que hacer redux. hasta entonces, no eliminar
 
@@ -24,8 +24,6 @@ const PaymentGateway=()=>{
         postalCode: userInSession?.postalCode || "",
         city: userInSession?.city || ""
   })
-
-  console.log("userInSession:  "+ userInSession);
 
   const totalCart = cart.items.reduce((accumulator, item) => {
     let newPrice = item.priceOnSale || item.price;
@@ -69,7 +67,6 @@ const PaymentGateway=()=>{
         userInfo.postalCode != userInSession?.postalCode || 
         userInfo.city != userInSession?.city)
     {
-      console.log(userInfo);
       dispatch(updateUser(userInfo))
     }
     // VER DE AGREGAR INFORMACION PARA EL CART DE Mercadopago. Ej address,phone etc.
