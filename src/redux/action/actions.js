@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import {
   GETALLPRODUCTS,
   GETUSERS,
+  GETUSERBYID,
   GETPRODBYID,
   GETPRODCATEGORIES,
   GETPRODUCTBYNAME,
@@ -180,12 +181,31 @@ export const deleteProduct = (id) => {
 };
 
 export const getUsers = () => {
-  return async function (dispatch) {
-    const apiData = await axios.get("");
-    const users = apiData.data;
-    dispatch({ type: GETUSERS, payload: users });
+  return async (dispatch) => {
+    const {data} = await axios.get("/users");
+    dispatch({ 
+      type: GETUSERS, 
+      payload: data });
   };
 };
+
+export const getUserById = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/users/${id}`);
+      console.log(response.data);
+      dispatch({
+        type: GETUSERBYID,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+}
 
 export const orderPrice = (order) => {
   return { type: ORDERPRICE, payload: order };

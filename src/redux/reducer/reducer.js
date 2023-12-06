@@ -2,6 +2,7 @@ import { UserType } from "../../utils/userType";
 import {
   GETALLPRODUCTS,
   GETUSERS,
+  GETUSERBYID,
   GETPRODBYID,
   GETPRODCATEGORIES,
   GETPRODUCTBYNAME,
@@ -120,6 +121,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         users: action.payload,
       };
+
+    case GETUSERBYID: 
+      return {
+        ...state,
+        user: action.payload,
+      }
   
     case UPDATEUSER:
       return { ...state, 
