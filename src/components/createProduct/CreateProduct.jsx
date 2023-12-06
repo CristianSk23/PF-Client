@@ -70,7 +70,6 @@ const CreateProduct = () => {
         const newUrlForIndex = await uploadImageToCloudinary(imageUrl);
         const updatedImages = [...product.image];
         updatedImages[index] = newUrlForIndex;
-        console.log(newUrlForIndex);
         setProduct((prevProduct) => ({ ...prevProduct, image: updatedImages }));
       }
     } catch (error) {
@@ -150,7 +149,7 @@ const CreateProduct = () => {
       });
       setShowConfirmation(true);
     } catch (error) {
-      // Aquí puedes manejar el error si es necesario
+
     }
   };
 
