@@ -29,6 +29,7 @@ import {
   UPDATEUSER,
   COUNTRY,
   POPUTSPROMOTIONS,
+  GETALLCOUNTRIES,
 } from "../action/actionsType";
 
 export const updateUser = (user) => {
@@ -339,6 +340,23 @@ export const logOut = () => {
     });
   };
 };
+
+export const getAllCountries = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get('/country')
+      dispatch({
+        type: GETALLCOUNTRIES,
+        payload: response.data
+      })
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  }
+  }
 
 export const cleanSearchBar = () => {
   return {
