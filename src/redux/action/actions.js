@@ -251,19 +251,17 @@ export const resetError=()=>{
     };
 };
 
-export const removeOneCart = (id, nameProd) => {
+export const removeOneCart = (id, nameProd, userID) => {
   return async (dispatch) => {
   try {
   dispatch({type: REMOVEONECART, payload: id
   })
 
-  //obtenere id del carrito
-
   const responseCart = await axios.delete("cart/", {
     "nameProd": nameProd,
-    //"cartId": id del carrito
+    "userID": userID
     })
-
+  console.log(responseCart)
 } 
   catch (error) {
   dispatch({

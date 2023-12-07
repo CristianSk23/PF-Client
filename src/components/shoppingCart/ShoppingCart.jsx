@@ -27,8 +27,8 @@ const ShoppingCart = ({}) => {
     return accumulator + newPrice * item.quantity;
   }, 0).toFixed(2);
 
- const DeleteCart = (productsid, nameProd) => {
-    dispatch(removeOneCart(productsid, nameProd))
+ const DeleteCart = (productsid, nameProd, userID) => {
+    dispatch(removeOneCart(productsid, nameProd, userID))
  }
 
  const IncreaseQuantity = (userID, productsid, quantityPROD) => {
@@ -86,7 +86,7 @@ const ShoppingCart = ({}) => {
                             </td>
                             <td className={styles.td}>{((item.priceOnSale?.toFixed(2) || item.price.toFixed(2))*item.quantity).toFixed(2)}$</td>
                             <td className={styles.td}>
-                                <button className={styles.button} onClick={()=>DeleteCart(item.id, item.nameProd)}>
+                                <button className={styles.button} onClick={()=>DeleteCart(item.id, item.nameProd, userID)}>
                                     <FontAwesomeIcon icon={faTrash} style={{ color: "#dd3636", }} />
                                 </button>
                             </td>
