@@ -1,0 +1,9 @@
+.containerDelete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; 
+  }
+  .deleteP {
+    text-align: left;
+  }
