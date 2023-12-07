@@ -28,6 +28,7 @@ import {
   LOGOUT,
   COUNTRY,
   POPUTSPROMOTIONS,
+  GETALLCOUNTRIES,
 } from "../action/actionsType";
 
 const initialState = {
@@ -52,7 +53,8 @@ const initialState = {
   },
   isUser: "Invited",
   user: {},
-  country: ""
+  country: "",
+  countries: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -500,6 +502,13 @@ const reducer = (state = initialState, action) => {
       promotionsProducts: promotionsProduct,
     },
   };
+
+  case GETALLCOUNTRIES:
+    const ordenCountries = action.payload.sort((a, b) => a.name.localeCompare(b.name));
+    return {
+      ...state,
+      countries: ordenCountries
+    };
 
     default:
       return { ...state };
