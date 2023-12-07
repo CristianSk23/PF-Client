@@ -94,6 +94,7 @@ const NavBar = ({ onSearch, filterCond }) => {
                     Hola {user.email}
                   </a>
                   <ul className="dropdown-menu dropdown-menu-dark">
+                  <li><a className="dropdown-item" href="/productsList">My Products</a></li>
                   <li><a className="dropdown-item" href="/createProduct">Create Product</a></li>
                   {!isAuthenticated && <li><a className="dropdown-item" onClick={handleLogin}>Login</a></li>}
                   {isAuthenticated && <li><a href="/myProfile" className="dropdown-item" >My Account</a></li>}

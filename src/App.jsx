@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { createUser, typeUser, getCountry } from "./redux/action/actions";
 import { useAuth0 } from "@auth0/auth0-react";
+import ListProducts from "./components/ListProducts/listProducts";
 
 
 const App = () => {
@@ -73,6 +74,7 @@ const App = () => {
       <Routes>
         <Route>
           <Route path="/" exact element={<LandingPage/>} />
+          <Route path="/productsList" element={<ListProducts/>} />
           <Route path="/createProduct" element={<CreateProduct/>} />
           <Route path="/updateProduct/:id" element={<UpdateProduct/>} />
           <Route path="/deleteProduct/:id" element={<DeleteProduct />} />

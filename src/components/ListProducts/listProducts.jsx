@@ -1,23 +1,69 @@
 import React from "react";
 import styles from "./listProducts.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { Form } from 'react-bootstrap';
 import FilterAndOrder from "../filterAndOrder/FilterAndOrder";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useDispatch } from "react-redux";
+import { getAllProducts, changePage } from "../../redux/action/actions";
+import {useEffect, useState} from "react"
 
 export default function ListProducts(){
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getAllProducts());
+      }, [dispatch]);
+
+    const products = useSelector((state) => state.products?.data)
+
+    const [filterCond, setFilterCond] = useState({
+        type: "all",
+        price: "all",
+        order: "ascendent",
+      });
+      const [aux, setAux] = useState(false);
+
+    const pagination = (event) => {
+        dispatch(changePage(event.target.name));
+      };
+
+    const reset = (event) => {
+        dispatch(getAllProducts());
+        const selectElements = document.querySelectorAll("select");
+        selectElements.forEach((select) => {
+          select.value = "all";
+        });
+    };
+
     return(
         <div>
             <h5 style={{marginBottom:"-95px"}}>List of Products:</h5>
 
-            <FilterAndOrder/>
+            <FilterAndOrder
+            setFilterCond={setFilterCond}
+            filterCond={filterCond}
+            setAux={setAux}
+            />
 
-                {/* FALTA TRAER EL BOTON DE RESETEAR LOS FILTROS Y SU FUNCIONABILIDAD */}
+            <div className="pagination justify-content-center">
+            <button 
+            type="button" 
+            className="form-control" 
+            style={{ width: '50px', textAlign:"center", marginTop:"5px", height:"37.6px"}}
+            onClick={reset}
+            >
+            <FontAwesomeIcon icon={faArrowsRotate} />
+            </button>
+            </div>
 
                 <table className="table table-hover" style={{marginTop:"10px"}}>
                     <thead>
                         <tr>
+                        <th className={styles.th} scope="col">Image</th>
                         <th className={styles.th} scope="col">Name</th>
                         <th className={styles.th} scope="col">Category</th>
                         <th className={styles.th} scope="col">Price</th>
@@ -27,12 +73,15 @@ export default function ListProducts(){
                         <th className={styles.th} scope="col">Update</th>
                         <th className={styles.th} scope="col">Delete</th>
                         </tr>
-                    </thead>
+                    </thead>    
                     <tbody>
+
+                        {products.map((product) => (
                             <tr>
-                            <td className={styles.td}>TV Samsung 29 Pulgadas</td>
-                            <td className={styles.td}>TV</td>
-                            <td className={styles.td}>$1500</td>  
+                            <img className={styles.td}  alt={product.nameProd} />
+                            <td className={styles.td}>{product.nameProd}</td>
+                            <td className={styles.td}>{product.category}</td>
+                            <td className={styles.td}>{product.price}</td>  
                             <td className={styles.td}>
                             <div className="container">{/*A PEDIDO DE DIEGO Z PUSE BOTONES PARA MANEJAR EL STOCK DIRECTAMENTE DE ACA, FALTA DARLE EL FUNCIONAMIENTO
                             COMO LO TIENE EN EL CARRITO DE COMPRAS, SI SE COMPLICA USAR SOLO EL UPDATE */}
@@ -41,7 +90,7 @@ export default function ListProducts(){
                                     -
                                     </button>
                                     <div style={{padding:"10px", height:"1px", marginTop:"-9px"}}>
-                                        <p>10</p>
+                                        <p>{product.stock}</p>
                                     </div>
                                     <button type="button" className="btn btn-primary"style={{marginTop:"-6px"}}>
                                     +
@@ -69,6 +118,33 @@ export default function ListProducts(){
                                 </button>
                             </td>
                         </tr>
+                        ))}
+
+                        <nav aria-label="Page navigation example" style={{ marginTop: "22px" }}>
+                        <ul className="pagination justify-content-center">
+                        <li className="page-item">
+                            <a
+                            className="page-link"
+                            onClick={pagination}
+                            name="prev"
+                            style={{ cursor: "default" }}
+                            >
+                            {"<<"} Previous
+                            </a>
+                        </li>
+                        <li className="page-item">
+                            <a
+                            className="page-link"
+                            onClick={pagination}
+                            name="next"
+                            style={{ cursor: "default" }}
+                            >
+                            Next {">>"}
+                            </a>
+                        </li>
+                        </ul>
+                    </nav>        
+
                     </tbody>
                 </table> 
         </div>
