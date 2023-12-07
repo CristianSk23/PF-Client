@@ -13,6 +13,7 @@ import OrderList from '../orderList/orderList';
 import UserList from '../userList/userList';
 import ListProducts from '../ListProducts/listProducts';
 import HomeAdmin from '../HomeAdmin/HomeAdmin';
+import SalesByCategory from "../kpis/salesByCategory/SalesByCategory";
 
 //ENLAZAR A QUE AHORA ESTO SEA LA "LANDING" DEL ADMIN
 
@@ -53,7 +54,14 @@ export default function AdminPanel() {
                 return (
                   <div>
                     <h2>Ejemplo de grafico lineal</h2>
-                    <LineGraph />
+                    <SalesByCategory />
+                  </div>
+                );
+            case 'saleByCategory':
+                return (
+                  <div>
+                    <h2>Ejemplo de grafico lineal</h2>
+                    <SalesByCategory />
                   </div>
                 );
             case 'signout':
@@ -79,8 +87,8 @@ export default function AdminPanel() {
             case 'saleCategory': {/* VER QUE GRAFICOS VAMOS A USAR EN CADA CASE PORQUE VA A SER NECESARIO CREAR UN COMPONENTE PARA CADA UNO */}
                 return (
                     <div>
-                        <h2>Ejemplo de grafico de barras</h2>
-                        <BarGraphics />
+                        <h2>Sales by Category</h2>
+                        <SalesByCategory />
                     </div>
                 );
             case 'saleUser':

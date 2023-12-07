@@ -52,7 +52,10 @@ const initialState = {
   },
   isUser: "Invited",
   user: {},
-  country: ""
+  country: "",
+  orders:{
+    allOrders:[]
+  }
 };
 
 const reducer = (state = initialState, action) => {
