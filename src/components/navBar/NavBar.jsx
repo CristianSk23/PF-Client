@@ -13,6 +13,7 @@ const NavBar = ({ onSearch, filterCond }) => {
   const dispatch = useDispatch();
   const prodCategories = useSelector((state) => state.prodCategories) || [];
   const isLandingPage = location.pathname === '/';
+  const isAdminPanel = location.pathname === '/adminPanel';
 
 
   const { logout, loginWithRedirect, isAuthenticated } = useAuth0()
@@ -50,6 +51,19 @@ const NavBar = ({ onSearch, filterCond }) => {
     <div className="container-fluid">
       <a className="navbar-brand" href="/">Logo</a>
       {isLandingPage && (
+      <div className="d-flex" role="search">
+          <input id="search" value={name} className="form-control me-2" type="search" placeholder="Product name..." aria-label="Search" onChange={handleChange}/>
+          <button className="btn btn-outline-light" disabled={name == ""} onClick={() => {
+          onSearch(name);
+          clearSearch();
+        }}>
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+          />
+          </button>
+      </div>
+      )}
+      {isAdminPanel && (
       <div className="d-flex" role="search">
           <input id="search" value={name} className="form-control me-2" type="search" placeholder="Product name..." aria-label="Search" onChange={handleChange}/>
           <button className="btn btn-outline-light" disabled={name == ""} onClick={() => {

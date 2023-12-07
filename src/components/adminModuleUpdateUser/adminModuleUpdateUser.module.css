@@ -1,0 +1,44 @@
+/* adminModuleUpdateUser.module.css */
+
+.containerUpdate {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.containerUpdate h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.labelContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.labelUpdate {
+  flex: 0 0 48%; /* Ajusta el ancho según sea necesario */
+  font-size: 14px;
+}
+
+.inputUpdate,
+.selectUpdate {
+  font-size: 12px;
+  width: 90%;
+  height: 70%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.errorMessage {
+  color: red;
+  margin-top: 5px;
+}

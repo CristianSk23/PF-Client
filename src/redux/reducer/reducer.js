@@ -40,11 +40,12 @@ const initialState = {
     productsSearch: [],
     filterType: undefined, // orderPrice, productsSearched, filterType, etc.
     nameSearch: "",
-    promotionsProducts: []
+    promotionsProducts: [],
+    singleProduct: ""
   },
   users: [],
   prodCategories: [],
-  singleProduct: "",
+
   catchError: "",
   isShowPopup: true,
   cart: {
@@ -81,7 +82,6 @@ const reducer = (state = initialState, action) => {
           allProducts: [...state.products.allProducts, action.payload],
         },
       };
-    //return { ...state, products.allProducts: [...products.allProducts, action.payload] };
 
     case UPDATEPRODUCT:
       const updatedProducts = state.products.allProducts.filter((product) => {
@@ -96,10 +96,22 @@ const reducer = (state = initialState, action) => {
       };
 
     case GETPRODBYID:
-      return { ...state, singleProduct: action.payload };
+      return { 
+        ...state, 
+        products: {
+          ...state.products, 
+          singleProduct: action.payload
+        } 
+      };
 
     case CLEANSINGLEPROD:
-      return { ...state, singleProduct: action.payload };
+      return { 
+        ...state, 
+        products: {
+          ...state.products, 
+          singleProduct: action.payload
+        } 
+      };
 
     case DELETEPRODUCT:
       const deletedProduct = state.products.allProducts.filter((product) => {

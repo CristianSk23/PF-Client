@@ -58,7 +58,7 @@ const Card = ({
                 className="card-text"
                 style={{ textDecoration: "line-through", marginRight: "5px", color: "red" }}
               >
-                ${price}
+                ${price.toFixed(2)}
               </p>
               <p
                 className="card-text"
@@ -74,11 +74,11 @@ const Card = ({
                   marginLeft: "5px",
                 }}
               >
-                ${priceOnSale}
+                ${priceOnSale?.toFixed(2)}
               </small>
             </>
           ) : (
-            <p className="card-text">${price}</p>
+            <p className="card-text">${price.toFixed(2)}</p>
           )}
         </div>
         <div className="card-footer" style={{ textAlign: "center" }}>

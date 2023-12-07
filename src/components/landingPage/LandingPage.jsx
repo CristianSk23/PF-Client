@@ -32,9 +32,8 @@ const LandingPage = () => {
   }, [isUser]);
 
 
-  // obtengo los productos
-  useEffect(() => {
 
+  useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
   
