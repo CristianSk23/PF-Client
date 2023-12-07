@@ -291,11 +291,14 @@ export const removeOneCart = (id, nameProd, userID) => {
   })
 
   const responseCart = await axios.delete("cart/", {
+    data: {
     "nameProd": nameProd,
-    "userID": userID
-    })
-  console.log(responseCart)
-} 
+    "UserId": userID,
+  },
+  })
+  }
+  
+
   catch (error) {
   dispatch({
     type: ERROR,
