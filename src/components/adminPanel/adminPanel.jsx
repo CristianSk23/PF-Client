@@ -10,7 +10,7 @@ import BarGraphics from '../BarGraphic/BarGraphic';
 import LineGraph from '../LineGraph/LineGraph';
 import PieChart from '../PieChart/PieChart';
 import OrderList from '../orderList/orderList';
-import UserList from '../userList/userList';
+import AdminModuleUser from '../adminModuleUser/AdminModuleUser';
 import ListProducts from '../ListProducts/listProducts';
 import HomeAdmin from '../HomeAdmin/HomeAdmin';
 
@@ -46,7 +46,7 @@ export default function AdminPanel() {
           case 'users':
             return (
             <div>
-                <UserList />
+                <AdminModuleUser />
               </div>
             );
             case 'saleHistorial':
