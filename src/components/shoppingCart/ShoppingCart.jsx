@@ -36,7 +36,6 @@ const ShoppingCart = ({}) => {
  }
 
  const DecreaseQuantity = (userID, productsid, quantityPROD) => {
-    console.log(quantityPROD)
     dispatch(decreaseQuantity(userID, productsid, quantityPROD))
  }
 
