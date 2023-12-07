@@ -127,6 +127,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
       }
+      
+    case GETUSERBYID: 
+      return {
+        ...state
+    }
   
     case UPDATEUSER:
       return { ...state, 

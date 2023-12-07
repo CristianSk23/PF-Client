@@ -5,6 +5,7 @@ import {
   GETUSERS,
   GETUSERBYID,
   GETPRODBYID,
+  DELETEUSER,
   GETPRODCATEGORIES,
   GETPRODUCTBYNAME,
   CREATEPRODUCT,
@@ -207,6 +208,24 @@ export const getUserById = (id) => {
   };
 }
 
+export const deleteUser = (id) => {
+  console.log(id);
+return async (dispatch) => {
+  try {
+    const response = await axios.delete(`/users/${id}`);
+    dispatch({
+      type: DELETEUSER,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: error.message,
+      });
+    }
+  };
+}
+
 export const orderPrice = (order) => {
   return { type: ORDERPRICE, payload: order };
 };
@@ -381,3 +400,4 @@ export const getPromotions = () => async (dispatch) => {
     console.error('Error fetching promotions:', error);
   }
 };
+

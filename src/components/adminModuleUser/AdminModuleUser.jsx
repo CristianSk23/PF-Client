@@ -21,6 +21,11 @@ const AdminModuleUser = () => {
     console.log(`Delete user with ID ${userId}`);
     navigate(`/user/deleteUser/${userId}`);
   };
+  
+  const handleOrder = (userId) => {
+    console.log(`Oder user with ID ${userId}`);
+    navigate(`/user/orderUser${userId}`);
+  }
 
   return (
     <div>
@@ -49,6 +54,7 @@ const AdminModuleUser = () => {
             <td>
               <button onClick={() => handleUpdate(user.id)}>Update</button>
               <button onClick={() => handleDelete(user.id)}>Delete</button>
+              <button onClick={() => handleGetOrder(user.id)}>Order</button>
             </td>
           </tr>
         ))}
