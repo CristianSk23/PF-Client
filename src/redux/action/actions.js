@@ -190,7 +190,6 @@ export const getUserById = (id) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`/users/${id}`);
-      console.log(response.data);
       dispatch({
         type: GETUSERBYID,
         payload: response.data,
@@ -205,7 +204,6 @@ export const getUserById = (id) => {
 }
 
 export const deleteUser = (id) => {
-  console.log(id);
 return async (dispatch) => {
   try {
     const response = await axios.delete(`/users/${id}`);

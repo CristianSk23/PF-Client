@@ -18,21 +18,17 @@ const AdminModuleUser = () => {
   }, [dispatch]);
 
   const handleUpdate = (userId) => {
-    console.log(`Update user with ID ${userId}`);
     navigate(`/user/updateUser/${userId}`);
   };
 
   const handleDelete = (userId) => {
-    console.log(`Delete user with ID ${userId}`);
     navigate(`/user/deleteUser/${userId}`);
   };
   
   const handleOrder = (userId) => {
-    console.log(`Oder user with ID ${userId}`);
     navigate(`/user/orderUser${userId}`);
   }
   const handleStatusChangeActive = (userId, email, typeUser, newStatus) => {
-    console.log(`Update status for user with ID ${userId} email: ${email} and ${typeUser} to ${newStatus}`);
     const user = {
       id: userId, 
       email: email,
@@ -42,7 +38,6 @@ const AdminModuleUser = () => {
     dispatch(updateUser(user))
   }
   const handleStatusChangeTypeUser = (userId, email, active, newStatus) => {
-    console.log(`Update status for user with ID ${userId} email: ${email} and ${active} to ${newStatus}`);
     const user = {
       id: userId, 
       email: email,
@@ -51,10 +46,6 @@ const AdminModuleUser = () => {
     }
     dispatch(updateUser(user))
   }
-
-
-  
-
   return (
     <div>
         <h5>Users list:</h5>

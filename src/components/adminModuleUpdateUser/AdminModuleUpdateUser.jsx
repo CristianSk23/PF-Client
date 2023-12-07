@@ -32,9 +32,7 @@ const AdminModuleUpdateUser = () => {
   useEffect(() => {
     dispatch(getUserById(id));
 
-    // La función de limpieza se ejecuta al desmontar el componente
     return () => {
-        // Restablece el estado a su valor inicial al desmontar usando el estado actualizado (userById)
         setUser({
           id: '',
           name: '',
@@ -80,7 +78,6 @@ const AdminModuleUpdateUser = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isEmailValid) {
-    console.log('Formulario enviado:', user);
     setUser({
       id: user.id || "",
       name: user.name || "",

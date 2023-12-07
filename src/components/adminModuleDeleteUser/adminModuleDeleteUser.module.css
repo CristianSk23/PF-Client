@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh; /* O ajusta la altura según sea necesario */
+    height: 100vh; 
   }
   .deleteP {
     text-align: left;
