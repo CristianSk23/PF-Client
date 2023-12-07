@@ -25,7 +25,7 @@ const Card = ({
 }) => {
   const dispatch = useDispatch();
 
-<<<<<<< HEAD
+
     const { isAuthenticated, loginWithRedirect } = useAuth0()
 
     const isUser = useSelector((state) => state.isUser)
@@ -53,17 +53,6 @@ const Card = ({
      useEffect(()=> {
 
      },[handleBuy])
-=======
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
-
-  const isUser = useSelector((state) => state.isUser);
-  const handleLogin = async () => {
-    await loginWithRedirect();
-  };
-  const handleBuy = () => {
-    dispatch(addToCart(productId));
-  };
->>>>>>> develop
 
   return (
     <div>
@@ -152,26 +141,12 @@ const Card = ({
             ) : isUser === "User" ? (
               /* User Options */
 
-<<<<<<< HEAD
              <> 
               {isAuthenticated && <button id={productId} type="button" className="btn btn-success" style={{margin:"2px"}} onClick={() => handleBuy(productId)}>
               <FontAwesomeIcon icon={faCartShopping} />
               </button>}
             </>   
-=======
-              <>
-                {isAuthenticated && (
-                  <button
-                    type="button"
-                    className="btn btn-success"
-                    style={{ margin: "2px" }}
-                    onClick={handleBuy}
-                  >
-                    <FontAwesomeIcon icon={faCartShopping} />
-                  </button>
-                )}
-              </>
->>>>>>> develop
+
             ) : isUser === "Invited" ? (
               /* Invite Options */
               <>
