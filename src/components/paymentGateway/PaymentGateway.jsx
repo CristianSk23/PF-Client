@@ -3,10 +3,9 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from "../../redux/action/actions";
-import styles from "./paymentGateway.module.css"; // Import styles
+import styles from "./paymentGateway.module.css"; 
 import RingLoader  from "react-spinners/RingLoader"; // spinner para el loading 
 import axios from "axios"; // hay que hacer redux. hasta entonces, no eliminar
-// import cart from "../../assets/data" // Eliminar - data tipo carrito, se usa para simular el pago -
 
 const PaymentGateway=()=>{
   const dispatch = useDispatch();
@@ -26,8 +25,6 @@ const PaymentGateway=()=>{
         city: userInSession?.city || ""
   })
 
-  console.log("userInSession:  "+ userInSession);
-
   const totalCart = cart.items.reduce((accumulator, item) => {
     let newPrice = item.priceOnSale || item.price;
     return accumulator + newPrice * item.quantity;
@@ -35,7 +32,7 @@ const PaymentGateway=()=>{
 
   useEffect(() => {
     return ()=> setLoading(false)
-  }, [userInSession]);   
+  }, []);   
 
   const handleChange = (event) =>{
     setUserInfo({
@@ -70,7 +67,6 @@ const PaymentGateway=()=>{
         userInfo.postalCode != userInSession?.postalCode || 
         userInfo.city != userInSession?.city)
     {
-      console.log(userInfo);
       dispatch(updateUser(userInfo))
     }
     // VER DE AGREGAR INFORMACION PARA EL CART DE Mercadopago. Ej address,phone etc.
@@ -94,12 +90,13 @@ const PaymentGateway=()=>{
 
     if(catchError===""){
       axios
-      .post("http://localhost:3001/payments/createOrder", newOrder)
+      .post("/payments/createOrder", newOrder)
       .then((response) => {
           window.location.href = response.data.init_point;
       })
       .catch((error) => console.log(error));
     }
+    setLoading(false)   
   }
 
     return(

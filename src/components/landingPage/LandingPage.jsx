@@ -33,11 +33,11 @@ const LandingPage = () => {
   }, [isUser]);
 
 
-  // obtengo los productos
+
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
-
+  
   const [filterCond, setFilterCond] = useState({
     type: "all",
     price: "all",
@@ -60,11 +60,11 @@ const LandingPage = () => {
   return (
     <div className={styles.container}>
 
-      
-       {shouldRenderPromotionPopup && <PromotionPopup />}
+       
+{shouldRenderPromotionPopup && <PromotionPopup />}
       
 
-        <NavBar
+      <NavBar
           onSearch={onSearch}
           setFilterCond={setFilterCond}
           filterCond={filterCond}

@@ -13,6 +13,7 @@ const NavBar = ({ onSearch, filterCond }) => {
   const dispatch = useDispatch();
   const prodCategories = useSelector((state) => state.prodCategories) || [];
   const isLandingPage = location.pathname === '/';
+  const isAdminPanel = location.pathname === '/adminPanel';
 
 
   const { logout, loginWithRedirect, isAuthenticated } = useAuth0()
@@ -40,6 +41,11 @@ const NavBar = ({ onSearch, filterCond }) => {
     setName(event.target.value);
   };
 
+  const clearSearch = () => {
+    // Limpiar el campo de búsqueda
+    setName('');
+  };
+
   return (
     <nav className="navbar navbar-dark bg-dark fixed-top">
     <div className="container-fluid">
@@ -47,7 +53,23 @@ const NavBar = ({ onSearch, filterCond }) => {
       {isLandingPage && (
       <div className="d-flex" role="search">
           <input id="search" value={name} className="form-control me-2" type="search" placeholder="Product name..." aria-label="Search" onChange={handleChange}/>
-          <button className="btn btn-outline-light" disabled={name == ""} onClick={() => onSearch(name)}>
+          <button className="btn btn-outline-light" disabled={name == ""} onClick={() => {
+          onSearch(name);
+          clearSearch();
+        }}>
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+          />
+          </button>
+      </div>
+      )}
+      {isAdminPanel && (
+      <div className="d-flex" role="search">
+          <input id="search" value={name} className="form-control me-2" type="search" placeholder="Product name..." aria-label="Search" onChange={handleChange}/>
+          <button className="btn btn-outline-light" disabled={name == ""} onClick={() => {
+          onSearch(name);
+          clearSearch();
+        }}>
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
           />
@@ -64,6 +86,7 @@ const NavBar = ({ onSearch, filterCond }) => {
         </div>
         <div className="offcanvas-body">
         <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
+        <li><a className="dropdown-item" href="/users"> User Admin</a></li>
         {isUser === "Admin" ? (
               /* Admin Options */
               <>

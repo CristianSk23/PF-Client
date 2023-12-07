@@ -2,6 +2,7 @@ import { UserType } from "../../utils/userType";
 import {
   GETALLPRODUCTS,
   GETUSERS,
+  GETUSERBYID,
   GETPRODBYID,
   GETPRODCATEGORIES,
   GETPRODUCTBYNAME,
@@ -26,7 +27,9 @@ import {
   UPDATEUSER,
   GENERATEUSER,
   LOGOUT,
-  COUNTRY
+  COUNTRY,
+  POPUTSPROMOTIONS,
+  GETALLCOUNTRIES,
 } from "../action/actionsType";
 
 const initialState = {
@@ -37,11 +40,13 @@ const initialState = {
     productsFiltered: [],
     productsSearch: [],
     filterType: undefined, // orderPrice, productsSearched, filterType, etc.
-    nameSearch: ""
+    nameSearch: "",
+    promotionsProducts: [],
+    singleProduct: ""
   },
   users: [],
   prodCategories: [],
-  singleProduct: "",
+
   catchError: "",
   isShowPopup: true,
   cart: {
@@ -49,7 +54,8 @@ const initialState = {
   },
   isUser: "Invited",
   user: {},
-  country: ""
+  country: "",
+  countries: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -78,7 +84,6 @@ const reducer = (state = initialState, action) => {
           allProducts: [...state.products.allProducts, action.payload],
         },
       };
-    //return { ...state, products.allProducts: [...products.allProducts, action.payload] };
 
     case UPDATEPRODUCT:
       const updatedProducts = state.products.allProducts.filter((product) => {
@@ -93,10 +98,22 @@ const reducer = (state = initialState, action) => {
       };
 
     case GETPRODBYID:
-      return { ...state, singleProduct: action.payload };
+      return { 
+        ...state, 
+        products: {
+          ...state.products, 
+          singleProduct: action.payload
+        } 
+      };
 
     case CLEANSINGLEPROD:
-      return { ...state, singleProduct: action.payload };
+      return { 
+        ...state, 
+        products: {
+          ...state.products, 
+          singleProduct: action.payload
+        } 
+      };
 
     case DELETEPRODUCT:
       const deletedProduct = state.products.allProducts.filter((product) => {
@@ -118,6 +135,17 @@ const reducer = (state = initialState, action) => {
         ...state,
         users: action.payload,
       };
+
+    case GETUSERBYID: 
+      return {
+        ...state,
+        user: action.payload,
+      }
+      
+    case GETUSERBYID: 
+      return {
+        ...state
+    }
   
     case UPDATEUSER:
       return { ...state, 
@@ -474,6 +502,25 @@ const reducer = (state = initialState, action) => {
         isUser: "Invited",
         country: ""
     }
+    case POPUTSPROMOTIONS:
+      const promotionsProduct = action.payload.filter((product) => {
+        return product.tags === "New"
+      });
+      
+  return {
+    ...state,
+    products: {
+      ...state.products,
+      promotionsProducts: promotionsProduct,
+    },
+  };
+
+  case GETALLCOUNTRIES:
+    const ordenCountries = action.payload.sort((a, b) => a.name.localeCompare(b.name));
+    return {
+      ...state,
+      countries: ordenCountries
+    };
 
     default:
       return { ...state };

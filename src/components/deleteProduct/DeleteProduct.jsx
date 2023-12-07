@@ -8,7 +8,7 @@ import PopupGeneral from "../popupGeneral/PopupGeneral";
 
 const DeleteProduct = () => {
   const { id } = useParams();
-  const prodById = useSelector((state) => state.singleProduct);
+  const prodById = useSelector((state) => state.products.singleProduct);
   const [productLoaded, setProductLoaded] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ const DeleteProduct = () => {
           <div className="card" style={{width: "30rem", marginTop:"70px"}}>
             <h1 className="text-center">Deleting Product</h1>
               {productLoaded && (
-                <img src={prodById?.image} className="card-img-top" alt="..."/>
+                <img src={prodById?.image[0]} className="card-img-top" alt="..."/>
               )}
                <div className="card-body">
                  <h5 className="card-title">{prodById?.nameProd}</h5>

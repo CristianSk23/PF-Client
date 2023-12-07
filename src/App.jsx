@@ -1,7 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import LandingPage from "./components/landingPage/LandingPage"; // Eliminar
-import CreateProduct from './components/createProduct/CreateProduct'; //eliminar
+import LandingPage from "./components/landingPage/LandingPage"; 
+import CreateProduct from './components/createProduct/CreateProduct'; 
 import UpdateProduct from "./components/updateProduct/UpdateProduct";
 import DeleteProduct from "./components/deleteProduct/DeleteProduct";
 import ShoppingCart from "./components/shoppingCart/ShoppingCart";
@@ -10,6 +10,11 @@ import Detail from "./components/detail/Detail";
 import Login from "./components/login/Login";
 import MyProfile from "./components/myProfile/myProfile";
 import PaymentGateway from "./components/paymentGateway/PaymentGateway";
+import PaymentStatus from "./components/paymentStatus/PaymentStatus";
+import AdminPanel from "./components/adminPanel/adminPanel";
+import AdminModuleUser from "./components/adminModuleUser/AdminModuleUser";
+import AdminModuleUpdateUser from "./components/adminModuleUpdateUser/AdminModuleUpdateUser";
+import AdminModuleDeleteUser from "./components/adminModuleDeleteUser/AdminModuleDeleteUser";
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,13 +62,11 @@ const App = () => {
   useEffect(() => {
     if (userAuth?.email) {
       dispatch(typeUser(userAuth.typeUser));
-
     }
   }, [userAuth]);
 
   useEffect(() => {
     if (userAuth?.CountryId) {
-      console.log(userAuth?.CountryId);
       dispatch(getCountry(userAuth?.CountryId));
     }
   }, [userAuth]);
@@ -82,6 +85,11 @@ const App = () => {
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/myProfile" element={<MyProfile />} />
           <Route path="/paymentGateway" element={<PaymentGateway />} />
+          <Route path="/paymentGateway/status" element={<PaymentStatus />} />
+          <Route path="/adminPanel" element={<AdminPanel />} />
+          <Route path="/users" element={<AdminModuleUser />}/>
+          <Route path="/user/updateUser/:id" element={<AdminModuleUpdateUser/>} />
+          <Route path="/user/deleteUser/:id" element={<AdminModuleDeleteUser/>} />
         </Route>
       </Routes>
     </div>

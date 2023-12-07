@@ -26,7 +26,7 @@ const UpdateProduct = () => {
   const catchError = useSelector((state) => state.catchError);
   const prodCategories = useSelector((state) => state.prodCategories);
   const allProducts = useSelector((state) => state.products.allProducts);
-  const prodById = useSelector((state) => state.singleProduct);
+  const prodById = useSelector((state) => state.products.singleProduct);
   const navigate = useNavigate();
   const [productLoaded, setProductLoaded] = useState(false);
   const [errors, setErrors] = useState({});
@@ -125,7 +125,6 @@ const UpdateProduct = () => {
         const newUrlForIndex = await uploadImageToCloudinary(imageUrl);
         const updatedImages = [...product.image];
         updatedImages[index] = newUrlForIndex;
-        console.log(newUrlForIndex);
         setProduct((prevProduct) => ({ ...prevProduct, image: updatedImages }));
       }
     } catch (error) {
@@ -188,7 +187,6 @@ const UpdateProduct = () => {
       tags: product.tags,
       stock: product.stock,
     };
-    console.log(newProduct);
     await dispatch(updateProduct(newProduct));
     setShowConfirmation(true);
   };
@@ -438,12 +436,12 @@ const UpdateProduct = () => {
                     >
                       Remove
                     </button>
-                    <button
+                    {!url.includes('cloudinary') && <button
                       type="button"
                       onClick={() => sendImageUrlChange(index)}
                     >
-                      Send
-                    </button>
+                      Save
+                    </button>}
                     {url && (
                       <div>
                         <img

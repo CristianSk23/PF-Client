@@ -70,7 +70,6 @@ const CreateProduct = () => {
         const newUrlForIndex = await uploadImageToCloudinary(imageUrl);
         const updatedImages = [...product.image];
         updatedImages[index] = newUrlForIndex;
-        console.log(newUrlForIndex);
         setProduct((prevProduct) => ({ ...prevProduct, image: updatedImages }));
       }
     } catch (error) {
@@ -150,7 +149,7 @@ const CreateProduct = () => {
       });
       setShowConfirmation(true);
     } catch (error) {
-      // Aquí puedes manejar el error si es necesario
+
     }
   };
 
@@ -171,9 +170,8 @@ const CreateProduct = () => {
   };
 
   return (
-    <div style={{ backgroundColor: "#F8F9F9", minHeight: "900px" }}>
-      <NavBar />
-      <div style={{ marginTop: "60px" }}>
+    <div style={{ minHeight: "800px" }}>
+      <div>
         <h1 className="text-center m-5">Create Product</h1>
         <Form onSubmit={handleSubmit} className={styles.container}>
           <div className={styles.input_container}>
@@ -407,7 +405,7 @@ const CreateProduct = () => {
                       type="button"
                       onClick={() => sendImageUrlChange(index)}
                     >
-                      Send
+                      Save
                     </button>
                     {url && (
                       <div>
