@@ -1,11 +1,11 @@
 import {useEffect, useState} from "react";
-import styles from "./adminModuleHistoryOrderUser.module.css";
+import styles from "./moduleHistoryOrderUser.module.css";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrdersByUserId } from "../../redux/action/actions";
 import OrderDetailUserByIdPopup from "../orderDetailUserByIdPopup/OrderDetailUserByIdPopup";
 
-const AdminModuleHistoryOrderUser =() =>{
+const ModuleHistoryOrderUser =({idProp}) =>{
     const { id } = useParams();
     const dispatch = useDispatch()
     const ordersById = useSelector((state) => state.ordersForUserId) || [];
@@ -13,14 +13,13 @@ const AdminModuleHistoryOrderUser =() =>{
     
     
     useEffect(() => {
+      if (id != undefined){
         dispatch(getOrdersByUserId(id));
-        console.log(ordersById);
+      }
+      else{
+        dispatch(getOrdersByUserId(idProp));
+      }
     },[dispatch])
-
-    useEffect(() => {
-      console.log(ordersById);
-      
-  },[ordersById])
 
     const handleSeeDetail = (order) => {
         setSelectedOrder(order);
@@ -71,4 +70,4 @@ const AdminModuleHistoryOrderUser =() =>{
     )
 }
 
-export default AdminModuleHistoryOrderUser;
+export default ModuleHistoryOrderUser;

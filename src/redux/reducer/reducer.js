@@ -421,7 +421,6 @@ const reducer = (state = initialState, action) => {
       let itemToDec = state.cart.items.find(
         (item) => item.id === action.payload
       );
-      console.log(itemToDec.quantity);
 
       if (itemToDec.quantity <= 1) {
         let filteredItemsDEC = state.cart.items.filter(

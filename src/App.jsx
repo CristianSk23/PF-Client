@@ -15,7 +15,7 @@ import AdminPanel from "./components/adminPanel/adminPanel";
 import AdminModuleUser from "./components/adminModuleUser/AdminModuleUser";
 import AdminModuleUpdateUser from "./components/adminModuleUpdateUser/AdminModuleUpdateUser";
 import AdminModuleDeleteUser from "./components/adminModuleDeleteUser/AdminModuleDeleteUser";
-import AdminModuleHistoryOrderUser from "./components/adminModuleHistoryOrderUser/AdminModuleHistoryOrderUser"
+import ModuleHistoryOrderUser from "./components/moduleHistoryOrderUser/ModuleHistoryOrderUser"
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -91,7 +91,7 @@ const App = () => {
           <Route path="/adminPanel/users" element={<AdminModuleUser />}/>
           <Route path="/adminPanel/users/updateUser/:id" element={<AdminModuleUpdateUser/>} />
           <Route path="/adminPanel/users/deleteUser/:id" element={<AdminModuleDeleteUser/>} />
-          <Route path="/adminPanel/users/orderHistory/:id" element={<AdminModuleHistoryOrderUser/>} />
+          <Route path="/adminPanel/users/orderHistory/:id" element={<ModuleHistoryOrderUser/>} />
         </Route>
       </Routes>
     </div>
