@@ -28,6 +28,8 @@ import {
   LOGOUT,
   COUNTRY,
   POPUTSPROMOTIONS,
+  INCREASESTOCK,
+  DECREASESTOCK,
 } from "../action/actionsType";
 
 const initialState = {
@@ -427,6 +429,25 @@ const reducer = (state = initialState, action) => {
     };
     };
 
+    case INCREASESTOCK:
+
+    const updatedData = state.products.data.map((item) => {
+      if (item.id === action.payload) {
+        return { ...item, stock: item.stock + 1 };
+      } else {
+        return item;
+      }
+    });
+    console.log(updatedData)
+    return {
+      ...state,
+      products: {
+        ...state.products,
+        data: updatedData,
+      },
+    }
+
+    case DECREASESTOCK:
 
 
     case GETPRODUCTBYNAME:

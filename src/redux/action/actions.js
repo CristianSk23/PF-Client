@@ -28,6 +28,8 @@ import {
   GENERATEUSER,
   UPDATEUSER,
   COUNTRY,
+  INCREASESTOCK,
+  DECREASESTOCK,
   POPUTSPROMOTIONS,
 } from "../action/actionsType";
 
@@ -355,4 +357,30 @@ export const getPromotions = () => async (dispatch) => {
   } catch (error) {
     console.error('Error fetching promotions:', error);
   }
+};
+
+export const increaseStock = (id) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: INCREASESTOCK, payload: id });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
+export const decreaseStock = (id) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: DECREASESTOCK, payload: id });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
 };

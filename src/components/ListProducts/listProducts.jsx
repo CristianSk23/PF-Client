@@ -7,12 +7,16 @@ import { Form } from 'react-bootstrap';
 import FilterAndOrder from "../filterAndOrder/FilterAndOrder";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux";
-import { getAllProducts, changePage } from "../../redux/action/actions";
+import { getAllProducts, changePage, increaseStock } from "../../redux/action/actions";
 import {useEffect, useState} from "react"
+import { useNavigate } from "react-router-dom";
+import Cards from "../cards/Cards"
+import { Link } from "react-router-dom";
 
 export default function ListProducts(){
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     useEffect(() => {
         dispatch(getAllProducts());
@@ -25,7 +29,8 @@ export default function ListProducts(){
         price: "all",
         order: "ascendent",
       });
-      const [aux, setAux] = useState(false);
+    const [aux, setAux] = useState(false);
+    const [prev, setPrev] = useState(true)  
 
     const pagination = (event) => {
         dispatch(changePage(event.target.name));
@@ -39,25 +44,64 @@ export default function ListProducts(){
         });
     };
 
+    const handleCancel = () => {
+        navigate(-1);
+      };
+
+    const handlePreview = () => {
+        setPrev(false)
+    }
+
+    const handleClosePrev = () => {
+        setPrev(true)
+    }
+
+    const IncreaseStock = (id) => {
+        dispatch(IncreaseStock(id))
+     }
+    
+     const DecreaseStock = () => {
+        dispatch(DecreaseStock())
+     }
+
     return(
         <div>
-            <h5 style={{marginBottom:"-95px"}}>List of Products:</h5>
 
-            <FilterAndOrder
-            setFilterCond={setFilterCond}
-            filterCond={filterCond}
-            setAux={setAux}
-            />
+        <h5 style={{marginBottom:"-95px"}}>List of Products:</h5>
 
-            <div className="pagination justify-content-center">
-            <button 
-            type="button" 
-            className="form-control" 
-            style={{ width: '50px', textAlign:"center", marginTop:"5px", height:"37.6px"}}
-            onClick={reset}
-            >
-            <FontAwesomeIcon icon={faArrowsRotate} />
-            </button>
+        <FilterAndOrder
+        setFilterCond={setFilterCond}
+        filterCond={filterCond}
+        setAux={setAux}
+        />
+
+        <div className="pagination justify-content-center">
+        <button 
+        type="button" 
+        className="form-control" 
+        style={{ width: '50px', textAlign:"center", marginTop:"5px", height:"37.6px"}}
+        onClick={reset}
+        >
+        <FontAwesomeIcon icon={faArrowsRotate} />
+        </button>
+        </div>
+
+        {prev ? (
+        <div> 
+
+            <div style={{"text-align": "right"}}>
+                <button
+                style={{
+                color: "white",
+                padding: "10px 15px",
+                border: "none",
+                cursor: "pointer",
+                "border-radius": "5px",
+                "background-color": "limegreen"}}
+                onClick={handlePreview}
+                >
+                    Preview User View
+                </button>
             </div>
 
                 <table className="table table-hover" style={{marginTop:"10px"}}>
@@ -78,7 +122,7 @@ export default function ListProducts(){
 
                         {products.map((product) => (
                             <tr>
-                            <img className={styles.td}  alt={product.nameProd} />
+                            <img className={styles.td} style={{ width: '50px', height: '50px' }}  src={product.image[0]} alt={product.nameProd} />
                             <td className={styles.td}>{product.nameProd}</td>
                             <td className={styles.td}>{product.category}</td>
                             <td className={styles.td}>{product.price}</td>  
@@ -92,7 +136,7 @@ export default function ListProducts(){
                                     <div style={{padding:"10px", height:"1px", marginTop:"-9px"}}>
                                         <p>{product.stock}</p>
                                     </div>
-                                    <button type="button" className="btn btn-primary"style={{marginTop:"-6px"}}>
+                                    <button type="button" onClick={() => increaseStock(product.id)} className="btn btn-primary"style={{marginTop:"-6px"}}>
                                     +
                                     </button>
                                 </div>
@@ -107,10 +151,12 @@ export default function ListProducts(){
                                 <option value="2">Disabled</option>
                             </Form.Select>
                             </td>
-                            <td className={styles.td}> {/* DARLE FUNCIONAMIENTO AL BOTON DE UPDATE */}
+                            <td className={styles.td}>
+                                <Link to={`/updateProduct/${product.id}`}>
                                 <button className={styles.button}>
                                 <FontAwesomeIcon icon={faPencil} style={{color: "#badb43",}} />
                                 </button>
+                                </Link>
                             </td>
                             <td className={styles.td}> {/* DARLE FUNCIONAMIENTO AL BOTON DE DELETE */}
                                 <button className={styles.button}>
@@ -120,33 +166,60 @@ export default function ListProducts(){
                         </tr>
                         ))}
 
-                        <nav aria-label="Page navigation example" style={{ marginTop: "22px" }}>
-                        <ul className="pagination justify-content-center">
-                        <li className="page-item">
-                            <a
-                            className="page-link"
-                            onClick={pagination}
-                            name="prev"
-                            style={{ cursor: "default" }}
-                            >
-                            {"<<"} Previous
-                            </a>
-                        </li>
-                        <li className="page-item">
-                            <a
-                            className="page-link"
-                            onClick={pagination}
-                            name="next"
-                            style={{ cursor: "default" }}
-                            >
-                            Next {">>"}
-                            </a>
-                        </li>
-                        </ul>
-                    </nav>        
+                        </tbody>
+                        </table>
+     
+                </div>  
+                    ) : (
+                <div>
+                <div style={{"text-align":"right"}}>
+                <button 
+                style={{
+                    color: "white",
+                    padding: "10px 15px",
+                    border: "none",
+                    cursor: "pointer",
+                    "border-radius": "5px",
+                    "background-color": "orange"}}
+                onClick={handleClosePrev}        
+                >Close User View</button>
+                </div>                    
+                <Cards products={products}/>             
+                </div>
+                )}
 
-                    </tbody>
-                </table> 
-        </div>
+                <nav aria-label="Page navigation example" style={{ marginTop: "22px" }}>
+                   <ul className="pagination justify-content-center">
+                    <li className="page-item">
+                        <a
+                        className="page-link"
+                        onClick={pagination}
+                        name="prev"
+                        style={{ cursor: "default" }}
+                        >
+                        {"<<"} Previous
+                        </a>
+                    </li>
+                    <li className="page-item">
+                        <a
+                        className="page-link"
+                        onClick={pagination}
+                        name="next"
+                        style={{ cursor: "default" }}
+                        >
+                        Next {">>"}
+                        </a>
+                    </li>
+                    </ul>
+                </nav>    
+
+                <a
+                    onClick={handleCancel}
+                    className="btn btn-primary"
+                    style={{ bottom: "10px", right: "10px" }}
+                    >
+                    Back
+                </a>
+                </div>
     )
 }
