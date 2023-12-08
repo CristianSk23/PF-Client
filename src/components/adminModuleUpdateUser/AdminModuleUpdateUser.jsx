@@ -3,9 +3,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser, getUserById, setPageAdmin } from "../../redux/action/actions";
 import PopupGeneral from "../popupGeneral/PopupGeneral";
-import { Form } from 'react-bootstrap';
 import styles from "./adminModuleUpdateUser.module.css"
-import { elements } from 'chart.js';
+import FloatingLabel from "react-bootstrap/FloatingLabel";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+
 
 
 const AdminModuleUpdateUser = () => {
@@ -118,96 +120,220 @@ const AdminModuleUpdateUser = () => {
   };
 
   return (
-    <div className={styles.containerUpdate}>
-      <h2>Modify User</h2>
-      <form onSubmit={handleSubmit}>
-        <label className={styles.labelUpdate}>
-          Name:
-          <input className={styles.inputUpdate} type="text" name="name" value={user.name} onChange={handleChange} />
-        </label>
-        <br />
-        <label className={styles.labelUpdate}>
-          Lasname:
-          <input className={styles.inputUpdate} type="text" name="lastName" value={user.lastName} onChange={handleChange} />
-        </label>
-        <br /> 
-        <label className={styles.labelUpdate}>
-          Email:
-          <input className={styles.inputUpdate} type="email" name="email" value={user.email} onChange={handleChange} />
-        </label>
-        {!isEmailValid && (
-          <div style={{ color: 'red' }}>Enter a valid email address</div>
-        )}
-         <br />
-         <label className={styles.labelUpdate}>
-         Address:
-          <input className={styles.inputUpdate} type="text" name="address" value={user.address} onChange={handleChange} />
-        </label>
-         <br />
-         <label className={styles.labelUpdate}>
-         Phone:
-          <input className={styles.inputUpdate} type="number" name="phone" value={user.phone} onChange={handleChange} />
-        </label>
-         <br />
-         <label className={styles.labelUpdate}>
-         Identity Card:
-          <input className={styles.inputUpdate} type="text" name="identityCard" value={user.identityCard} onChange={handleChange} />
-        </label>
-         <br />
-         <label className={styles.labelUpdate}>
-         Postal Code:
-          <input className={styles.inputUpdate} type="text" name="postalCode" value={user.postalCode} onChange={handleChange} />
-        </label>
-         <br />
-         <label className={styles.labelUpdate}>
-         City:
-          <input className={styles.inputUpdate} type="text" name="city" value={user.city} onChange={handleChange} />
-        </label>
-         <br />         
-         <label className={styles.labelUpdate}>
-          Active:
-          <Form.Select 
-            aria-label="Seleccionar estado" 
-            className='form-select-sm' 
-            name="active" 
-            value={user.active} 
-            onChange={handleChange}
-          >
-            <option value="true">Active</option>
-            <option value="false">Disabled</option>
-          </Form.Select>
-        </label>
-        <br />
-         <label className={styles.labelUpdate}>
-         Type User:
-          <Form.Select 
-            aria-label="Seleccionar estado" 
-            className='form-select-sm' 
-            name="active" 
-            value={user.typeUser}
-            onChange={handleChange}
-          >
-            <option value="Admin">Admin</option>
-            <option value="User">User</option>
-          </Form.Select>
-        </label>
-        <br />
-         <label className={styles.labelUpdate}>
-         Country:
-          <input className={styles.inputUpdate} type="text" name="country" value={user.country} onChange={handleChange} />
-        </label>
-         <br />
-        <button type="submit" className="btn btn-success" disabled={!isEmailValid}>Save Changes</button>
-        <button type="button" className="btn btn-danger" style={{ margin: "5px" }}onClick={handleCancel}>Cancel</button>
-      </form> 
-      {showConfirmation && (
-        <PopupGeneral
-          textButton="Accept"
-          descripcion="User successfully updated"
-          onClick={handleConfirmationClose}
-        />
-      )}
-    </div>
+        <div style={{ minHeight: "800px" }}>
+          <div>
+            <h1 className="text-center m-5">Modify User</h1>
+            <Form onSubmit={handleSubmit} className={styles.container}>
+              <div className={styles.input_container}>
+                <div className={styles.input_name}>
+                  <FloatingLabel
+                    id="floatingInput"
+                    label="Name"
+                    className="w-100 me-2"
+                  >
+                    <Form.Control
+                      className={styles.form_input}
+                      type="text"
+                      placeholder="Name"
+                      name="name"
+                      value={user.name}
+                      onChange={handleChange}
+                    />
+                  </FloatingLabel>
+                  <FloatingLabel
+                    id="floatingInput"
+                    label="Last Name"
+                    className="w-100 me-2"
+                  >
+                    <Form.Control
+                      className={styles.form_input}
+                      type="text"
+                      placeholder="Last Name"
+                      name="lastName"
+                      value={user.lastName}
+                      onChange={handleChange}
+                    />
+    
+                  </FloatingLabel>
+                </div>
+                <div className={styles.input_name}>
+                  <FloatingLabel
+                    id="floatingInput"
+                    label="Identity Card"
+                    className="w-100 me-2"
+                  >
+                    <Form.Control
+                      className={styles.form_input}
+                      type="text"
+                      placeholder="Identy Card"
+                      name="identityCard"
+                      value={user.identityCard}
+                      onChange={handleChange}
+                    />
+                  </FloatingLabel>
+                  <FloatingLabel
+                    id="floatingInput"
+                    label="Email"
+                    className="w-100 me-2"
+                  >
+                    <Form.Control
+                      className={styles.form_input}
+                      type="email"
+                      placeholder="Email"
+                      name="email"
+                      value={user.email}
+                      onChange={handleChange}
+                    />
+                  {!isEmailValid && (
+                  <span className={styles.errorMessage}>Enter a valid email address</span>
+                )}
+                  </FloatingLabel>
+                </div>
+    
+                <div className={styles.input_name}>
+                  <FloatingLabel
+                    id="floatingInput"
+                    label="Phone"
+                    className="w-100 me-2"
+                  >
+                    <Form.Control
+                      className={styles.form_input}
+                      type="number"
+                      placeholder="Phone"
+                      name="phone"
+                      value={user.phone}
+                      onChange={handleChange}
+                    />
+    
+                  </FloatingLabel>
+                  <FloatingLabel
+                    id="floatingInput"
+                    label="Address"
+                    className="w-100 me-2"
+                  >
+                  <Form.Control
+                      className={styles.form_input}
+                      type="text"
+                      placeholder="Address"
+                      name="address"
+                      value={user.address}
+                      onChange={handleChange}
+                    />
+                  </FloatingLabel>
+                </div>
+    
+                <div className={styles.input_name}>
+                  <FloatingLabel
+                    id="floatingInput"
+                    label="Postal Code"
+                    className="w-100 me-2"
+                  >
+                  <Form.Control
+                      className={styles.form_input}
+                      type="text"
+                      placeholder="Postal Code"
+                      name="postalCode"
+                      value={user.postalCode}
+                      onChange={handleChange}
+                    />
+                  </FloatingLabel>
+                  <FloatingLabel
+                    id="floatingInput"
+                    label="City"
+                    className="w-100 me-2"
+                  >
+                  <Form.Control
+                      className={styles.form_input}
+                      type="text"
+                      placeholder="City"
+                      name="city"
+                      value={user.city}
+                      onChange={handleChange}
+                    />
+                  </FloatingLabel>
+                </div>
+
+                <div className={styles.input_name}>
+                  <FloatingLabel
+                    id="floatingInput"
+                    label="Country"
+                    className="w-100 me-2"
+                  >
+                  <Form.Control
+                      className={styles.form_input}
+                      type="text"
+                      placeholder="Country"
+                      name="country"
+                      value={user.country}
+                      onChange={handleChange}
+                    />
+                  </FloatingLabel>
+                  <FloatingLabel
+                    id="floatingInput"
+                    label="Type User"
+                    className="w-100 me-2"
+                  >
+                    <Form.Select
+                      name="typeUser"
+                      className={styles.form_input}
+                      aria-label="Default select example"
+                      onChange={handleChange}
+                      value={user.typeUser}
+                    >
+                      <option value="admin">Admin</option>
+                      <option value="user">User</option>
+                    </Form.Select>
+    
+                  </FloatingLabel>
+                </div>
+    
+    
+                <div className={styles.input_name}>
+                <FloatingLabel
+                    id="floatingInput"
+                    label="State"
+                    className="w-100 me-2"
+                  >
+                    <Form.Select
+                      name="active"
+                      className={styles.form_input}
+                      aria-label="Default select example"
+                      onChange={handleChange}
+                      value={user.active}
+                    >
+                      <option value="true">Active</option>
+                      <option value="false">Disabled</option>
+                    </Form.Select>
+    
+                  </FloatingLabel>
+                </div>
+    
+                <Button
+                  className="w-100 my-4"
+                  variant="success"
+                  type="submit"
+                  disabled={!isEmailValid}
+                >
+                  Save Changes
+                </Button>
+                <a
+                  onClick={handleCancel}
+                  className="btn btn-danger"
+                  style={{ marginTop: "-25px", marginBottom: "15px" }}
+                >
+                  Back
+                </a>
+              </div>
+            </Form>
+            {showConfirmation && (
+              <PopupGeneral
+                textButton="Accept"
+                descripcion="User successfully updatedt"
+                onClick={handleConfirmationClose}
+              />
+            )}
+          </div>
+      </div>
   );
 };
 
