@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers, updateUser } from "../../redux/action/actions";
+import { getUsers, updateUser, getOrders } from "../../redux/action/actions";
 import { useNavigate } from 'react-router-dom';
 import styles from "./adminModuleUser.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { Form } from 'react-bootstrap';
+
 
 const AdminModuleUser = () => {
   const dispatch = useDispatch();
@@ -15,18 +16,19 @@ const AdminModuleUser = () => {
 
   useEffect(() => {
     dispatch(getUsers());
+    dispatch(getOrders())
   }, [dispatch]);
 
   const handleUpdate = (userId) => {
-    navigate(`/user/updateUser/${userId}`);
+    navigate(`/adminPanel/users/updateUser/${userId}`);
   };
 
   const handleDelete = (userId) => {
-    navigate(`/user/deleteUser/${userId}`);
+    navigate(`/adminPanel/users/deleteUser/${userId}`);
   };
   
   const handleOrder = (userId) => {
-    navigate(`/user/orderUser${userId}`);
+    navigate(`/adminPanel/users/orderHistory/${userId}`);
   }
   const handleStatusChangeActive = (userId, email, typeUser, newStatus) => {
     const user = {
