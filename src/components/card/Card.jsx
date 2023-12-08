@@ -56,7 +56,7 @@ const Card = ({
 
   return (
     <div>
-      <div className="card" style={{ width: "300px", height: "700px" }}>
+      <div className="card" style={{ width: "300px", height: "480px" }}>
         <Link
           to={`/detail/${productId}`}
           style={{ textDecoration: "none", color: "black" }}
@@ -70,38 +70,40 @@ const Card = ({
         </Link>
         <div className="card-body" style={{ textAlign: "center" }}>
           <h5 className="card-title">{nameProd}</h5>
-          <p className="card-text">{description}</p>
-          {discountPercentage > 0 ? (
-            <>
-              <p
-                className="card-text"
-                style={{ textDecoration: "line-through", marginRight: "5px", color: "red" }}
-              >
+
+        </div>
+        <div className="card-footer" style={{textAlign: "center", height:"105px"}}>
+          <div className="text-center" style={{ marginTop: "2px" }}>
+            <div style={{marginTop:"-45px"}}>
+            {discountPercentage > 0 ? (
+          <>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <p className="card-text" style={{ textDecoration: "line-through", marginRight: "5px", color: "red" }}>
                 ${price.toFixed(2)}
               </p>
-              <p
-                className="card-text"
-                style={{ color: "green", fontWeight: "bold" }}
-              >
+              <p className="card-text" style={{ color: "green", fontWeight: "bold" }}>
                 {discountPercentage}% OFF
               </p>
-              <small
-                className="text-body-secondary"
-                style={{
-                  fontWeight: "bold",
-                  fontSize: "18px",
-                  marginLeft: "5px",
-                }}
-              >
+              </div>
+          </>
+          ) : (
+            <></>
+          )}
+            </div>
+          {discountPercentage > 0 ? (
+          <div style={{marginTop:"10px"}}>
+              <small className="text-body-secondary" style={{fontWeight: "bold", fontSize: "18px", marginTop:"0px"}}>
                 ${priceOnSale?.toFixed(2)}
               </small>
-            </>
+          </div>
           ) : (
-            <p className="card-text">${price.toFixed(2)}</p>
+            <div style={{marginTop:"52px"}}>
+              <small className="text-body-secondary" style={{fontWeight: "bold", fontSize: "18px"}}>
+                ${price.toFixed(2)}
+              </small>
+            </div>
           )}
-        </div>
-        <div className="card-footer" style={{ textAlign: "center" }}>
-          <div className="text-center" style={{ marginTop: "10px" }}>
+          <div className="text-center" style={{marginTop:"10px"}}>
             {isUser === "Admin" ? (
               /* Admin Options */
               <>
@@ -171,6 +173,7 @@ const Card = ({
                 )}
               </>
             ) : null}
+            </div>
           </div>
         </div>
       </div>

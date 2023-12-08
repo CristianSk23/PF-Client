@@ -1,42 +1,69 @@
-.containerUpdate {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.containerUpdate h2 {
-  font-size: 20px;
-  margin-bottom: 15px;
-  color: #333;
-}
-
-.labelContainer {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.labelUpdate {
-  flex: 0 0 48%; 
-  font-size: 14px;
-}
-
-.inputUpdate,
-.selectUpdate {
-  font-size: 12px;
-  width: 90%;
-  height: 70%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
 .errorMessage {
-  color: red;
-  margin-top: 5px;
+  color: brown;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.input_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  width: 50%;
+}
+
+.input_name {
+  display: flex;
+  width: 100%;
+}
+
+.input_container input {
+  display: flex;
+
+  width: 100%;
+}
+
+.form_input {
+  font-size: 1.1em;
+  padding: .8em;
+  transition: all .3s ease;
+  border-radius: 0;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.form_input:focus {
+  outline: none;
+  box-shadow: none;
+  border: 1px solid;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.botonBack {
+  text-align: right;
+  margin-top: 15px;
+  margin-right: 6px;
+}
+.buttonContainer {
+  text-align: center;
+}
+
+.customButton {
+  background-color: #9ea1a2;
+  color: #ffffff;
+  margin: 15px;
+  padding: 10px 10px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+
+  &:hover {
+    background-color: #6a6c6d;
+  }
 }
