@@ -22,10 +22,10 @@ const options = {
   },
 };
 
-const LineGraph = () => {
+const LineGraph = ({data}) => {
   return (
     <div style={{ width: '1000px', height: '500px', marginLeft: "150px"}}>
-        <Line data={data} options={options} />
+        {data && <Line data={data} options={options} />}
     </div>
   )
 };
