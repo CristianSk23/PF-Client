@@ -6,14 +6,12 @@ import styles from './adminPanel.module.css';
 import CreateProduct from '../createProduct/CreateProduct';
 import { Dropdown } from 'react-bootstrap';
 import NavBar from '../navBar/NavBar';
-import BarGraphics from '../BarGraphic/BarGraphic';
-import LineGraph from '../LineGraph/LineGraph';
-import PieChart from '../PieChart/PieChart';
 import OrderList from '../orderList/orderList';
 import UserList from '../userList/userList';
 import ListProducts from '../ListProducts/listProducts';
 import HomeAdmin from '../HomeAdmin/HomeAdmin';
 import SalesByCategory from "../kpis/salesByCategory/SalesByCategory";
+import SalesHistory from '../kpis/salesHistory/salesHistory';
 
 //ENLAZAR A QUE AHORA ESTO SEA LA "LANDING" DEL ADMIN
 
@@ -53,8 +51,8 @@ export default function AdminPanel() {
             case 'saleHistorial':
                 return (
                   <div>
-                    <h2>Ejemplo de grafico lineal</h2>
-                    <SalesByCategory />
+                    <h2>Sales</h2>
+                    <SalesHistory />
                   </div>
                 );
             case 'saleByCategory':
@@ -95,7 +93,7 @@ export default function AdminPanel() {
                 return (
                     <div>
                         <h2>Ejemplo de grafico pastel</h2>
-                        <PieChart />
+
                     </div>
                 );
             case 'saleOvertime':
@@ -183,10 +181,9 @@ export default function AdminPanel() {
                         <i className="bi bi-graph-up"></i>&nbsp;KPI
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => handleButtonClick('saleHistorial')}>Sale History</Dropdown.Item>
-                        <Dropdown.Item onClick={() => handleButtonClick('saleCategory')}>Sales by Category</Dropdown.Item>
-                        <Dropdown.Item onClick={() => handleButtonClick('saleUser')}>Sales by User</Dropdown.Item>
-                        <Dropdown.Item onClick={() => handleButtonClick('saleOvertime')}>Sales Over Time </Dropdown.Item>
+                          <Dropdown.Item onClick={() => handleButtonClick('saleHistorial')}>Sales History</Dropdown.Item>
+                          <Dropdown.Item onClick={() => handleButtonClick('saleCategory')}>Sales by Category</Dropdown.Item>
+                          <Dropdown.Item onClick={() => handleButtonClick('saleUser')}>Sales by User</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </li>

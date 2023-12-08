@@ -13,6 +13,27 @@ const SalesByCategory = () =>{
     const [filter, setFilter] = useState({year:"all", category:"all"})
     const [graphData, setGraphData] = useState({pieData:[], barData:[], uniqueYears:[], filteredItems:[] })
     const dispatch = useDispatch();
+    const barOptions = {
+        plugins: {
+          title: {
+            display: true,
+            text: 'Chart.js Bar Chart - Stacked',
+          },
+        },
+        responsive: true,
+        interaction: {
+          mode: 'index',
+          intersect: false,
+        },
+        scales: {
+          x: {
+            stacked: true,
+          },
+          y: {
+            stacked: true,
+          },
+        },
+      };
 
     const handleChange = (event) => {
         setFilter((prevFilter) => ({
@@ -78,18 +99,19 @@ const SalesByCategory = () =>{
             </div>
             <div className="col-sm">
                 {graphData.barData.datasets?.length > 0 ? (
-                <BarGraphics data={graphData?.barData} />
+                <BarGraphics data={graphData?.barData} options={barOptions} />
                 ) : (
                 <p>Loading Bar Chart...</p>
                 )}
             </div>
 
             <div className="col-sm">
-                <h3>Raw Data</h3>
+                <p>Raw Data</p>
                 <table className="table table-bordered">
                 <thead>
                     <tr>
                     <th>Item Name</th>
+                    <th>Category</th>
                     <th>Item Price</th>
                     <th>Quantity</th>
                     <th>Total</th>
@@ -107,6 +129,7 @@ const SalesByCategory = () =>{
                         {item.itemName}
                         </Link>     
                         </td>
+                        <td>{item.itemCategory}</td>
                         <td>{item.itemPrice}</td>
                         <td>{item.itemQuantity}</td>
                         <td>{item.itemQuantity * item.itemPrice}</td>
