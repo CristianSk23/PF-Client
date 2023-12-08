@@ -3,18 +3,36 @@ const calculateData = (orders, filters) => {
   const salesByMonth = {};
   const salesByDay = {};
   const itemsData = [];
-  const yearsSet = new Set(); // Using Set to store distinct years
+  const yearsSet = new Set(); 
+  const monthsText = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
 
 
   orders.forEach((order) => {
     const orderYear = new Date(order.orderDate).getFullYear().toString();
-    const orderMonth = new Date(order.orderDate).getMonth();
+    const orderMonth = new Date(order.orderDate).getMonth()+1;
     const monthName = new Intl.DateTimeFormat("en-US", { month: "short" }).format(new Date(order.orderDate));
     const orderDay = new Date(order.orderDate).toISOString().split("T")[0];
     // Check if the order matches the filter conditions for year and month
-    const isWithinMonthRange = filters.month === "all" || orderMonth === parseInt(filters.month);
+    const isWithinMonthRange = filters.month === "all" || orderMonth === (parseInt(filters.month)+1);
     const isWithinYear = filters.year === "all" || filters.year === orderYear;
     
+    console.log('order.orderDate****************');
+    console.log(order.orderDate);
+    console.log('orderId');
+    console.log(order.Id);
+    console.log('orderYear');
+    console.log(orderYear);
+    console.log('orderMonth');
+    console.log(orderMonth);
+    console.log('monthName');
+    console.log(monthName);
+    console.log('orderDay');
+    console.log(orderDay);
+
+
     yearsSet.add(orderYear);
 
     if (isWithinYear) {
@@ -32,7 +50,7 @@ const calculateData = (orders, filters) => {
         }
 
         order.items.forEach((item) => {
-          const totalPrice = item.priceOnSale > 0 ? item.priceOnSale : item.price;
+          const totalPrice = item.priceOnSale > 0 ? item.priceOnSale*item.quantity : item.price*item.quantity;
           salesByYear[orderYear] += totalPrice;
           salesByMonth[monthName] += totalPrice;
           salesByDay[orderDay] += totalPrice;
@@ -57,7 +75,7 @@ const calculateData = (orders, filters) => {
   const years = Array.from(yearsSet).sort();
   const yearsArray = Object.keys(salesByYear).sort();
   const totalSalesArray = yearsArray.map((year) => salesByYear[year]);
-  const monthsArray = Object.keys(salesByMonth).sort((a, b) => new Date(Date.parse("01 " + a + " 2000")) - new Date(Date.parse("01 " + b + " 2000")));
+  const totalSalesByMonthArray = monthsText.map((month) => salesByMonth[month]);
   const daysArray = Object.keys(salesByDay).sort();
   const totalSalesByDayArray = daysArray.map((day) => salesByDay[day]);
 
@@ -66,20 +84,11 @@ const calculateData = (orders, filters) => {
       if (a.Month === b.Month) {
         return daysArray.indexOf(a.Day) - daysArray.indexOf(b.Day);
       }
-      return monthsArray.indexOf(a.Month) - monthsArray.indexOf(b.Month);
+      return monthsText.indexOf(a.Month) - monthsText.indexOf(b.Month);
     }
     return yearsArray.indexOf(a.Year) - yearsArray.indexOf(b.Year);
   });
 
-  const yearMonthArray = itemsData.map((item) => `${item.Year} - ${item.Month}`);
-  const yearMonthTotalsArray = itemsData.reduce((totals, item) => {
-    const key = `${item.Year} - ${item.Month}`;
-    if (!totals[key]) {
-      totals[key] = 0;
-    }
-    totals[key] += item.Total;
-    return totals;
-  }, {});
 
   const yearBarData = {
     labels: yearsArray,
@@ -94,11 +103,11 @@ const calculateData = (orders, filters) => {
     ],
   };
   const monthBarData = {
-    labels: yearMonthArray,
+    labels: monthsText,
     datasets: [
       {
-        label: 'Year/Month',
-        data: yearMonthTotalsArray,
+        label: 'Month',
+        data: totalSalesByMonthArray,
         backgroundColor: 'rgba(75,192,192,0.2)',
         borderColor: 'rgba(75,192,192,1)',
         borderWidth: 1,

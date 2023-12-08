@@ -13,6 +13,7 @@ const SalesByCategory = () =>{
     const [filter, setFilter] = useState({year:"all", category:"all"})
     const [graphData, setGraphData] = useState({pieData:[], barData:[], uniqueYears:[], filteredItems:[] })
     const dispatch = useDispatch();
+
     const barOptions = {
         plugins: {
           title: {
@@ -36,6 +37,7 @@ const SalesByCategory = () =>{
       };
 
     const handleChange = (event) => {
+        setGraphData({pieData:[], barData:[], uniqueYears:[], filteredItems:[] })
         setFilter((prevFilter) => ({
           ...prevFilter,
           [event.target.name]: event.target.value,

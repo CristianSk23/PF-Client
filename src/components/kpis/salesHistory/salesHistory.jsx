@@ -19,6 +19,7 @@ const SalesHistory = () =>{
       ];
 
     const handleChange = (event) => {
+        setGraphData({yearBarData:{}, monthBarData:{}, lineData:{}, itemsData:[], years:[] })
         setFilter((prevFilter) => ({
           ...prevFilter,
           [event.target.name]: event.target.value,
@@ -62,19 +63,6 @@ const SalesHistory = () =>{
                     })}
                 </select>
             </div>
-            {/* <div className="col-sm">
-                <select name="month" defaultValue="all" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleChange}>
-                    <option value="all" disabled hidden>Month</option>
-                    <option value="all">All months</option>
-                    {monthsText?.map((month, index) => {
-                    return (
-                        <option key={index} value={month} name={month} style={{textAlign:"center"}}>
-                        {month}
-                        </option>
-                    )
-                    })}
-                </select>
-            </div> */}
             
             <div className="col-sm">
                 {graphData.yearBarData.datasets?.length > 0 ? (
@@ -131,8 +119,8 @@ const SalesHistory = () =>{
                         </Link>     
                         </td>
                         <td>{item.Quantity}</td>
-                        <td>{item.UnitPrice}</td>
-                        <td>{item.Total}</td>
+                        <td>${item.UnitPrice}</td>
+                        <td>${item.Quantity*item.UnitPrice}</td>
                     </tr>
                     ))}
                 </tbody>
