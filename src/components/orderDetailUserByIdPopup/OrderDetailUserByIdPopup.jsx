@@ -23,8 +23,8 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose }) => {
                     <tr key={product.id}>
                     <td className={styles.td}>{product?.id}</td>
                     <td className={styles.td}>{product?.nameProd}</td>
-                    <td className={styles.td}>{product?.price}</td>
-                    <td className={styles.td}>{product?.priceOnSale}</td>
+                    <td className={styles.td}>${parseFloat(product?.price).toFixed(2)}</td>
+                    <td className={styles.td}>${parseFloat(product?.priceOnSale).toFixed(2)}</td>
                     <td className={styles.td}>{product?.stock}</td>
                     <td className={styles.td}>{product?.quantityProd}</td>
                     <td className={styles.td}>{product?.category}</td>
