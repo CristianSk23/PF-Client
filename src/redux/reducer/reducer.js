@@ -2,6 +2,7 @@ import { UserType } from "../../utils/userType";
 import {
   GETALLPRODUCTS,
   GETUSERS,
+  GETUSERBYID,
   GETPRODBYID,
   GETPRODCATEGORIES,
   GETPRODUCTBYNAME,
@@ -28,6 +29,7 @@ import {
   LOGOUT,
   COUNTRY,
   POPUTSPROMOTIONS,
+  GETALLCOUNTRIES,
 } from "../action/actionsType";
 
 const initialState = {
@@ -53,9 +55,7 @@ const initialState = {
   isUser: "Invited",
   user: {},
   country: "",
-  orders:{
-    allOrders:[]
-  }
+  countries: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -135,6 +135,17 @@ const reducer = (state = initialState, action) => {
         ...state,
         users: action.payload,
       };
+
+    case GETUSERBYID: 
+      return {
+        ...state,
+        user: action.payload,
+      }
+      
+    case GETUSERBYID: 
+      return {
+        ...state
+    }
   
     case UPDATEUSER:
       return { ...state, 
@@ -503,6 +514,13 @@ const reducer = (state = initialState, action) => {
       promotionsProducts: promotionsProduct,
     },
   };
+
+  case GETALLCOUNTRIES:
+    const ordenCountries = action.payload.sort((a, b) => a.name.localeCompare(b.name));
+    return {
+      ...state,
+      countries: ordenCountries
+    };
 
     default:
       return { ...state };
