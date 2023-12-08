@@ -7,7 +7,7 @@ import CreateProduct from '../createProduct/CreateProduct';
 import { Dropdown } from 'react-bootstrap';
 import NavBar from '../navBar/NavBar';
 import OrderList from '../orderList/orderList';
-import UserList from '../userList/userList';
+import AdminModuleUser from '../adminModuleUser/AdminModuleUser';
 import ListProducts from '../ListProducts/listProducts';
 import HomeAdmin from '../HomeAdmin/HomeAdmin';
 import SalesByCategory from "../kpis/salesByCategory/SalesByCategory";
@@ -45,7 +45,7 @@ export default function AdminPanel() {
           case 'users':
             return (
             <div>
-                <UserList />
+                <AdminModuleUser />
               </div>
             );
             case 'saleHistorial':

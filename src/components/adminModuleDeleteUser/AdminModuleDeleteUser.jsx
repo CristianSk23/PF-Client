@@ -1,0 +1,102 @@
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUser, getUserById } from "../../redux/action/actions";
+import { useState, useEffect } from "react";
+import PopupGeneral from "../popupGeneral/PopupGeneral";
+import styles from "./adminModuleDeleteUser.module.css"
+
+const AdminModuleDeleteUser = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const userById = useSelector((state) => state.user) || {};
+  const [user, setUser] = useState({
+    id: '',
+    name: '',
+    lastName: '',
+    email: '',
+    address: '',
+    phone: '',
+    identityCard: '',
+    postalCode: '',
+    city: '',
+    active: '',
+    typeUser: '',
+    country: '',
+  })
+
+  const deletedUser = () => {
+    dispatch(deleteUser(id));
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmationClose = () => {
+    setShowConfirmation(false);
+    navigate(-1);
+  };
+
+  const handleCancel = () => {
+    navigate(-1);
+  };
+
+  useEffect(() => {
+    dispatch(getUserById(id));
+
+    return () => {
+        setUser({
+          id: '',
+          name: '',
+          lastName: '',
+          email: '',
+          address: '',
+          phone: '',
+          identityCard: '',
+          postalCode: '',
+          city: '',
+          active: '',
+          typeUser: '',
+          country: '',
+        });
+      };
+    }, [dispatch]);
+
+  useEffect(() => {
+    setUser({
+        id: userById.id || "",
+        name: userById.name || "",
+        lastName: userById.lastName || "",
+        email: userById.email || "",
+        address: userById.address || "",
+        phone: userById.phone || "",
+        identityCard: userById.identityCard || "",
+        postalCode: userById.postalCode || "",
+        city: userById.city || "",
+        active: userById.active || "",
+        typeUser: userById.typeUser || "",
+        country: userById.country || ""
+    })
+  }, [userById])
+
+  return (
+    <div className={styles.containerDelete}>
+    <div className="card" style={{ width: "400px", height: "400px" }}>
+      <h5 className={styles.deleteT}>Are you sure you want to delete this user?</h5>
+      <p className={styles.deleteP}>Name: {user.name}</p>
+      <p className={styles.deleteP}>Lastname: {user.lastName}</p>
+      <p className={styles.deleteP}>Email: {user.email}</p>
+      <p className={styles.deleteP}>Type user: {user.typeUser}</p>
+      <button type="button" className="btn btn-success"  style={{ margin: "2px" }} onClick={deletedUser}>Confirm</button>
+      <button type="button" className="btn btn-danger"  style={{ margin: "2px" }} onClick={handleCancel}>Cancel</button>
+      {showConfirmation && (
+        <PopupGeneral
+          textButton="Aceptar"
+          descripcion="User successfully deleted"
+          onClick={handleConfirmationClose}
+        />
+      )}
+        </div>
+    </div>
+  );
+};
+export default AdminModuleDeleteUser;

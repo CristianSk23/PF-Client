@@ -12,6 +12,9 @@ import MyProfile from "./components/myProfile/myProfile";
 import PaymentGateway from "./components/paymentGateway/PaymentGateway";
 import PaymentStatus from "./components/paymentStatus/PaymentStatus";
 import AdminPanel from "./components/adminPanel/adminPanel";
+import AdminModuleUser from "./components/adminModuleUser/AdminModuleUser";
+import AdminModuleUpdateUser from "./components/adminModuleUpdateUser/AdminModuleUpdateUser";
+import AdminModuleDeleteUser from "./components/adminModuleDeleteUser/AdminModuleDeleteUser";
 
 
 import React, { useEffect, useState } from "react";
@@ -85,6 +88,9 @@ const App = () => {
           <Route path="/paymentGateway" element={<PaymentGateway />} />
           <Route path="/paymentGateway/status" element={<PaymentStatus />} />
           <Route path="/adminPanel" element={<AdminPanel />} />
+          <Route path="/users" element={<AdminModuleUser />}/>
+          <Route path="/user/updateUser/:id" element={<AdminModuleUpdateUser/>} />
+          <Route path="/user/deleteUser/:id" element={<AdminModuleDeleteUser/>} />
         </Route>
       </Routes>
     </div>
