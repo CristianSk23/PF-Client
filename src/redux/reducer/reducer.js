@@ -30,6 +30,10 @@ import {
   COUNTRY,
   POPUTSPROMOTIONS,
   GETALLCOUNTRIES,
+  GETALLDELETEDPRODUCTS,
+  RESTOREPRODUCTS,
+  GETALLDELETEDUSERS,
+  RESTOREUSERS,
 } from "../action/actionsType";
 
 const initialState = {
@@ -42,7 +46,8 @@ const initialState = {
     filterType: undefined, // orderPrice, productsSearched, filterType, etc.
     nameSearch: "",
     promotionsProducts: [],
-    singleProduct: ""
+    singleProduct: "",
+    deletedProducts: []
   },
   users: [],
   prodCategories: [],
@@ -54,6 +59,7 @@ const initialState = {
   },
   isUser: "Invited",
   user: {},
+  deletedUsers: [],
   country: "",
   countries: []
 };
@@ -126,6 +132,24 @@ const reducer = (state = initialState, action) => {
           allProducts: deletedProduct,
         },
       };
+
+    case GETALLDELETEDPRODUCTS:
+      return{
+        ...state,
+        products: {
+          ...state.products,
+          deletedProducts: action.payload
+        }
+      }
+
+    case RESTOREPRODUCTS:
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          allProducts: [...state.products.allProducts, action.payload]
+        }
+      }
 
     case ERROR:
       return { ...state, catchError: action.payload };
@@ -487,6 +511,18 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isUser: action.payload
+      }
+
+    case GETALLDELETEDUSERS:
+      return {
+        ...state,
+        deletedUsers: action.payload,
+      }
+
+    case RESTOREUSERS: 
+      return {
+        ...state,
+        users: [...state.users, ...action.payload]
       }
 
     case COUNTRY:
