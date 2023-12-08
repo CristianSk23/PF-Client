@@ -438,10 +438,12 @@ export const getOrders = () => async (dispatch) => {
   }
 };
 
-export const getOrdersByUserId = (id) => async (dispatch) => {
-  try {
-    dispatch({ type: GETORDERSBYUSERID, payload: id });
-  } catch (error) {
-    console.error("Error fetching promotions:", error);
-  }
+export const getOrdersByUserId = (id) => {
+  return async (dispatch) => {
+    const { data } = await axios.get(`/order/${id}`);
+    dispatch({
+      type: GETORDERSBYUSERID,
+      payload: data,
+    });
+  };
 };

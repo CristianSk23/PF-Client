@@ -11,10 +11,17 @@ const AdminModuleHistoryOrderUser =() =>{
     const ordersById = useSelector((state) => state.ordersForUserId) || [];
     const [selectedOrder, setSelectedOrder] = useState(null);
     
+    
     useEffect(() => {
         dispatch(getOrdersByUserId(id));
-        
-    },[])
+        console.log(ordersById);
+    },[dispatch])
+
+    useEffect(() => {
+      console.log(ordersById);
+      
+  },[ordersById])
+
     const handleSeeDetail = (order) => {
         setSelectedOrder(order);
       };
@@ -39,13 +46,13 @@ const AdminModuleHistoryOrderUser =() =>{
                 </tr>
             </thead>
                 <tbody>
-                    {ordersById.map((order) =>(<tr key={order.id}>
+                    {ordersById?.map((order) =>(<tr key={order.id}>
                     <td className={styles.td}>{order.id}</td>
                     <td className={styles.td}>{order.orderDate}</td>
                     <td className={styles.td}>{order.UserId}</td>
                     <td className={styles.td}>{order.mercadopagoTransactionStatus}</td>
                     <td className={styles.td}>{order.deliveryStatus}</td>
-                    <td className={styles.td}>${order.totalPrice}</td>
+                    <td className={styles.td}>${parseFloat(order.totalPrice).toFixed(2)}</td>
                     <td className={styles.td}><Link onClick={() => handleSeeDetail(JSON.parse(order.itemsCart))}>See detail</Link></td>
                 </tr>))}
                 {ordersById.length == 0 && 

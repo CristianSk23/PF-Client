@@ -542,12 +542,10 @@ const reducer = (state = initialState, action) => {
     }
 
     case GETORDERSBYUSERID: {
-      const orders = state.ordersForUser.filter((order) => {
-        return order.UserId == action.payload;
-      });
+      
       return {
         ...state,
-        ordersForUserId: orders,
+        ordersForUserId: action.payload,
       };
     }
 
