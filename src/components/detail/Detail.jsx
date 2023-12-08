@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import Fireworks from 'react-fireworks';
 import {
   getProductsById,
   cleanSingleProd,
@@ -115,7 +116,7 @@ const Detail = () => {
                           alt={`product-${index}`}
                           style={{
                             width: "100%",
-                            height: "230px",
+                            height: "350px",
                             objectFit: "contain",
                           }}
                         />
@@ -171,22 +172,24 @@ const Detail = () => {
                     <span style={{ fontWeight: "bold" }}>Stock:</span>{" "}
                     {product.stock}
                   </p>
+                  <p>
+                  </p>
                   <p className="card-text">
                     <span style={{ fontWeight: "bold" }}>Price:</span>{" "}
                     {product.discountPercentage > 0 ? (
                       <>
-                        <span style={{ textDecoration: "line-through" }}>
+                        <span style={{ textDecoration: "line-through", color: "red" }}>
                           ${product.price}
                         </span>
-                        <br />
-                        <span style={{ fontWeight: "bold", color: "green" }}>
+                        <span style={{ fontWeight: "bold", color: "green", marginLeft:"10px" }}>
                           {product.discountPercentage}% OFF
-                        </span>{" "}
-                        <br />
+                        </span>
+                        <p className="card-text" style={{marginTop:"15px"}}>
                         <span style={{ fontWeight: "bold" }}>
-                          PriceOnSale:
+                          Price On Sale:
                         </span>{" "}
                         ${product.priceOnSale}
+                        </p>
                       </>
                     ) : (
                       `$ ${product.price}`

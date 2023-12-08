@@ -5,6 +5,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllCountries, updateUser } from '../../redux/action/actions';
+import ModuleHistoryOrderUser from '../moduleHistoryOrderUser/ModuleHistoryOrderUser';
 
 const MyProfile = () => {
     const isuser = useSelector((state) => state.user)
@@ -26,6 +27,7 @@ const MyProfile = () => {
         CountryId: isuser?.CountryId || ""
     })
 
+
     const handleUpdateUser = () => {
         if(auxUpdateUser === false){
             setAuxUptdateUser(true);
@@ -44,7 +46,6 @@ const MyProfile = () => {
             user.postalCode != isuser?.postalCode || 
             user.city != isuser?.city)
         {
-          console.log(isuser.id);
           dispatch(updateUser({...user, id: isuser?.id}))
           setAuxUptdateUser(false)
         }
@@ -123,6 +124,7 @@ const MyProfile = () => {
         >
         Back
         </Button>
+        <ModuleHistoryOrderUser idProp={isuser?.id}/>
         </div>
     ) :
     auxUpdateUser && (

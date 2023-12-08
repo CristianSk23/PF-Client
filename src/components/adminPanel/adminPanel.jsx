@@ -1,11 +1,16 @@
 // Importar los módulos necesarios de React y Bootstrap
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import styles from './adminPanel.module.css';
 import CreateProduct from '../createProduct/CreateProduct';
 import { Dropdown } from 'react-bootstrap';
 import NavBar from '../navBar/NavBar';
+import BarGraphics from '../BarGraphic/BarGraphic';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPageAdmin } from '../../redux/action/actions';
+import LineGraph from '../LineGraph/LineGraph';
+import PieChart from '../PieChart/PieChart';
 import OrderList from '../orderList/orderList';
 import AdminModuleUser from '../adminModuleUser/AdminModuleUser';
 import ListProducts from '../ListProducts/listProducts';
@@ -16,10 +21,15 @@ import SalesHistory from '../kpis/salesHistory/salesHistory';
 //ENLAZAR A QUE AHORA ESTO SEA LA "LANDING" DEL ADMIN
 
 export default function AdminPanel() {
-    const [activeButton, setActiveButton] = useState('dashboard');
+    const dispatch = useDispatch()
+    const pageAdmin = useSelector((state) => state.pageAdmin);
+    const initialActiveButton = pageAdmin || 'dassboard';
+    const [activeButton, setActiveButton] = useState(initialActiveButton);
+    
 
     const handleButtonClick = (buttonName) => {
-        setActiveButton(buttonName);
+        setActiveButton(buttonName)
+        dispatch(setPageAdmin(buttonName))
       };
 
     const renderContent = () => {
