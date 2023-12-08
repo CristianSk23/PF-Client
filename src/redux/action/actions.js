@@ -29,6 +29,8 @@ import {
   UPDATEUSER,
   COUNTRY,
   POPUTSPROMOTIONS,
+  GET_ALL_ORDERS,
+  FILTER_ORDER_NAME_PURCHASE
 } from "../action/actionsType";
 
 export const updateUser = (user) => {
@@ -355,4 +357,27 @@ export const getPromotions = () => async (dispatch) => {
   } catch (error) {
     console.error('Error fetching promotions:', error);
   }
+};
+
+export const allOrders = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/order/history`);
+      dispatch({
+        type: GET_ALL_ORDERS,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+export const filterOrderPurchase = (nameSearch) => {
+  return {
+    type: FILTER_ORDER_NAME_PURCHASE,
+    payload: nameSearch,
+  };
 };

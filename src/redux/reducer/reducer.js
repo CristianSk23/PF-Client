@@ -28,6 +28,8 @@ import {
   LOGOUT,
   COUNTRY,
   POPUTSPROMOTIONS,
+  GET_ALL_ORDERS,
+  FILTER_ORDER_NAME_PURCHASE
 } from "../action/actionsType";
 
 const initialState = {
@@ -52,7 +54,9 @@ const initialState = {
   },
   isUser: "Invited",
   user: {},
-  country: ""
+  country: "",
+  orderHistory: [],
+  orderHistoryCache: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -501,10 +505,24 @@ const reducer = (state = initialState, action) => {
     },
   };
 
+  case GET_ALL_ORDERS:
+    return {
+      ...state,
+      orderHistory: action.payload,
+      orderHistoryCache: action.payload
+    };
+
+    case FILTER_ORDER_NAME_PURCHASE:
+      const result = state.orderHistoryCache.filter(i=>i.mercadopagoTransactionStatus
+        .toLowerCase().includes(action.payload.toLowerCase()))
+    return {
+      ...state,
+      orderHistory: result
+    };
+    
     default:
       return { ...state };
   }
 
-    
 };
 export default reducer;
