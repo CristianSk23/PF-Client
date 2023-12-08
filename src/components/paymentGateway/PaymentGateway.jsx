@@ -94,7 +94,7 @@ const PaymentGateway=()=>{
       .then((response) => {
           window.location.href = response.data.init_point;
       })
-      .catch((error) => console.log(error));
+      .catch((error) => (error));
     }
     setLoading(false)   
   }

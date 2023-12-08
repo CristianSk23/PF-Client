@@ -32,6 +32,9 @@ import {
   COUNTRY,
   POPUTSPROMOTIONS,
   GETALLCOUNTRIES,
+  SETPAGEADMIN,
+  GETORDERS,
+  GETORDERSBYUSERID,
 } from "../action/actionsType";
 
 export const updateUser = (user) => {
@@ -180,10 +183,11 @@ export const deleteProduct = (id) => {
 
 export const getUsers = () => {
   return async (dispatch) => {
-    const {data} = await axios.get("/users");
-    dispatch({ 
-      type: GETUSERS, 
-      payload: data });
+    const { data } = await axios.get("/users");
+    dispatch({
+      type: GETUSERS,
+      payload: data,
+    });
   };
 };
 
@@ -202,24 +206,24 @@ export const getUserById = (id) => {
       });
     }
   };
-}
+};
 
 export const deleteUser = (id) => {
-return async (dispatch) => {
-  try {
-    const response = await axios.delete(`/users/${id}`);
-    dispatch({
-      type: DELETEUSER,
-      payload: response.data,
-    });
-  } catch (error) {
-    dispatch({
-      type: ERROR,
-      payload: error.message,
+  return async (dispatch) => {
+    try {
+      const response = await axios.delete(`/users/${id}`);
+      dispatch({
+        type: DELETEUSER,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
       });
     }
   };
-}
+};
 
 export const orderPrice = (order) => {
   return { type: ORDERPRICE, payload: order };
@@ -376,19 +380,19 @@ export const logOut = () => {
 export const getAllCountries = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get('/country')
+      const response = await axios.get("/country");
       dispatch({
         type: GETALLCOUNTRIES,
-        payload: response.data
-      })
+        payload: response.data,
+      });
     } catch (error) {
       dispatch({
         type: ERROR,
         payload: error.message,
       });
     }
-  }
-  }
+  };
+};
 
 export const cleanSearchBar = () => {
   return {
@@ -405,10 +409,39 @@ export const setNameSearch = (nameSearch) => {
 
 export const getPromotions = () => async (dispatch) => {
   try {
-    const {data} = await axios.get(`/products`); // Llama a tu función de API
+    const { data } = await axios.get(`/products`);
     dispatch({ type: "POPUTSPROMOTIONS", payload: data });
   } catch (error) {
-    console.error('Error fetching promotions:', error);
+    console.error("Error fetching promotions:", error);
   }
 };
 
+export const setPageAdmin = (pageAdmin) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: SETPAGEADMIN, payload: pageAdmin });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
+export const getOrders = () => async (dispatch) => {
+  try {
+    const { data } = await axios.get(`/order/history`);
+    dispatch({ type: GETORDERS, payload: data });
+  } catch (error) {
+    console.error("Error fetching promotions:", error);
+  }
+};
+
+export const getOrdersByUserId = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: GETORDERSBYUSERID, payload: id });
+  } catch (error) {
+    console.error("Error fetching promotions:", error);
+  }
+};

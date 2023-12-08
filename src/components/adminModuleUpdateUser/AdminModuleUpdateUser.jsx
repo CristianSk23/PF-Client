@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUser, getUserById } from "../../redux/action/actions";
+import { updateUser, getUserById, setPageAdmin } from "../../redux/action/actions";
 import PopupGeneral from "../popupGeneral/PopupGeneral";
 import { Form } from 'react-bootstrap';
 import styles from "./adminModuleUpdateUser.module.css"
+import { elements } from 'chart.js';
 
 
 const AdminModuleUpdateUser = () => {
@@ -61,7 +62,7 @@ const AdminModuleUpdateUser = () => {
         identityCard: userById.identityCard || "",
         postalCode: userById.postalCode || "",
         city: userById.city || "",
-        active: userById.active.toString() || "",
+        active: userById.active?.toString() || "",
         typeUser: userById.typeUser || "",
         country: userById.country || ""
     })
@@ -107,11 +108,13 @@ const AdminModuleUpdateUser = () => {
 
   const handleConfirmationClose = () => {
     setShowConfirmation(false);
-    navigate(-1);
+    dispatch(setPageAdmin("users"))
+    navigate(-1)
   };
 
   const handleCancel = () => {
-    navigate(-1);
+    dispatch(setPageAdmin("users"))
+    navigate(-1)
   };
 
   return (
@@ -194,7 +197,6 @@ const AdminModuleUpdateUser = () => {
           <input className={styles.inputUpdate} type="text" name="country" value={user.country} onChange={handleChange} />
         </label>
          <br />
-
         <button type="submit" className="btn btn-success" disabled={!isEmailValid}>Save Changes</button>
         <button type="button" className="btn btn-danger" style={{ margin: "5px" }}onClick={handleCancel}>Cancel</button>
       </form> 

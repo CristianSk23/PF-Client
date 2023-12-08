@@ -44,7 +44,6 @@ const MyProfile = () => {
             user.postalCode != isuser?.postalCode || 
             user.city != isuser?.city)
         {
-          console.log(isuser.id);
           dispatch(updateUser({...user, id: isuser?.id}))
           setAuxUptdateUser(false)
         }
