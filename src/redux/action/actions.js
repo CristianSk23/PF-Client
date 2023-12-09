@@ -446,24 +446,23 @@ export const getDeletedProducts = () => async (dispatch) => {
   }
 }
 
-export const restoreDeleteUsers = (id) => {
-  async (dispatch) => {
-    try {
+export const restoreDeleteUsers = (id) => async (dispatch) => {
+  try {
       const response = await axios.put(`/users/deleted/${id}`);
       dispatch({
-        type: RESTOREUSERS,
-        payload: response.data,
-      })
-    } catch (error) {
+          type: RESTOREUSERS,
+          payload: response.data,
+      });
+  } catch (error) {
       dispatch({
-        type: ERROR,
-        payload: error.message,
-      });  
-    }
+          type: ERROR,
+          payload: error.message,
+      });
   }
-}
+};
 
-export const restoreProducts = (id) => {
+
+export const restoreProducts = (id) => 
   async (dispatch) => {
     try {
       const response = await axios.put(`/products/deleted/${id}`);
@@ -471,9 +470,11 @@ export const restoreProducts = (id) => {
         type: RESTOREPRODUCTS,
         payload: response.data,
       })
-    } catch (error) {
-      
-    }
+    } catch (error) { 
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+    });  
   }
 }
 

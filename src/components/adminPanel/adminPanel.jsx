@@ -13,6 +13,8 @@ import OrderList from '../orderList/orderList';
 import AdminModuleUser from '../adminModuleUser/AdminModuleUser';
 import ListProducts from '../ListProducts/listProducts';
 import HomeAdmin from '../HomeAdmin/HomeAdmin';
+import DeletedUsers from '../adminModuleRestoreDeletedUsers/AdminModuleRestoreDeletedUsers';
+import DeletedProducts from '../adminModuleRestoreProduct/AdminModuleRestoreProduct';
 
 //ENLAZAR A QUE AHORA ESTO SEA LA "LANDING" DEL ADMIN
 
@@ -43,12 +45,24 @@ export default function AdminPanel() {
                 <ListProducts />
               </div>
             );
+          case 'deletedProducts':
+            return (
+              <div>
+                <DeletedProducts/>
+              </div>
+            )
           case 'users':
             return (
             <div>
                 <AdminModuleUser />
               </div>
             );
+          case 'deletedUsers':
+            return (
+              <div>
+                <DeletedUsers />
+              </div>
+            )
             case 'saleHistorial':
                 return (
                   <div>
@@ -161,13 +175,20 @@ export default function AdminPanel() {
                         <Dropdown.Menu>
                         <Dropdown.Item onClick={() => handleButtonClick('products')}>List of Products</Dropdown.Item>
                         <Dropdown.Item onClick={() => handleButtonClick('create')}>Create Product</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleButtonClick('deletedProducts')}>Deleted Products</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </li>
                 <li className={`nav-item ${activeButton === 'users' ? 'active' : ''}`}>
-                  <a className="nav-link" href="#" onClick={() => handleButtonClick('users')}>
-                  <i className="bi bi-people"></i> Users
-                  </a>
+                    <Dropdown>
+                        <Dropdown.Toggle variant="light" id="dropdown-basic" className="nav-link" style={{color:"#0d6efd", marginLeft:"3px"}}>
+                        <i className="bi bi-people"></i>&nbsp;Users
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                        <Dropdown.Item href="#" onClick={() => handleButtonClick('users')}>Users</Dropdown.Item>
+                        <Dropdown.Item href="#" onClick={() => handleButtonClick('deletedUsers')}>Deleted Users</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </li>
                 <li className={`nav-item ${activeButton === 'historial' ? 'active' : ''}`}>
                     <Dropdown>

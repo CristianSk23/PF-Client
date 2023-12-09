@@ -47,7 +47,7 @@ const initialState = {
     nameSearch: "",
     promotionsProducts: [],
     singleProduct: "",
-    deletedProducts: []
+    deletedProducts: [],
   },
   users: [],
   prodCategories: [],
@@ -147,9 +147,10 @@ const reducer = (state = initialState, action) => {
         ...state,
         products: {
           ...state.products,
-          allProducts: [...state.products.allProducts, action.payload]
+          allProducts: [...state.products.allProducts, action.payload],
+          deletedProducts: state.products.deletedProducts.filter((product) => product.id !== action.payload.id)
         }
-      }
+      };
 
     case ERROR:
       return { ...state, catchError: action.payload };
@@ -516,14 +517,15 @@ const reducer = (state = initialState, action) => {
     case GETALLDELETEDUSERS:
       return {
         ...state,
-        deletedUsers: action.payload,
+        deletedUsers: action.payload.reverse(),
       }
 
-    case RESTOREUSERS: 
-      return {
-        ...state,
-        users: [...state.users, ...action.payload]
-      }
+      case RESTOREUSERS:   
+        return {
+          ...state,
+          users: [...state.users, action.payload],
+          deletedUsers: state.deletedUsers.filter((user) => user.id !== action.payload.id),
+        };
 
     case COUNTRY:
       return {
