@@ -1,14 +1,14 @@
-import orders from '../../../assets/orderData' //ELIMINAR CUANDO SE TENGA LA INFO DE LAS ORDENES EN STATE
+
 import calculateData from './claculateData';
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PieChart from '../../PieChart/PieChart';
 import BarGraphics from '../../BarGraphic/BarGraphic';
-import { getProdCategories } from '../../../redux/action/actions';
+import { getProdCategories, allOrders } from '../../../redux/action/actions';
 import { Link } from "react-router-dom";
 
 const SalesByCategory = () =>{
-    // const orders = useSelector((state)=> state.orders)
+    const orders = useSelector((state)=> state.orderHistoryCache);
     const prodCategories = useSelector((state) => state.prodCategories);
     const [filter, setFilter] = useState({year:"all", category:"all"})
     const [graphData, setGraphData] = useState({pieData:[], barData:[], uniqueYears:[], filteredItems:[] })
@@ -36,6 +36,18 @@ const SalesByCategory = () =>{
         },
       };
 
+      useEffect(() => {
+          const fetchData = async () => {
+              if (prodCategories.length === 0) {
+                  dispatch(getProdCategories());
+                  dispatch(allOrders());
+              }
+              setGraphData(calculateData(orders, filter));
+          };
+      
+          fetchData();
+      }, [filter, dispatch]);
+
     const handleChange = (event) => {
         setGraphData({pieData:[], barData:[], uniqueYears:[], filteredItems:[] })
         setFilter((prevFilter) => ({
@@ -50,18 +62,6 @@ const SalesByCategory = () =>{
         setGraphData({ pieData, barData, uniqueYears, filteredItems});
       };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            if (prodCategories.length === 0) {
-
-                dispatch(getProdCategories());
-            }
-
-            setGraphData(calculateData(orders, filter));
-        };
-    
-        fetchData();
-    }, [filter]);
     
 
     return(

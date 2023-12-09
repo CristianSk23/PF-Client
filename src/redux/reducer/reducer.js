@@ -36,6 +36,7 @@ import {
   GET_ALL_ORDERS,
   FILTER_ORDER_NAME_PURCHASE,
   UPDATE_ORDER_STATUS,
+  CREATEORDER
 } from "../action/actionsType";
 
 const initialState = {
@@ -48,8 +49,7 @@ const initialState = {
     filterType: undefined, // orderPrice, productsSearched, filterType, etc.
     nameSearch: "",
     promotionsProducts: [],
-    singleProduct: "",
-    orderHistory: [],
+    singleProduct: ""
   },
   users: [],
   prodCategories: [],
@@ -66,6 +66,8 @@ const initialState = {
   pageAdmin: "dassboard",
   ordersForUser: [],
   ordersForUserId: [],
+  orderHistory: [],
+  orderHistoryCache: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -551,6 +553,7 @@ const reducer = (state = initialState, action) => {
       };
     }
     case GET_ALL_ORDERS:
+  
       return {
         ...state,
         orderHistory: action.payload,
@@ -577,7 +580,12 @@ const reducer = (state = initialState, action) => {
           orderHistory: updatedOrders
         };
   
-      
+        case CREATEORDER:
+          return {
+            ...state,
+            orderHistoryCache: [...orderHistoryCache, action.payload]
+          };   
+
     default:
       return { ...state };
   }
