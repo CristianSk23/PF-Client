@@ -238,6 +238,8 @@ export const changePage = (order) => {
 };
 
 export const filter = (cond) => {
+  console.log('Conditions filter:');
+  console.log(cond);
   return async (dispatch) => {
     return dispatch({
       type: FILTER,
