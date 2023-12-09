@@ -35,6 +35,9 @@ import {
   SETPAGEADMIN,
   GETORDERS,
   GETORDERSBYUSERID,
+  GET_ALL_ORDERS,
+  FILTER_ORDER_NAME_PURCHASE,
+  UPDATE_ORDER_STATUS,
 } from "../action/actionsType";
 
 export const updateUser = (user) => {
@@ -445,5 +448,48 @@ export const getOrdersByUserId = (id) => {
       type: GETORDERSBYUSERID,
       payload: data,
     });
+  };
+};
+
+export const allOrders = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/order/history`);
+      dispatch({
+        type: GET_ALL_ORDERS,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+export const filterOrderPurchase = (nameSearch) => {
+  return {
+    type: FILTER_ORDER_NAME_PURCHASE,
+    payload: nameSearch,
+  };
+}
+
+export const updateOrderStatus = (orderId, newStatus) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put('/order/update', {
+        idOrder: orderId,
+        statusDelivery: newStatus
+      });
+      dispatch({
+        type: UPDATE_ORDER_STATUS,
+        payload: response.data  // Esto puede variar según la estructura de tu respuesta
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message
+      });
+    }
   };
 };
