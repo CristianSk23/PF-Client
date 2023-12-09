@@ -27,7 +27,7 @@ const options = {
   responsive: true, // Hace que el gráfico sea responsive
 };
 
-const BarGraphics = () => {
+const BarGraphics = ({data, options}) => {
   return(
   <div style={{ width: '1000px', height: '500px', marginLeft: "100px"}}>
     <Bar data={data} options={options} />

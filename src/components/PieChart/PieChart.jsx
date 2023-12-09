@@ -12,7 +12,7 @@ const data = {
   ],
 };
 
-const PieChart = () => {
+const PieChart = ({data}) => {
   return (
     <div style={{ width: '1000px', height: '500px', marginLeft: "350px" }}>
           <Pie data={data} />
