@@ -31,6 +31,10 @@ const PaymentGateway=()=>{
   }, 0).toFixed(2);
 
   useEffect(() => {
+    console.log('userInfo');
+    console.log(userInSession);
+    console.log('cart');
+    console.log(cart);
     return ()=> setLoading(false)
   }, []);   
 

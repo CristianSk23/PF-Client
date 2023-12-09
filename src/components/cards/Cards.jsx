@@ -1,5 +1,6 @@
 import Card from "../card/Card";
 import styles from "./cards.module.css";
+import ShoppingCart from "../shoppingCart/ShoppingCart"
 
 const Cards = ({ products }) => {
   return (
@@ -26,6 +27,7 @@ const Cards = ({ products }) => {
       ) : (
         <p className={styles.cards}>There are no products with those characteristics.</p>
       )}
+      <ShoppingCart />
     </>
   );
 };

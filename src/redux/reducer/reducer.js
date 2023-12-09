@@ -248,7 +248,7 @@ const reducer = (state = initialState, action) => {
           filtered = filtered.filter(
             (product) =>
               ///////////REVISAR
-              product.category == action.payload.type
+              product.category.toLowerCase() === action.payload.type.toLowerCase()
           );
         }
 
@@ -447,7 +447,6 @@ const reducer = (state = initialState, action) => {
           },
         };
       }
-
     case GETPRODUCTBYNAME:
       return {
         ...state,
