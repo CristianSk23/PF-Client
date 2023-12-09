@@ -15,13 +15,10 @@ import OrderList from '../orderList/orderList';
 import AdminModuleUser from '../adminModuleUser/AdminModuleUser';
 import ListProducts from '../ListProducts/listProducts';
 import HomeAdmin from '../HomeAdmin/HomeAdmin';
-<<<<<<< HEAD
 import DeletedUsers from '../adminModuleRestoreDeletedUsers/AdminModuleRestoreDeletedUsers';
 import DeletedProducts from '../adminModuleRestoreProduct/AdminModuleRestoreProduct';
-=======
 import SalesByCategory from "../kpis/salesByCategory/SalesByCategory";
 import SalesHistory from '../kpis/salesHistory/salesHistory';
->>>>>>> develop
 
 //ENLAZAR A QUE AHORA ESTO SEA LA "LANDING" DEL ADMIN
 

@@ -30,19 +30,16 @@ import {
   COUNTRY,
   POPUTSPROMOTIONS,
   GETALLCOUNTRIES,
-<<<<<<< HEAD
   GETALLDELETEDPRODUCTS,
   RESTOREPRODUCTS,
   GETALLDELETEDUSERS,
   RESTOREUSERS,
-=======
   SETPAGEADMIN,
   GETORDERS,
   GETORDERSBYUSERID,
   GET_ALL_ORDERS,
   FILTER_ORDER_NAME_PURCHASE,
   UPDATE_ORDER_STATUS,
->>>>>>> develop
 } from "../action/actionsType";
 
 const initialState = {
@@ -56,11 +53,8 @@ const initialState = {
     nameSearch: "",
     promotionsProducts: [],
     singleProduct: "",
-<<<<<<< HEAD
     deletedProducts: [],
-=======
     orderHistory: [],
->>>>>>> develop
   },
   users: [],
   prodCategories: [],

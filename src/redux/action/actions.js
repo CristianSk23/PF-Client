@@ -32,19 +32,16 @@ import {
   COUNTRY,
   POPUTSPROMOTIONS,
   GETALLCOUNTRIES,
-<<<<<<< HEAD
   GETALLDELETEDUSERS,
   GETALLDELETEDPRODUCTS,
   RESTOREUSERS,
   RESTOREPRODUCTS,
-=======
   SETPAGEADMIN,
   GETORDERS,
   GETORDERSBYUSERID,
   GET_ALL_ORDERS,
   FILTER_ORDER_NAME_PURCHASE,
   UPDATE_ORDER_STATUS,
->>>>>>> develop
 } from "../action/actionsType";
 
 export const updateUser = (user) => {
@@ -468,7 +465,6 @@ export const getPromotions = () => async (dispatch) => {
   }
 };
 
-<<<<<<< HEAD
 export const getDeletedUsers = () => async (dispatch) => {
   try {
     const response = await axios.get('/users/deleted');
@@ -531,7 +527,6 @@ export const restoreProducts = (id) =>
   }
 }
 
-=======
 export const setPageAdmin = (pageAdmin) => {
   return async (dispatch) => {
     try {
@@ -606,4 +601,3 @@ export const updateOrderStatus = (orderId, newStatus) => {
     }
   };
 };
->>>>>>> develop
