@@ -259,68 +259,108 @@ export const showThePopup = (bol) => {
   };
 };
 
-export const resetError = () => {
-  return {
+
+export const resetError=()=>{
+  return { 
+      type: ERROR, 
+      payload: ''
+      }
+
+    }
+
+  export const addToCart = (userID, id, quantityPROD) => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get(`products/${id}`);
+        dispatch({
+          type: ADDTOCART,
+          payload: response.data,
+        })
+    
+        const responseCart = await axios.post("cart/", {
+         "UserId": userID,
+         "productId": id,
+         "quantityProd": quantityPROD
+         })
+         
+      } catch (error) {
+        console.log(error.message);
+        dispatch({
+          type: ERROR,
+          payload: error.message,
+        });
+      }
+    };
+};
+
+export const removeOneCart = (id, nameProd, userID) => {
+  return async (dispatch) => {
+  try {
+  dispatch({type: REMOVEONECART, payload: id
+  })
+
+  const responseCart = await axios.delete("cart/", {
+    data: {
+    "nameProd": nameProd,
+    "UserId": userID,
+  },
+  })
+  }
+  
+
+  catch (error) {
+  dispatch({
     type: ERROR,
-    payload: "",
-  };
-};
+    payload: error.message,
+  });
+  }
+  }
+  }
 
-export const addToCart = (id) => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get(`products/${id}`);
-      dispatch({
-        type: ADDTOCART,
-        payload: response.data,
-      });
-    } catch (error) {
-      dispatch({
-        type: ERROR,
-        payload: error.message,
-      });
+  export const increaseQuantity = (userID, id, quantityPROD) => {
+    return async (dispatch) => {
+      try{
+
+        dispatch({type: INCREASEQUANTITY, payload: id})
+
+        const responseCart = await axios.put("cart/", {
+          "UserId": userID,
+          "productId": id,
+          "quantityProd": quantityPROD
+          })
+
+      }
+      catch(error) {
+        dispatch({
+          type: ERROR,
+          payload: error.message,
+        })
+      }
+    }
+  }
+  
+  export const decreaseQuantity = (userID, id, quantityPROD) => {
+    return async (dispatch) => {
+      try{
+        dispatch({type: DECREASEQUANTITY, payload: id})
+
+        const responseCart = await axios.put("cart/", {
+          "UserId": userID,
+          "productId": id,
+          "quantityProd": quantityPROD
+          })
+
+      }
+      catch(error) {
+        dispatch({
+          type: ERROR,
+          payload: error.message,
+        })
+      }
     }
   };
-};
 
-export const removeOneCart = (id, all = false) => {
-  return async (dispatch) => {
-    try {
-      dispatch({ type: REMOVEONECART, payload: id });
-    } catch (error) {
-      dispatch({
-        type: ERROR,
-        payload: error.message,
-      });
-    }
-  };
-};
 
-export const increaseQuantity = (id) => {
-  return async (dispatch) => {
-    try {
-      dispatch({ type: INCREASEQUANTITY, payload: id });
-    } catch (error) {
-      dispatch({
-        type: ERROR,
-        payload: error.message,
-      });
-    }
-  };
-};
-
-export const decreaseQuantity = (id) => {
-  return async (dispatch) => {
-    try {
-      dispatch({ type: DECREASEQUANTITY, payload: id });
-    } catch (error) {
-      dispatch({
-        type: ERROR,
-        payload: error.message,
-      });
-    }
-  };
-};
 
 export const createUser = (email, token) => {
   return async (dispatch) => {

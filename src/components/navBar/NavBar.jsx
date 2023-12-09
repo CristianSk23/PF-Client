@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getProdCategories, logOut } from "../../redux/action/actions";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom"
+
+
 
 const NavBar = ({ onSearch, filterCond }) => {
   const [name, setName] = useState("");
@@ -63,6 +65,19 @@ const NavBar = ({ onSearch, filterCond }) => {
             icon={faMagnifyingGlass}
           />
           </button>
+          <div style={{"text-align": "right"}}>
+            <Link to={"/shopping"}>
+            <button style={{"background-color": "white",
+                            color: "black",
+                            padding: "10px 15px",
+                            border: "none",
+                            "border-radius": "5px",
+                            cursor: "pointer",
+                            }}>
+              My Cart <FontAwesomeIcon icon={faCartShopping} />
+            </button>
+            </Link>
+          </div>
       </div>
       )}
       {isAdminPanel && (

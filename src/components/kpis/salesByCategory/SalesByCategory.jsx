@@ -8,7 +8,7 @@ import { getProdCategories } from '../../../redux/action/actions';
 import { Link } from "react-router-dom";
 
 const SalesByCategory = () =>{
-    // const orders = useSelector((state)=> state.orders)
+    // const orders = useSelector((state)=> state.ordersHistoryCache)
     const prodCategories = useSelector((state) => state.prodCategories);
     const [filter, setFilter] = useState({year:"all", category:"all"})
     const [graphData, setGraphData] = useState({pieData:[], barData:[], uniqueYears:[], filteredItems:[] })
