@@ -4,12 +4,17 @@ import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrdersByUserId } from "../../redux/action/actions";
 import OrderDetailUserByIdPopup from "../orderDetailUserByIdPopup/OrderDetailUserByIdPopup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClipboard } from "@fortawesome/free-solid-svg-icons";
+import { Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const ModuleHistoryOrderUser =({idProp}) =>{
     const { id } = useParams();
     const dispatch = useDispatch()
     const ordersById = useSelector((state) => state.ordersForUserId) || [];
     const [selectedOrder, setSelectedOrder] = useState(null);
+    const navigate = useNavigate();
     
     
     useEffect(() => {
@@ -29,9 +34,16 @@ const ModuleHistoryOrderUser =({idProp}) =>{
         setSelectedOrder(null);
     };
 
+    const handleCancel = () => {
+      navigate(-1);
+    };
+
     return(
-        <div>
-        <h5>Orders list for user {ordersById[0]?.userName}:</h5>
+        <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
+          <Container>
+          <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 className="h2"><FontAwesomeIcon icon={faClipboard} /> {ordersById[0]?.userName} Purchase History</h1>
+          </div>
         <table className="table table-hover">
             <thead>
                 <tr>
@@ -66,6 +78,10 @@ const ModuleHistoryOrderUser =({idProp}) =>{
           onClose={handleClosePopup}
         />
       )}
+        <div className="d-grid gap-2">
+          <a className="btn btn-danger" type="button" onClick={ handleCancel }>Back</a>
+        </div>
+      </Container>
     </div>
     )
 }

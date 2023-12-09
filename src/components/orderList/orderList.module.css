@@ -1,4 +1,34 @@
 .th, .td {
-    padding: 10px;
-    text-align: center;
+  padding: 10px;
+  text-align: center;
+}
+
+.modalContainer {
+position: fixed;
+width: 100%;
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: rgba(243, 255, 241, 0.283);
+top: 0;
+left: 0;
+z-index: 50;
+color: white;
+}
+
+.cajita {
+  background-color: rgba(87, 83, 83, 0.919);
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  max-width: 80vw; /* Establece un máximo del 80% del ancho de la ventana */
+  max-height: 80vh; /* Establece un máximo del 80% de la altura de la ventana */
+  overflow: auto; /* Agrega desbordamiento si el contenido excede las dimensiones máximas */
+  box-sizing: border-box; /* Incluye el padding y el borde en el ancho y la altura total */
+}
+
+.boton {
+display: flex;
+justify-content: center;
 }

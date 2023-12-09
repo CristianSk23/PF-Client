@@ -100,8 +100,18 @@ const ShoppingCart = ({}) => {
                 </table>
                 <div className="d-grid gap-2">
                 {products.length > 0 &&
-                    <button className="btn btn-primary" type="button"><a href="/paymentGateway" style={{color:"white", textDecoration:"none"}}>
-                    Confirm and Payment</a></button>}
+                    <button className="btn btn-primary" type="button">
+                        <Link
+                            to={`/paymentGateway`}
+                            style={{
+                            textDecoration: "none",
+                            color: "white",
+                            margin: "5px",
+                            }}
+                        >
+                            Confirm and Payment
+                        </Link>
+                    </button>}
                     <a className="btn btn-danger" type="button" onClick={ handleCancel }>Back</a>
                 </div>
             </div>

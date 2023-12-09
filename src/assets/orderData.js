@@ -229,7 +229,7 @@ const orders = [
     deliveryStatus: "Delivered",
     mercadopagoTransactionId: "MP678906",
     mercadopagoTransactionStatus: "Approved",
-    orderDate: "2023-05-22git add .",
+    orderDate: "2023-05-22",
   },
   {
     Id: 20,
