@@ -35,6 +35,7 @@ import {
   SETPAGEADMIN,
   GETORDERS,
   GETORDERSBYUSERID,
+  SENDREVIEWPRODUCT,
 } from "../action/actionsType";
 
 export const updateUser = (user) => {
@@ -447,3 +448,17 @@ export const getOrdersByUserId = (id) => {
     });
   };
 };
+
+export const postReview = (review) => {
+  return async (dispatch) => {
+    const {data} = await axios.post(`reviews`, {review}, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    dispatch({
+      type: SENDREVIEWPRODUCT,
+      payload: data,
+    });
+  }
+}

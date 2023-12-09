@@ -39,12 +39,3 @@
 
 
   
-  .selectedStar,
-.unselectedStar {
-  cursor: pointer;
-  color: gold; /* Color de las estrellas seleccionadas */
-}
-
-.unselectedStar {
-  color: #ccc; /* Color de las estrellas no seleccionadas */
-}

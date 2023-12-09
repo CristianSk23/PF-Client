@@ -33,6 +33,7 @@ import {
   SETPAGEADMIN,
   GETORDERS,
   GETORDERSBYUSERID,
+  SENDREVIEWPRODUCT
 } from "../action/actionsType";
 
 const initialState = {
@@ -546,6 +547,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         ordersForUserId: action.payload,
       };
+    }
+    case SENDREVIEWPRODUCT: {
+      return {
+        ...state
+      }
     }
 
     default:
