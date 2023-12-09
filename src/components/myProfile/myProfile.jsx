@@ -12,6 +12,7 @@ const MyProfile = () => {
     const isUser = useSelector((state) => state.isUser)
     const country = useSelector((state) => state.country)
     const navigate = useNavigate();
+
     const [auxUpdateUser, setAuxUptdateUser] = useState(false)
     const countries = useSelector((state) => state.countries)
     const dispatch = useDispatch()
@@ -76,6 +77,7 @@ const MyProfile = () => {
         })
     }, [auxUpdateUser === false])
     
+
 
     const handleCancel = () => {
         navigate(-1);
