@@ -80,12 +80,12 @@ const AdminModuleDeleteUser = () => {
 
   return (
     <div className={styles.containerDelete}>
-    <div className="card" style={{ width: "400px", height: "400px" }}>
+    <div className="card" style={{ width: "400px", height: "360px" }}>
       <h5 className={styles.deleteT}>Are you sure you want to delete this user?</h5>
-      <p className={styles.deleteP}>Name: {user.name}</p>
-      <p className={styles.deleteP}>Lastname: {user.lastName}</p>
-      <p className={styles.deleteP}>Email: {user.email}</p>
-      <p className={styles.deleteP}>Type user: {user.typeUser}</p>
+      <p className={styles.deleteP}><strong>Name:</strong> {user.name}</p>
+      <p className={styles.deleteP}><strong>Last Name:</strong> {user.lastName}</p>
+      <p className={styles.deleteP}><strong>Email:</strong> {user.email}</p>
+      <p className={styles.deleteP}><strong>Type User:</strong> {user.typeUser}</p>
       <button type="button" className="btn btn-success"  style={{ margin: "2px" }} onClick={deletedUser}>Confirm</button>
       <button type="button" className="btn btn-danger"  style={{ margin: "2px" }} onClick={handleCancel}>Cancel</button>
       {showConfirmation && (

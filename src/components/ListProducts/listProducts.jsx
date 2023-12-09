@@ -12,9 +12,7 @@ export default function ListProducts(){
             <h5 style={{marginBottom:"-95px"}}>List of Products:</h5>
 
             <FilterAndOrder/>
-
                 {/* FALTA TRAER EL BOTON DE RESETEAR LOS FILTROS Y SU FUNCIONABILIDAD */}
-
                 <table className="table table-hover" style={{marginTop:"10px"}}>
                     <thead>
                         <tr>
@@ -51,7 +49,6 @@ export default function ListProducts(){
                             </td>
                             <td className={styles.td}>4.5</td>
                             <td className={styles.td}>
-                                {/*A PEDIDO DE DIEGO Z PUSE UN SELECT PARA EDITAR SU STATUS DESDE ACA, SI SE COMPLICA USAR SOLO EL UPDATE */}
                             <Form.Select aria-label="Seleccionar ejemplo" className='form-select-sm'>
                                 <option>Seleccionar...</option>
                                 <option value="1">Active</option>

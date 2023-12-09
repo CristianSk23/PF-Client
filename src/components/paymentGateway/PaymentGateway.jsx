@@ -31,6 +31,10 @@ const PaymentGateway=()=>{
   }, 0).toFixed(2);
 
   useEffect(() => {
+    console.log('userInfo');
+    console.log(userInSession);
+    console.log('cart');
+    console.log(cart);
     return ()=> setLoading(false)
   }, []);   
 
@@ -94,7 +98,7 @@ const PaymentGateway=()=>{
       .then((response) => {
           window.location.href = response.data.init_point;
       })
-      .catch((error) => console.log(error));
+      .catch((error) => (error));
     }
     setLoading(false)   
   }

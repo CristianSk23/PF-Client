@@ -24,7 +24,7 @@ const PaymentStatus = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post('/payments/orderFeedback', {
+        const response = await axios.post('/payments/saveData', {
           id: query.get("id"),
           payment_id,
           status,
