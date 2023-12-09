@@ -22,17 +22,52 @@ const StarRating = ({ selectedStars, onSelectStar }) => {
 
 const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
   const isUser = useSelector((state) => state.isUser);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [reviews, setReviews] = useState({});
+  const [reviews, setReviews] = useState([]);
+  const products = orderDetails
+console.log(orderDetails);
   
   console.log(reviews);
 
   const sendReview = () => {
-    console.log("Sending review for product:", reviews);
-
-    
+    const updatedReviews = reviews.map((review) => ({
+      ...review,
+      idUser: 4,
+      email: "example@email.com"
+    }));
+  
+    setReviews(updatedReviews);
+    console.log("Sending review for product:", updatedReviews);
   };
 
+  const existingReview = (productId) => {
+    return reviews.find((review) => review.idProd === productId);
+  };
+
+  const handleStarRating = (productId, stars) => {
+    const existing = existingReview(productId);
+
+    if (existing) {
+      const updatedReviews = reviews.map((review) =>
+        review.idProd === productId ? { ...review, stars: stars } : review
+      );
+      setReviews(updatedReviews);
+    } else {
+      setReviews([...reviews, { idProd: productId, stars: stars }]);
+    }
+  };
+
+  const handleComment = (productId, comment) => {
+    const existing = existingReview(productId);
+
+    if (existing) {
+      const updatedReviews = reviews.map((review) =>
+        review.idProd === productId ? { ...review, comment: comment } : review
+      );
+      setReviews(updatedReviews);
+    } else {
+      setReviews([...reviews, { idProd: productId, comment: comment }]);
+    }
+  };
   return (
     <div>
       {isUser === "Admin" ? (
@@ -53,7 +88,7 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
               </thead>
               <tbody>
                 {Array.isArray(orderDetails) &&
-                  orderDetails.map((product) => (
+                  products.map((product) => (
                     <tr key={product.id}>
                       <td className={styles.td}>{product?.id}</td>
                       <td className={styles.td}>{product?.nameProd}</td>
@@ -99,19 +134,17 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
                         <td className={styles.td}>{product?.category}</td>
                         <td className={styles.td}>
                           <StarRating
-                            selectedStars={reviews[product.id]?.stars || 0}
-                            onSelectStar={(stars) =>
-                              setReviews({
-                                ...reviews,
-                                [product.id]: {
-                                  ...reviews[product.id],
-                                  stars: stars,
-                                },
-                              })
-                            }
-                          />
+                            selectedStars={existingReview(product.id)?.stars || 0}
+                            onSelectStar={(stars) => handleStarRating(product.id, stars)}
+                            />
                         </td>
-                        <td className={styles.td}>{product?.nameProd}</td>
+                        <td>
+                        <input
+                  type="text"
+                  value={existingReview(product.id)?.comment || ''}
+                  onChange={(e) => handleComment(product.id, e.target.value)}
+                />
+            </td>
                       </tr>
                     </React.Fragment>
                   ))}
