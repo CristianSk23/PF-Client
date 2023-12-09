@@ -86,7 +86,6 @@ const NavBar = ({ onSearch, filterCond }) => {
         </div>
         <div className="offcanvas-body">
         <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
-        <li><a className="dropdown-item" href="/users"> User Admin</a></li>
         {isUser === "Admin" ? (
               /* Admin Options */
               <>

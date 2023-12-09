@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUser, getUserById } from "../../redux/action/actions";
+import { updateUser, getUserById, setPageAdmin } from "../../redux/action/actions";
 import PopupGeneral from "../popupGeneral/PopupGeneral";
 import styles from "./adminModuleUpdateUser.module.css"
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+
 
 
 const AdminModuleUpdateUser = () => {
@@ -109,11 +110,13 @@ const AdminModuleUpdateUser = () => {
 
   const handleConfirmationClose = () => {
     setShowConfirmation(false);
-    navigate(-1);
+    dispatch(setPageAdmin("users"))
+    navigate(-1)
   };
 
   const handleCancel = () => {
-    navigate(-1);
+    dispatch(setPageAdmin("users"))
+    navigate(-1)
   };
 
   return (
