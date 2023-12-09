@@ -24,11 +24,12 @@ const calculateData = (orders, filter) => {
 
   // Apply category filter if not "all"
   if (filter.category !== "all") {
-    filteredOrders = filteredOrders.filter((order) =>
-      order.items.some(
+    filteredOrders = filteredOrders.filter((order) => {
+      let itemsCart = JSON.parse(order.itemsCart);
+      return itemsCart.some(
         (item) => item.category && item.category.toLowerCase() === filter.category.toLowerCase()
-      )
-    );
+      );
+    });
   }
 
   // Calculate total onSalePrice or price if onSalePrice is 0
@@ -37,10 +38,11 @@ const calculateData = (orders, filter) => {
   const filteredItems = [];
 
   filteredOrders.forEach((order) => {
+    let itemsCart = JSON.parse(order.itemsCart);
     const orderYear = new Date(order.orderDate).getFullYear();
     const orderMonth = new Date(order.orderDate).getMonth();
 
-    order.items.forEach((item) => {
+    itemsCart.forEach((item) => {
       if(item.category.toLowerCase()===filter.category.toLowerCase() || filter.category === "all"){
         const category = item.category || "Uncategorized";
         const totalPrice = item.priceOnSale > 0 ? item.priceOnSale : item.price;
@@ -59,17 +61,18 @@ const calculateData = (orders, filter) => {
 
         if (meetsFilterCriteria) {
           filteredItems.push({
-            itemId: item.productId,
-            itemName: item.productName,
+            itemId: item.id,
+            itemName: item.nameProd,
             itemCategory: item.category,
-            itemPrice: totalPrice,
-            itemQuantity: item.quantity,
+            itemPrice: totalPrice.toFixed(2),
+            itemQuantity: item.quantityProd,
             orderDate: order.orderDate,
           });
         }
       }
     });
   });
+
 
   const categories = Object.keys(categoryTotals);
   const categoryTotalsArray = categories.map((category) => ({
@@ -85,12 +88,12 @@ const calculateData = (orders, filter) => {
     labels: monthsTextArray,
     datasets: categoryTotalsArray,
   };
-
+ 
   const pieData = {
     labels: filter.category !== "all" ? [filter.category] : categories,
     datasets: [
       {
-        data: filter.category !== "all" ? [categoryTotals[filter.category].reduce((a, b) => a + b, 0)] : categoryTotalsArray.map(category => category.data.reduce((a, b) => a + b, 0)),
+        data: filter.category !== "all" ? [categoryTotals[filter.category].reduce((a, b) => a + b, 0) || 0] : categoryTotalsArray.map(category => category.data?.reduce((a, b) => a + b, 0)),
         backgroundColor: categoryTotalsArray.map(category => category.backgroundColor),
       },
     ],

@@ -19,20 +19,6 @@ const calculateData = (orders, filters) => {
     const isWithinMonthRange = filters.month === "all" || orderMonth === (parseInt(filters.month)+1);
     const isWithinYear = filters.year === "all" || filters.year === orderYear;
     
-    console.log('order.orderDate****************');
-    console.log(order.orderDate);
-    console.log('orderId');
-    console.log(order.Id);
-    console.log('orderYear');
-    console.log(orderYear);
-    console.log('orderMonth');
-    console.log(orderMonth);
-    console.log('monthName');
-    console.log(monthName);
-    console.log('orderDay');
-    console.log(orderDay);
-
-
     yearsSet.add(orderYear);
 
     if (isWithinYear) {
@@ -48,24 +34,24 @@ const calculateData = (orders, filters) => {
         if (!salesByDay[orderDay]) {
           salesByDay[orderDay] = 0;
         }
-
-        order.items.forEach((item) => {
-          const totalPrice = item.priceOnSale > 0 ? item.priceOnSale*item.quantity : item.price*item.quantity;
+        let itemsCart = JSON.parse(order.itemsCart);
+        itemsCart.forEach((item) => {
+          const totalPrice = item.priceOnSale > 0 ? item.priceOnSale*item.quantityProd : item.price*item.quantityProd;
           salesByYear[orderYear] += totalPrice;
           salesByMonth[monthName] += totalPrice;
           salesByDay[orderDay] += totalPrice;
 
           // Check if the order matches the filter conditions
           itemsData.push({
-            Id: item.productId,
+            Id: item.id,
             Year: orderYear,
             Month: monthName,
             Day: orderDay,
             Category: item.category || "Uncategorized",
-            ProductName: item.productName,
-            Quantity: item.quantity,
-            UnitPrice: item.priceOnSale > 0 ? item.priceOnSale : item.price,
-            Total: totalPrice,
+            ProductName: item.nameProd,
+            Quantity: item.quantityProd,
+            UnitPrice: item.priceOnSale > 0 ? item.priceOnSale.toFixed(2) : item.price.toFixed(2),
+            Total: totalPrice.toFixed(2),
           });
         });
       }
