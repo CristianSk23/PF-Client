@@ -33,6 +33,9 @@ import {
   SETPAGEADMIN,
   GETORDERS,
   GETORDERSBYUSERID,
+  GET_ALL_ORDERS,
+  FILTER_ORDER_NAME_PURCHASE,
+  UPDATE_ORDER_STATUS,
 } from "../action/actionsType";
 
 const initialState = {
@@ -46,6 +49,7 @@ const initialState = {
     nameSearch: "",
     promotionsProducts: [],
     singleProduct: "",
+    orderHistory: [],
   },
   users: [],
   prodCategories: [],
@@ -546,7 +550,34 @@ const reducer = (state = initialState, action) => {
         ordersForUserId: action.payload,
       };
     }
-
+    case GET_ALL_ORDERS:
+      return {
+        ...state,
+        orderHistory: action.payload,
+        orderHistoryCache: action.payload
+      };
+  
+      case FILTER_ORDER_NAME_PURCHASE:
+        const result = state.orderHistoryCache.filter(i=>i.mercadopagoTransactionStatus
+          .toLowerCase().includes(action.payload.toLowerCase()))
+      return {
+        ...state,
+        orderHistory: result
+      };
+    
+      case UPDATE_ORDER_STATUS:
+        const updatedOrders = state.orderHistory.map(order => {
+          if (order.id === action.payload.orderId) {
+            return { ...order, deliveryStatus: action.payload.newStatus };
+          }
+          return order;
+        });
+        return {
+          ...state,
+          orderHistory: updatedOrders
+        };
+  
+      
     default:
       return { ...state };
   }
