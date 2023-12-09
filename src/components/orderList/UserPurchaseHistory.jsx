@@ -1,4 +1,5 @@
 import styles from "./orderList.module.css";
+import { CloseButton } from "react-bootstrap";
 
 export default function UserPurchaseHistory({ closeModal, data }) {
 
@@ -10,24 +11,40 @@ export default function UserPurchaseHistory({ closeModal, data }) {
   }
 
   return (
-    <div className={styles.modalContainer}>
-      <div className={styles.cajita}>
-        <section className={styles.boton}>
-          <button onClick={closeModal}>X</button>
-        </section>
-        {itemsCart.map((i, key) => (
-          <div key={key}>
-            <h1>{i.nameProd}</h1>
-            <h3>Id: {i.id}</h3>
-            <h3>Category: {i.category}</h3>
-            <h3>Stock: {i.stock}</h3>
-            <h3>PreceOnSale: {i.priceOnSale?.toFixed(2) ?? "Not Available"}</h3>
-            <h3>QuantityProd: {i.quantityProd}</h3>
-            <h3>Price: ${i.price?.toFixed(2)}</h3>
-            <h3>Total: ${data.totalPrice.toFixed(2)}</h3>
-          </div>
-        ))}
-      </div>
-    </div>
+    <div>
+    <div className={styles.overlay}></div>
+      <div className={styles.popup}>
+      <CloseButton onClick={closeModal} className={styles.closeButton}/>
+      <table className="table table-hover" style={{marginTop:"10px"}}>
+        <thead>
+          <tr>
+            <th className={styles.th} scope="col">Id</th>
+            <th className={styles.th} scope="col">Name</th>
+            <th className={styles.th} scope="col">Category</th>
+            <th className={styles.th} scope="col">Price</th>
+            <th className={styles.th} scope="col">Price On Sale</th>
+            <th className={styles.th} scope="col">Stock</th>
+            <th className={styles.th} scope="col">Quantity Prod</th>
+          </tr>
+        </thead>
+        <tbody>
+              {itemsCart.map((i, key) => (
+                  <tr key={key}>
+                  <td className={styles.td}>{i.id}</td>
+                  <td className={styles.td}>{i.nameProd}</td>
+                  <td className={styles.td}>{i.category}</td>
+                  <td className={styles.td}>${i.price?.toFixed(2)}</td>
+                  <td className={styles.td}>{i.priceOnSale?.toFixed(2) ?? "Not Available"}</td>
+                  <td className={styles.td}>{i.stock}</td>
+                  <td className={styles.td}>{i.quantityProd}</td>
+                  </tr>
+              ))}
+                  <tr>
+                    <td align="center" colSpan="7" style={{fontSize:"20px"}}><strong>Total Price: ${data.totalPrice.toFixed(2)}</strong></td>
+                  </tr>
+          </tbody>
+      </table>
+  </div>
+</div>
   );
 }

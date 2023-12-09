@@ -4,6 +4,16 @@
 }
 
 .button{
+    background: none;
     border: none;
-    background: transparent;
+    color: blue; /* o el color que desees */
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    font: inherit;
+    outline: none;
+}
+
+.button:hover{
+    color: darkblue;
 }
