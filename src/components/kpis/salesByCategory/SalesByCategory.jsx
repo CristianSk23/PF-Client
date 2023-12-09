@@ -8,6 +8,7 @@ import { getProdCategories, allOrders } from '../../../redux/action/actions';
 import { Link } from "react-router-dom";
 
 const SalesByCategory = () =>{
+
     const orders = useSelector((state)=> state.orderHistoryCache);
     const prodCategories = useSelector((state) => state.prodCategories);
     const [filter, setFilter] = useState({year:"all", category:"all"})

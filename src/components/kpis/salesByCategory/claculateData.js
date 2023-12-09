@@ -38,10 +38,9 @@ const calculateData = (orders, filter) => {
   const filteredItems = [];
 
   filteredOrders.forEach((order) => {
+    let itemsCart = JSON.parse(order.itemsCart);
     const orderYear = new Date(order.orderDate).getFullYear();
     const orderMonth = new Date(order.orderDate).getMonth();
-
-    let itemsCart = JSON.parse(order.itemsCart);
 
     itemsCart.forEach((item) => {
       if(item.category.toLowerCase()===filter.category.toLowerCase() || filter.category === "all"){
@@ -74,6 +73,7 @@ const calculateData = (orders, filter) => {
     });
   });
 
+
   const categories = Object.keys(categoryTotals);
   const categoryTotalsArray = categories.map((category) => ({
     label: category,
@@ -88,12 +88,12 @@ const calculateData = (orders, filter) => {
     labels: monthsTextArray,
     datasets: categoryTotalsArray,
   };
-
+ 
   const pieData = {
     labels: filter.category !== "all" ? [filter.category] : categories,
     datasets: [
       {
-        data: filter.category !== "all" ? [categoryTotals[filter.category].reduce((a, b) => a + b, 0)] : categoryTotalsArray.map(category => category.data.reduce((a, b) => a + b, 0)),
+        data: filter.category !== "all" ? [categoryTotals[filter.category].reduce((a, b) => a + b, 0) || 0] : categoryTotalsArray.map(category => category.data?.reduce((a, b) => a + b, 0)),
         backgroundColor: categoryTotalsArray.map(category => category.backgroundColor),
       },
     ],
