@@ -3,13 +3,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import Fireworks from 'react-fireworks';
+import Fireworks from "react-fireworks";
 import {
   getProductsById,
   cleanSingleProd,
   addToCart,
 } from "../../redux/action/actions";
 import NavBar from "../navBar/NavBar";
+import StarRating from "./startCont"; //* Agregado para mostrar el rating en forma de estrella
 
 const Detail = () => {
   const { id } = useParams();
@@ -25,6 +26,7 @@ const Detail = () => {
     price: 0,
     discountPercentage: 0,
     image: [],
+    reviews: [],
     active: false,
     tags: "None",
     stock: 0,
@@ -58,6 +60,7 @@ const Detail = () => {
         price: 0,
         discountPercentage: 0,
         image: [],
+        reviews: [],
         active: false,
         tags: "None",
         stock: 0,
@@ -66,6 +69,8 @@ const Detail = () => {
       dispatch(cleanSingleProd());
     };
   }, [dispatch, id]);
+
+  console.log("Detail del producto ", product);
 
   useEffect(() => {
     if (id && !productLoaded && prodById?.nameProd) {
@@ -77,6 +82,7 @@ const Detail = () => {
         price: prodById.price || 0,
         discountPercentage: prodById.discountPercentage || 0,
         image: prodById.image || [],
+        reviews: prodById.reviews || [],
         active: prodById.active.toString() || "true",
         tags: prodById.tags || "None",
         stock: prodById.stock || 0,
@@ -172,23 +178,33 @@ const Detail = () => {
                     <span style={{ fontWeight: "bold" }}>Stock:</span>{" "}
                     {product.stock}
                   </p>
-                  <p>
-                  </p>
+                  <p></p>
                   <p className="card-text">
                     <span style={{ fontWeight: "bold" }}>Price:</span>{" "}
                     {product.discountPercentage > 0 ? (
                       <>
-                        <span style={{ textDecoration: "line-through", color: "red" }}>
+                        <span
+                          style={{
+                            textDecoration: "line-through",
+                            color: "red",
+                          }}
+                        >
                           ${product.price}
                         </span>
-                        <span style={{ fontWeight: "bold", color: "green", marginLeft:"10px" }}>
+                        <span
+                          style={{
+                            fontWeight: "bold",
+                            color: "green",
+                            marginLeft: "10px",
+                          }}
+                        >
                           {product.discountPercentage}% OFF
                         </span>
-                        <p className="card-text" style={{marginTop:"15px"}}>
-                        <span style={{ fontWeight: "bold" }}>
-                          Price On Sale:
-                        </span>{" "}
-                        ${product.priceOnSale}
+                        <p className="card-text" style={{ marginTop: "15px" }}>
+                          <span style={{ fontWeight: "bold" }}>
+                            Price On Sale:
+                          </span>{" "}
+                          ${product.priceOnSale}
                         </p>
                       </>
                     ) : (
@@ -226,6 +242,23 @@ const Detail = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="d-flex align-items-center justify-content-center">
+          <p className="card-text">
+            <h3>REVIEWS</h3>
+            {product.reviews && product.reviews.length > 0 ? (
+              product.reviews.map((review, index) => (
+                <div key={index}>
+                  <h3>{review.name}</h3>
+                  <StarRating rating={review.rating} />
+                  <p>{review.comment}</p>
+                </div>
+              ))
+            ) : (
+              <p>No reviews available.</p>
+            )}
+          </p>
         </div>
       </div>
     </div>
