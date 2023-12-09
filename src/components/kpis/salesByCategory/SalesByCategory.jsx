@@ -66,6 +66,7 @@ const SalesByCategory = () =>{
 
     return(
         <div>
+          <div className="row">
             <div className="col-sm">
             <select name="category" defaultValue="all" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleChange}>
                 <option value="all" disabled hidden>Category</option>
@@ -92,6 +93,10 @@ const SalesByCategory = () =>{
                     })}
                 </select>
             </div>
+            </div>
+
+
+            <div className="row">
             <div className="col-sm">
                 {graphData.pieData.datasets?.length > 0 ? (
                 <PieChart data={graphData?.pieData} />
@@ -99,6 +104,9 @@ const SalesByCategory = () =>{
                 <p>Loading Pie Chart...</p>
                 )}
             </div>
+
+            <hr />
+
             <div className="col-sm">
                 {graphData.barData.datasets?.length > 0 ? (
                 <BarGraphics data={graphData?.barData} options={barOptions} />
@@ -106,7 +114,11 @@ const SalesByCategory = () =>{
                 <p>Loading Bar Chart...</p>
                 )}
             </div>
+            </div>
 
+            <hr />
+
+            <div className="row">
             <div className="col-sm">
                 <p>Raw Data</p>
                 <table className="table table-bordered">
@@ -141,7 +153,7 @@ const SalesByCategory = () =>{
                 </tbody>
                 </table>
             </div>
-
+            </div>
         </div>
     )
 

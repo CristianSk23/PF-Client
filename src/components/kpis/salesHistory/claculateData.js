@@ -18,7 +18,7 @@ const calculateData = (orders, filters) => {
     // Check if the order matches the filter conditions for year and month
     const isWithinMonthRange = filters.month === "all" || orderMonth === (parseInt(filters.month)+1);
     const isWithinYear = filters.year === "all" || filters.year === orderYear;
-    
+
     yearsSet.add(orderYear);
 
     if (isWithinYear) {
