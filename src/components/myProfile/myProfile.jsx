@@ -12,6 +12,7 @@ const MyProfile = () => {
     const isUser = useSelector((state) => state.isUser)
     const country = useSelector((state) => state.country)
     const navigate = useNavigate();
+
     const [auxUpdateUser, setAuxUptdateUser] = useState(false)
     const countries = useSelector((state) => state.countries)
     const dispatch = useDispatch()
@@ -77,6 +78,7 @@ const MyProfile = () => {
     }, [auxUpdateUser === false])
     
 
+
     const handleCancel = () => {
         navigate(-1);
       };
@@ -116,14 +118,7 @@ const MyProfile = () => {
                 </Col>
             </Row>
         </Container>
-        <Button variant="danger"
-        onClick={handleCancel}
-        className="mb-3"
-        size='lg'
-        style={{ position: "absolute", bottom: "10px", right: "10px" }}
-        >
-        Back
-        </Button>
+        <br /><hr />
         <ModuleHistoryOrderUser idProp={isuser?.id}/>
         </div>
     ) :
@@ -131,7 +126,7 @@ const MyProfile = () => {
         <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
             <Container>
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 className="h2"><FontAwesomeIcon icon={faUser} /> {isuser.name ? `${isUser}: ${isuser.name} ${isuser.lastName}` : `My Accounnt: ${isuser.email} ` }  </h1>
+                <h1 className="h2"><FontAwesomeIcon icon={faUser} /> {isuser.name ? `${isUser}: ${isuser.name} ${isuser.lastName}` : `My Account: ${isuser.email} ` }  </h1>
             </div>
             <Form onSubmit={handleSubmit}>
             <fieldset>

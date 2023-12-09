@@ -25,15 +25,34 @@ const Card = ({
 }) => {
   const dispatch = useDispatch();
 
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
 
-  const isUser = useSelector((state) => state.isUser);
-  const handleLogin = async () => {
-    await loginWithRedirect();
-  };
-  const handleBuy = () => {
-    dispatch(addToCart(productId));
-  };
+    const { isAuthenticated, loginWithRedirect } = useAuth0()
+
+    const isUser = useSelector((state) => state.isUser)
+    const userID = useSelector((state) => state.user.id)
+    const products = useSelector((state) => state.cart.items)
+    const allproducts = useSelector((state) => state.products.allProducts)
+    
+    const handleLogin= async() => {
+      await loginWithRedirect()
+    }
+
+    const handleBuy = (clickedProductId) => {
+      
+      let clickedProduct = products.find((item)=> item.id == clickedProductId)
+      
+      clickedProduct == undefined ? clickedProduct = allproducts.find((item)=> item.id == clickedProductId) : clickedProduct
+      
+      if (clickedProduct) {
+        
+        dispatch(addToCart(userID, clickedProductId, (clickedProduct?.quantity + 1 || 1)));
+      }
+      
+     };
+
+     useEffect(()=> {
+
+     },[handleBuy])
 
   return (
     <div>
@@ -124,18 +143,12 @@ const Card = ({
             ) : isUser === "User" ? (
               /* User Options */
 
-              <>
-                {isAuthenticated && (
-                  <button
-                    type="button"
-                    className="btn btn-success"
-                    style={{ margin: "2px" }}
-                    onClick={handleBuy}
-                  >
-                    <FontAwesomeIcon icon={faCartShopping} />
-                  </button>
-                )}
-              </>
+             <> 
+              {isAuthenticated && <button id={productId} type="button" className="btn btn-success" style={{margin:"2px"}} onClick={() => handleBuy(productId)}>
+              <FontAwesomeIcon icon={faCartShopping} />
+              </button>}
+            </>   
+
             ) : isUser === "Invited" ? (
               /* Invite Options */
               <>
