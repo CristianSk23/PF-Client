@@ -22,6 +22,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { createUser, typeUser, getCountry } from "./redux/action/actions";
 import { useAuth0 } from "@auth0/auth0-react";
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const App = () => {
   const dispatch = useDispatch();
@@ -92,6 +95,8 @@ const App = () => {
           <Route path="/user/deleteUser/:id" element={<AdminModuleDeleteUser/>} />
         </Route>
       </Routes>
+      <ToastContainer />
+      
     </div>
   );
 };

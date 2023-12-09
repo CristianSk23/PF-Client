@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { Provider } from 'react-redux';
 import axios from 'axios';
-
+import 'react-toastify/dist/ReactToastify.css';
 
   // url general
    axios.defaults.baseURL = "http://localhost:3001"; // LOCAL

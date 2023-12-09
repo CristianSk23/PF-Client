@@ -9,6 +9,7 @@ import styles from "./shoppingCart.module.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ShoppingCart = ({}) => {
 
@@ -28,6 +29,18 @@ const ShoppingCart = ({}) => {
 
  const DeleteCart = (productsid, nameProd, userID) => {
     dispatch(removeOneCart(productsid, nameProd, userID))
+    toast.success('Product has been removed from cart!', {
+        position: "bottom-right",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        // theme: "colored",
+        // theme: "dark",
+        theme: "light",
+        });
  }
 
  const IncreaseQuantity = (userID, productsid, quantityPROD) => {
@@ -65,7 +78,7 @@ const ShoppingCart = ({}) => {
                     products.map((item)=>{
                         return(
                             <tr key={item.id}>
-                            <td className={styles.td}><img src={item.image} style={{width:"40px", height:"40px", objectFit:"contain"}}/></td>
+                            <td className={styles.td}><img src={item.image[0]} style={{width:"40px", height:"40px", objectFit:"contain"}}/></td>
                             <td className={styles.td} style={{margin:"500px"}}>{item.nameProd}</td>
                             <td className={styles.td}>{item.priceOnSale?.toFixed(2) || item.price.toFixed(2)} $</td>  
                             <td className={styles.td}>

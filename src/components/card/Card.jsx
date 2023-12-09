@@ -7,6 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 //AUMENTE EL PAGINADO A 12 PRODUCTOS POR PAGINA, MUESTRA DE A 4 O DE A 5 SEGUN LA RESOLUCION DEL MONITOR
 const Card = ({
@@ -38,18 +39,34 @@ const Card = ({
     }
 
     const handleBuy = (clickedProductId) => {
-      
+      const productInCart = products.find((item) => item.id === clickedProductId); //agregue
       let clickedProduct = products.find((item)=> item.id == clickedProductId)
       
       clickedProduct == undefined ? clickedProduct = allproducts.find((item)=> item.id == clickedProductId) : clickedProduct
       
       if (clickedProduct) {
+        if (!productInCart) {//agregue
+          // dispatch(addToCart(userID, clickedProductId, 1));
+        dispatch(addToCart(userID, clickedProductId, (clickedProduct?.quantity + 1 || 1))),
+        // dispatch(addToCart(userID, clickedProductId, 1),
         
-        dispatch(addToCart(userID, clickedProductId, (clickedProduct?.quantity + 1 || 1)));
+        
+        // );
+        toast.success('Product added to cart!', {
+          position: "bottom-right",
+          autoClose: 2500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          // theme: "colored",
+          // theme: "dark",
+          theme: "light",
+          });
+        }
       }
-      
-     };
-
+    }
      useEffect(()=> {
 
      },[handleBuy])
