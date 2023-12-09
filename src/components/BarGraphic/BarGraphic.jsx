@@ -3,6 +3,7 @@ import { Bar } from 'react-chartjs-2';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Importa los estilos de Bootstrap
 import 'chart.js/auto'; // Importa Chart.js
 import 'react-chartjs-2'; // Importa react-chartjs-2
+import styles from "./BarGraphic.module.css";
 
 const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -23,15 +24,18 @@ const options = {
       beginAtZero: true,
     },
   },
-  maintainAspectRatio: true, // Desactiva el mantenimiento del aspecto
-  responsive: true, // Hace que el gráfico sea responsive
+  maintainAspectRatio: false, // Desactiva el mantenimiento del aspecto
+  responsive: true, // Hace que el gráfico sea responsive  style={{ width:"80%" ,maxWidth: "1000px", height:"60vh" }}
+  aspectRatio: 5,
 };
 
 const BarGraphics = ({data, options}) => {
   return(
-  <div style={{ width: '1000px', height: '500px', marginLeft: "100px"}}>
-    <Bar data={data} options={options} />
-  </div>
+    <div className="d-flex justify-content-center">
+<div className={styles.responsiveChartContainer}>
+        <Bar data={data} options={options}  />
+        </div>
+    </div>
 )};
 
 export default BarGraphics;

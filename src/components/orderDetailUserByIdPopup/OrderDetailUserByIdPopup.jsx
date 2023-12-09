@@ -1,12 +1,14 @@
 import React from "react";
 import styles from "./orderDetailUserByIdPopup.module.css";
+import { CloseButton } from "react-bootstrap";
 
 const OrderDetailUserByIdPopup = ({ orderDetails, onClose }) => {
   return (
     <div>
       <div className={styles.overlay}></div>
       <div className={styles.popup}>
-        <table className="table table-hover">
+      <CloseButton onClick={onClose} className={styles.closeButton}/>
+        <table className="table table-hover" style={{marginTop:"10px"}}>
           <thead>
             <tr>
               <th className={styles.th} scope="col">Id product</th>
@@ -32,7 +34,6 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose }) => {
                 ))}
          </tbody>
         </table>
-        <button onClick={onClose}>Close</button>
       </div>
     </div>
   );
