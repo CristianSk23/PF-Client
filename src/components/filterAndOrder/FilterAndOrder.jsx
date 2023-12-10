@@ -38,7 +38,7 @@ const handleOrderByName = (event) => {
 }
 
   return (
-    <div className="pagination justify-content-center" style={{ marginTop: "60px" }}>
+    <div className="pagination justify-content-center" style={{ marginTop: "20px" }}>
       <div className="row">
         <div className="col-sm">
           <select name="type" defaultValue="all" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleOpChange}>
