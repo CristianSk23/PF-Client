@@ -36,6 +36,7 @@ import {
   GET_ALL_ORDERS,
   FILTER_ORDER_NAME_PURCHASE,
   UPDATE_ORDER_STATUS,
+  CREATEORDER,
   SENDREVIEWPRODUCT
 } from "../action/actionsType";
 
@@ -49,8 +50,7 @@ const initialState = {
     filterType: undefined, // orderPrice, productsSearched, filterType, etc.
     nameSearch: "",
     promotionsProducts: [],
-    singleProduct: "",
-    orderHistory: [],
+    singleProduct: ""
   },
   users: [],
   prodCategories: [],
@@ -67,6 +67,8 @@ const initialState = {
   pageAdmin: "dassboard",
   ordersForUser: [],
   ordersForUserId: [],
+  orderHistory: [],
+  orderHistoryCache: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -552,38 +554,44 @@ const reducer = (state = initialState, action) => {
       };
     }
     case GET_ALL_ORDERS:
+  
       return {
         ...state,
         orderHistory: action.payload,
         orderHistoryCache: action.payload
       };
   
-      case FILTER_ORDER_NAME_PURCHASE:
-        const result = state.orderHistoryCache.filter(i=>i.mercadopagoTransactionStatus
-          .toLowerCase().includes(action.payload.toLowerCase()))
+    case FILTER_ORDER_NAME_PURCHASE:
+      const result = state.orderHistoryCache.filter(i=>i.mercadopagoTransactionStatus
+        .toLowerCase().includes(action.payload.toLowerCase()))
+    return {
+      ...state,
+      orderHistory: result
+    };
+    
+    case UPDATE_ORDER_STATUS:
+      const updatedOrders = state.orderHistory.map(order => {
+        if (order.id === action.payload.orderId) {
+          return { ...order, deliveryStatus: action.payload.newStatus };
+        }
+        return order;
+      });
       return {
         ...state,
-        orderHistory: result
+        orderHistory: updatedOrders
       };
-    
-      case UPDATE_ORDER_STATUS:
-        const updatedOrders = state.orderHistory.map(order => {
-          if (order.id === action.payload.orderId) {
-            return { ...order, deliveryStatus: action.payload.newStatus };
-          }
-          return order;
-        });
-        return {
-          ...state,
-          orderHistory: updatedOrders
-        };
-  
-      
+
+    case CREATEORDER:
+      return {
+        ...state,
+        orderHistoryCache: [...orderHistoryCache, action.payload]
+      };   
+
     case SENDREVIEWPRODUCT: {
       return {
         ...state
       }
-    }
+    };
 
     default:
       return { ...state };

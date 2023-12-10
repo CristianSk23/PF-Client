@@ -24,7 +24,9 @@ const PaymentGateway=()=>{
         phone: userInSession?.phone || "",
         identityCard: userInSession?.identityCard || "",
         postalCode: userInSession?.postalCode || "",
-        city: userInSession?.city || ""
+        city: userInSession?.city || "",
+        active: userInSession?.active,
+        typeUser: userInSession?.typeUser,
   })
 
   const totalCart = cart.items.reduce((accumulator, item) => {
@@ -32,13 +34,7 @@ const PaymentGateway=()=>{
     return accumulator + newPrice * item.quantity;
   }, 0).toFixed(2);
 
-  useEffect(() => {
-    console.log('userInfo');
-    console.log(userInSession);
-    console.log('cart');
-    console.log(cart);
-    return ()=> setLoading(false)
-  }, []);   
+
 
   const handleChange = (event) =>{
     setUserInfo({
@@ -99,10 +95,13 @@ const PaymentGateway=()=>{
       .post("/payments/createOrder", newOrder)
       .then((response) => {
           window.location.href = response.data.init_point;
+          setLoading(false) 
       })
-      .catch((error) => (error));
+      .catch((error) => {
+        setLoading(false)
+        console.log(error)
+      });
     }
-    setLoading(false)   
   }
 
   const handleCancel = () => {

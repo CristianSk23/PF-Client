@@ -38,7 +38,9 @@ import {
   GET_ALL_ORDERS,
   FILTER_ORDER_NAME_PURCHASE,
   UPDATE_ORDER_STATUS,
+  CREATEORDER,
   SENDREVIEWPRODUCT,
+
 } from "../action/actionsType";
 
 export const updateUser = (user) => {
@@ -242,8 +244,7 @@ export const changePage = (order) => {
 };
 
 export const filter = (cond) => {
-  console.log('Conditions filter:');
-  console.log(cond);
+
   return async (dispatch) => {
     return dispatch({
       type: FILTER,
@@ -285,7 +286,7 @@ export const resetError=()=>{
          })
          
       } catch (error) {
-        console.log(error.message);
+
         dispatch({
           type: ERROR,
           payload: error.message,
@@ -536,6 +537,24 @@ export const updateOrderStatus = (orderId, newStatus) => {
     }
   };
 };
+
+export const createOrder = (paymentResults) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`/payments/saveData`, paymentResults);
+      dispatch({
+        type: CREATEORDER,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
 export const postReview = (review) => {
   return async (dispatch) => {
     const {data} = await axios.post(`reviews`, {review}, {
@@ -549,3 +568,4 @@ export const postReview = (review) => {
     });
   }
 }
+

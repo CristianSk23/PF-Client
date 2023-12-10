@@ -65,13 +65,13 @@ const NavBar = ({ onSearch, filterCond }) => {
             icon={faMagnifyingGlass}
           />
           </button>
-          <div style={{"text-align": "right"}}>
+          <div style={{"textalign": "right"}}>
             <Link to={"/shopping"}>
-            <button style={{"background-color": "white",
+            <button style={{"backgroundcolor": "white",
                             color: "black",
                             padding: "10px 15px",
                             border: "none",
-                            "border-radius": "5px",
+                            "borderradius": "5px",
                             cursor: "pointer",
                             }}>
               My Cart <FontAwesomeIcon icon={faCartShopping} />
