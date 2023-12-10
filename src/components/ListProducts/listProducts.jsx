@@ -7,7 +7,7 @@ import { Form } from 'react-bootstrap';
 import FilterAndOrder from "../filterAndOrder/FilterAndOrder";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux";
-import { getAllProducts, changePage, increaseStock, decreaseStock } from "../../redux/action/actions";
+import { getAllProducts, changePage, increaseStock, decreaseStock, deleteProduct } from "../../redux/action/actions";
 import {useEffect, useState} from "react"
 import { useNavigate } from "react-router-dom";
 import Cards from "../cards/Cards"
@@ -63,6 +63,13 @@ export default function ListProducts(){
      const DecreaseSTOCK = (id) => {
         dispatch(decreaseStock(id))
      }
+
+     const DeletePRODUCT = (id, name) => {
+        const prodToDelete =  confirm(`Are you sure you want to delete the following product: ${name}`)
+        if(prodToDelete){
+        dispatch(deleteProduct(id))
+        }    
+    }
 
     return(
         <div>
@@ -159,7 +166,7 @@ export default function ListProducts(){
                                 </Link>
                             </td>
                             <td className={styles.td}> {/* DARLE FUNCIONAMIENTO AL BOTON DE DELETE */}
-                                <button className={styles.button}>
+                                <button onClick={()=>DeletePRODUCT(product.id, product.nameProd)} className={styles.button}>
                                     <FontAwesomeIcon icon={faTrash} style={{ color: "#dd3636", }} />
                                 </button>
                             </td>

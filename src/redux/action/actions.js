@@ -157,6 +157,7 @@ export const cleanSingleProd = () => {
 };
 export const deleteProduct = (id) => {
   return async (dispatch) => {
+    console.log(id)
     try {
       await axios.delete(`/products`, {
         data: { id },
