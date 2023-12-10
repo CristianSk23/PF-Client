@@ -7,7 +7,7 @@ import { Form } from 'react-bootstrap';
 import FilterAndOrder from "../filterAndOrder/FilterAndOrder";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux";
-import { getAllProducts, changePage, increaseStock } from "../../redux/action/actions";
+import { getAllProducts, changePage, increaseStock, decreaseStock } from "../../redux/action/actions";
 import {useEffect, useState} from "react"
 import { useNavigate } from "react-router-dom";
 import Cards from "../cards/Cards"
@@ -56,12 +56,12 @@ export default function ListProducts(){
         setPrev(true)
     }
 
-    const IncreaseStock = (id) => {
-        dispatch(IncreaseStock(id))
+    const IncreaseSTOCK = (id) => {
+        dispatch(increaseStock(id))
      }
     
-     const DecreaseStock = () => {
-        dispatch(DecreaseStock())
+     const DecreaseSTOCK = (id) => {
+        dispatch(decreaseStock(id))
      }
 
     return(
@@ -130,13 +130,13 @@ export default function ListProducts(){
                             <div className="container">{/*A PEDIDO DE DIEGO Z PUSE BOTONES PARA MANEJAR EL STOCK DIRECTAMENTE DE ACA, FALTA DARLE EL FUNCIONAMIENTO
                             COMO LO TIENE EN EL CARRITO DE COMPRAS, SI SE COMPLICA USAR SOLO EL UPDATE */}
                                 <div className="btn-group" role="group" aria-label="Botones de Suma y Resta">
-                                    <button type="button" className="btn btn-primary" style={{marginTop:"-6px"}}>
+                                    <button type="button" onClick={()=> DecreaseSTOCK(product.id)} className="btn btn-primary" style={{marginTop:"-6px"}}>
                                     -
                                     </button>
                                     <div style={{padding:"10px", height:"1px", marginTop:"-9px"}}>
                                         <p>{product.stock}</p>
                                     </div>
-                                    <button type="button" onClick={() => increaseStock(product.id)} className="btn btn-primary"style={{marginTop:"-6px"}}>
+                                    <button type="button" onClick={() => IncreaseSTOCK(product.id)} className="btn btn-primary"style={{marginTop:"-6px"}}>
                                     +
                                     </button>
                                 </div>

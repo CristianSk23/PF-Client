@@ -431,23 +431,39 @@ const reducer = (state = initialState, action) => {
 
     case INCREASESTOCK:
 
-    const updatedData = state.products.data.map((item) => {
+    const increaseData = state.products.data.map((item) => {
       if (item.id === action.payload) {
         return { ...item, stock: item.stock + 1 };
       } else {
         return item;
       }
     });
-    console.log(updatedData)
+    
     return {
       ...state,
       products: {
         ...state.products,
-        data: updatedData,
+        data: increaseData,
       },
     }
 
     case DECREASESTOCK:
+
+    const decreaseData = state.products.data.map((item) => {
+      if (item.id === action.payload) {
+        return { ...item, stock: item.stock - 1 };
+      } else {
+        return item;
+      }
+    });
+    
+    return {
+      ...state,
+      products: {
+        ...state.products,
+        data: decreaseData,
+      },
+    }
 
 
     case GETPRODUCTBYNAME:
