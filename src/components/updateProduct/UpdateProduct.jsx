@@ -19,6 +19,7 @@ import {
 } from "../../redux/action/actions";
 import PopupGeneral from "../popupGeneral/PopupGeneral";
 import NavBar from "../navBar/NavBar";
+import { toast } from "react-toastify";
 
 const UpdateProduct = () => {
   const dispatch = useDispatch();
@@ -126,9 +127,33 @@ const UpdateProduct = () => {
         const updatedImages = [...product.image];
         updatedImages[index] = newUrlForIndex;
         setProduct((prevProduct) => ({ ...prevProduct, image: updatedImages }));
+        toast.success('Image has been saved!', {
+          position: "bottom-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          // theme: "dark",
+          // theme: "light",
+          });
       }
     } catch (error) {
       console.error("Error al manejar la imagen:", error);
+      toast.error('Error loading image', {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        // theme: "dark",
+        // theme: "light",
+        });
     }
   };
 
@@ -141,6 +166,18 @@ const UpdateProduct = () => {
       ...product,
       image: product.image.filter((_, i) => i !== index),
     });
+    toast.success('Image has been removed!', {
+      position: "bottom-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      // theme: "dark",
+      // theme: "light",
+      });
   };
 
   const handleChange = async (event) => {
