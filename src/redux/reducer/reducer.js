@@ -36,7 +36,8 @@ import {
   GET_ALL_ORDERS,
   FILTER_ORDER_NAME_PURCHASE,
   UPDATE_ORDER_STATUS,
-  CREATEORDER
+  CREATEORDER,
+  SENDREVIEWPRODUCT
 } from "../action/actionsType";
 
 const initialState = {
@@ -560,31 +561,37 @@ const reducer = (state = initialState, action) => {
         orderHistoryCache: action.payload
       };
   
-      case FILTER_ORDER_NAME_PURCHASE:
-        const result = state.orderHistoryCache.filter(i=>i.mercadopagoTransactionStatus
-          .toLowerCase().includes(action.payload.toLowerCase()))
+    case FILTER_ORDER_NAME_PURCHASE:
+      const result = state.orderHistoryCache.filter(i=>i.mercadopagoTransactionStatus
+        .toLowerCase().includes(action.payload.toLowerCase()))
+    return {
+      ...state,
+      orderHistory: result
+    };
+    
+    case UPDATE_ORDER_STATUS:
+      const updatedOrders = state.orderHistory.map(order => {
+        if (order.id === action.payload.orderId) {
+          return { ...order, deliveryStatus: action.payload.newStatus };
+        }
+        return order;
+      });
       return {
         ...state,
-        orderHistory: result
+        orderHistory: updatedOrders
       };
-    
-      case UPDATE_ORDER_STATUS:
-        const updatedOrders = state.orderHistory.map(order => {
-          if (order.id === action.payload.orderId) {
-            return { ...order, deliveryStatus: action.payload.newStatus };
-          }
-          return order;
-        });
-        return {
-          ...state,
-          orderHistory: updatedOrders
-        };
-  
-        case CREATEORDER:
-          return {
-            ...state,
-            orderHistoryCache: [...orderHistoryCache, action.payload]
-          };   
+
+    case CREATEORDER:
+      return {
+        ...state,
+        orderHistoryCache: [...orderHistoryCache, action.payload]
+      };   
+
+    case SENDREVIEWPRODUCT: {
+      return {
+        ...state
+      }
+    };
 
     default:
       return { ...state };

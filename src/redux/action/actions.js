@@ -38,7 +38,9 @@ import {
   GET_ALL_ORDERS,
   FILTER_ORDER_NAME_PURCHASE,
   UPDATE_ORDER_STATUS,
-  CREATEORDER
+  CREATEORDER,
+  SENDREVIEWPRODUCT,
+
 } from "../action/actionsType";
 
 export const updateUser = (user) => {
@@ -552,3 +554,18 @@ export const createOrder = (paymentResults) => {
     }
   };
 };
+
+export const postReview = (review) => {
+  return async (dispatch) => {
+    const {data} = await axios.post(`reviews`, {review}, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    dispatch({
+      type: SENDREVIEWPRODUCT,
+      payload: data,
+    });
+  }
+}
+
