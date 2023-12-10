@@ -65,7 +65,7 @@ const ShoppingCart = ({}) => {
                     products.map((item)=>{
                         return(
                             <tr key={item.id}>
-                            <td className={styles.td}><img src={item.image} style={{width:"40px", height:"40px", objectFit:"contain"}}/></td>
+                            <td className={styles.td}><img src={item.image[0]} style={{width:"40px", height:"40px", objectFit:"contain"}}/></td>
                             <td className={styles.td} style={{margin:"500px"}}>{item.nameProd}</td>
                             <td className={styles.td}>{item.priceOnSale?.toFixed(2) || item.price.toFixed(2)} $</td>  
                             <td className={styles.td}>

@@ -36,6 +36,7 @@ import {
   GET_ALL_ORDERS,
   FILTER_ORDER_NAME_PURCHASE,
   UPDATE_ORDER_STATUS,
+  SENDREVIEWPRODUCT
 } from "../action/actionsType";
 
 const initialState = {
@@ -578,6 +579,12 @@ const reducer = (state = initialState, action) => {
         };
   
       
+    case SENDREVIEWPRODUCT: {
+      return {
+        ...state
+      }
+    }
+
     default:
       return { ...state };
   }
