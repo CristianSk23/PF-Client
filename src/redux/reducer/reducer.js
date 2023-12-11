@@ -41,7 +41,8 @@ import {
   FILTER_ORDER_NAME_PURCHASE,
   UPDATE_ORDER_STATUS,
   CREATEORDER,
-  SENDREVIEWPRODUCT
+  SENDREVIEWPRODUCT,
+  GETCARTBYID
 } from "../action/actionsType";
 
 const initialState = {
@@ -632,6 +633,29 @@ const reducer = (state = initialState, action) => {
         ...state
       }
     };
+
+    case GETCARTBYID:
+      const cartItems = action.payload.items.map((item)=>{
+        return {
+          quantity:item.quantityProd,
+          id:item.idProd,
+          price:item.price,
+          priceOnSale:item.priceOnSale,
+          nameProd:item.nameProd,
+          image:[item.image],
+          description:item.description
+        }
+      })
+    console.log('cartItems      *******************');
+    console.log(cartItems);
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          id: action.payload.id,
+          items: [...cartItems],
+        },
+      };  
 
     default:
       return { ...state };

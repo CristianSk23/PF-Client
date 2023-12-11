@@ -70,6 +70,9 @@ const PaymentGateway=()=>{
         userInfo.postalCode != userInSession?.postalCode || 
         userInfo.city != userInSession?.city)
     {
+      console.log('entro a actualizar User');
+      console.log(userInfo);
+
       dispatch(updateUser(userInfo))
     }
     // VER DE AGREGAR INFORMACION PARA EL CART DE Mercadopago. Ej address,phone etc.
@@ -90,8 +93,11 @@ const PaymentGateway=()=>{
     }
     //------------------------------------------------------------------------------
 
-
+    console.log('CatchError');
+    console.log(catchError);
     if(catchError===""){
+      console.log('Creo la Order');
+      console.log(newOrder);
       axios
       .post("/payments/createOrder", newOrder)
       .then((response) => {

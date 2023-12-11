@@ -44,7 +44,7 @@ import {
   UPDATE_ORDER_STATUS,
   CREATEORDER,
   SENDREVIEWPRODUCT,
-
+  GETCARTBYID
 } from "../action/actionsType";
 
 export const updateUser = (user) => {
@@ -633,5 +633,21 @@ export const postReview = (review) => {
       payload: data,
     });
   }
-}
+};
 
+export const getCartById = (userId) => {
+  return async (dispatch) => {
+    try {
+      const {data} = await axios.get(`cart/${userId}`);
+      dispatch({
+        type: GETCARTBYID,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
