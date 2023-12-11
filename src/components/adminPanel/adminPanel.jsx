@@ -19,6 +19,8 @@ import DeletedUsers from '../adminModuleRestoreDeletedUsers/AdminModuleRestoreDe
 import DeletedProducts from '../adminModuleRestoreProduct/AdminModuleRestoreProduct';
 import SalesByCategory from "../kpis/salesByCategory/SalesByCategory";
 import SalesHistory from '../kpis/salesHistory/salesHistory';
+import {useAuth0} from '@auth0/auth0-react'
+import ErrorView from '../error404/Error404';
 
 //ENLAZAR A QUE AHORA ESTO SEA LA "LANDING" DEL ADMIN
 
@@ -27,6 +29,8 @@ export default function AdminPanel() {
     const pageAdmin = useSelector((state) => state.pageAdmin);
     const initialActiveButton = pageAdmin || 'dassboard';
     const [activeButton, setActiveButton] = useState(initialActiveButton);
+    const {isAuthenticated} = useAuth0()
+      const typeUser = useSelector((state) => state.isUser)
     
 
     const handleButtonClick = (buttonName) => {
@@ -136,6 +140,13 @@ export default function AdminPanel() {
         }
       };
 
+      if(typeUser !== "Admin" || !isAuthenticated){
+        return(
+          <div>
+            <ErrorView />
+          </div>
+        )
+      }
 
 
   return (

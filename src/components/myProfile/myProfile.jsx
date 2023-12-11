@@ -6,12 +6,15 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllCountries, updateUser } from '../../redux/action/actions';
 import ModuleHistoryOrderUser from '../moduleHistoryOrderUser/ModuleHistoryOrderUser';
+import { useAuth0 } from '@auth0/auth0-react';
+import ErrorView from '../error404/Error404';
 
 const MyProfile = () => {
     const isuser = useSelector((state) => state.user)
     const isUser = useSelector((state) => state.isUser)
     const country = useSelector((state) => state.country)
     const navigate = useNavigate();
+    const {isAuthenticated} = useAuth0()
 
     const [auxUpdateUser, setAuxUptdateUser] = useState(false)
     const countries = useSelector((state) => state.countries)
@@ -47,7 +50,7 @@ const MyProfile = () => {
             user.postalCode != isuser?.postalCode || 
             user.city != isuser?.city)
         {
-          dispatch(updateUser({...user, id: isuser?.id, email: isuser?.email, typeUser: isuser?.typeUser, active: isuser?.active}))
+          dispatch(updateUser({...user, id: isuser?.id}))
           setAuxUptdateUser(false)
         }
     }
@@ -82,6 +85,14 @@ const MyProfile = () => {
     const handleCancel = () => {
         navigate(-1);
       };
+
+    if(!isAuthenticated && isUser === "Invited"){
+        return (
+            <div>
+                <ErrorView/>
+            </div>
+        )
+    }
 
     return !auxUpdateUser ? (
         <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>

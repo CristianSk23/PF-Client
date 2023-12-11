@@ -65,9 +65,9 @@ const DeletedProducts = () => {
     <div className="card" style={{ width: "400px", height: "400px" }}>
       <h5 className={styles.Restore}>Are you sure you want to restore this product?</h5>
       <p className={styles.restoreU}>Name: {product?.nameProd}</p>
-      <p className={styles.restoreU}>Lastname: {product?.brand}</p>
-      <p className={styles.restoreU}>Email: {product?.price}</p>
-      <p className={styles.restoreU}>Type product: {product?.CategoryId}</p>
+      <p className={styles.restoreU}>Brand: {product?.brand}</p>
+      <p className={styles.restoreU}>Price: {product?.price}</p>
+      <p className={styles.restoreU}>Category Id: {product?.CategoryId}</p>
       <p className={styles.restoreU}>Deleted At: {product?.deletedAt}</p>
       <button type="button" className="btn btn-success"  style={{ margin: "2px" }} onClick={() => handleRestore(product?.id)}>Confirm</button>
       <button type="button" className="btn btn-danger"  style={{ margin: "2px" }} onClick={handleCancel}>Cancel</button>

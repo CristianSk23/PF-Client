@@ -14,7 +14,9 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import PopupGeneral from "../popupGeneral/PopupGeneral";
 import NavBar from "../navBar/NavBar";
+import ErrorView from "../error404/Error404";
 import { toast } from "react-toastify";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const CreateProduct = () => {
   const dispatch = useDispatch();
@@ -22,6 +24,7 @@ const CreateProduct = () => {
   const prodCategories = useSelector((state) => state.prodCategories);
   const allProducts = useSelector((state) => state.products?.allProducts);
   const isUser = useSelector((state) => state.isUser)
+  const {isAuthenticated} = useAuth0()
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -205,6 +208,13 @@ const CreateProduct = () => {
   const handleUploadImageByFile = async (event) => {
     await uploadImageByFileToCloudinary(event, setProduct, product);
   };
+
+  if(!isAuthenticated && isUser === 'Invited'){
+    return(
+    <div>
+      <ErrorView/>
+    </div>)
+  }
 
   return (
     <div style={{ minHeight: "800px" }}>

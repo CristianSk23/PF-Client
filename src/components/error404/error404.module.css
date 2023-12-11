@@ -1,0 +1,44 @@
+.div {
+    background-color: #333333;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><path d="M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"/></svg>');
+}
+
+.divCard {
+    background-color: #333333;
+}
+
+.container {
+    padding: 69px; 
+    color: #ffffff; 
+    background-color: rgba(0, 0, 0, 0.5); 
+    border-radius: 10px;
+}
+
+.container:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 1rem 3rem rgba(223, 223, 223, 0.5);
+
+    color: red
+}
+
+.card {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: whitesmoke;
+    padding: 40px;
+    border-radius: 10px;
+  }
+
+.card:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 1rem 3rem rgba(223, 223, 223, 0.5);
+    color: red; 
+}
+
+.link {
+    color: rgb(255, 255, 255);
+  }
+
+.link:hover {
+color: rgb(255, 0, 0);
+text-shadow: 0 1rem 3rem rgba(223, 223, 223, 1);
+}
