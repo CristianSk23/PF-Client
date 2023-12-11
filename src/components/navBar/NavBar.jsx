@@ -7,7 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { getProdCategories, logOut } from "../../redux/action/actions";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import logoImage from "../../assets/logo.jpg";
+import logoImage from "../../assets/Logo.png";
 
 
 
@@ -58,8 +58,8 @@ const NavBar = ({ onSearch, filterCond }) => {
       <img
         src={logoImage}
         alt="Logo"
-        width="120"
-        height="30"
+        width="160"
+        height="auto"
         className="d-inline-block align-top"
       />
       </a>

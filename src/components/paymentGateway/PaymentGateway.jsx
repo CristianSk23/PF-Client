@@ -7,7 +7,7 @@ import styles from "./paymentGateway.module.css";
 import RingLoader  from "react-spinners/RingLoader"; // spinner para el loading 
 import axios from "axios"; // hay que hacer redux. hasta entonces, no eliminar
 import { useNavigate } from "react-router-dom";
-import logoImage from "../../assets/logo.jpg";
+import logoImage from "../../assets/Logo.png";
 
 const PaymentGateway=()=>{
   const dispatch = useDispatch();
