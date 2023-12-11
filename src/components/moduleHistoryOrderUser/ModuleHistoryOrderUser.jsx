@@ -79,7 +79,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
                 <tr>
                 <th className={styles.th} scope="col">Number order</th>
                 <th className={styles.th} scope="col">Order Date</th>
-                <th className={styles.th} scope="col">Status</th>
+                <th className={styles.th} scope="col">Delivery Status</th>
                 <th className={styles.th} scope="col">Total Amount</th>
                 <th className={styles.th} scope="col">Order</th>
                 </tr>
