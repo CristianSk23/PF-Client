@@ -32,6 +32,10 @@ import {
   COUNTRY,
   POPUTSPROMOTIONS,
   GETALLCOUNTRIES,
+  GETALLDELETEDUSERS,
+  GETALLDELETEDPRODUCTS,
+  RESTOREUSERS,
+  RESTOREPRODUCTS,
   SETPAGEADMIN,
   GETORDERS,
   GETORDERSBYUSERID,
@@ -462,6 +466,68 @@ export const getPromotions = () => async (dispatch) => {
     console.error("Error fetching promotions:", error);
   }
 };
+
+export const getDeletedUsers = () => async (dispatch) => {
+  try {
+    const response = await axios.get('/users/deleted');
+    dispatch({
+      type: GETALLDELETEDUSERS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: error.message,
+    });  
+  }
+}
+
+export const getDeletedProducts = () => async (dispatch) => {
+  try {
+    const response = await axios.get('/products/deleted');
+    dispatch({
+      type: GETALLDELETEDPRODUCTS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: error.message,
+    });  
+  }
+}
+
+export const restoreDeleteUsers = (id) => async (dispatch) => {
+  try {
+      const response = await axios.put(`/users/deleted/${id}`);
+      dispatch({
+          type: RESTOREUSERS,
+          payload: response.data,
+      });
+  } catch (error) {
+      dispatch({
+          type: ERROR,
+          payload: error.message,
+      });
+  }
+};
+
+
+export const restoreProducts = (id) => 
+  async (dispatch) => {
+    try {
+      const response = await axios.put(`/products/deleted/${id}`);
+      dispatch({
+        type: RESTOREPRODUCTS,
+        payload: response.data,
+      })
+    } catch (error) { 
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+    });  
+  }
+}
 
 export const setPageAdmin = (pageAdmin) => {
   return async (dispatch) => {
