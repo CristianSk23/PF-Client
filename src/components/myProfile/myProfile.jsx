@@ -119,7 +119,7 @@ const MyProfile = () => {
             </Row>
         </Container>
         <br /><hr />
-        <ModuleHistoryOrderUser idProp={isuser?.id}/>
+        {isuser?.id && <ModuleHistoryOrderUser idProp={isuser?.id}/>}
         </div>
     ) :
     auxUpdateUser && (
