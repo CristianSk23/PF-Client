@@ -29,6 +29,8 @@ import {
   LOGOUT,
   COUNTRY,
   POPUTSPROMOTIONS,
+  INCREASESTOCK,
+  DECREASESTOCK,
   GETALLCOUNTRIES,
   GETALLDELETEDPRODUCTS,
   RESTOREPRODUCTS,
@@ -461,27 +463,66 @@ const reducer = (state = initialState, action) => {
         let filteredItemsDEC = state.cart.items.filter(
           (product) => product.id !== action.payload
         );
-
-        return {
-          ...state,
-          cart: {
-            ...state.cart,
-            items: filteredItemsDEC,
-          },
-        };
-      } else {
-        return {
-          ...state,
-          cart: {
-            ...state.cart,
-            items: state.cart.items.map((item) =>
-              item.id === action.payload
-                ? { ...item, quantity: item.quantity - 1 }
-                : item
-            ),
-          },
-        };
+  
+        return{
+            ...state,
+            cart: {
+              ...state.cart,
+              items: filteredItemsDEC, 
+            }
+            }
       }
+    
+     else {
+
+    return {
+      ...state,
+      cart: {
+        ...state.cart,
+        items: state.cart.items.map((item) =>
+          item.id === action.payload ? { ...item, quantity: item.quantity - 1 } : item
+        ),
+      },
+    };
+    };
+
+    case INCREASESTOCK:
+
+    const increaseData = state.products.data.map((item) => {
+      if (item.id === action.payload) {
+        return { ...item, stock: item.stock + 1 };
+      } else {
+        return item;
+      }
+    });
+    
+    return {
+      ...state,
+      products: {
+        ...state.products,
+        data: increaseData,
+      },
+    }
+
+    case DECREASESTOCK:
+
+    const decreaseData = state.products.data.map((item) => {
+      if (item.id === action.payload) {
+        return { ...item, stock: item.stock - 1 };
+      } else {
+        return item;
+      }
+    });
+    
+    return {
+      ...state,
+      products: {
+        ...state.products,
+        data: decreaseData,
+      },
+    }
+
+
     case GETPRODUCTBYNAME:
       return {
         ...state,

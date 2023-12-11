@@ -30,6 +30,8 @@ import {
   GENERATEUSER,
   UPDATEUSER,
   COUNTRY,
+  INCREASESTOCK,
+  DECREASESTOCK,
   POPUTSPROMOTIONS,
   GETALLCOUNTRIES,
   GETALLDELETEDUSERS,
@@ -171,6 +173,7 @@ export const cleanSingleProd = () => {
 };
 export const deleteProduct = (id) => {
   return async (dispatch) => {
+    console.log(id)
     try {
       await axios.delete(`/products`, {
         data: { id },
@@ -643,6 +646,31 @@ export const getCartById = (userId) => {
         type: GETCARTBYID,
         payload: data,
       });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+export const increaseStock = (id) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: INCREASESTOCK, payload: id });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
+export const decreaseStock = (id) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: DECREASESTOCK, payload: id });
     } catch (error) {
       dispatch({
         type: ERROR,
