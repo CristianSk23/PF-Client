@@ -12,6 +12,11 @@ import MyProfile from "./components/myProfile/myProfile";
 import PaymentGateway from "./components/paymentGateway/PaymentGateway";
 import PaymentStatus from "./components/paymentStatus/PaymentStatus";
 import AdminPanel from "./components/adminPanel/adminPanel";
+import AdminModuleUser from "./components/adminModuleUser/AdminModuleUser";
+import AdminModuleUpdateUser from "./components/adminModuleUpdateUser/AdminModuleUpdateUser";
+import AdminModuleDeleteUser from "./components/adminModuleDeleteUser/AdminModuleDeleteUser";
+import ModuleHistoryOrderUser from "./components/moduleHistoryOrderUser/ModuleHistoryOrderUser"
+
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -86,6 +91,10 @@ const App = () => {
           <Route path="/paymentGateway" element={<PaymentGateway />} />
           <Route path="/paymentGateway/status" element={<PaymentStatus />} />
           <Route path="/adminPanel" element={<AdminPanel />} />
+          <Route path="/adminPanel/users" element={<AdminModuleUser />}/>
+          <Route path="/adminPanel/users/updateUser/:id" element={<AdminModuleUpdateUser/>} />
+          <Route path="/adminPanel/users/deleteUser/:id" element={<AdminModuleDeleteUser/>} />
+          <Route path="/adminPanel/users/orderHistory/:id" element={<ModuleHistoryOrderUser/>} />
         </Route>
       </Routes>
     </div>

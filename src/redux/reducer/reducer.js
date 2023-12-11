@@ -2,6 +2,7 @@ import { UserType } from "../../utils/userType";
 import {
   GETALLPRODUCTS,
   GETUSERS,
+  GETUSERBYID,
   GETPRODBYID,
   GETPRODCATEGORIES,
   GETPRODUCTBYNAME,
@@ -30,6 +31,14 @@ import {
   POPUTSPROMOTIONS,
   INCREASESTOCK,
   DECREASESTOCK,
+  GETALLCOUNTRIES,
+  SETPAGEADMIN,
+  GETORDERS,
+  GETORDERSBYUSERID,
+  GET_ALL_ORDERS,
+  FILTER_ORDER_NAME_PURCHASE,
+  UPDATE_ORDER_STATUS,
+  SENDREVIEWPRODUCT
 } from "../action/actionsType";
 
 const initialState = {
@@ -42,7 +51,8 @@ const initialState = {
     filterType: undefined, // orderPrice, productsSearched, filterType, etc.
     nameSearch: "",
     promotionsProducts: [],
-    singleProduct: ""
+    singleProduct: "",
+    orderHistory: [],
   },
   users: [],
   prodCategories: [],
@@ -54,7 +64,11 @@ const initialState = {
   },
   isUser: "Invited",
   user: {},
-  country: ""
+  country: "",
+  countries: [],
+  pageAdmin: "dassboard",
+  ordersForUser: [],
+  ordersForUserId: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -97,21 +111,21 @@ const reducer = (state = initialState, action) => {
       };
 
     case GETPRODBYID:
-      return { 
-        ...state, 
+      return {
+        ...state,
         products: {
-          ...state.products, 
-          singleProduct: action.payload
-        } 
+          ...state.products,
+          singleProduct: action.payload,
+        },
       };
 
     case CLEANSINGLEPROD:
-      return { 
-        ...state, 
+      return {
+        ...state,
         products: {
-          ...state.products, 
-          singleProduct: action.payload
-        } 
+          ...state.products,
+          singleProduct: action.payload,
+        },
       };
 
     case DELETEPRODUCT:
@@ -134,10 +148,20 @@ const reducer = (state = initialState, action) => {
         ...state,
         users: action.payload,
       };
-  
+
+    case GETUSERBYID:
+      return {
+        ...state,
+        user: action.payload,
+      };
+
+    case GETUSERBYID:
+      return {
+        ...state,
+      };
+
     case UPDATEUSER:
-      return { ...state, 
-        user: {...state.user, ...action.payload} };
+      return { ...state, user: { ...state.user, ...action.payload } };
 
     //-------------------------------- ORDERS ---------------------------------------------//
 
@@ -220,50 +244,53 @@ const reducer = (state = initialState, action) => {
     // --------------------------------FILTROS --------------------------------------------//
     case FILTER:
       try {
-        let filtered = state.products && state.products.productsSearch && state.products.productsSearch.length !== 0
-        ? [...state.products.productsSearch]
-        : [...state.products.allProducts];
-      
-            if (action.payload.type !== "all") {
-              filtered = filtered.filter(
-                (product) =>
-                  ///////////REVISAR
-                  product.category == action.payload.type
-              );
-            }
-      
-            if (action.payload.price !== "all") {
-              if (action.payload.price === "100") {
-                filtered = [...filtered].filter(
-                  (product) => product.price < action.payload.price
-                );
-              }
-      
-              if (action.payload.price === "300") {
-                filtered = [...filtered].filter(
-                  (product) =>
-                    product.price <= action.payload.price && product.price >= 100
-                );
-              }
-      
-              if (action.payload.price === "500") {
-                filtered = [...filtered].filter((product) => product.price > 301);
-              }
-            }
-      
-            return {
-              ...state,
-              products: {
-                ...state.products,
-                data: [...filtered].splice(0, ITEM_PER_PAGE),
-                productsFiltered: [...filtered],
-                currentPage: 0,
-              },}
+        let filtered =
+          state.products &&
+          state.products.productsSearch &&
+          state.products.productsSearch.length !== 0
+            ? [...state.products.productsSearch]
+            : [...state.products.allProducts];
+
+        if (action.payload.type !== "all") {
+          filtered = filtered.filter(
+            (product) =>
+              ///////////REVISAR
+              product.category.toLowerCase() === action.payload.type.toLowerCase()
+          );
+        }
+
+        if (action.payload.price !== "all") {
+          if (action.payload.price === "100") {
+            filtered = [...filtered].filter(
+              (product) => product.price < action.payload.price
+            );
+          }
+
+          if (action.payload.price === "300") {
+            filtered = [...filtered].filter(
+              (product) =>
+                product.price <= action.payload.price && product.price >= 100
+            );
+          }
+
+          if (action.payload.price === "500") {
+            filtered = [...filtered].filter((product) => product.price > 301);
+          }
+        }
+
+        return {
+          ...state,
+          products: {
+            ...state.products,
+            data: [...filtered].splice(0, ITEM_PER_PAGE),
+            productsFiltered: [...filtered],
+            currentPage: 0,
+          },
+        };
       } catch (error) {
         //console.error('Error en la acción FILTER:', error);
-        
-        return {...state,
-          catchError: error }
+
+        return { ...state, catchError: error };
       }
 
     // -------------------------------- PAGINATION --------------------------------------- //
@@ -318,93 +345,93 @@ const reducer = (state = initialState, action) => {
       };
 
     case ADDTOCART:
-
-    if(action.payload.stock == 0) {
-      alert("This product is out of stock")
-      return {
-        ...state,
+      if (action.payload.stock == 0) {
+        alert("This product is out of stock");
+        return {
+          ...state,
+        };
       }
-    } 
-      
-    const existingItem = state.cart.items.find((item) => item.id === action.payload.id);
 
-    if (existingItem) {
-      
-      if(action.payload.stock < existingItem.quantity + 1){
-       alert("There are no more units available for this product") 
-      
+      const existingItem = state.cart.items.find(
+        (item) => item.id === action.payload.id
+      );
+
+      if (existingItem) {
+        if (action.payload.stock < existingItem.quantity + 1) {
+          alert("There are no more units available for this product");
+
+          return {
+            ...state,
+          };
+        }
+
+        return {
+          ...state,
+          cart: {
+            ...state.cart,
+            items: state.cart.items.map((item) =>
+              item.id === existingItem.id
+                ? { ...item, quantity: item.quantity + 1 }
+                : item
+            ),
+          },
+        };
+      } else {
+        return {
+          ...state,
+          cart: {
+            ...state.cart,
+            items: [{ ...action.payload, quantity: 1 }, ...state.cart.items],
+          },
+        };
+      }
+
+    case REMOVEONECART:
+      let filteredItems = state.cart.items.filter(
+        (product) => product.id !== action.payload
+      );
+
       return {
         ...state,
-      }}
+        cart: {
+          ...state.cart,
+          items: filteredItems,
+        },
+      };
+
+    case INCREASEQUANTITY:
+      let itemToCheck = state.cart.items.find(
+        (item) => item.id === action.payload
+      );
+
+      if (itemToCheck.stock < itemToCheck.quantity + 1) {
+        alert("There are no more units available for this product");
+
+        return {
+          ...state,
+        };
+      }
 
       return {
         ...state,
         cart: {
           ...state.cart,
           items: state.cart.items.map((item) =>
-            item.id === existingItem.id ? { ...item, quantity: item.quantity + 1 } : item
+            item.id === action.payload
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
           ),
         },
       };
-    } else {
-      return {
-        ...state,
-        cart: {
-          ...state.cart,
-          items: [{ ...action.payload, quantity: 1 }, ...state.cart.items],
-        },
-      };
-    }
-
-    case REMOVEONECART: 
-
-      let filteredItems = state.cart.items.filter(
-        (product) =>
-          product.id !== action.payload
-      );
-
-      return{
-          ...state,
-          cart: {
-            ...state.cart,
-            items: filteredItems, 
-          }
-          }
-    
-    case INCREASEQUANTITY:
-
-    let itemToCheck = state.cart.items.find((item) => item.id === action.payload);
-
-    if(itemToCheck.stock < itemToCheck.quantity + 1) {
-
-      alert("There are no more units available for this product") 
-      
-      return {
-        ...state,
-      }
-      
-    }
-
-    return {
-      ...state,
-      cart: {
-        ...state.cart,
-        items: state.cart.items.map((item) =>
-          item.id === action.payload ? { ...item, quantity: item.quantity + 1 } : item
-        ),
-      },
-    };
 
     case DECREASEQUANTITY:
+      let itemToDec = state.cart.items.find(
+        (item) => item.id === action.payload
+      );
 
-    let itemToDec = (state.cart.items.find((item) => item.id === action.payload));
-    console.log(itemToDec.quantity)
-
-    if(itemToDec.quantity<=1) {
-
+      if (itemToDec.quantity <= 1) {
         let filteredItemsDEC = state.cart.items.filter(
-          (product) =>
-            product.id !== action.payload
+          (product) => product.id !== action.payload
         );
   
         return{
@@ -483,65 +510,124 @@ const reducer = (state = initialState, action) => {
         isShowPopup: action.payload,
       };
 
-      case CLEANSEARCHBAR:
+    case CLEANSEARCHBAR:
       return {
         ...state,
-      products: {
+        products: {
           ...state.products,
           productsSearch: action.payload,
-    },
-    nameSearch: "", // También asegúrate de limpiar nameSearch si es necesario
-  };
-    case NAMESEARCH: 
-      return{
-        ...state, 
-        nameSearch: action.payload
-      }
-      
-      
-            // -------------------------------- USERS --------------------------------------- //  
+        },
+        nameSearch: "", // También asegúrate de limpiar nameSearch si es necesario
+      };
+    case NAMESEARCH:
+      return {
+        ...state,
+        nameSearch: action.payload,
+      };
+
+    // -------------------------------- USERS --------------------------------------- //
     case GENERATEUSER:
       return {
         ...state,
-        user: action.payload
-      }
+        user: action.payload,
+      };
 
     case TYPEUSER:
       return {
         ...state,
-        isUser: action.payload
-      }
+        isUser: action.payload,
+      };
 
     case COUNTRY:
       return {
         ...state,
-        country: action.payload
-      }
+        country: action.payload,
+      };
 
     case LOGOUT:
       return {
         ...state,
-        user: {typeUser: "Invited"},
+        user: { typeUser: "Invited" },
         isUser: "Invited",
-        country: ""
-    }
+        country: "",
+      };
     case POPUTSPROMOTIONS:
       const promotionsProduct = action.payload.filter((product) => {
-        return product.tags === "New"
+        return product.tags === "New";
       });
+
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          promotionsProducts: promotionsProduct,
+        },
+      };
+
+    case GETALLCOUNTRIES:
+      const ordenCountries = action.payload.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+      return {
+        ...state,
+        countries: ordenCountries,
+      };
+    case SETPAGEADMIN: {
+      return {
+        ...state,
+        pageAdmin: action.payload,
+      };
+    }
+    case GETORDERS: {
+      return {
+        ...state,
+        ordersForUser: action.payload,
+      };
+    }
+
+    case GETORDERSBYUSERID: {
       
-  return {
-    ...state,
-    products: {
-      ...state.products,
-      promotionsProducts: promotionsProduct,
-    },
-  };
+      return {
+        ...state,
+        ordersForUserId: action.payload,
+      };
+    }
+    case GET_ALL_ORDERS:
+      return {
+        ...state,
+        orderHistory: action.payload,
+        orderHistoryCache: action.payload
+      };
+  
+      case FILTER_ORDER_NAME_PURCHASE:
+        const result = state.orderHistoryCache.filter(i=>i.mercadopagoTransactionStatus
+          .toLowerCase().includes(action.payload.toLowerCase()))
+      return {
+        ...state,
+        orderHistory: result
+      };
+    
+      case UPDATE_ORDER_STATUS:
+        const updatedOrders = state.orderHistory.map(order => {
+          if (order.id === action.payload.orderId) {
+            return { ...order, deliveryStatus: action.payload.newStatus };
+          }
+          return order;
+        });
+        return {
+          ...state,
+          orderHistory: updatedOrders
+        };
+  
+      
+    case SENDREVIEWPRODUCT: {
+      return {
+        ...state
+      }
+    }
 
     default:
       return { ...state };
   }
-
-    
 };
 export default reducer;

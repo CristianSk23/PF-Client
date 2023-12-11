@@ -31,7 +31,7 @@ const PromotionPopup = () => {
             id="carouselExampleDark"
             className={`carousel carousel-dark slide ${styles["carousel-fade"]}`}
             data-bs-ride="carousel"
-            data-bs-interval="1000"
+            data-bs-interval="5000"
           >
             <button
               type="button"
@@ -39,7 +39,7 @@ const PromotionPopup = () => {
               aria-label="Close"
               onClick={closetPopup}
             ></button>
-            <div className="carousel-indicators">
+            <div className="carousel-indicators" style={{margin:"29px"}}>
               {products && products.map((_, index) => (
                 <button
                   key={index}
@@ -64,11 +64,10 @@ const PromotionPopup = () => {
                     alt={`Imagen ${index + 1}`}
                     style={{ maxWidth: "100%", height: "400px", objectFit: "cover" }}
                   />
-                  <div className="carousel-caption d-none d-md-block">
-                    <h5 style={{ fontSize: "25px" }}>
-                      <strong>{product.promotion}</strong>
+
+                  <h5 style={{ fontSize: "25px", color:"black" }}>
+                      <strong>{product.nameProd}</strong>
                     </h5>
-                  </div>
                 </div>
               ))}
             </div>
