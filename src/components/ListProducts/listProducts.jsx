@@ -76,7 +76,7 @@ export default function ListProducts(){
         }    
     }
 
-    if(!isLoading && (!isAuthenticated && isUser !== "Admin")){
+    if(!isLoading && ((!isAuthenticated && isUser !== "Admin") || isUser === "User")){
         return(
             <div>
                 <ErrorView/>

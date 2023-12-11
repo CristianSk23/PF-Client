@@ -82,17 +82,15 @@ const AdminModuleDeleteUser = () => {
     })
   }, [userById])
 
-  if (!isLoading && (!isAuthenticated && isUser !== "Admin")) {
+  if (!isLoading && (isUser === "User" || !isAuthenticated && isUser === "Invited")) {
     return (
       <div>
         <ErrorView />
       </div>
     );
   }
-  console.log(isUser);
 
-
-  return (!isLoading &&
+  return (!isLoading && isUser === "Admin" &&
     <div className={styles.containerDelete}>
     <div className="card" style={{ width: "400px", height: "360px" }}>
       <h5 className={styles.deleteT}>Are you sure you want to delete this user?</h5>

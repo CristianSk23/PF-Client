@@ -53,7 +53,7 @@ const AdminModuleUser = () => {
     dispatch(updateUser(user))
   }
 
-  if(!isLoading && (!isAuthenticated && isUser !== "Admin")){
+  if(!isLoading && (isUser === "User" || (!isAuthenticated && isUser === "Invited"))){
     return(
       <div>
         <ErrorView />
@@ -61,8 +61,8 @@ const AdminModuleUser = () => {
     )
   }
   return (
-    !isLoading &&
-    <div>
+    !isLoading && isUser === "Admin" && isAuthenticated && 
+    (<div>
         <h5>Users list:</h5>
         <table className="table table-hover">
       <thead>
@@ -115,7 +115,7 @@ const AdminModuleUser = () => {
         ))}
       </tbody>
     </table>
-    </div>
+    </div>)
   );
 };
 

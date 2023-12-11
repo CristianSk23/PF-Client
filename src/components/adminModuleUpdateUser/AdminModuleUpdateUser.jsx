@@ -18,7 +18,7 @@ const AdminModuleUpdateUser = () => {
   const {isAuthenticated, isLoading} = useAuth0();
   const { id } = useParams();
   const navigate = useNavigate();
-  const userById = useSelector((state) => state.user) || {};
+  const userById = useSelector((state) => state.userById) || {};
   const [showConfirmation, setShowConfirmation] = useState(false);  
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [user, setUser] = useState({
@@ -123,7 +123,7 @@ const AdminModuleUpdateUser = () => {
     navigate(-1)
   };
 
-  if (!isLoading && (!isAuthenticated && isUser !== "Admin")) {
+  if (!isLoading && (isUser === "User" || !isAuthenticated && isUser === "Invited")) {
     return (
       <div>
         <ErrorView />
@@ -131,7 +131,7 @@ const AdminModuleUpdateUser = () => {
     );
   }
 
-  return (!isLoading && isAuthenticated &&
+  return (!isLoading && isUser === "Admin" &&
         <div style={{ minHeight: "800px" }}>
           <div>
             <h1 className="text-center m-5">Modify User</h1>

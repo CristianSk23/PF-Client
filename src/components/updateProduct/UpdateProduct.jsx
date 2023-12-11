@@ -249,7 +249,7 @@ const UpdateProduct = () => {
     await uploadImageByFileToCloudinary(event, setProduct, product);
   };
 
-  if(!isLoading && (!isAuthenticated && isUser !== "Admin")){
+  if(!isLoading && ((!isAuthenticated && isUser !== "Admin") || isUser === "User")){
     return(
       <div>
         <ErrorView />

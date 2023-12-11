@@ -50,7 +50,7 @@ const MyProfile = () => {
             user.postalCode != isuser?.postalCode || 
             user.city != isuser?.city)
         {
-          dispatch(updateUser({...user, id: isuser?.id}))
+          dispatch(updateUser({...user, id: isuser?.id, email: isuser?.email, active: isuser?.active, typeUser: isuser?.typeUser}))
           setAuxUptdateUser(false)
         }
     }
