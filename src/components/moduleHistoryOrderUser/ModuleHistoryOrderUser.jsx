@@ -4,18 +4,13 @@ import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrdersByUserId } from "../../redux/action/actions";
 import OrderDetailUserByIdPopup from "../orderDetailUserByIdPopup/OrderDetailUserByIdPopup";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClipboard } from "@fortawesome/free-solid-svg-icons";
-import { Container } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 
 const ModuleHistoryOrderUser =({idProp}) =>{
     const { id } = useParams();
     const dispatch = useDispatch()
     const ordersById = useSelector((state) => state.ordersForUserId) || [];
     const [selectedOrder, setSelectedOrder] = useState(null);
-    const navigate = useNavigate();
-    
+    const isUser = useSelector((state) => state.isUser)
     
     useEffect(() => {
       if (id != undefined){
@@ -34,17 +29,13 @@ const ModuleHistoryOrderUser =({idProp}) =>{
         setSelectedOrder(null);
     };
 
-    const handleCancel = () => {
-      navigate(-1);
-    };
-
     return(
-        <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
-          <Container>
-          <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 className="h2"><FontAwesomeIcon icon={faClipboard} /> {ordersById[0]?.userName} Purchase History</h1>
-          </div>
+      <div>
+      {isUser === "Admin" ? (
+        <div>
+        <h5>Orders list for user {ordersById[0]?.userName}:</h5>
         <table className="table table-hover">
+         
             <thead>
                 <tr>
                 <th className={styles.th} scope="col">ID Order</th>
@@ -78,11 +69,45 @@ const ModuleHistoryOrderUser =({idProp}) =>{
           onClose={handleClosePopup}
         />
       )}
-        <div className="d-grid gap-2">
-          <a className="btn btn-danger" type="button" onClick={ handleCancel }>Back</a>
-        </div>
-      </Container>
     </div>
+      ) : (
+        <div>
+        <h5>Your orders {ordersById[0]?.userName}:</h5>
+        <table className="table table-hover">
+         
+            <thead>
+                <tr>
+                <th className={styles.th} scope="col">Number order</th>
+                <th className={styles.th} scope="col">Order Date</th>
+                <th className={styles.th} scope="col">Status</th>
+                <th className={styles.th} scope="col">Total Amount</th>
+                <th className={styles.th} scope="col">Order</th>
+                </tr>
+            </thead>
+                <tbody>
+                    {ordersById?.map((order) =>(<tr key={order.id}>
+                    <td className={styles.td}>{order.id}</td>
+                    <td className={styles.td}>{order.orderDate}</td>
+                    <td className={styles.td}>{order.deliveryStatus}</td>
+                    <td className={styles.td}>${parseFloat(order.totalPrice).toFixed(2)}</td>
+                    <td className={styles.td}><Link onClick={() => handleSeeDetail(JSON.parse(order.itemsCart))}>See detail</Link></td>
+                </tr>))}
+                {ordersById.length == 0 && 
+                <tr key="na">
+                <td>To date there are no purchase orders</td>
+                </tr>}
+              </tbody>
+        </table>
+        {selectedOrder && (
+        <OrderDetailUserByIdPopup
+          orderDetails={selectedOrder}
+          onClose={handleClosePopup}
+          idUser={idProp || id}
+        />
+      )}
+    </div>
+      )}
+        </div>
     )
 }
 

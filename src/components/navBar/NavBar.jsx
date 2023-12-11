@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getProdCategories, logOut } from "../../redux/action/actions";
-import { Link } from "react-router-dom";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom"
+
+
 
 const NavBar = ({ onSearch, filterCond }) => {
   const [name, setName] = useState("");
@@ -62,13 +65,13 @@ const NavBar = ({ onSearch, filterCond }) => {
             icon={faMagnifyingGlass}
           />
           </button>
-          <div style={{"text-align": "right"}}>
+          <div style={{"textalign": "right"}}>
             <Link to={"/shopping"}>
-            <button style={{"background-color": "white",
+            <button style={{"backgroundcolor": "white",
                             color: "black",
                             padding: "10px 15px",
                             border: "none",
-                            "border-radius": "5px",
+                            "borderradius": "5px",
                             cursor: "pointer",
                             }}>
               My Cart <FontAwesomeIcon icon={faCartShopping} />
@@ -90,9 +93,18 @@ const NavBar = ({ onSearch, filterCond }) => {
           </button>
       </div>
       )}
-      <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
-      </button>
+        <div className="d-flex align-items-center">
+          <button className="btn btn-outline-light" style={{marginRight:"5px"}}>
+            <Link to="/shopping" style={{textDecoration: 'none', color: 'inherit'}}>
+              <FontAwesomeIcon icon={faShoppingCart} />
+            </Link>
+
+          </button>
+
+          <button className="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation" >
+            <span className="navbar-toggler-icon" ></span>
+          </button>
+        </div>
       <div className="offcanvas offcanvas-end text-bg-dark" tabIndex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
         <div className="offcanvas-header">
           <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel">Options</h5>

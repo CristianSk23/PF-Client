@@ -10,6 +10,7 @@ import {
   addToCart,
 } from "../../redux/action/actions";
 import NavBar from "../navBar/NavBar";
+import { toast } from "react-toastify";
 
 const Detail = () => {
   const { id } = useParams();
@@ -37,6 +38,18 @@ const Detail = () => {
 
   const handleBuy = () => {
     dispatch(addToCart(id));
+    toast.success('Product added to cart!', {
+      position: "bottom-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      // theme: "dark",
+      // theme: "light",
+      });
   };
 
   useEffect(() => {

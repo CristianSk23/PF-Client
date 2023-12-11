@@ -1,22 +1,32 @@
-import orders from '../../../assets/orderData' //ELIMINAR CUANDO SE TENGA LA INFO DE LAS ORDENES EN STATE
+
 import calculateData from './claculateData';
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BarGraphics from '../../BarGraphic/BarGraphic';
 import LineGraph from '../../LineGraph/LineGraph';
-import { getProdCategories } from '../../../redux/action/actions';
+import { getProdCategories, allOrders } from '../../../redux/action/actions';
 import { Link } from "react-router-dom";
 
 const SalesHistory = () =>{
-    // const orders = useSelector((state)=> state.orders)
+    const orders = useSelector((state)=> state.orderHistoryCache);
     const prodCategories = useSelector((state) => state.prodCategories);
     const [filter, setFilter] = useState({year:"all", month:"all"})
     const [graphData, setGraphData] = useState({yearBarData:{}, monthBarData:{}, lineData:{}, itemsData:[], years:[] })
     const dispatch = useDispatch();
-    const monthsText = [
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-      ];
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (prodCategories.length === 0) {
+                dispatch(getProdCategories());
+            }
+            dispatch(allOrders());
+            setGraphData(calculateData(orders, filter));
+        };
+    
+        fetchData();
+    }, [filter, dispatch]);
+
 
     const handleChange = (event) => {
         setGraphData({yearBarData:{}, monthBarData:{}, lineData:{}, itemsData:[], years:[] })
@@ -29,22 +39,10 @@ const SalesHistory = () =>{
           ...filter,
           [event.target.name]: event.target.value,
         });
-
+console.log(monthBarData);
         setGraphData({ yearBarData, monthBarData, lineData, itemsData, years});
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            if (prodCategories.length === 0) {
-
-                dispatch(getProdCategories());
-            }
-
-            setGraphData(calculateData(orders, filter));
-        };
-    
-        fetchData();
-    }, [filter]);
     
 
     return(

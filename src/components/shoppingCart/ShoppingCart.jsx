@@ -1,7 +1,7 @@
 
 import { removeOneCart, increaseQuantity, decreaseQuantity } from "../../redux/action/actions"
 import { useSelector } from "react-redux/es/hooks/useSelector"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { Link } from 'react-router-dom';
 import NavBar from "../navBar/NavBar";
@@ -9,6 +9,7 @@ import styles from "./shoppingCart.module.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ShoppingCart = ({}) => {
 
@@ -18,6 +19,7 @@ const ShoppingCart = ({}) => {
  const products = useSelector((state) => state.cart.items)
  const userID = useSelector((state) => state.user.id)
  
+
  useEffect(() => {
   }, [products]);
 
@@ -28,6 +30,18 @@ const ShoppingCart = ({}) => {
 
  const DeleteCart = (productsid, nameProd, userID) => {
     dispatch(removeOneCart(productsid, nameProd, userID))
+    toast.success('Product has been removed from cart!', {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        // theme: "dark",
+        // theme: "light",
+        });
  }
 
  const IncreaseQuantity = (userID, productsid, quantityPROD) => {
@@ -65,7 +79,7 @@ const ShoppingCart = ({}) => {
                     products.map((item)=>{
                         return(
                             <tr key={item.id}>
-                            <td className={styles.td}><img src={item.image} style={{width:"40px", height:"40px", objectFit:"contain"}}/></td>
+                            <td className={styles.td}><img src={item.image[0]} style={{width:"40px", height:"40px", objectFit:"contain"}}/></td>
                             <td className={styles.td} style={{margin:"500px"}}>{item.nameProd}</td>
                             <td className={styles.td}>{item.priceOnSale?.toFixed(2) || item.price.toFixed(2)} $</td>  
                             <td className={styles.td}>
@@ -94,7 +108,7 @@ const ShoppingCart = ({}) => {
                     })                   
                     }
                     <tr>
-                    <td align="center" colSpan="6"><strong>Total Carts: ${totalCart}</strong></td>
+                    <td align="center" colSpan="6" style={{fontSize:"20px"}}><strong>Total Carts: ${totalCart}</strong></td>
                     </tr>
                     </tbody>
                 </table>
