@@ -1,5 +1,5 @@
 
-import { removeOneCart, increaseQuantity, decreaseQuantity } from "../../redux/action/actions"
+import { removeOneCart, increaseQuantity, decreaseQuantity, getCartById } from "../../redux/action/actions"
 import { useSelector } from "react-redux/es/hooks/useSelector"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
@@ -26,7 +26,8 @@ const ShoppingCart = ({}) => {
  
 
  useEffect(() => {
-  }, [products]);
+    userID && dispatch(getCartById(userID))
+  }, [userID]);
 
   const totalCart = products.reduce((accumulator, item) => {
     let newPrice = item.priceOnSale || item.price;

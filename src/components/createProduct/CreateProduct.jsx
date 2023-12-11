@@ -448,12 +448,12 @@ const CreateProduct = () => {
                     >
                       Remove
                     </button>
-                    <button
+                    {!url.includes('cloudinary') && <button
                       type="button"
                       onClick={() => sendImageUrlChange(index)}
                     >
                       Save
-                    </button>
+                    </button>}
                     {url && (
                       <div>
                         <img

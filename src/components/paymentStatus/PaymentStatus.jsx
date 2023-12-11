@@ -37,13 +37,13 @@ const PaymentStatus = () => {
       modalText = 'Many thanks for your buys. We hope you to come back soon!'; 
     } else if (status === 'rejected') {
       modalText = 'we noticed that your payment has been rejected, please try again later'; 
-    } else if (status === 'pending') {
-      modalText = 'Payment Pending!'; 
+    } else  {
+      modalText = 'If you have any concerns about our payment methods, please let us know'; 
     }
     setModalContent(modalText);
     setModalIsOpen(true);
 
-  }, [query, payment_id, status, merchant_order_id]);
+  }, []);
 
   const handleModalClose = () => {
     setModalIsOpen(false);
@@ -53,7 +53,7 @@ const PaymentStatus = () => {
         navigate('/'); // Replace with your approved route
       } else if (status === 'rejected') {
         navigate('/'); // Replace with your rejected route
-      } else if (status === 'pending') {
+      } else {
         navigate('/'); // Replace with your pending route
       }
     };
