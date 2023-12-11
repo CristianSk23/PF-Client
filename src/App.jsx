@@ -5,7 +5,6 @@ import CreateProduct from './components/createProduct/CreateProduct';
 import UpdateProduct from "./components/updateProduct/UpdateProduct";
 import DeleteProduct from "./components/deleteProduct/DeleteProduct";
 import ShoppingCart from "./components/shoppingCart/ShoppingCart";
-import Profile from "./components/profile/Profile";
 import Detail from "./components/detail/Detail";
 import Login from "./components/login/Login";
 import MyProfile from "./components/myProfile/myProfile";

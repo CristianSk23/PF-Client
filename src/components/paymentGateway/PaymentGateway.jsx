@@ -127,7 +127,7 @@ const PaymentGateway=()=>{
     )
   }
 
-    return(
+    return(!isLoading &&
       <div className="container">  
           <div className="py-5 text-center">
             <img className="d-block mx-auto mb-4" src={logoImage} alt="logo" height="57px"/>

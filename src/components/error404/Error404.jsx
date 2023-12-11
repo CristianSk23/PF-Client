@@ -32,13 +32,13 @@ const ErrorView = () => {
                 </div>
                 <div>
                     <div>
-                    <h2 className="display-6">Page not Found</h2>
+                    <h2 className="display-6 fw-bold">Page not Found</h2>
                     </div>
                     <div>
                     </div>
-                    <h3 className="display-8">
+                    <h3 className="display-8 fw-bold">
                     <Link to="/" className={styles.link}>
-                    Back to a better place...
+                    Click here to Back to a better place...
                     </Link> 
                     </h3>
                 </div>

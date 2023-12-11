@@ -209,7 +209,7 @@ const CreateProduct = () => {
     await uploadImageByFileToCloudinary(event, setProduct, product);
   };
 
-  if(!isLoading && !isAuthenticated && isUser === "Invited"){
+  if(!isLoading && (!isAuthenticated && isUser !== "Admin")){
     return(
       <div>
         <ErrorView />
@@ -218,6 +218,7 @@ const CreateProduct = () => {
   }
 
   return (
+    !isLoading &&
     <div style={{ minHeight: "800px" }}>
       <div>
         <h1 className="text-center m-5">Create Product</h1>

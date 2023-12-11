@@ -94,7 +94,7 @@ const MyProfile = () => {
         )
       }
 
-    return !auxUpdateUser ? (
+    return !auxUpdateUser ? (!isLoading &&
         <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
         <Container >
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -134,7 +134,7 @@ const MyProfile = () => {
         <a className="w-100 btn btn-danger btn-lg" type="button"  style={{marginTop:"8px"}} onClick={ handleCancel }>Back</a>
         </div>
     ) :
-    auxUpdateUser && (
+    auxUpdateUser && (!isLoading &&
         <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
             <Container>
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">

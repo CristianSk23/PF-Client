@@ -140,7 +140,7 @@ export default function AdminPanel() {
         }
       };
 
-      if(!isLoading && !isAuthenticated && typeUser === "Invited"){
+      if(!isLoading && (!isAuthenticated && typeUser !== "Admin")){
         return(
           <div>
             <ErrorView />
@@ -150,6 +150,7 @@ export default function AdminPanel() {
 
 
   return (
+    !isLoading &&
     <div>
       {/*  ESTA NAVBAR ESTA COMENTADA PORQUE QUERIAN QUE ESTE LA NAV ANTERIOR, VER SI QUEREMOS LA SEARCHBAR O NO
       

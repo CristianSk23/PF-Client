@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
 import Modal from 'react-modal';
 import NavBar from "../navBar/NavBar";
 import { createOrder } from '../../redux/action/actions';
+import { useAuth0 } from '@auth0/auth0-react';
+import ErrorView from '../error404/Error404';
 
 const PaymentStatus = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState('');
+  const {isAuthenticated, isLoading} = useAuth0();
+  const isUser = useSelector((state) => state.isUser)
 
   // Define the useQuery function before using it
   const useQuery = () => {
@@ -58,7 +62,15 @@ const PaymentStatus = () => {
       }
     };
 
-  return (
+  if(!isLoading && !isAuthenticated && isUser === "Invited"){
+    return(
+      <div>
+        <ErrorView/>
+      </div>
+    )
+  }
+
+  return (!isLoading &&
     <div>
       <NavBar />
       <Modal

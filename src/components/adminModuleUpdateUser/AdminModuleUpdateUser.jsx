@@ -7,11 +7,15 @@ import styles from "./adminModuleUpdateUser.module.css"
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { useAuth0 } from "@auth0/auth0-react";
+import ErrorView from "../error404/Error404";
 
 
 
 const AdminModuleUpdateUser = () => {
   const dispatch = useDispatch()
+  const isUser = useSelector((state) => state.isUser);
+  const {isAuthenticated, isLoading} = useAuth0();
   const { id } = useParams();
   const navigate = useNavigate();
   const userById = useSelector((state) => state.user) || {};
@@ -119,7 +123,15 @@ const AdminModuleUpdateUser = () => {
     navigate(-1)
   };
 
-  return (
+  if (!isLoading && (!isAuthenticated && isUser !== "Admin")) {
+    return (
+      <div>
+        <ErrorView />
+      </div>
+    );
+  }
+
+  return (!isLoading && isAuthenticated &&
         <div style={{ minHeight: "800px" }}>
           <div>
             <h1 className="text-center m-5">Modify User</h1>
