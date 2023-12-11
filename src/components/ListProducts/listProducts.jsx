@@ -76,13 +76,17 @@ export default function ListProducts(){
 
         <h5 style={{marginBottom:"-95px"}}>List of Products:</h5>
 
+        <div style={{ height: "60px" }}>
+        </div>
         <FilterAndOrder
         setFilterCond={setFilterCond}
         filterCond={filterCond}
         setAux={setAux}
         />
+        
 
         <div className="pagination justify-content-center">
+
         <button 
         type="button" 
         className="form-control" 
@@ -91,10 +95,11 @@ export default function ListProducts(){
         >
         <FontAwesomeIcon icon={faArrowsRotate} />
         </button>
+
         </div>
 
         {prev ? (
-        <div> 
+        <div>
 
             <div style={{"text-align": "right"}}>
                 <button
@@ -151,6 +156,7 @@ export default function ListProducts(){
                             </td>
                             <td className={styles.td}>4.5</td>
                             <td className={styles.td}>
+                                {/*A PEDIDO DE DIEGO Z PUSE UN SELECT PARA EDITAR SU STATUS DESDE ACA, SI SE COMPLICA USAR SOLO EL UPDATE */}
                             <Form.Select aria-label="Seleccionar ejemplo" className='form-select-sm'>
                                 <option>Seleccionar...</option>
                                 <option value="1">Active</option>
