@@ -1,6 +1,6 @@
 import styles from "./starRating.module.css"
 
-const StarRating = ({ selectedStars, onSelectStar }) => {
+const StarRating = ({ selectedStars, onSelectStar, isSelect }) => {
     const totalStars = 5;
   
     return (
@@ -11,7 +11,7 @@ const StarRating = ({ selectedStars, onSelectStar }) => {
             className={
               index < selectedStars ? styles.selectedStar : styles.unselectedStar
             }
-            onClick={() => onSelectStar(index + 1)}
+            onClick={isSelect ? () => onSelectStar(index + 1) : null}
           >
             &#9733;
           </span>

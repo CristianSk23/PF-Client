@@ -626,6 +626,7 @@ export const createOrder = (paymentResults) => {
 
 export const postReview = (review) => {
   return async (dispatch) => {
+    try {
     const {data} = await axios.post(`reviews`, {review}, {
       headers: {
         "Content-Type": "application/json",
@@ -636,7 +637,15 @@ export const postReview = (review) => {
       payload: data,
     });
   }
-};
+  catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: error.message,
+    });
+    }
+  }
+}
+
 
 export const getCartById = (userId) => {
   return async (dispatch) => {
