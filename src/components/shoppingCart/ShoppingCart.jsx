@@ -1,7 +1,7 @@
 
 import { removeOneCart, increaseQuantity, decreaseQuantity } from "../../redux/action/actions"
 import { useSelector } from "react-redux/es/hooks/useSelector"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { Link } from 'react-router-dom';
 import NavBar from "../navBar/NavBar";
@@ -10,10 +10,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
+
 const ShoppingCart = ({}) => {
 
  const dispatch = useDispatch(); 
  const navigate = useNavigate();
+ const [stock, setStock] = useState("")
 
  const products = useSelector((state) => state.cart.items)
  const userID = useSelector((state) => state.user.id)
@@ -31,16 +33,31 @@ const ShoppingCart = ({}) => {
  }
 
  const IncreaseQuantity = (userID, productsid, quantityPROD) => {
+    const itemToCheck = products.find(
+        (item) => item.id === productsid
+      );
+      if(itemToCheck.stock < itemToCheck.quantity + 1) {
+        setStock("MAX")
+      }
     dispatch(increaseQuantity(userID, productsid, quantityPROD))
+    
  }
 
  const DecreaseQuantity = (userID, productsid, quantityPROD) => {
+    setStock("");
     dispatch(decreaseQuantity(userID, productsid, quantityPROD))
  }
 
  const handleCancel = () => {
     navigate(-1);
   };
+
+  const handleStock = () => {
+    if (stock === "MAX") {
+        return "There are no more units available for this product"
+    } 
+    return ""
+  }
 
   
  return(
@@ -49,6 +66,7 @@ const ShoppingCart = ({}) => {
       {products.length > 0 && (
                 <div className="container" style={{marginTop: "56px"}}>
                 <h1 style={{textAlign:"center", marginBottom:"40px"}}>Shopping Cart</h1>
+                <p style={{"color": "red"}}>{handleStock()}</p>
                 <table className="table table-hover">
                     <thead>
                         <tr>
@@ -65,7 +83,7 @@ const ShoppingCart = ({}) => {
                     products.map((item)=>{
                         return(
                             <tr key={item.id}>
-                            <td className={styles.td}><img src={item.image} style={{width:"40px", height:"40px", objectFit:"contain"}}/></td>
+                            <td className={styles.td}><img src={item.image[0]} style={{width:"40px", height:"40px", objectFit:"contain"}}/></td>
                             <td className={styles.td} style={{margin:"500px"}}>{item.nameProd}</td>
                             <td className={styles.td}>{item.priceOnSale?.toFixed(2) || item.price.toFixed(2)} $</td>  
                             <td className={styles.td}>

@@ -355,7 +355,7 @@ const reducer = (state = initialState, action) => {
 
       if (existingItem) {
         if (action.payload.stock < existingItem.quantity + 1) {
-          alert("There are no more units available for this product");
+          //alert("There are no more units available for this product");
 
           return {
             ...state,
@@ -402,7 +402,7 @@ const reducer = (state = initialState, action) => {
       );
 
       if (itemToCheck.stock < itemToCheck.quantity + 1) {
-        alert("There are no more units available for this product");
+        //alert("There are no more units available for this product");
 
         return {
           ...state,
