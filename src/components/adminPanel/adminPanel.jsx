@@ -29,6 +29,7 @@ export default function AdminPanel() {
     const pageAdmin = useSelector((state) => state.pageAdmin);
     const initialActiveButton = pageAdmin || 'dassboard';
     const [activeButton, setActiveButton] = useState(initialActiveButton);
+    const [shouldRender, setShouldRender] = useState(false);
     const {isAuthenticated, isLoading} = useAuth0()
     const typeUser = useSelector((state) => state.isUser)
     
@@ -140,17 +141,21 @@ export default function AdminPanel() {
         }
       };
 
-    if(!isLoading && (typeUser === "User" || !isAuthenticated && typeUser === "Invited")){
-      return(
-        <div>
-          <ErrorView />
-        </div>
-      )
-    }
 
+  useEffect(() => {
+    const conditionsMet = !isLoading && (typeUser === "User" || !isAuthenticated && typeUser === "Invited");
+    setShouldRender(conditionsMet);
+  }, [typeUser]);
 
+  if(shouldRender){
+    return(
+      <div>
+        <ErrorView/>
+      </div>
+    )
+  } else {
   return (
-    !isLoading &&
+    !isLoading && (
     <div>
       {/*  ESTA NAVBAR ESTA COMENTADA PORQUE QUERIAN QUE ESTE LA NAV ANTERIOR, VER SI QUEREMOS LA SEARCHBAR O NO
       
@@ -256,7 +261,7 @@ export default function AdminPanel() {
           </main>
         </div>
       </div>
-    </div>
-  );
+    </div>)
+  )};
 }
   
