@@ -22,6 +22,8 @@ const ShoppingCart = ({}) => {
 
  useEffect(() => {
   }, [products]);
+  console.log('products--------------');
+  console.log(products);
 
   const totalCart = products.reduce((accumulator, item) => {
     let newPrice = item.priceOnSale || item.price;
