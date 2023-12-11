@@ -30,6 +30,10 @@ import {
   COUNTRY,
   POPUTSPROMOTIONS,
   GETALLCOUNTRIES,
+  GETALLDELETEDPRODUCTS,
+  RESTOREPRODUCTS,
+  GETALLDELETEDUSERS,
+  RESTOREUSERS,
   SETPAGEADMIN,
   GETORDERS,
   GETORDERSBYUSERID,
@@ -50,7 +54,10 @@ const initialState = {
     filterType: undefined, // orderPrice, productsSearched, filterType, etc.
     nameSearch: "",
     promotionsProducts: [],
-    singleProduct: ""
+    singleProduct: "",
+    deletedProducts: [],
+    orderHistory: [],
+
   },
   users: [],
   prodCategories: [],
@@ -62,6 +69,7 @@ const initialState = {
   },
   isUser: "Invited",
   user: {},
+  deletedUsers: [],
   country: "",
   countries: [],
   pageAdmin: "dassboard",
@@ -138,6 +146,25 @@ const reducer = (state = initialState, action) => {
           ...state.products,
           allProducts: deletedProduct,
         },
+      };
+
+    case GETALLDELETEDPRODUCTS:
+      return{
+        ...state,
+        products: {
+          ...state.products,
+          deletedProducts: action.payload
+        }
+      }
+
+    case RESTOREPRODUCTS:
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          allProducts: [...state.products.allProducts, action.payload],
+          deletedProducts: state.products.deletedProducts.filter((product) => product.id !== action.payload.id)
+        }
       };
 
     case ERROR:
@@ -498,6 +525,19 @@ const reducer = (state = initialState, action) => {
         ...state,
         isUser: action.payload,
       };
+
+    case GETALLDELETEDUSERS:
+      return {
+        ...state,
+        deletedUsers: action.payload.reverse(),
+      }
+
+      case RESTOREUSERS:   
+        return {
+          ...state,
+          users: [...state.users, action.payload],
+          deletedUsers: state.deletedUsers.filter((user) => user.id !== action.payload.id),
+        };
 
     case COUNTRY:
       return {
