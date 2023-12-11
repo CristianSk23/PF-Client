@@ -42,7 +42,7 @@ export default function ListProducts(){
         selectElements.forEach((select) => {
           select.value = "all";
         });
-    };
+    };  
 
     const handleCancel = () => {
         navigate(-1);
