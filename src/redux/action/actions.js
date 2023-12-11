@@ -30,6 +30,8 @@ import {
   GENERATEUSER,
   UPDATEUSER,
   COUNTRY,
+  INCREASESTOCK,
+  DECREASESTOCK,
   POPUTSPROMOTIONS,
   GETALLCOUNTRIES,
   GETALLDELETEDUSERS,
@@ -44,7 +46,7 @@ import {
   UPDATE_ORDER_STATUS,
   CREATEORDER,
   SENDREVIEWPRODUCT,
-
+  GETCARTBYID
 } from "../action/actionsType";
 
 export const updateUser = (user) => {
@@ -171,6 +173,7 @@ export const cleanSingleProd = () => {
 };
 export const deleteProduct = (id) => {
   return async (dispatch) => {
+    console.log(id)
     try {
       await axios.delete(`/products`, {
         data: { id },
@@ -643,3 +646,45 @@ export const postReview = (review) => {
   }
 }
 
+
+export const getCartById = (userId) => {
+  return async (dispatch) => {
+    try {
+      const {data} = await axios.get(`cart/${userId}`);
+      dispatch({
+        type: GETCARTBYID,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+export const increaseStock = (id) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: INCREASESTOCK, payload: id });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
+export const decreaseStock = (id) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: DECREASESTOCK, payload: id });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};

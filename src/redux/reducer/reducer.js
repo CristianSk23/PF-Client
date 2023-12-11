@@ -29,6 +29,8 @@ import {
   LOGOUT,
   COUNTRY,
   POPUTSPROMOTIONS,
+  INCREASESTOCK,
+  DECREASESTOCK,
   GETALLCOUNTRIES,
   GETALLDELETEDPRODUCTS,
   RESTOREPRODUCTS,
@@ -41,7 +43,8 @@ import {
   FILTER_ORDER_NAME_PURCHASE,
   UPDATE_ORDER_STATUS,
   CREATEORDER,
-  SENDREVIEWPRODUCT
+  SENDREVIEWPRODUCT,
+  GETCARTBYID
 } from "../action/actionsType";
 
 const initialState = {
@@ -460,27 +463,66 @@ const reducer = (state = initialState, action) => {
         let filteredItemsDEC = state.cart.items.filter(
           (product) => product.id !== action.payload
         );
-
-        return {
-          ...state,
-          cart: {
-            ...state.cart,
-            items: filteredItemsDEC,
-          },
-        };
-      } else {
-        return {
-          ...state,
-          cart: {
-            ...state.cart,
-            items: state.cart.items.map((item) =>
-              item.id === action.payload
-                ? { ...item, quantity: item.quantity - 1 }
-                : item
-            ),
-          },
-        };
+  
+        return{
+            ...state,
+            cart: {
+              ...state.cart,
+              items: filteredItemsDEC, 
+            }
+            }
       }
+    
+     else {
+
+    return {
+      ...state,
+      cart: {
+        ...state.cart,
+        items: state.cart.items.map((item) =>
+          item.id === action.payload ? { ...item, quantity: item.quantity - 1 } : item
+        ),
+      },
+    };
+    };
+
+    case INCREASESTOCK:
+
+    const increaseData = state.products.data.map((item) => {
+      if (item.id === action.payload) {
+        return { ...item, stock: item.stock + 1 };
+      } else {
+        return item;
+      }
+    });
+    
+    return {
+      ...state,
+      products: {
+        ...state.products,
+        data: increaseData,
+      },
+    }
+
+    case DECREASESTOCK:
+
+    const decreaseData = state.products.data.map((item) => {
+      if (item.id === action.payload) {
+        return { ...item, stock: item.stock - 1 };
+      } else {
+        return item;
+      }
+    });
+    
+    return {
+      ...state,
+      products: {
+        ...state.products,
+        data: decreaseData,
+      },
+    }
+
+
     case GETPRODUCTBYNAME:
       return {
         ...state,
@@ -632,6 +674,32 @@ const reducer = (state = initialState, action) => {
         ...state
       }
     };
+
+    case GETCARTBYID:
+      const cartItems = action.payload.items.map((item)=>{
+        return {
+          quantity:item.quantityProd,
+          id:item.idProd,
+          price:item.price,
+          priceOnSale:item.priceOnSale,
+          nameProd:item.nameProd,
+          image:[item.image],
+          description:item.description,
+          stock: item.stock,
+          category: item.category
+
+        }
+      })
+    console.log('cartItems      *******************');
+    console.log(cartItems);
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          id: action.payload.id,
+          items: [...cartItems],
+        },
+      };  
 
     default:
       return { ...state };
