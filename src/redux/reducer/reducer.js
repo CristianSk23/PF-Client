@@ -684,7 +684,10 @@ const reducer = (state = initialState, action) => {
           priceOnSale:item.priceOnSale,
           nameProd:item.nameProd,
           image:[item.image],
-          description:item.description
+          description:item.description,
+          stock: item.stock,
+          category: item.category
+
         }
       })
     console.log('cartItems      *******************');
