@@ -7,6 +7,7 @@ import styles from "./paymentGateway.module.css";
 import RingLoader  from "react-spinners/RingLoader"; // spinner para el loading 
 import axios from "axios"; // hay que hacer redux. hasta entonces, no eliminar
 import { useNavigate } from "react-router-dom";
+import logoImage from "../../assets/logo.jpg";
 
 const PaymentGateway=()=>{
   const dispatch = useDispatch();
@@ -111,8 +112,8 @@ const PaymentGateway=()=>{
     return(
       <div className="container">  
           <div className="py-5 text-center">
-            <img className="d-block mx-auto mb-4" src="" alt="" width="72" height="57"/>
-            <h2>Checkout form</h2>
+            <img className="d-block mx-auto mb-4" src={logoImage} alt="logo" height="57px"/>
+            <h2 style={{marginTop:"-20px"}}>Checkout form</h2>
           </div>
 
           <div className="row g-5">

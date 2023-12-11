@@ -32,7 +32,7 @@ const options = {
 const BarGraphics = ({data, options}) => {
   return(
     <div className="d-flex justify-content-center">
-<div className={styles.responsiveChartContainer}>
+    <div className={styles.responsiveChartContainer}>
         <Bar data={data} options={options}  />
         </div>
     </div>

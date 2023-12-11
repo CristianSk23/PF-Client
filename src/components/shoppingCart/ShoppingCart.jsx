@@ -108,7 +108,7 @@ const ShoppingCart = ({}) => {
                     })                   
                     }
                     <tr>
-                    <td align="center" colSpan="6" style={{fontSize:"20px"}}><strong>Total Carts: ${totalCart}</strong></td>
+                    <td align="center" colSpan="6" style={{fontSize:"20px"}}><strong>Cart Total: ${totalCart}</strong></td>
                     </tr>
                     </tbody>
                 </table>

@@ -105,14 +105,6 @@ const LandingPage = () => {
             style={{ maxWidth: "100%", height: "400px", objectFit: "cover" }}
           />
         </Carousel.Item>
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src="https://www.shutterstock.com/image-vector/christmas-sale-decorative-banner-template-600nw-2183237921.jpg" 
-            alt="Fifth slide"
-            style={{ maxWidth: "100%", height: "400px", objectFit: "cover" }}
-          />
-        </Carousel.Item>
       </Carousel>
       
 
