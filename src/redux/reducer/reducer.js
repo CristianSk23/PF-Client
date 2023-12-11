@@ -595,17 +595,18 @@ const reducer = (state = initialState, action) => {
     };
 
     case GETCARTBYID:
-    const cartItems = action.paylod.items.map((item)=>{
-      return {
-        quantity:item.quantityProd,
-        id:item.idProd,
-        price:item.price,
-        priceOnSale:item.priceOnSale,
-        nameProd:item.nameProd,
-        image:item.image,
-        description:item.description
-      }
-    })
+      const cartItems = action.payload.items.map((item)=>{
+        return {
+          quantity:item.quantityProd,
+          id:item.idProd,
+          price:item.price,
+          priceOnSale:item.priceOnSale,
+          nameProd:item.nameProd,
+          image:[item.image],
+          description:item.description
+        }
+      })
+    console.log('cartItems      *******************');
     console.log(cartItems);
       return {
         ...state,
