@@ -29,7 +29,7 @@ export default function AdminPanel() {
     const pageAdmin = useSelector((state) => state.pageAdmin);
     const initialActiveButton = pageAdmin || 'dassboard';
     const [activeButton, setActiveButton] = useState(initialActiveButton);
-    const {isAuthenticated} = useAuth0()
+    const {isAuthenticated, isLoading} = useAuth0()
       const typeUser = useSelector((state) => state.isUser)
     
 
@@ -140,7 +140,7 @@ export default function AdminPanel() {
         }
       };
 
-      if(typeUser !== "Admin" || !isAuthenticated){
+      if(!isLoading && !isAuthenticated && typeUser === "Invited"){
         return(
           <div>
             <ErrorView />

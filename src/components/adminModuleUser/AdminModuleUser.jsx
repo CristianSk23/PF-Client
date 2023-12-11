@@ -7,12 +7,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { Form } from 'react-bootstrap';
+import { useAuth0 } from "@auth0/auth0-react";
+import ErrorView from "../error404/Error404";
 
 
 const AdminModuleUser = () => {
   const dispatch = useDispatch();
   const userList = useSelector((state) => state.users); 
   const navigate = useNavigate();
+  const isUser = useSelector((state) => state.isUser)
+  const {isAuthenticated, isLoading} = useAuth0()
 
   useEffect(() => {
     dispatch(getUsers());
@@ -47,6 +51,14 @@ const AdminModuleUser = () => {
       active: active,
     }
     dispatch(updateUser(user))
+  }
+
+  if(!isLoading && !isAuthenticated && isUser === "Invited"){
+    return(
+      <div>
+        <ErrorView />
+      </div>
+    )
   }
   return (
     <div>

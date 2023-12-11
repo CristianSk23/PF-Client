@@ -17,7 +17,7 @@ const PaymentGateway=()=>{
   const userInSession = useSelector((state) => state.user)
   const catchError = useSelector((state) => state.catchError)
   const isUser = useSelector((state) => state.isUser)
-  const {isAuthenticated} = useAuth0()
+  const {isAuthenticated, isLoading} = useAuth0()
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [userInfo, setUserInfo] = useState({
@@ -119,7 +119,7 @@ const PaymentGateway=()=>{
     navigate(-1);
   };
 
-  if(!isAuthenticated && isUser === "Invited"){
+  if(!isLoading && !isAuthenticated && isUser === "Invited"){
     return(
       <div>
         <ErrorView/>

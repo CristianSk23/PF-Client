@@ -24,7 +24,7 @@ const CreateProduct = () => {
   const prodCategories = useSelector((state) => state.prodCategories);
   const allProducts = useSelector((state) => state.products?.allProducts);
   const isUser = useSelector((state) => state.isUser)
-  const {isAuthenticated} = useAuth0()
+  const {isAuthenticated, isLoading} = useAuth0()
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -209,11 +209,12 @@ const CreateProduct = () => {
     await uploadImageByFileToCloudinary(event, setProduct, product);
   };
 
-  if(!isAuthenticated && isUser === 'Invited'){
+  if(!isLoading && !isAuthenticated && isUser === "Invited"){
     return(
-    <div>
-      <ErrorView/>
-    </div>)
+      <div>
+        <ErrorView />
+      </div>
+    )
   }
 
   return (

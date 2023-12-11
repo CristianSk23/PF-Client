@@ -14,7 +14,7 @@ const MyProfile = () => {
     const isUser = useSelector((state) => state.isUser)
     const country = useSelector((state) => state.country)
     const navigate = useNavigate();
-    const {isAuthenticated} = useAuth0()
+    const {isAuthenticated, isLoading} = useAuth0()
 
     const [auxUpdateUser, setAuxUptdateUser] = useState(false)
     const countries = useSelector((state) => state.countries)
@@ -86,13 +86,13 @@ const MyProfile = () => {
         navigate(-1);
       };
 
-    if(!isAuthenticated && isUser === "Invited"){
-        return (
-            <div>
-                <ErrorView/>
-            </div>
+      if(!isLoading && !isAuthenticated && isUser === "Invited"){
+        return(
+          <div>
+            <ErrorView />
+          </div>
         )
-    }
+      }
 
     return !auxUpdateUser ? (
         <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>

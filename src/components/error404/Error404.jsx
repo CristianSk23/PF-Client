@@ -1,17 +1,30 @@
 import { Container } from "react-bootstrap"
+import {useState} from "react"
 import { Link } from "react-router-dom"
 import styles from './error404.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faFaceFrown } from "@fortawesome/free-solid-svg-icons"
+import { faFaceFrown, faFaceSmile } from "@fortawesome/free-solid-svg-icons"
+import NavBar from "../navBar/NavBar"
 
 const ErrorView = () => {
+    const [hover, setHover] = useState(true)
+
+    const handleMouseEnter = () => {
+        setHover(false);
+      }
+    
+      const handleMouseLeave = () => {
+        setHover(true);
+      }
 
 
     return (
+        <div>
+        <NavBar/>
         <div className={styles.div}>
                 <div className="vh-100 d-flex align-items-center justify-content-center">
-                <Link to="/">
-                <FontAwesomeIcon icon={faFaceFrown} size="10x" className={styles.container} />
+                <Link to="/" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                <FontAwesomeIcon icon={hover ? faFaceFrown : faFaceSmile} size="10x" className={styles.container} />
                 </Link>
                 <div className={styles.card} >
                 <div>
@@ -31,6 +44,7 @@ const ErrorView = () => {
                 </div>
                 </div>
                 </div>
+        </div>
         </div>
     )
 }

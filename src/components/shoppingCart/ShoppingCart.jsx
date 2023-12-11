@@ -22,7 +22,7 @@ const ShoppingCart = ({}) => {
  const userID = useSelector((state) => state.user.id)
 
  const isUser = useSelector((state) => state.isUser)
- const {isAuthenticated} = useAuth0()
+ const {isAuthenticated, isLoading} = useAuth0()
  
 
  useEffect(() => {
@@ -62,7 +62,7 @@ const ShoppingCart = ({}) => {
     navigate(-1);
   };
 
-if(!isAuthenticated && isUser === "Invited"){
+if(!isLoading && !isAuthenticated && isUser === "Invited"){
     return(
         <div>
             <ErrorView/>
