@@ -47,7 +47,7 @@ const MyProfile = () => {
             user.postalCode != isuser?.postalCode || 
             user.city != isuser?.city)
         {
-          dispatch(updateUser({...user, id: isuser?.id}))
+          dispatch(updateUser({...user, id: isuser?.id, email: isuser?.email, typeUser: isuser?.typeUser, active: isuser?.active}))
           setAuxUptdateUser(false)
         }
     }
@@ -131,9 +131,9 @@ const MyProfile = () => {
             <Form onSubmit={handleSubmit}>
             <fieldset>
                 <Row className='mb-3'>
-                    <Form.Group class="mb-3">
+                    <Form.Group className="mb-3">
                         <Form.Label for="staticEmail">Email</Form.Label>
-                        <Form.Control className="form-control-plaintext" id="staticEmail" value={isuser?.email} />
+                        <Form.Control className="form-control-plaintext" id="staticEmail" value={isuser?.email} readOnly/>
                     </Form.Group>
                     <Col>
                     <Form.Group className="mb-3" controlId="formFirstName">
