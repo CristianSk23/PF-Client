@@ -32,13 +32,19 @@ import {
   INCREASESTOCK,
   DECREASESTOCK,
   GETALLCOUNTRIES,
+  GETALLDELETEDPRODUCTS,
+  RESTOREPRODUCTS,
+  GETALLDELETEDUSERS,
+  RESTOREUSERS,
   SETPAGEADMIN,
   GETORDERS,
   GETORDERSBYUSERID,
   GET_ALL_ORDERS,
   FILTER_ORDER_NAME_PURCHASE,
   UPDATE_ORDER_STATUS,
-  SENDREVIEWPRODUCT
+  CREATEORDER,
+  SENDREVIEWPRODUCT,
+  GETCARTBYID
 } from "../action/actionsType";
 
 const initialState = {
@@ -52,7 +58,9 @@ const initialState = {
     nameSearch: "",
     promotionsProducts: [],
     singleProduct: "",
+    deletedProducts: [],
     orderHistory: [],
+
   },
   users: [],
   prodCategories: [],
@@ -64,11 +72,14 @@ const initialState = {
   },
   isUser: "Invited",
   user: {},
+  deletedUsers: [],
   country: "",
   countries: [],
   pageAdmin: "dassboard",
   ordersForUser: [],
   ordersForUserId: [],
+  orderHistory: [],
+  orderHistoryCache: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -138,6 +149,25 @@ const reducer = (state = initialState, action) => {
           ...state.products,
           allProducts: deletedProduct,
         },
+      };
+
+    case GETALLDELETEDPRODUCTS:
+      return{
+        ...state,
+        products: {
+          ...state.products,
+          deletedProducts: action.payload
+        }
+      }
+
+    case RESTOREPRODUCTS:
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          allProducts: [...state.products.allProducts, action.payload],
+          deletedProducts: state.products.deletedProducts.filter((product) => product.id !== action.payload.id)
+        }
       };
 
     case ERROR:
@@ -538,6 +568,19 @@ const reducer = (state = initialState, action) => {
         isUser: action.payload,
       };
 
+    case GETALLDELETEDUSERS:
+      return {
+        ...state,
+        deletedUsers: action.payload.reverse(),
+      }
+
+      case RESTOREUSERS:   
+        return {
+          ...state,
+          users: [...state.users, action.payload],
+          deletedUsers: state.deletedUsers.filter((user) => user.id !== action.payload.id),
+        };
+
     case COUNTRY:
       return {
         ...state,
@@ -593,38 +636,67 @@ const reducer = (state = initialState, action) => {
       };
     }
     case GET_ALL_ORDERS:
+  
       return {
         ...state,
         orderHistory: action.payload,
         orderHistoryCache: action.payload
       };
   
-      case FILTER_ORDER_NAME_PURCHASE:
-        const result = state.orderHistoryCache.filter(i=>i.mercadopagoTransactionStatus
-          .toLowerCase().includes(action.payload.toLowerCase()))
+    case FILTER_ORDER_NAME_PURCHASE:
+      const result = state.orderHistoryCache.filter(i=>i.mercadopagoTransactionStatus
+        .toLowerCase().includes(action.payload.toLowerCase()))
+    return {
+      ...state,
+      orderHistory: result
+    };
+    
+    case UPDATE_ORDER_STATUS:
+      const updatedOrders = state.orderHistory.map(order => {
+        if (order.id === action.payload.orderId) {
+          return { ...order, deliveryStatus: action.payload.newStatus };
+        }
+        return order;
+      });
       return {
         ...state,
-        orderHistory: result
+        orderHistory: updatedOrders
       };
-    
-      case UPDATE_ORDER_STATUS:
-        const updatedOrders = state.orderHistory.map(order => {
-          if (order.id === action.payload.orderId) {
-            return { ...order, deliveryStatus: action.payload.newStatus };
-          }
-          return order;
-        });
-        return {
-          ...state,
-          orderHistory: updatedOrders
-        };
-  
-      
+
+    case CREATEORDER:
+      return {
+        ...state,
+        orderHistoryCache: [...orderHistoryCache, action.payload]
+      };   
+
     case SENDREVIEWPRODUCT: {
       return {
         ...state
       }
-    }
+    };
+
+    case GETCARTBYID:
+      const cartItems = action.payload.items.map((item)=>{
+        return {
+          quantity:item.quantityProd,
+          id:item.idProd,
+          price:item.price,
+          priceOnSale:item.priceOnSale,
+          nameProd:item.nameProd,
+          image:[item.image],
+          description:item.description
+        }
+      })
+    console.log('cartItems      *******************');
+    console.log(cartItems);
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          id: action.payload.id,
+          items: [...cartItems],
+        },
+      };  
 
     default:
       return { ...state };

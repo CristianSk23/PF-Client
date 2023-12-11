@@ -34,13 +34,19 @@ import {
   DECREASESTOCK,
   POPUTSPROMOTIONS,
   GETALLCOUNTRIES,
+  GETALLDELETEDUSERS,
+  GETALLDELETEDPRODUCTS,
+  RESTOREUSERS,
+  RESTOREPRODUCTS,
   SETPAGEADMIN,
   GETORDERS,
   GETORDERSBYUSERID,
   GET_ALL_ORDERS,
   FILTER_ORDER_NAME_PURCHASE,
   UPDATE_ORDER_STATUS,
+  CREATEORDER,
   SENDREVIEWPRODUCT,
+  GETCARTBYID
 } from "../action/actionsType";
 
 export const updateUser = (user) => {
@@ -245,8 +251,7 @@ export const changePage = (order) => {
 };
 
 export const filter = (cond) => {
-  console.log('Conditions filter:');
-  console.log(cond);
+
   return async (dispatch) => {
     return dispatch({
       type: FILTER,
@@ -288,7 +293,7 @@ export const resetError=()=>{
          })
          
       } catch (error) {
-        console.log(error.message);
+
         dispatch({
           type: ERROR,
           payload: error.message,
@@ -465,6 +470,68 @@ export const getPromotions = () => async (dispatch) => {
   }
 };
 
+export const getDeletedUsers = () => async (dispatch) => {
+  try {
+    const response = await axios.get('/users/deleted');
+    dispatch({
+      type: GETALLDELETEDUSERS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: error.message,
+    });  
+  }
+}
+
+export const getDeletedProducts = () => async (dispatch) => {
+  try {
+    const response = await axios.get('/products/deleted');
+    dispatch({
+      type: GETALLDELETEDPRODUCTS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: error.message,
+    });  
+  }
+}
+
+export const restoreDeleteUsers = (id) => async (dispatch) => {
+  try {
+      const response = await axios.put(`/users/deleted/${id}`);
+      dispatch({
+          type: RESTOREUSERS,
+          payload: response.data,
+      });
+  } catch (error) {
+      dispatch({
+          type: ERROR,
+          payload: error.message,
+      });
+  }
+};
+
+
+export const restoreProducts = (id) => 
+  async (dispatch) => {
+    try {
+      const response = await axios.put(`/products/deleted/${id}`);
+      dispatch({
+        type: RESTOREPRODUCTS,
+        payload: response.data,
+      })
+    } catch (error) { 
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+    });  
+  }
+}
+
 export const setPageAdmin = (pageAdmin) => {
   return async (dispatch) => {
     try {
@@ -539,6 +606,24 @@ export const updateOrderStatus = (orderId, newStatus) => {
     }
   };
 };
+
+export const createOrder = (paymentResults) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`/payments/saveData`, paymentResults);
+      dispatch({
+        type: CREATEORDER,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
 export const postReview = (review) => {
   return async (dispatch) => {
     const {data} = await axios.post(`reviews`, {review}, {
@@ -551,8 +636,24 @@ export const postReview = (review) => {
       payload: data,
     });
   }
-}
+};
 
+export const getCartById = (userId) => {
+  return async (dispatch) => {
+    try {
+      const {data} = await axios.get(`cart/${userId}`);
+      dispatch({
+        type: GETCARTBYID,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
 export const increaseStock = (id) => {
   return async (dispatch) => {
     try {

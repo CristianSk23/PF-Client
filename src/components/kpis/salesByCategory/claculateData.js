@@ -45,7 +45,7 @@ const calculateData = (orders, filter) => {
     itemsCart.forEach((item) => {
       if(item.category.toLowerCase()===filter.category.toLowerCase() || filter.category === "all"){
         const category = item.category || "Uncategorized";
-        const totalPrice = item.priceOnSale > 0 ? item.priceOnSale : item.price;
+        const totalPrice = item.priceOnSale > 0 ? item.priceOnSale * item.quantityProd : item.price * item.quantityProd;
 
         if (!categoryTotals[category]) {
           categoryTotals[category] = Array.from({ length: 12 }, () => 0);

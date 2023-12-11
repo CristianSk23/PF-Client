@@ -7,6 +7,7 @@ import styles from "./paymentGateway.module.css";
 import RingLoader  from "react-spinners/RingLoader"; // spinner para el loading 
 import axios from "axios"; // hay que hacer redux. hasta entonces, no eliminar
 import { useNavigate } from "react-router-dom";
+import logoImage from "../../assets/logo.jpg";
 
 const PaymentGateway=()=>{
   const dispatch = useDispatch();
@@ -24,7 +25,9 @@ const PaymentGateway=()=>{
         phone: userInSession?.phone || "",
         identityCard: userInSession?.identityCard || "",
         postalCode: userInSession?.postalCode || "",
-        city: userInSession?.city || ""
+        city: userInSession?.city || "",
+        active: userInSession?.active,
+        typeUser: userInSession?.typeUser,
   })
 
   const totalCart = cart.items.reduce((accumulator, item) => {
@@ -32,13 +35,7 @@ const PaymentGateway=()=>{
     return accumulator + newPrice * item.quantity;
   }, 0).toFixed(2);
 
-  useEffect(() => {
-    console.log('userInfo');
-    console.log(userInSession);
-    console.log('cart');
-    console.log(cart);
-    return ()=> setLoading(false)
-  }, []);   
+
 
   const handleChange = (event) =>{
     setUserInfo({
@@ -73,6 +70,9 @@ const PaymentGateway=()=>{
         userInfo.postalCode != userInSession?.postalCode || 
         userInfo.city != userInSession?.city)
     {
+      console.log('entro a actualizar User');
+      console.log(userInfo);
+
       dispatch(updateUser(userInfo))
     }
     // VER DE AGREGAR INFORMACION PARA EL CART DE Mercadopago. Ej address,phone etc.
@@ -93,16 +93,22 @@ const PaymentGateway=()=>{
     }
     //------------------------------------------------------------------------------
 
-
+    console.log('CatchError');
+    console.log(catchError);
     if(catchError===""){
+      console.log('Creo la Order');
+      console.log(newOrder);
       axios
       .post("/payments/createOrder", newOrder)
       .then((response) => {
           window.location.href = response.data.init_point;
+          setLoading(false) 
       })
-      .catch((error) => (error));
+      .catch((error) => {
+        setLoading(false)
+        console.log(error)
+      });
     }
-    setLoading(false)   
   }
 
   const handleCancel = () => {
@@ -112,8 +118,8 @@ const PaymentGateway=()=>{
     return(
       <div className="container">  
           <div className="py-5 text-center">
-            <img className="d-block mx-auto mb-4" src="" alt="" width="72" height="57"/>
-            <h2>Checkout form</h2>
+            <img className="d-block mx-auto mb-4" src={logoImage} alt="logo" height="57px"/>
+            <h2 style={{marginTop:"-20px"}}>Checkout form</h2>
           </div>
 
           <div className="row g-5">

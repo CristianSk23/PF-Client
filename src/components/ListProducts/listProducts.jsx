@@ -74,7 +74,7 @@ export default function ListProducts(){
     return(
         <div>
 
-        <h5 style={{marginBottom:"-95px"}}>List of Products:</h5>
+        <h5 style={{marginBottom:"-55px"}}>List of Products:</h5>
 
         <div style={{ height: "60px" }}>
         </div>

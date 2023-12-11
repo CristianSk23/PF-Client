@@ -6,7 +6,8 @@ import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getProdCategories, logOut } from "../../redux/action/actions";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import logoImage from "../../assets/logo.jpg";
 
 
 
@@ -53,9 +54,18 @@ const NavBar = ({ onSearch, filterCond }) => {
   return (
     <nav className="navbar navbar-dark bg-dark fixed-top">
     <div className="container-fluid">
-      <a className="navbar-brand" href="/">Logo</a>
+      <a className="navbar-brand" href="/">
+      <img
+        src={logoImage}
+        alt="Logo"
+        width="120"
+        height="30"
+        className="d-inline-block align-top"
+      />
+      </a>
       {isLandingPage && (
-      <div className="d-flex" role="search">
+      <div className="d-flex align-items-center">
+      <div className="d-flex mx-auto" role="search">
           <input id="search" value={name} className="form-control me-2" type="search" placeholder="Product name..." aria-label="Search" onChange={handleChange}/>
           <button className="btn btn-outline-light" disabled={name == ""} onClick={() => {
           onSearch(name);
@@ -65,23 +75,12 @@ const NavBar = ({ onSearch, filterCond }) => {
             icon={faMagnifyingGlass}
           />
           </button>
-          <div style={{"text-align": "right"}}>
-            <Link to={"/shopping"}>
-            <button style={{"background-color": "white",
-                            color: "black",
-                            padding: "10px 15px",
-                            border: "none",
-                            "border-radius": "5px",
-                            cursor: "pointer",
-                            }}>
-              My Cart <FontAwesomeIcon icon={faCartShopping} />
-            </button>
-            </Link>
-          </div>
+      </div>
       </div>
       )}
       {isAdminPanel && (
-      <div className="d-flex" role="search">
+      <div className="d-flex align-items-center">
+      <div className="d-flex mx-auto" role="search">
           <input id="search" value={name} className="form-control me-2" type="search" placeholder="Product name..." aria-label="Search" onChange={handleChange}/>
           <button className="btn btn-outline-light" disabled={name == ""} onClick={() => {
           onSearch(name);
@@ -92,14 +91,16 @@ const NavBar = ({ onSearch, filterCond }) => {
           />
           </button>
       </div>
+      </div>
       )}
         <div className="d-flex align-items-center">
+        { isUser === "User" && (
           <button className="btn btn-outline-light" style={{marginRight:"5px"}}>
-            <Link to="/shopping" style={{textDecoration: 'none', color: 'inherit'}}>
-              <FontAwesomeIcon icon={faShoppingCart} />
-            </Link>
-
+          <Link to="/shopping" style={{textDecoration: 'none', color: 'inherit'}}>
+            <FontAwesomeIcon icon={faShoppingCart} />
+          </Link>
           </button>
+        )}
 
           <button className="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation" >
             <span className="navbar-toggler-icon" ></span>
