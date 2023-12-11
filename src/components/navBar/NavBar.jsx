@@ -58,7 +58,7 @@ const NavBar = ({ onSearch, filterCond }) => {
       <img
         src={logoImage}
         alt="Logo"
-        width="160"
+        width="150"
         height="auto"
         className="d-inline-block align-top"
       />

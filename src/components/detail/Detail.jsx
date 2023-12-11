@@ -16,6 +16,7 @@ const Detail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const prodById = useSelector((state) => state.products.singleProduct);
+  const isUser = useSelector((state) => state.isUser);
   const dispatch = useDispatch();
   const [productLoaded, setProductLoaded] = useState(false);
   const [product, setProduct] = useState({
@@ -101,6 +102,7 @@ const Detail = () => {
 
   return (
     <div>
+      
       <NavBar />
       <div style={{ backgroundColor: "#F8F9F9", minHeight: "100vh" }}>
         <div className="d-flex align-items-center justify-content-center">
@@ -208,6 +210,8 @@ const Detail = () => {
                       `$ ${product.price}`
                     )}
                   </p>
+                  {isUser === "Admin" ? (<div></div>): (
+                  <div>
                   <a
                     className="btn btn-success"
                     style={{
@@ -222,6 +226,8 @@ const Detail = () => {
                   >
                     <FontAwesomeIcon icon={faCartShopping} />
                   </a>
+                  </div>
+                  )}
                   <a
                     onClick={handleCancel}
                     className="btn btn-light"

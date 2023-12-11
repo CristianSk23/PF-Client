@@ -174,6 +174,7 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
                                 <StarRating
                                   selectedStars={parseInt(review?.rating) || 0}
                                   onSelectStar={null}
+                                  isSelect={false}
                                 />
                                 <p>{review.comment}</p>
                               </div>
@@ -189,6 +190,7 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
                                 onSelectStar={(rating) =>
                                   handleStarRating(product.id, rating)
                                 }
+                                isSelect={true}
                               />
                               <input
                                 type="text"
@@ -217,14 +219,6 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
                       (review) => review.idUser == idUser
                     ).length > 0 ? (
                       <div>
-                        <button
-                          className="btn btn-primary"
-                          type="button"
-                          onClick={onClose}
-                          style={{ marginTop: "5px" }}
-                        >
-                          Close
-                        </button>
                       </div>
                     ) : (
                       <div className="d-grid gap-2 col-3 mx-auto">
