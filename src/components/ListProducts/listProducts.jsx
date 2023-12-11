@@ -9,7 +9,7 @@ import FilterAndOrder from "../filterAndOrder/FilterAndOrder";
 export default function ListProducts(){
     return(
         <div>
-            <h5 style={{marginBottom:"-95px"}}>List of Products:</h5>
+            <h5 style={{marginBottom:"-55px"}}>List of Products:</h5>
 
             <FilterAndOrder/>
                 {/* FALTA TRAER EL BOTON DE RESETEAR LOS FILTROS Y SU FUNCIONABILIDAD */}

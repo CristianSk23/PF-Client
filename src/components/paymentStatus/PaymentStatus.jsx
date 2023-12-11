@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux";
 import axios from 'axios';
 import Modal from 'react-modal';
 import NavBar from "../navBar/NavBar";
+import { createOrder } from '../../redux/action/actions';
 
 const PaymentStatus = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState('');
 
@@ -22,34 +25,24 @@ const PaymentStatus = () => {
 
   // Send data in the POST request
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.post('/payments/orderFeedback', {
-          id: query.get("id"),
-          payment_id,
-          status,
-          merchant_order_id,
-        });
+    dispatch(createOrder({id: query.get("id"), 
+                          payment_id, 
+                          status, 
+                          merchant_order_id})
+    );
 
+    // Set modal content based on status
+    let modalText = '';
+    if (status === 'approved') {
+      modalText = 'Many thanks for your buys. We hope you to come back soon!'; 
+    } else if (status === 'rejected') {
+      modalText = 'we noticed that your payment has been rejected, please try again later'; 
+    } else if (status === 'pending') {
+      modalText = 'Payment Pending!'; 
+    }
+    setModalContent(modalText);
+    setModalIsOpen(true);
 
-        // Set modal content based on status
-        let modalText = '';
-        if (status === 'approved') {
-          modalText = 'Many thanks for your buys. We hope you to come back soon!'; 
-        } else if (status === 'rejected') {
-          modalText = 'we noticed that your payment has been rejected, please try again later'; 
-        } else if (status === 'pending') {
-          modalText = 'Payment Pending!'; 
-        }
-
-        setModalContent(modalText);
-        setModalIsOpen(true);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
   }, [query, payment_id, status, merchant_order_id]);
 
   const handleModalClose = () => {

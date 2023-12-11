@@ -7,6 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 //AUMENTE EL PAGINADO A 12 PRODUCTOS POR PAGINA, MUESTRA DE A 4 O DE A 5 SEGUN LA RESOLUCION DEL MONITOR
 const Card = ({
@@ -25,15 +26,50 @@ const Card = ({
 }) => {
   const dispatch = useDispatch();
 
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
 
-  const isUser = useSelector((state) => state.isUser);
-  const handleLogin = async () => {
-    await loginWithRedirect();
-  };
-  const handleBuy = () => {
-    dispatch(addToCart(productId));
-  };
+    const { isAuthenticated, loginWithRedirect } = useAuth0()
+
+    const isUser = useSelector((state) => state.isUser)
+    const userID = useSelector((state) => state.user.id)
+    const products = useSelector((state) => state.cart.items)
+    const allproducts = useSelector((state) => state.products.allProducts)
+    
+    const handleLogin= async() => {
+      await loginWithRedirect()
+    }
+
+    const handleBuy = (clickedProductId) => {
+      const productInCart = products.find((item) => item.id === clickedProductId); //agregue
+      let clickedProduct = products.find((item)=> item.id == clickedProductId)
+      
+      clickedProduct == undefined ? clickedProduct = allproducts.find((item)=> item.id == clickedProductId) : clickedProduct
+      
+      // if (clickedProduct) {
+        
+      //   dispatch(addToCart(userID, clickedProductId, (clickedProduct?.quantity + 1 || 1)));
+      // }
+      if (clickedProduct) {
+        if (!productInCart) {//agregue
+        dispatch(addToCart(userID, clickedProductId, (clickedProduct?.quantity + 1 || 1))),
+        toast.success('Product added to cart!', {
+          position: "bottom-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          // theme: "dark",
+          // theme: "light",
+          });
+        }
+      }
+    }
+    
+     useEffect(()=> {
+
+     },[handleBuy])
 
   return (
     <div>
@@ -124,18 +160,12 @@ const Card = ({
             ) : isUser === "User" ? (
               /* User Options */
 
-              <>
-                {isAuthenticated && (
-                  <button
-                    type="button"
-                    className="btn btn-success"
-                    style={{ margin: "2px" }}
-                    onClick={handleBuy}
-                  >
-                    <FontAwesomeIcon icon={faCartShopping} />
-                  </button>
-                )}
-              </>
+             <> 
+              {isAuthenticated && <button id={productId} type="button" className="btn btn-success" style={{margin:"2px"}} onClick={() => handleBuy(productId)}>
+              <FontAwesomeIcon icon={faCartShopping} />
+              </button>}
+            </>   
+
             ) : isUser === "Invited" ? (
               /* Invite Options */
               <>

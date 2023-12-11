@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { filter, orderName, orderPrice, getProdCategories } from "../../redux/action/actions";
 
 const FilterAndOrder = ({ setFilterCond, filterCond, setAux }) => {
-  const [name, setName] = useState("");
+
   const dispatch = useDispatch();
   const prodCategories = useSelector((state) => state.prodCategories)||[];
 
   useEffect(() => {
-    dispatch(filter(filterCond,name))
+    dispatch(filter(filterCond))
   },[filterCond])
 
   useEffect(() => {
@@ -18,6 +18,11 @@ const FilterAndOrder = ({ setFilterCond, filterCond, setAux }) => {
   }, []);
 
   const handleOpChange = async (event) => {
+    console.log('event.target.name');
+    console.log(event.target.name);
+    console.log('event.target.value');
+    console.log(event.target.value);
+
     event.target.name === "type" && setFilterCond({...filterCond, type: event.target.value});
     event.target.name === "price" && setFilterCond({...filterCond, price: event.target.value});
   }
@@ -33,7 +38,7 @@ const handleOrderByName = (event) => {
 }
 
   return (
-    <div className="pagination justify-content-center" style={{ marginTop: "60px" }}>
+    <div className="pagination justify-content-center" style={{ marginTop: "20px" }}>
       <div className="row">
         <div className="col-sm">
           <select name="type" defaultValue="all" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleOpChange}>
@@ -41,7 +46,7 @@ const handleOrderByName = (event) => {
             <option value="all">All Categories</option>
             {prodCategories?.map((category) => {
               return (
-                <option key={category.id} value={category.name} style={{textAlign:"center"}}>
+                <option key={category.id} value={category.nameCat} style={{textAlign:"center"}}>
                   {category.nameCat}
                 </option>
               )

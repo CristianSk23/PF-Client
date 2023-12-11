@@ -33,6 +33,11 @@ import {
   SETPAGEADMIN,
   GETORDERS,
   GETORDERSBYUSERID,
+  GET_ALL_ORDERS,
+  FILTER_ORDER_NAME_PURCHASE,
+  UPDATE_ORDER_STATUS,
+  CREATEORDER,
+  SENDREVIEWPRODUCT
 } from "../action/actionsType";
 
 const initialState = {
@@ -45,7 +50,7 @@ const initialState = {
     filterType: undefined, // orderPrice, productsSearched, filterType, etc.
     nameSearch: "",
     promotionsProducts: [],
-    singleProduct: "",
+    singleProduct: ""
   },
   users: [],
   prodCategories: [],
@@ -62,6 +67,8 @@ const initialState = {
   pageAdmin: "dassboard",
   ordersForUser: [],
   ordersForUserId: [],
+  orderHistory: [],
+  orderHistoryCache: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -248,7 +255,7 @@ const reducer = (state = initialState, action) => {
           filtered = filtered.filter(
             (product) =>
               ///////////REVISAR
-              product.category == action.payload.type
+              product.category.toLowerCase() === action.payload.type.toLowerCase()
           );
         }
 
@@ -447,7 +454,6 @@ const reducer = (state = initialState, action) => {
           },
         };
       }
-
     case GETPRODUCTBYNAME:
       return {
         ...state,
@@ -547,6 +553,45 @@ const reducer = (state = initialState, action) => {
         ordersForUserId: action.payload,
       };
     }
+    case GET_ALL_ORDERS:
+  
+      return {
+        ...state,
+        orderHistory: action.payload,
+        orderHistoryCache: action.payload
+      };
+  
+    case FILTER_ORDER_NAME_PURCHASE:
+      const result = state.orderHistoryCache.filter(i=>i.mercadopagoTransactionStatus
+        .toLowerCase().includes(action.payload.toLowerCase()))
+    return {
+      ...state,
+      orderHistory: result
+    };
+    
+    case UPDATE_ORDER_STATUS:
+      const updatedOrders = state.orderHistory.map(order => {
+        if (order.id === action.payload.orderId) {
+          return { ...order, deliveryStatus: action.payload.newStatus };
+        }
+        return order;
+      });
+      return {
+        ...state,
+        orderHistory: updatedOrders
+      };
+
+    case CREATEORDER:
+      return {
+        ...state,
+        orderHistoryCache: [...orderHistoryCache, action.payload]
+      };   
+
+    case SENDREVIEWPRODUCT: {
+      return {
+        ...state
+      }
+    };
 
     default:
       return { ...state };

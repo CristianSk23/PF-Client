@@ -1,5 +1,6 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import styles from "./LineGraph.module.css";
 
 const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -24,8 +25,10 @@ const options = {
 
 const LineGraph = ({data}) => {
   return (
-    <div style={{ width: '1000px', height: '500px', marginLeft: "150px"}}>
+    <div className="d-flex justify-content-center">
+      <div className={styles.responsiveChartContainer}>
         {data && <Line data={data} options={options} />}
+      </div>
     </div>
   )
 };

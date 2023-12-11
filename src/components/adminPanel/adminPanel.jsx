@@ -155,7 +155,7 @@ export default function AdminPanel() {
           <nav
             id="sidebarMenu"
             className="col-md-3 col-lg-2 d-md-block bg-light sidebar"
-            
+            style={{ minHeight: "100vh" }}
           >
             <div className="position-sticky">
               <ul className="nav flex-column" style={{marginTop:"15px"}}>
