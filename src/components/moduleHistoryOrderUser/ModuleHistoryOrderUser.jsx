@@ -4,13 +4,18 @@ import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrdersByUserId } from "../../redux/action/actions";
 import OrderDetailUserByIdPopup from "../orderDetailUserByIdPopup/OrderDetailUserByIdPopup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClipboard } from "@fortawesome/free-solid-svg-icons";
+import { Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const ModuleHistoryOrderUser =({idProp}) =>{
     const { id } = useParams();
     const dispatch = useDispatch()
     const ordersById = useSelector((state) => state.ordersForUserId) || [];
     const [selectedOrder, setSelectedOrder] = useState(null);
-    const isUser = useSelector((state) => state.isUser)
+    const isUser = useSelector((state) => state.isUser);
+    const navigate = useNavigate();
     
     useEffect(() => {
       if (id != undefined){
@@ -29,13 +34,19 @@ const ModuleHistoryOrderUser =({idProp}) =>{
         setSelectedOrder(null);
     };
 
+    const handleCancel = () => {
+      navigate(-1);
+    };
+
     return(
       <div>
       {isUser === "Admin" ? (
-        <div>
-        <h5>Orders list for user {ordersById[0]?.userName}:</h5>
+        <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
+        <Container>
+        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 className="h2"><FontAwesomeIcon icon={faClipboard} /> Orders list for user {ordersById[0]?.userName}</h1>
+        </div>
         <table className="table table-hover">
-         
             <thead>
                 <tr>
                 <th className={styles.th} scope="col">ID Order</th>
@@ -69,12 +80,18 @@ const ModuleHistoryOrderUser =({idProp}) =>{
           onClose={handleClosePopup}
         />
       )}
+        <div className="d-grid gap-2">
+          <a className="btn btn-danger" type="button" onClick={ handleCancel }>Back</a>
+        </div>
+      </Container>
     </div>
       ) : (
-        <div>
-        <h5>Your orders {ordersById[0]?.userName}:</h5>
-        <table className="table table-hover">
-         
+        <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
+        <Container>
+        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 className="h2"><FontAwesomeIcon icon={faClipboard} /> Your Orders {ordersById[0]?.userName}</h1>
+        </div>
+        <table className="table table-hover">    
             <thead>
                 <tr>
                 <th className={styles.th} scope="col">Number order</th>
@@ -105,6 +122,10 @@ const ModuleHistoryOrderUser =({idProp}) =>{
           idUser={idProp || id}
         />
       )}
+        <div className="d-grid gap-2">
+          <a className="btn btn-danger" type="button" onClick={ handleCancel }>Back</a>
+        </div>
+      </Container>
     </div>
       )}
         </div>

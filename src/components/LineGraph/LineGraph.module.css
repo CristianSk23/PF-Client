@@ -3,7 +3,7 @@
     max-width: 1000px;
     height: 520px; /* Altura predeterminada para pantallas grandes */
   }
-  
+
   @media (max-width: 1200px) {
     .responsiveChartContainer {
       height: 400px; /* Altura para pantallas más pequeñas */

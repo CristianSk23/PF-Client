@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { postReview } from "../../redux/action/actions";
 import { useNavigate } from "react-router-dom";
 import StarRating from "../starRating/StarRating";
+import { CloseButton } from "react-bootstrap";
 
 const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
   const isUser = useSelector((state) => state.isUser);
@@ -73,7 +74,8 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
         <div>
           <div className={styles.overlay}></div>
           <div className={styles.popup}>
-            <table className="table table-hover">
+          <CloseButton onClick={onClose} className={styles.closeButton}/>
+            <table className="table table-hover" style={{marginTop:"10px"}}>
               <thead>
                 <tr>
                   <th className={styles.th} scope="col">
@@ -118,14 +120,14 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
                   ))}
               </tbody>
             </table>
-            <button onClick={onClose}>Close</button>
           </div>
         </div>
       ) : (
         <div>
           <div className={styles.overlay}></div>
           <div className={styles.popup}>
-            <table className="table table-hover">
+          <CloseButton onClick={onClose} className={styles.closeButton}/>
+            <table className="table table-hover" style={{marginTop:"10px"}}>
               <thead>
                 <tr>
                   <th className={styles.th} scope="col">
@@ -179,13 +181,14 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
                             }
                           />
                         </td>
-                        <td>
+                        <td className={styles.td}>
                           <input
                             type="text"
                             value={existingReview(product.id)?.reviewText || ""}
                             onChange={(e) =>
                               handleComment(product.id, e.target.value)
                             }
+                            
                           />
                         </td>
                       </tr>
@@ -193,8 +196,9 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
                   ))}
               </tbody>
             </table>
-            <button onClick={onClose}>Close</button>
-            <button onClick={sendReview}>Send</button>
+            <div className="d-grid gap-2 col-3 mx-auto">
+              <button className="btn btn-primary" type="button" onClick={sendReview} style={{marginTop:"5px"}}>Send</button>
+            </div>
           </div>
         </div>
       )}

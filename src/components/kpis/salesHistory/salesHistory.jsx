@@ -47,7 +47,7 @@ console.log(monthBarData);
 
     return(
         <div>
-
+        <div className="row">
             <div className="col-sm">
                 <select name="year" defaultValue="all" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleChange}>
                     <option value="all" disabled hidden>Year</option>
@@ -61,7 +61,9 @@ console.log(monthBarData);
                     })}
                 </select>
             </div>
-            
+        </div> 
+
+        <div className='row'>
             <div className="col-sm">
                 {graphData.yearBarData.datasets?.length > 0 ? (
                 <BarGraphics data={graphData?.yearBarData} />
@@ -69,6 +71,8 @@ console.log(monthBarData);
                 <p>Loading Line Chart...</p>
                 )}
             </div>
+
+            <hr />
 
             <div className="col-sm">
                 {graphData.monthBarData.datasets?.length > 0 ? (
@@ -78,6 +82,8 @@ console.log(monthBarData);
                 )}
             </div>
 
+            <hr />
+
             <div className="col-sm">
                 {graphData.lineData.datasets?.length > 0 ? (
                 <LineGraph data={graphData?.lineData} />
@@ -85,7 +91,9 @@ console.log(monthBarData);
                 <p>Loading Line Chart...</p>
                 )}
             </div>
+        </div>
 
+        <div className='row'>
             <div className="col-sm">
                 <h3>Raw Data totals: {}</h3>
                 <table className="table table-bordered">
@@ -124,7 +132,7 @@ console.log(monthBarData);
                 </tbody>
                 </table>
             </div>
-
+        </div>
         </div>
     )
 
