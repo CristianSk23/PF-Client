@@ -26,9 +26,10 @@ import { toast } from "react-toastify";
 const LandingPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products?.data);
-  const isUser = useSelector((state) => state.isUser)
-  const [isLoging, setIsLoging] = useState(false)
-  const [shouldRenderPromotionPopup, setShouldRenderPromotionPopup] = useState(false);
+  const isUser = useSelector((state) => state.isUser);
+  const [navBarHeight, setNavBarHeight] = useState(0);
+  const [shouldRenderPromotionPopup, setShouldRenderPromotionPopup] =
+    useState(false);
   const {isAuthenticated, loginWithRedirect, AuthenticationError} = useAuth0()
 
   const onSearch = (name) => {
@@ -87,19 +88,28 @@ const LandingPage = () => {
       select.value = "all";
     });
   };
+  const handleNavBarHeightChange = (height) => {
+    setNavBarHeight(height);
+  };
 
   return (
     <div className={styles.container}>
       {shouldRenderPromotionPopup && <PromotionPopup />}
 
+      <NavBar
+        onSearch={onSearch}
+        setFilterCond={setFilterCond}
+        filterCond={filterCond}
+        setAux={setAux}
+        aux={aux}
+        onNavBarHeightChange={handleNavBarHeightChange}
+      />
 
-{shouldRenderPromotionPopup && <PromotionPopup />}
 
-<Carousel style={{ marginTop: "55px" }}>
+<Carousel style={{ marginTop: `${navBarHeight}px` }}>
         <Carousel.Item>
         <img
             className="d-block w-100"
-
             src={image1}
             alt="Second slide"
             style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
@@ -148,13 +158,7 @@ const LandingPage = () => {
         </Carousel.Item>
       </Carousel>
 
-      <NavBar
-        onSearch={onSearch}
-        setFilterCond={setFilterCond}
-        filterCond={filterCond}
-        setAux={setAux}
-        aux={aux}
-      />
+    
 
       <FilterAndOrder
         setFilterCond={setFilterCond}

@@ -39,7 +39,6 @@ const SalesHistory = () =>{
           ...filter,
           [event.target.name]: event.target.value,
         });
-console.log(monthBarData);
         setGraphData({ yearBarData, monthBarData, lineData, itemsData, years});
     };
 

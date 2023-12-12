@@ -28,7 +28,6 @@ const HomeAdmin=()=>{
                 dispatch(allOrders());
             }
             setGraphData(adminDataCalcs(orders, filter))
-            console.log(graphData);
         };
         fetchData();
     }, [dispatch, orders]);

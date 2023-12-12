@@ -376,6 +376,8 @@ const reducer = (state = initialState, action) => {
       };
 
     case ADDTOCART:
+      console.log('payload');
+      console.log(action.payload);
       if (action.payload.stock == 0) {
         alert("This product is out of stock");
         return {
@@ -389,7 +391,7 @@ const reducer = (state = initialState, action) => {
 
       if (existingItem) {
         if (action.payload.stock < existingItem.quantity + 1) {
-          alert("There are no more units available for this product");
+          //alert("There are no more units available for this product");
 
           return {
             ...state,
@@ -436,7 +438,7 @@ const reducer = (state = initialState, action) => {
       );
 
       if (itemToCheck.stock < itemToCheck.quantity + 1) {
-        alert("There are no more units available for this product");
+        //alert("There are no more units available for this product");
 
         return {
           ...state,
@@ -691,8 +693,6 @@ const reducer = (state = initialState, action) => {
 
         }
       })
-    console.log('cartItems      *******************');
-    console.log(cartItems);
       return {
         ...state,
         cart: {

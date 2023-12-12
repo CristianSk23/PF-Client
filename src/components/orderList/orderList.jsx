@@ -41,7 +41,6 @@ export default function OrderList() {
       }
     }
     setvisibleModal(!visibleModal);
-    console.log('SETACUALDATA',actualData)
   };
 
 

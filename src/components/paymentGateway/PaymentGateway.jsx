@@ -77,9 +77,6 @@ const PaymentGateway=()=>{
         userInfo.postalCode != userInSession?.postalCode || 
         userInfo.city != userInSession?.city)
     {
-      console.log('entro a actualizar User');
-      console.log(userInfo);
-
       dispatch(updateUser(userInfo))
     }
     // VER DE AGREGAR INFORMACION PARA EL CART DE Mercadopago. Ej address,phone etc.
@@ -100,10 +97,7 @@ const PaymentGateway=()=>{
     }
     //------------------------------------------------------------------------------
 
-    console.log('CatchError'+catchError);
-
     if(catchError===""){
-      console.log(newOrder);
       alert('We are redirecting you to Mercadopago payment site');
       axios
       .post("/payments/createOrder", newOrder)
@@ -113,7 +107,6 @@ const PaymentGateway=()=>{
       })
       .catch((error) => {
         setLoading(false)
-        console.log(error)
       });
     }
   }
