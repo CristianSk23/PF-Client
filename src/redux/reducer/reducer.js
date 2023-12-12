@@ -40,11 +40,11 @@ import {
   GETORDERS,
   GETORDERSBYUSERID,
   GET_ALL_ORDERS,
-  FILTER_ORDER_NAME_PURCHASE,
+  FILTER_ORDER_BY_ID,
   UPDATE_ORDER_STATUS,
   CREATEORDER,
   SENDREVIEWPRODUCT,
-  GETCARTBYID
+  GETCARTBYID,
 } from "../action/actionsType";
 
 const initialState = {
@@ -643,9 +643,8 @@ const reducer = (state = initialState, action) => {
         orderHistoryCache: action.payload
       };
   
-    case FILTER_ORDER_NAME_PURCHASE:
-      const result = state.orderHistoryCache.filter(i=>i.mercadopagoTransactionStatus
-        .toLowerCase().includes(action.payload.toLowerCase()))
+    case FILTER_ORDER_BY_ID:
+      const result = state.orderHistoryCache.filter((item) => item.id === action.id)
     return {
       ...state,
       orderHistory: result
