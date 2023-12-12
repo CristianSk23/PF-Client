@@ -35,7 +35,9 @@ const PaymentGateway=()=>{
     return accumulator + newPrice * item.quantity;
   }, 0).toFixed(2);
 
-
+  useEffect(() => {
+    userInfo.id.length == 0 && navigate(-1)
+  }, [userInfo]);
 
   const handleChange = (event) =>{
     setUserInfo({
@@ -93,11 +95,11 @@ const PaymentGateway=()=>{
     }
     //------------------------------------------------------------------------------
 
-    console.log('CatchError');
-    console.log(catchError);
+    console.log('CatchError'+catchError);
+
     if(catchError===""){
-      console.log('Creo la Order');
       console.log(newOrder);
+      alert('We are redirecting you to Mercadopago payment site');
       axios
       .post("/payments/createOrder", newOrder)
       .then((response) => {
