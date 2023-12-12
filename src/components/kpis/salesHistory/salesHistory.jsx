@@ -25,7 +25,7 @@ const SalesHistory = () =>{
         };
     
         fetchData();
-    }, [filter, dispatch]);
+    }, [filter, dispatch, graphData]);
 
 
     const handleChange = (event) => {
