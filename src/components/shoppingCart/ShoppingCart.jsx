@@ -72,10 +72,10 @@ if(!isLoading && !isAuthenticated && isUser === "Invited"){
 
   
  return(
- <div style={{backgroundColor:"#F8F9F9", minHeight:"800px", minWidth:"1550px"}}>
+ <div style={{backgroundColor:"#F8F9F9", minHeight:"750px", minWidth:"1550px"}}>
     <NavBar/>
       {products.length > 0 && (
-                <div className="container" style={{marginTop: "56px"}}>
+                <div className="container" style={{marginTop: "62px"}}>
                 <h1 style={{textAlign:"center", marginBottom:"40px"}}>Shopping Cart</h1>
                 <table className="table table-hover">
                     <thead>
@@ -168,6 +168,7 @@ if(!isLoading && !isAuthenticated && isUser === "Invited"){
         </div>
     </div>
     )}
+
 </div>
 
 )}

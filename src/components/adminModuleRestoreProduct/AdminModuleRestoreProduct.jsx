@@ -64,11 +64,11 @@ const DeletedProducts = () => {
             <div className="d-flex justify-content-center vh-100">
     <div className="card" style={{ width: "400px", height: "400px" }}>
       <h5 className={styles.Restore}>Are you sure you want to restore this product?</h5>
-      <p className={styles.restoreU}>Name: {product?.nameProd}</p>
-      <p className={styles.restoreU}>Brand: {product?.brand}</p>
-      <p className={styles.restoreU}>Price: {product?.price}</p>
-      <p className={styles.restoreU}>Category Id: {product?.CategoryId}</p>
-      <p className={styles.restoreU}>Deleted At: {product?.deletedAt}</p>
+      <p className={styles.restoreU}><strong>Name:</strong> {product?.nameProd}</p>
+      <p className={styles.restoreU}><strong>Brand:</strong> {product?.brand}</p>
+      <p className={styles.restoreU}><strong>Price:</strong> {product?.price}</p>
+      <p className={styles.restoreU}><strong>Category Product:</strong> {product?.CategoryId}</p>
+      <p className={styles.restoreU}><strong>Deleted At:</strong> {product?.deletedAt}</p>
       <button type="button" className="btn btn-success"  style={{ margin: "2px" }} onClick={() => handleRestore(product?.id)}>Confirm</button>
       <button type="button" className="btn btn-danger"  style={{ margin: "2px" }} onClick={handleCancel}>Cancel</button>
         </div>
@@ -92,19 +92,19 @@ const DeletedProducts = () => {
             <table className="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="column">Name</th>
-                        <th scope="column">Brand</th>
-                        <th scope="column">Deleted At</th>
-                        <th scope="column">Restore</th>
+                        <th className={styles.th} scope="column">Name</th>
+                        <th className={styles.th} scope="column">Brand</th>
+                        <th className={styles.th} scope="column">Deleted At</th>
+                        <th className={styles.th}scope="column">Restore</th>
                     </tr>
                 </thead>
                 <tbody>
                     {deleteProducts?.map((product) => (
                         <tr key={`deleted${product?.id}`}>
-                            <td>{product?.nameProd}</td>
-                            <td>{product?.brand}</td>
-                            <td>{product?.deletedAt}</td>
-                            <td>
+                            <td className={styles.td}>{product?.nameProd}</td>
+                            <td className={styles.td}>{product?.brand}</td>
+                            <td className={styles.td}>{product?.deletedAt}</td>
+                            <td className={styles.td}>
                                 <button className={styles.button} onClick={() => handleOpenRestore({
                                     id: product?.id,
                                     nameProd: product?.nameProd,

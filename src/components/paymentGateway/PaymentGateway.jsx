@@ -139,7 +139,7 @@ const PaymentGateway=()=>{
       <div className="container">  
           <div className="py-5 text-center">
             <img className="d-block mx-auto mb-4" src={logoImage} alt="logo" height="57px"/>
-            <h2 style={{marginTop:"-20px"}}>Checkout form</h2>
+            <h2 style={{marginTop:"-25px"}}>Checkout form</h2>
           </div>
 
           <div className="row g-5">
@@ -175,7 +175,7 @@ const PaymentGateway=()=>{
                     <label className="form-label">Email</label>
                     <div className="input-group has-validation">
                       <span className="input-group-text">@</span>
-                      <input type="email" className="form-control" id="email" placeholder="" value={userInfo.email} readOnly required/>
+                      <input type="email" className="form-control" id="email" placeholder="Enter your email..." value={userInfo.email} readOnly required/>
                       <div className="invalid-feedback">
                         Please enter a valid email address for shipping updates.
                       </div>
@@ -184,15 +184,15 @@ const PaymentGateway=()=>{
 
                   <div className="col-sm-6">
                     <label className="form-label">Name</label>
-                    <input type="text" className="form-control" id="name" placeholder="" name="name" value={userInfo.name} onChange={handleChange} required/>
+                    <input type="text" className="form-control" id="name" placeholder="Enter your name..." name="name" value={userInfo.name} onChange={handleChange} required/>
                     <div className="invalid-feedback">
                       Valid name is required.
                     </div>
                   </div>
 
                   <div className="col-sm-6">
-                    <label className="form-label">lastName</label>
-                    <input type="text" className="form-control" id="lastName" placeholder="" name="lastName" value={userInfo.lastName} onChange={handleChange} required/>
+                    <label className="form-label">Last Name</label>
+                    <input type="text" className="form-control" id="lastName" placeholder="Enter your last name..." name="lastName" value={userInfo.lastName} onChange={handleChange} required/>
                     <div className="invalid-feedback">
                       Valid lastName is required.
                     </div>
@@ -200,7 +200,7 @@ const PaymentGateway=()=>{
 
                   <div className="col-sm-6">
                     <label className="form-label">Identity Card</label>
-                    <input type="text" className="form-control" id="identityCard" placeholder="" name="identityCard" value={userInfo.identityCard} onChange={handleChange} required/>
+                    <input type="text" className="form-control" id="identityCard" placeholder="Enter your identy card..." name="identityCard" value={userInfo.identityCard} onChange={handleChange} required/>
                     <div className="invalid-feedback">
                       Valid identity card is required.
                     </div>
@@ -208,24 +208,37 @@ const PaymentGateway=()=>{
 
                   <div className="col-sm-6">
                     <label className="form-label">Phone</label>
-                    <input type="number" className="form-control" id="phone" placeholder="Enter your phone number" name="phone" value={userInfo.phone} onChange={handleChange} required/>
+                    <input type="number" className="form-control" id="phone" placeholder="Enter your phone number..." name="phone" value={userInfo.phone} onChange={handleChange} required/>
                     <div className="invalid-feedback">
                       Please enter your phone number.
                     </div>
                   </div>
 
-                  <div className="col-12">
+                  <div className="col-6">
                     <label className="form-label">Address</label>
-                    <input type="text" className="form-control" id="address" placeholder="" name="address" value={userInfo.address} onChange={handleChange} required/>
+                    <input type="text" className="form-control" id="address" placeholder="Enter your address..." name="address" value={userInfo.address} onChange={handleChange} required/>
                     <div className="invalid-feedback">
                       Please enter your shipping address.
                     </div>
                   </div>
 
+                  <div className="col-md-6">
+                    <label className="form-label">Country</label>
+                    <select className="form-control" id="country" value="" onChange="" > {/* CUANDO TENGA FUNCIONABILIDAD HACERLO REQUIRED*/}
+                      <option value="" disabled hidden>Select a country</option>
+                      <option value="">Argentina</option>
+                      <option value="">Chile</option>
+                      <option value="">Peru</option>
+                      <option value="">Venezuela</option>
+                    </select>
+                    <div className="invalid-feedback">
+                      Please provide a valid country.
+                    </div>
+                  </div>
 
                   <div className="col-md-6">
                     <label className="form-label">City</label>
-                    <input type="text" className="form-control" id="city" name="city" value={userInfo.city} onChange={handleChange} required/>
+                    <input type="text" className="form-control" id="city" placeholder="Enter your city..." name="city" value={userInfo.city} onChange={handleChange} required/>
                     <div className="invalid-feedback">
                       Please provide a valid city.
                     </div>
@@ -233,7 +246,7 @@ const PaymentGateway=()=>{
 
                   <div className="col-md-6">
                     <label className="form-label">Postal Code</label>
-                    <input type="number" className="form-control" id="postalCode" placeholder="" name="postalCode" value={userInfo.postalCode} onChange={handleChange} required/>
+                    <input type="number" className="form-control" id="postalCode" placeholder="Enter your postal code..." name="postalCode" value={userInfo.postalCode} onChange={handleChange} required/>
                     <div className="invalid-feedback">
                       Postal code required.
                     </div>

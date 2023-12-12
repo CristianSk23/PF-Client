@@ -1,7 +1,6 @@
 import styles from "./createProduct.module.css";
 import validation from "./validation";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { createProduct, getProdCategories } from "../../redux/action/actions";
 import { Image } from "cloudinary-react";
@@ -24,8 +23,11 @@ const CreateProduct = () => {
   const prodCategories = useSelector((state) => state.prodCategories);
   const allProducts = useSelector((state) => state.products?.allProducts);
   const isUser = useSelector((state) => state.isUser)
+<<<<<<< HEAD
   const {isAuthenticated, isLoading} = useAuth0()
   const navigate = useNavigate();
+=======
+>>>>>>> develop
   const [errors, setErrors] = useState({});
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isFile, setIsFile] = useState(false);
@@ -193,9 +195,6 @@ const CreateProduct = () => {
     }
   };
 
-  const handleCancel = () => {
-    navigate(-1);
-  };
   const handleConfirmationClose = () => {
     //setShowConfirmation(false);
     navigate(-1);
@@ -558,7 +557,7 @@ const CreateProduct = () => {
               Create
             </Button>
             <a
-              onClick={handleCancel}
+              href="/"
               className="btn btn-danger"
               style={{ marginTop: "-25px", marginBottom: "15px" }}
             >
