@@ -47,7 +47,7 @@ const SalesByCategory = () =>{
           };
       
           fetchData();
-      }, [filter, dispatch]);
+      }, [orders, dispatch]);
 
     const handleChange = (event) => {
         setGraphData({pieData:[], barData:[], uniqueYears:[], filteredItems:[] })
@@ -145,9 +145,9 @@ const SalesByCategory = () =>{
                         </Link>     
                         </td>
                         <td>{item.itemCategory}</td>
-                        <td>{item.itemPrice}</td>
-                        <td>{item.itemQuantity}</td>
-                        <td>{item.itemQuantity * item.itemPrice}</td>
+                        <td align='center'>${Number(item.itemPrice).toFixed(0)}</td>
+                        <td align='center'>{item.itemQuantity}</td>
+                        <td align='center'>${(item.itemQuantity * item.itemPrice).toFixed(0)}</td>
                         <td>{item.orderDate}</td>
                     </tr>
                     ))}

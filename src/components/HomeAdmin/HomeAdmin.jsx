@@ -58,31 +58,34 @@ const HomeAdmin=()=>{
     return(
     <div>
         <h5>Year and Month filters</h5>
-        <div className="col-sm">
-            <select name="year" defaultValue="all" className="form-control text-center" style={{ width: '20%', textAlign: "center", margin: "5px" }} onChange={handleChange}>
-                <option value="all" disabled hidden>Year</option>
-                <option value="all">All years</option>
-                {graphData.orderYears?.map((year, index) => {
-                return (
-                    <option key={index} value={year} name={year} style={{textAlign:"center"}}>
-                    {year}
-                    </option>
-                )
-                })}
-            </select>
-        </div>
-        <div className="col-sm">
-            <select name="month" defaultValue="all" className="form-control text-center" style={{ width: '20%', textAlign: "center", margin: "5px" }} onChange={handleChange}>
-                <option value="all" disabled hidden>Month</option>
-                <option value="all">All months</option>
-                {monthNames.map((month, index) => {
-                return (
-                    <option key={index} value={month} name={month} style={{textAlign:"center"}}>
-                    {month}
-                    </option>
-                )
-                })}
-            </select>
+        <div className="row">
+            <div className="col-sm">
+                <select name="year" defaultValue="all" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleChange}>
+                    <option value="all" disabled hidden>Year</option>
+                    <option value="all">All years</option>
+                    {graphData.orderYears?.map((year, index) => {
+                    return (
+                        <option key={index} value={year} name={year} style={{textAlign:"center"}}>
+                        {year}
+                        </option>
+                    )
+                    })}
+                </select>
+            </div>
+
+            <div className="col-sm">
+                <select name="month" defaultValue="all" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleChange}>
+                    <option value="all" disabled hidden>Month</option>
+                    <option value="all">All months</option>
+                    {monthNames.map((month, index) => {
+                    return (
+                        <option key={index} value={month} name={month} style={{textAlign:"center"}}>
+                        {month}
+                        </option>
+                    )
+                    })}
+                </select>
+            </div>
         </div>
         <hr/>
         <h5 style={{marginTop:"25px"}}>General information</h5>
