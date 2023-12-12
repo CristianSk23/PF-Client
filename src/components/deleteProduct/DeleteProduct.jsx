@@ -60,11 +60,11 @@ const DeleteProduct = () => {
   }
 
   return (!isLoading &&
-    <div style={{backgroundColor: "#F8F9F9", minHeight:"700px"}}>
+    <div style={{backgroundColor: "#F8F9F9", minHeight:"800px"}}>
       <NavBar />
     <div className={styles.container}>
         <div className= "d-flex align-items-center justify-content-center">
-          <div className="card" style={{width: "30rem", marginTop:"70px"}}>
+          <div className="card" style={{width: "30rem", marginTop:"100px"}}>
             <h1 className="text-center">Deleting Product</h1>
               {productLoaded && (
                 <img src={prodById?.image[0]} className="card-img-top" alt="..."/>

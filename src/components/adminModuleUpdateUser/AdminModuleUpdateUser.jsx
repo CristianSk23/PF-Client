@@ -321,21 +321,25 @@ const AdminModuleUpdateUser = () => {
                   </FloatingLabel>
                 </div>
     
-                <Button
-                  className="w-100 my-4"
-                  variant="success"
-                  type="submit"
-                  disabled={!isEmailValid}
-                >
-                  Save Changes
-                </Button>
-                <a
-                  onClick={handleCancel}
-                  className="btn btn-danger"
-                  style={{ marginTop: "-25px", marginBottom: "15px" }}
-                >
-                  Back
-                </a>
+    
+                <div className="text-center">
+                  <Button
+                    className="w-25 my-4"
+                    variant="success"
+                    type="submit"
+                    style={{margin:"8px"}}
+                    disabled={!isEmailValid}
+                  >
+                    Save Changes
+                  </Button>
+                  <a
+                    onClick={handleCancel}
+                    className="btn btn-danger"
+                    style={{width:"25%", margin:"8px"}}
+                  >
+                    Back
+                  </a>
+                </div>
               </div>
             </Form>
             {showConfirmation && (
