@@ -205,7 +205,6 @@ export default function AdminPanel() {
                         <Dropdown.Menu>
                           <Dropdown.Item onClick={() => handleButtonClick('saleHistorial')}>Sales History</Dropdown.Item>
                           <Dropdown.Item onClick={() => handleButtonClick('saleCategory')}>Sales by Category</Dropdown.Item>
-                          <Dropdown.Item onClick={() => handleButtonClick('saleUser')}>Sales by User</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </li>

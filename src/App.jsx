@@ -70,12 +70,6 @@ const App = () => {
 
 
   useEffect(() => {
-    if (userAuth?.CountryId) {
-      dispatch(getCountry(userAuth?.CountryId));
-    }
-  }, [userAuth]);
-
-  useEffect(() => {
     const timeoutId = setTimeout(() => {
       setLoading(true)}
     , 1500);
