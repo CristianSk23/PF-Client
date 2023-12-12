@@ -25,12 +25,14 @@ import { toast } from "react-toastify";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.products?.data);
+  const allProducts = useSelector((state) => state.products?.data);
+  const [products, setProducts] = useState([]);
   const isUser = useSelector((state) => state.isUser);
   const [navBarHeight, setNavBarHeight] = useState(0);
   const [shouldRenderPromotionPopup, setShouldRenderPromotionPopup] =
     useState(false);
-  const {isAuthenticated, loginWithRedirect, AuthenticationError} = useAuth0()
+  const { isAuthenticated, loginWithRedirect, AuthenticationError } =
+    useAuth0();
 
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
@@ -43,7 +45,6 @@ const LandingPage = () => {
       setShouldRenderPromotionPopup(true);
     }
   }, [isUser]);
-
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -67,6 +68,18 @@ const LandingPage = () => {
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
+
+  useEffect(() => {
+    // Filtrar productos activos después de obtenerlos
+    if (allProducts) {
+      let filteredProducts = allProducts.filter(
+        
+        (product) => product.active === true && product.stock !== 0
+      );
+      console.log(filteredProducts)
+      setProducts(filteredProducts);
+    }
+  }, [allProducts]);
 
   const [filterCond, setFilterCond] = useState({
     type: "all",
@@ -103,60 +116,48 @@ const LandingPage = () => {
         onNavBarHeightChange={handleNavBarHeightChange}
       />
 
-
-<Carousel style={{ marginTop: `${navBarHeight}px` }}>
+      <Carousel style={{ marginTop: `${navBarHeight}px` }}>
         <Carousel.Item>
-        <img
+          <img
             className="d-block w-100"
             src={image1}
             alt="Second slide"
             style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
-
           />
         </Carousel.Item>
         <Carousel.Item>
-        <img
+          <img
             className="d-block w-100"
             src={image2}
             alt="Second slide"
-
             style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
-
           />
         </Carousel.Item>
         <Carousel.Item>
-        <img
+          <img
             className="d-block w-100"
-
             src={image3}
             alt="Second slide"
             style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
-
           />
         </Carousel.Item>
         <Carousel.Item>
-        <img
+          <img
             className="d-block w-100"
-
             src={image4}
             alt="Second slide"
             style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
-
           />
         </Carousel.Item>
         <Carousel.Item>
-        <img
+          <img
             className="d-block w-100"
-
             src={image5}
             alt="Second slide"
             style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
-
           />
         </Carousel.Item>
       </Carousel>
-
-    
 
       <FilterAndOrder
         setFilterCond={setFilterCond}
