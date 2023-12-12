@@ -1,15 +1,15 @@
 const adminDataCalcs =(orders, filter)=>{
     if (orders.length == 0) return 0;
 
-    console.log('orders');
-    console.log(orders);
+    console.log('filter');
+    console.log(filter);
     let filteredOrders = orders;
 
     // Filter by year if specified
     if (filter.year !== 'all') {
         filteredOrders = filteredOrders.filter(order => {
             let orderDate = new Date(order.orderDate);
-            return orderDate.getFullYear() === filter.year;
+            return orderDate.getFullYear() == filter.year;
         });
     }
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -19,8 +19,23 @@ const adminDataCalcs =(orders, filter)=>{
         let monthNumber = monthNames.indexOf(filter.month);
         filteredOrders = filteredOrders.filter(order => {
             let orderDate = new Date(order.orderDate);
-            return orderDate.getMonth() === monthNumber;
+            return orderDate.getMonth() == monthNumber;
         });
+    }
+    const orderYears = [...new Set(orders.map(order => new Date(order.orderDate).getFullYear()))].sort((a, b) => a - b);
+    // Check if filteredOrders is empty
+    if (filteredOrders.length === 0) {
+        // Handle the case when there are no orders after applying the filter
+        return {
+            topUsers: [],
+            topProducts: [],
+            topQuantityProducts: [],
+            mostSoldCategory: {},
+            bestMonth: {},
+            averageOrderValue: 0,
+            orderYears,
+            monthNames: [],
+        };
     }
 
 // Best 5 buyers
@@ -38,6 +53,8 @@ const adminDataCalcs =(orders, filter)=>{
     let userNames = topUsers.map(user => user.userName);
     let userTotalsAmounts = topUsers.map(user => user.total);
 
+    console.log('userTotals');
+    console.log(userTotals);
 //---------------------------------------------------------------------------------------
 
 
@@ -152,7 +169,7 @@ const adminDataCalcs =(orders, filter)=>{
     let averageOrderValue = totalRevenue / numberOfOrders;
 // -------------------------------------------------------------------------------------------------------------------------------
     // Extract an array of unique years from orders
-    const orderYears = [...new Set(orders.map(order => new Date(order.orderDate).getFullYear()))].sort((a, b) => a - b);
+    
     console.log('orderYears');
     console.log(orderYears);
 
