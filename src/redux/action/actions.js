@@ -29,11 +29,9 @@ import {
   LOGOUT,
   GENERATEUSER,
   UPDATEUSER,
-  COUNTRY,
   INCREASESTOCK,
   DECREASESTOCK,
   POPUTSPROMOTIONS,
-  GETALLCOUNTRIES,
   GETALLDELETEDUSERS,
   GETALLDELETEDPRODUCTS,
   RESTOREUSERS,
@@ -395,22 +393,6 @@ export const createUser = (email, token) => {
   };
 };
 
-export const getCountry = (id) => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get(`country/id?id=${id}`);
-      dispatch({
-        type: COUNTRY,
-        payload: response.data,
-      });
-    } catch (error) {
-      dispatch({
-        type: ERROR,
-        payload: error.message,
-      });
-    }
-  };
-};
 
 export const typeUser = (typeUser) => {
   return (dispatch) => {
@@ -427,23 +409,6 @@ export const logOut = () => {
       type: LOGOUT,
       payload: "",
     });
-  };
-};
-
-export const getAllCountries = () => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get("/country");
-      dispatch({
-        type: GETALLCOUNTRIES,
-        payload: response.data,
-      });
-    } catch (error) {
-      dispatch({
-        type: ERROR,
-        payload: error.message,
-      });
-    }
   };
 };
 

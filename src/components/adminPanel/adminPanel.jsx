@@ -8,7 +8,7 @@ import { Dropdown } from 'react-bootstrap';
 import NavBar from '../navBar/NavBar';
 import BarGraphics from '../BarGraphic/BarGraphic';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPageAdmin } from '../../redux/action/actions';
+import { setPageAdmin, logOut } from '../../redux/action/actions';
 import LineGraph from '../LineGraph/LineGraph';
 import PieChart from '../PieChart/PieChart';
 import OrderList from '../orderList/orderList';
@@ -30,22 +30,22 @@ export default function AdminPanel() {
     const pageAdmin = useSelector((state) => state.pageAdmin);
     const initialActiveButton = pageAdmin || 'dassboard';
     const [activeButton, setActiveButton] = useState(initialActiveButton);
-    const [shouldRender, setShouldRender] = useState(true);
     const typeUser = useSelector((state) => state.user.typeUser) 
+    const {isLoading, logout} = useAuth0()
 
     const handleButtonClick = (buttonName) => {
         setActiveButton(buttonName)
         dispatch(setPageAdmin(buttonName))
       };
-
-      useEffect(() => {
-        const timeoutId = setTimeout(() => {
-          if(typeUser === "Invited") {setShouldRender(false)}else{
-          setShouldRender(typeUser === "Admin")};
-        }, 250);
-      
-        return () => clearTimeout(timeoutId);
-      }, [typeUser]);
+    
+    const handleLogout = async() => {
+      try {
+        await logout({ logoutParams: { returnTo: window.location.origin } })
+        dispatch(logOut())
+      } catch (error) {
+        console.error('Error during logout:', error);
+      }
+    }
 
     const renderContent = () => {
         switch (activeButton) {
@@ -149,7 +149,7 @@ export default function AdminPanel() {
         }
       };
 
-  if(shouldRender){
+  if(!isLoading && typeUser === "Admin"){
   return (  
     <div>
       <NavBar />
@@ -212,7 +212,7 @@ export default function AdminPanel() {
               <hr className="my-3"/>
               <ul className="nav flex-column mb-auto">
                 <li className={`nav-item ${activeButton === 'signout' ? 'active' : ''}`}>
-                    <a className="nav-link" href="#" onClick={() => handleButtonClick('signout')}>
+                    <a className="nav-link" href="#" onClick={handleLogout}>
                     <i className="bi bi-door-closed"></i> Sign Out
                     </a>
                 </li>
@@ -236,7 +236,7 @@ export default function AdminPanel() {
         </div>
       </div>
     </div>)} else {
-      return(
+      return(!isLoading &&
         <div>
           <ErrorView/>
         </div>

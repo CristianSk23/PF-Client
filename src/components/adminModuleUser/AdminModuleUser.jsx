@@ -17,16 +17,6 @@ const AdminModuleUser = () => {
   const navigate = useNavigate();
   const isUser = useSelector((state) => state.isUser)
   const {isAuthenticated, isLoading} = useAuth0()
-  const [shouldRender, setShouldRender] = useState(true);
-
-useEffect(() => {
-      const timeoutId = setTimeout(() => {
-        if(isUser === "Invited") {setShouldRender(false)}else{
-        setShouldRender(isUser === "Admin")};
-      }, 250);
-    
-      return () => clearTimeout(timeoutId);
-    }, [isUser]);
 
   useEffect(() => {
     dispatch(getUsers());
@@ -63,7 +53,7 @@ useEffect(() => {
     dispatch(updateUser(user))
   }
 
-  if(shouldRender){
+  if(!isLoading && isUser === "Admin"){
   return (
     !isLoading && isUser === "Admin" && isAuthenticated && 
     <div>
