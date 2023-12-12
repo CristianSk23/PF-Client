@@ -64,11 +64,11 @@ const DeletedUsers = () => {
             <div className="d-flex justify-content-center vh-100">
     <div className="card" style={{ width: "400px", height: "400px" }}>
       <h5 className={styles.Restore}>Are you sure you want to restore this user?</h5>
-      <p className={styles.restoreU}>Name: {user?.name}</p>
-      <p className={styles.restoreU}>Lastname: {user?.lastName}</p>
-      <p className={styles.restoreU}>Email: {user?.email}</p>
-      <p className={styles.restoreU}>Type user: {user?.typeUser}</p>
-      <p className={styles.restoreU}>Deleted At: {user?.deletedAt}</p>
+      <p className={styles.restoreU}><strong>Name:</strong> {user?.name}</p>
+      <p className={styles.restoreU}><strong>Last Name:</strong> {user?.lastName}</p>
+      <p className={styles.restoreU}><strong>Email:</strong> {user?.email}</p>
+      <p className={styles.restoreU}><strong>Type User:</strong> {user?.typeUser}</p>
+      <p className={styles.restoreU}><strong>Deleted At:</strong> {user?.deletedAt}</p>
       <button type="button" className="btn btn-success"  style={{ margin: "2px" }} onClick={() => handleRestore(user?.id)}>Confirm</button>
       <button type="button" className="btn btn-danger"  style={{ margin: "2px" }} onClick={handleCancel}>Cancel</button>
         </div>

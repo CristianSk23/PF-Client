@@ -5,6 +5,8 @@ import UserPurchaseHistory from "./userPurchaseHistory";
 import styles from "./orderList.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function OrderList() {
   const dispatch = useDispatch();
@@ -120,7 +122,9 @@ export default function OrderList() {
                   <td className={styles.td}>
                     <select
                       value={order.deliveryStatus}
-                      onChange={(e) => updateDeliveryStatus(e, order.id)}
+                      onChange={(e) => updateDeliveryStatus(e, order.id);
+                      toast.success(`Status updated to: ${e.target.value}`);
+                    }
                     >
                       <option value="Delivered">Delivered</option>
                       <option value="In Process">In Process</option>

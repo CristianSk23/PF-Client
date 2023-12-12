@@ -137,7 +137,6 @@ export default function ListProducts(){
                         <th className={styles.th} scope="col">Category</th>
                         <th className={styles.th} scope="col">Price</th>
                         <th className={styles.th} scope="col">Stock</th>
-                        <th className={styles.th} scope="col">Average Review</th>
                         <th className={styles.th} scope="col">Status</th>
                         <th className={styles.th} scope="col">Update</th>
                         <th className={styles.th} scope="col">Delete</th>
@@ -167,7 +166,6 @@ export default function ListProducts(){
                                 </div>
                             </div>
                             </td>
-                            <td className={styles.td}>4.5</td>
                             <td className={styles.td}>
                                 {/*A PEDIDO DE DIEGO Z PUSE UN SELECT PARA EDITAR SU STATUS DESDE ACA, SI SE COMPLICA USAR SOLO EL UPDATE */}
                             <Form.Select aria-label="Seleccionar ejemplo" className='form-select-sm'>
