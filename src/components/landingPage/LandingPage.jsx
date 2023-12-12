@@ -65,6 +65,8 @@ const LandingPage = () => {
     }
   }, []);
 
+
+
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);

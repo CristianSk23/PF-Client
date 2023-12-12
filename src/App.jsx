@@ -23,6 +23,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import ListProducts from "./components/ListProducts/listProducts";
 import { ToastContainer} from 'react-toastify'
 import ErrorView from "./components/error404/Error404";
+import Loading from "./components/loading/Loading";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const App = () => {
 
   const [token, setToken] = useState()
   const { isAuthenticated, user, getIdTokenClaims, logout, loginWithRedirect } = useAuth0()
+  const [loading,setLoading] = useState(false)
 
   useEffect(() => {
     const fetchUserInformation = async () => {
@@ -66,26 +68,42 @@ const App = () => {
     }
   }, [userAuth]);
 
+
+  useEffect(() => {
+    if (userAuth?.CountryId) {
+      dispatch(getCountry(userAuth?.CountryId));
+    }
+  }, [userAuth]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setLoading(true)}
+    , 1500);
+  
+    return () => clearTimeout(timeoutId);
+  }, []);
+
   return (
     <div>
       <Routes>
         <Route>
           <Route path="/" exact element={<LandingPage/>} />
-          <Route path="/productsList" element={<ListProducts/>} />
-          <Route path="/createProduct" element={<CreateProduct/>} />
-          <Route path="/updateProduct/:id" element={<UpdateProduct/>} />
-          <Route path="/deleteProduct/:id" element={<DeleteProduct />} />
-          <Route path="/shopping" element={<ShoppingCart />} />
+          <Route path="/productsList" element={!loading ? <Loading/> :<ListProducts/>} />
+          <Route path="/createProduct" element={!loading ? <Loading/> :<CreateProduct/>} />
+          <Route path="/updateProduct/:id" element={!loading ? <Loading/> :<UpdateProduct/>} />
+          <Route path="/deleteProduct/:id" element={!loading ? <Loading/> :<DeleteProduct />} />
+          <Route path="/shopping" element={!loading ? <Loading/> :<ShoppingCart />} />
           <Route path="/login" element={<Login />} />
           <Route path="/detail/:id" element={<Detail />} />
-          <Route path="/myProfile" element={<MyProfile />} />
-          <Route path="/paymentGateway" element={<PaymentGateway />} />
-          <Route path="/paymentGateway/status" element={<PaymentStatus />} />
-          <Route path="/adminPanel" element={<AdminPanel />} />
-          <Route path="/adminPanel/users" element={<AdminModuleUser />}/>
-          <Route path="/adminPanel/users/updateUser/:id" element={<AdminModuleUpdateUser/>} />
-          <Route path="/adminPanel/users/deleteUser/:id" element={<AdminModuleDeleteUser/>} />
-          <Route path="/adminPanel/users/orderHistory/:id" element={<ModuleHistoryOrderUser/>} />
+          <Route path="/myProfile" element={!loading ? <Loading/> :<MyProfile />} />
+          <Route path="/paymentGateway" element={!loading ? <Loading/> :<PaymentGateway />} />
+          <Route path="/paymentGateway/status" element={!loading ? <Loading/> :<PaymentStatus />} />
+          <Route path="/adminPanel" element={!loading ? <Loading/> :<AdminPanel />} />
+          <Route path="/adminPanel/users" element={!loading ? <Loading/> :<AdminModuleUser />}/>
+          <Route path="/adminPanel/users/updateUser/:id" element={!loading ? <Loading/> :<AdminModuleUpdateUser/>} />
+          <Route path="/adminPanel/users/deleteUser/:id" element={!loading ? <Loading/> :<AdminModuleDeleteUser/>} />
+          <Route path="/adminPanel/users/orderHistory/:id" element={!loading ? <Loading/> :<ModuleHistoryOrderUser/>} />
+          <Route path="/loading" element={<Loading/>}/>
           <Route path="*" element={<ErrorView/>}/>
         </Route>
       </Routes>

@@ -40,7 +40,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
       navigate(-1);
     };
 
-    if(!isLoading && ((!isAuthenticated && isUser !== "Admin") || isUser === "User")){
+    if(!isLoading && (!isAuthenticated && isUser === "Invited")){
       return(
         <div>
           <ErrorView/>
