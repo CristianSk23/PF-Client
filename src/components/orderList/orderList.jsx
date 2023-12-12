@@ -13,11 +13,13 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 export default function OrderList() {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orderHistory);
+  const [update, setUpdate] = useState(0);
 
   useEffect(() => {
     dispatch(allOrders());
-  }, [dispatch]);
-  
+  }, [dispatch, update]);
+
+
 
   const [visibleModal, setvisibleModal] = useState(false);
   const [actualData, setactualData] = useState({});
@@ -56,8 +58,13 @@ export default function OrderList() {
     setvisibleModal(!visibleModal);
   };
 
-  const updateDeliveryStatus = (orderId, newStatus) => {
-    dispatch(updateOrderStatus(orderId, newStatus));
+  const updateDeliveryStatus = (e, orderId) => {
+    e.preventDefault();
+    const newStatus = e.target.value;
+    updateOrderStatus(orderId, newStatus);
+    setTimeout(() => {
+      setUpdate(update + 1);
+    }, 1000);
   };
 
   return (
@@ -127,10 +134,11 @@ export default function OrderList() {
         <tbody>
           {orders &&
             orders
-            .filter(
-              (order) =>
-              selectedStatus === "All" ||
-              order.mercadopagoTransactionStatus === selectedStatus.toString()
+              .filter(
+                (order) =>
+                  selectedStatus === "All" ||
+                  order.mercadopagoTransactionStatus ===
+                    selectedStatus.toString()
               )
               .map((order) => (
                 <tr key={order.id}>
@@ -142,10 +150,8 @@ export default function OrderList() {
                   </td>
                   <td className={styles.td}>
                     <select
-                      value={order.statusDelivery}
-                      onChange={(e) =>
-                        updateDeliveryStatus(order.id, e.target.value)
-                      }
+                      value={order.deliveryStatus}
+                      onChange={(e) => updateDeliveryStatus(e, order.id)}
                     >
                       <option value="Delivered">Delivered</option>
                       <option value="In Process">In Process</option>
@@ -166,7 +172,7 @@ export default function OrderList() {
                     </button>
                   </td>
                 </tr>
-             ))}
+              ))}
         </tbody>
       </table>
     </div>
