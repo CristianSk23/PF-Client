@@ -30,6 +30,7 @@ const LandingPage = () => {
   const [isLoging, setIsLoging] = useState(false)
   const [shouldRenderPromotionPopup, setShouldRenderPromotionPopup] = useState(false);
   const {isAuthenticated, loginWithRedirect, AuthenticationError} = useAuth0()
+
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
   };
@@ -41,6 +42,7 @@ const LandingPage = () => {
       setShouldRenderPromotionPopup(true);
     }
   }, [isUser]);
+
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
