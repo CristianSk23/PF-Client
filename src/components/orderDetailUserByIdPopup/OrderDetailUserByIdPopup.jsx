@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import StarRating from "../starRating/StarRating";
 import { CloseButton } from "react-bootstrap";
 import { faL } from "@fortawesome/free-solid-svg-icons";
+import { getOrdersByUserId } from "../../redux/action/actions";
 
 const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
   const isUser = useSelector((state) => state.isUser);
@@ -15,7 +16,7 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
   const products = orderDetails;
   const dispatch = useDispatch();
 
-  const sendReview = () => {
+  const sendReview = async () => {
     const updatedReviews = reviews.map((review) => ({
       ...review,
       UserId: idUser.toString(),
@@ -26,11 +27,12 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
 
     setReviews(updatedReviews);
 
-    updatedReviews.forEach((updatedReview) => {
+    for (const updatedReview of updatedReviews) {
       console.log(updatedReview);
-      dispatch(postReview(updatedReview));
-    });
+      await dispatch(postReview(updatedReview));
+    }
     onClose();
+    dispatch(getOrdersByUserId(idUser));
   };
 
   const existingReview = (productId) => {
