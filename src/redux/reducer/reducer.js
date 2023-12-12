@@ -1,3 +1,4 @@
+import axios from "axios";
 import { UserType } from "../../utils/userType";
 import {
   GETALLPRODUCTS,
@@ -44,7 +45,7 @@ import {
   UPDATE_ORDER_STATUS,
   CREATEORDER,
   SENDREVIEWPRODUCT,
-  GETCARTBYID
+  GETCARTBYID,
 } from "../action/actionsType";
 
 const initialState = {
@@ -60,7 +61,6 @@ const initialState = {
     singleProduct: "",
     deletedProducts: [],
     orderHistory: [],
-
   },
   users: [],
   prodCategories: [],
@@ -80,7 +80,7 @@ const initialState = {
   ordersForUser: [],
   ordersForUserId: [],
   orderHistory: [],
-  orderHistoryCache: []
+  orderHistoryCache: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -153,13 +153,13 @@ const reducer = (state = initialState, action) => {
       };
 
     case GETALLDELETEDPRODUCTS:
-      return{
+      return {
         ...state,
         products: {
           ...state.products,
-          deletedProducts: action.payload
-        }
-      }
+          deletedProducts: action.payload,
+        },
+      };
 
     case RESTOREPRODUCTS:
       return {
@@ -167,8 +167,10 @@ const reducer = (state = initialState, action) => {
         products: {
           ...state.products,
           allProducts: [...state.products.allProducts, action.payload],
-          deletedProducts: state.products.deletedProducts.filter((product) => product.id !== action.payload.id)
-        }
+          deletedProducts: state.products.deletedProducts.filter(
+            (product) => product.id !== action.payload.id
+          ),
+        },
       };
 
     case ERROR:
@@ -286,7 +288,8 @@ const reducer = (state = initialState, action) => {
           filtered = filtered.filter(
             (product) =>
               ///////////REVISAR
-              product.category.toLowerCase() === action.payload.type.toLowerCase()
+              product.category.toLowerCase() ===
+              action.payload.type.toLowerCase()
           );
         }
 
@@ -376,7 +379,7 @@ const reducer = (state = initialState, action) => {
       };
 
     case ADDTOCART:
-      console.log('payload');
+      console.log("payload");
       console.log(action.payload);
       if (action.payload.stock == 0) {
         alert("This product is out of stock");
@@ -466,65 +469,66 @@ const reducer = (state = initialState, action) => {
         let filteredItemsDEC = state.cart.items.filter(
           (product) => product.id !== action.payload
         );
-  
-        return{
-            ...state,
-            cart: {
-              ...state.cart,
-              items: filteredItemsDEC, 
-            }
-            }
+        /*        const deleteItemCart = async () => {
+          await axios.delete(`/cart/delete`, {
+            nameProd: itemToDec.nameProd,
+            UserId: state.user.id,
+          });
+        }; */
+        return {
+          ...state,
+          cart: {
+            ...state.cart,
+            items: filteredItemsDEC,
+          },
+        };
+      } else {
+        return {
+          ...state,
+          cart: {
+            ...state.cart,
+            items: state.cart.items.map((item) =>
+              item.id === action.payload
+                ? { ...item, quantity: item.quantity - 1 }
+                : item
+            ),
+          },
+        };
       }
-    
-     else {
-
-    return {
-      ...state,
-      cart: {
-        ...state.cart,
-        items: state.cart.items.map((item) =>
-          item.id === action.payload ? { ...item, quantity: item.quantity - 1 } : item
-        ),
-      },
-    };
-    };
 
     case INCREASESTOCK:
+      const increaseData = state.products.data.map((item) => {
+        if (item.id === action.payload) {
+          return { ...item, stock: item.stock + 1 };
+        } else {
+          return item;
+        }
+      });
 
-    const increaseData = state.products.data.map((item) => {
-      if (item.id === action.payload) {
-        return { ...item, stock: item.stock + 1 };
-      } else {
-        return item;
-      }
-    });
-    
-    return {
-      ...state,
-      products: {
-        ...state.products,
-        data: increaseData,
-      },
-    }
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          data: increaseData,
+        },
+      };
 
     case DECREASESTOCK:
+      const decreaseData = state.products.data.map((item) => {
+        if (item.id === action.payload) {
+          return { ...item, stock: item.stock - 1 };
+        } else {
+          return item;
+        }
+      });
 
-    const decreaseData = state.products.data.map((item) => {
-      if (item.id === action.payload) {
-        return { ...item, stock: item.stock - 1 };
-      } else {
-        return item;
-      }
-    });
-    
-    return {
-      ...state,
-      products: {
-        ...state.products,
-        data: decreaseData,
-      },
-    }
-
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          data: decreaseData,
+        },
+      };
 
     case GETPRODUCTBYNAME:
       return {
@@ -575,14 +579,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         deletedUsers: action.payload.reverse(),
-      }
+      };
 
-      case RESTOREUSERS:   
-        return {
-          ...state,
-          users: [...state.users, action.payload],
-          deletedUsers: state.deletedUsers.filter((user) => user.id !== action.payload.id),
-        };
+    case RESTOREUSERS:
+      return {
+        ...state,
+        users: [...state.users, action.payload],
+        deletedUsers: state.deletedUsers.filter(
+          (user) => user.id !== action.payload.id
+        ),
+      };
 
     case COUNTRY:
       return {
@@ -632,30 +638,31 @@ const reducer = (state = initialState, action) => {
     }
 
     case GETORDERSBYUSERID: {
-      
       return {
         ...state,
         ordersForUserId: action.payload,
       };
     }
     case GET_ALL_ORDERS:
-  
       return {
         ...state,
         orderHistory: action.payload,
-        orderHistoryCache: action.payload
+        orderHistoryCache: action.payload,
       };
-  
+
     case FILTER_ORDER_NAME_PURCHASE:
-      const result = state.orderHistoryCache.filter(i=>i.mercadopagoTransactionStatus
-        .toLowerCase().includes(action.payload.toLowerCase()))
-    return {
-      ...state,
-      orderHistory: result
-    };
-    
+      const result = state.orderHistoryCache.filter((i) =>
+        i.mercadopagoTransactionStatus
+          .toLowerCase()
+          .includes(action.payload.toLowerCase())
+      );
+      return {
+        ...state,
+        orderHistory: result,
+      };
+
     case UPDATE_ORDER_STATUS:
-      const updatedOrders = state.orderHistory.map(order => {
+      const updatedOrders = state.orderHistory.map((order) => {
         if (order.id === action.payload.orderId) {
           return { ...order, deliveryStatus: action.payload.newStatus };
         }
@@ -663,36 +670,35 @@ const reducer = (state = initialState, action) => {
       });
       return {
         ...state,
-        orderHistory: updatedOrders
+        orderHistory: updatedOrders,
       };
 
     case CREATEORDER:
       return {
         ...state,
-        orderHistoryCache: [...orderHistoryCache, action.payload]
-      };   
+        orderHistoryCache: [...orderHistoryCache, action.payload],
+      };
 
     case SENDREVIEWPRODUCT: {
       return {
-        ...state
-      }
-    };
+        ...state,
+      };
+    }
 
     case GETCARTBYID:
-      const cartItems = action.payload.items.map((item)=>{
+      const cartItems = action.payload.items.map((item) => {
         return {
-          quantity:item.quantityProd,
-          id:item.idProd,
-          price:item.price,
-          priceOnSale:item.priceOnSale,
-          nameProd:item.nameProd,
-          image:[item.image],
-          description:item.description,
+          quantity: item.quantityProd,
+          id: item.idProd,
+          price: item.price,
+          priceOnSale: item.priceOnSale,
+          nameProd: item.nameProd,
+          image: [item.image],
+          description: item.description,
           stock: item.stock,
-          category: item.category
-
-        }
-      })
+          category: item.category,
+        };
+      });
       return {
         ...state,
         cart: {
@@ -700,7 +706,7 @@ const reducer = (state = initialState, action) => {
           id: action.payload.id,
           items: [...cartItems],
         },
-      };  
+      };
 
     default:
       return { ...state };

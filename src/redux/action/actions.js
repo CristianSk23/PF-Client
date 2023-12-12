@@ -335,16 +335,32 @@ export const increaseQuantity = (userID, id, quantityPROD) => {
   };
 };
 
-export const decreaseQuantity = (userID, id, quantityPROD) => {
+export const decreaseQuantity = (userID, id, nameProd, quantityPROD) => {
   return async (dispatch) => {
     try {
       dispatch({ type: DECREASEQUANTITY, payload: id });
 
-      const responseCart = await axios.put("cart/", {
-        UserId: userID,
-        productId: id,
-        quantityProd: quantityPROD,
-      });
+      if (quantityPROD === 0) {
+        console.log(
+          "Nombre del producto ",
+          nameProd,
+          " Id del usuario ",
+          userID
+        );
+        const responseCart = await axios.delete("cart/delete", {
+          data: {
+            nameProd: nameProd,
+            UserId: userID,
+          },
+        });
+        console.log("Elimino el producto porque su cantidad es 0");
+      } else {
+        const responseCart = await axios.put("cart/", {
+          UserId: userID,
+          productId: id,
+          quantityProd: quantityPROD,
+        });
+      }
     } catch (error) {
       dispatch({
         type: ERROR,
