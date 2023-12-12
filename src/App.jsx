@@ -5,7 +5,6 @@ import CreateProduct from './components/createProduct/CreateProduct';
 import UpdateProduct from "./components/updateProduct/UpdateProduct";
 import DeleteProduct from "./components/deleteProduct/DeleteProduct";
 import ShoppingCart from "./components/shoppingCart/ShoppingCart";
-import Profile from "./components/profile/Profile";
 import Detail from "./components/detail/Detail";
 import Login from "./components/login/Login";
 import MyProfile from "./components/myProfile/myProfile";
@@ -25,6 +24,7 @@ import { createUser, typeUser, getCountry } from "./redux/action/actions";
 import { useAuth0 } from "@auth0/auth0-react";
 import ListProducts from "./components/ListProducts/listProducts";
 import { ToastContainer} from 'react-toastify'
+import ErrorView from "./components/error404/Error404";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -84,7 +84,6 @@ const App = () => {
           <Route path="/updateProduct/:id" element={<UpdateProduct/>} />
           <Route path="/deleteProduct/:id" element={<DeleteProduct />} />
           <Route path="/shopping" element={<ShoppingCart />} />
-          <Route path="/profile" element={<Profile/>}/>
           <Route path="/login" element={<Login />} />
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/myProfile" element={<MyProfile />} />
@@ -95,6 +94,7 @@ const App = () => {
           <Route path="/adminPanel/users/updateUser/:id" element={<AdminModuleUpdateUser/>} />
           <Route path="/adminPanel/users/deleteUser/:id" element={<AdminModuleDeleteUser/>} />
           <Route path="/adminPanel/users/orderHistory/:id" element={<ModuleHistoryOrderUser/>} />
+          <Route path="*" element={<ErrorView/>}/>
         </Route>
       </Routes>
       <ToastContainer />

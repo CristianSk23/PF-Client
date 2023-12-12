@@ -19,6 +19,8 @@ import DeletedUsers from '../adminModuleRestoreDeletedUsers/AdminModuleRestoreDe
 import DeletedProducts from '../adminModuleRestoreProduct/AdminModuleRestoreProduct';
 import SalesByCategory from "../kpis/salesByCategory/SalesByCategory";
 import SalesHistory from '../kpis/salesHistory/salesHistory';
+import {useAuth0} from '@auth0/auth0-react'
+import ErrorView from '../error404/Error404';
 import Footer from '../Footer/Footer';
 
 //ENLAZAR A QUE AHORA ESTO SEA LA "LANDING" DEL ADMIN
@@ -28,12 +30,22 @@ export default function AdminPanel() {
     const pageAdmin = useSelector((state) => state.pageAdmin);
     const initialActiveButton = pageAdmin || 'dassboard';
     const [activeButton, setActiveButton] = useState(initialActiveButton);
-    
+    const [shouldRender, setShouldRender] = useState(true);
+    const typeUser = useSelector((state) => state.user.typeUser) 
 
     const handleButtonClick = (buttonName) => {
         setActiveButton(buttonName)
         dispatch(setPageAdmin(buttonName))
       };
+
+      useEffect(() => {
+        const timeoutId = setTimeout(() => {
+          if(typeUser === "Invited") {setShouldRender(false)}else{
+          setShouldRender(typeUser === "Admin")};
+        }, 250);
+      
+        return () => clearTimeout(timeoutId);
+      }, [typeUser]);
 
     const renderContent = () => {
         switch (activeButton) {
@@ -137,9 +149,8 @@ export default function AdminPanel() {
         }
       };
 
-
-
-  return (
+  if(shouldRender){
+  return (  
     <div>
       <NavBar />
       {/* Sidebar */}
@@ -224,7 +235,12 @@ export default function AdminPanel() {
           </main>
         </div>
       </div>
-    </div>
-  );
+    </div>)} else {
+      return(
+        <div>
+          <ErrorView/>
+        </div>
+      )
+    }
 }
   
