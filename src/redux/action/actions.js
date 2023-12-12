@@ -42,7 +42,7 @@ import {
   GETORDERS,
   GETORDERSBYUSERID,
   GET_ALL_ORDERS,
-  FILTER_ORDER_BY_ID,
+  FILTER_ORDER_NAME_PURCHASE,
   UPDATE_ORDER_STATUS,
   CREATEORDER,
   SENDREVIEWPRODUCT,
@@ -562,10 +562,10 @@ export const allOrders = () => {
     }
   };
 };
-export const filterOrderById = (id) => {
+export const filterOrderPurchase = (nameSearch) => {
   return {
-    type: FILTER_ORDER_BY_ID,
-    id: id,
+    type: FILTER_ORDER_NAME_PURCHASE,
+    payload: nameSearch,
   };
 };
 
