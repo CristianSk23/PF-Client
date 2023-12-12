@@ -46,7 +46,7 @@ import {
   UPDATE_ORDER_STATUS,
   CREATEORDER,
   SENDREVIEWPRODUCT,
-  GETCARTBYID
+  GETCARTBYID,
 } from "../action/actionsType";
 
 export const updateUser = (user) => {
@@ -173,7 +173,7 @@ export const cleanSingleProd = () => {
 };
 export const deleteProduct = (id) => {
   return async (dispatch) => {
-    console.log(id)
+    console.log(id);
     try {
       await axios.delete(`/products`, {
         data: { id },
@@ -251,7 +251,6 @@ export const changePage = (order) => {
 };
 
 export const filter = (cond) => {
-
   return async (dispatch) => {
     return dispatch({
       type: FILTER,
@@ -268,108 +267,93 @@ export const showThePopup = (bol) => {
   };
 };
 
+export const resetError = () => {
+  return {
+    type: ERROR,
+    payload: "",
+  };
+};
 
-export const resetError=()=>{
-  return { 
-      type: ERROR, 
-      payload: ''
-      }
+export const addToCart = (userID, id, quantityPROD) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`products/${id}`);
+      dispatch({
+        type: ADDTOCART,
+        payload: response.data,
+      });
 
+      const responseCart = await axios.post("cart/", {
+        UserId: userID,
+        productId: id,
+        quantityProd: quantityPROD,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
     }
-
-  export const addToCart = (userID, id, quantityPROD) => {
-    return async (dispatch) => {
-      try {
-        const response = await axios.get(`products/${id}`);
-        dispatch({
-          type: ADDTOCART,
-          payload: response.data,
-        })
-    
-        const responseCart = await axios.post("cart/", {
-         "UserId": userID,
-         "productId": id,
-         "quantityProd": quantityPROD
-         })
-         
-      } catch (error) {
-
-        dispatch({
-          type: ERROR,
-          payload: error.message,
-        });
-      }
-    };
+  };
 };
 
 export const removeOneCart = (id, nameProd, userID) => {
   return async (dispatch) => {
-  try {
-  dispatch({type: REMOVEONECART, payload: id
-  })
+    try {
+      dispatch({ type: REMOVEONECART, payload: id });
 
-  const responseCart = await axios.delete("cart/", {
-    data: {
-    "nameProd": nameProd,
-    "UserId": userID,
-  },
-  })
-  }
-  
-
-  catch (error) {
-  dispatch({
-    type: ERROR,
-    payload: error.message,
-  });
-  }
-  }
-  }
-
-  export const increaseQuantity = (userID, id, quantityPROD) => {
-    return async (dispatch) => {
-      try{
-
-        dispatch({type: INCREASEQUANTITY, payload: id})
-
-        const responseCart = await axios.put("cart/", {
-          "UserId": userID,
-          "productId": id,
-          "quantityProd": quantityPROD
-          })
-
-      }
-      catch(error) {
-        dispatch({
-          type: ERROR,
-          payload: error.message,
-        })
-      }
-    }
-  }
-  
-  export const decreaseQuantity = (userID, id, quantityPROD) => {
-    return async (dispatch) => {
-      try{
-        dispatch({type: DECREASEQUANTITY, payload: id})
-
-        const responseCart = await axios.put("cart/", {
-          "UserId": userID,
-          "productId": id,
-          "quantityProd": quantityPROD
-          })
-
-      }
-      catch(error) {
-        dispatch({
-          type: ERROR,
-          payload: error.message,
-        })
-      }
+      const responseCart = await axios.delete("cart/", {
+        data: {
+          nameProd: nameProd,
+          UserId: userID,
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
     }
   };
+};
 
+export const increaseQuantity = (userID, id, quantityPROD) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: INCREASEQUANTITY, payload: id });
 
+      const responseCart = await axios.put("cart/", {
+        UserId: userID,
+        productId: id,
+        quantityProd: quantityPROD,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
+export const decreaseQuantity = (userID, id, quantityPROD) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: DECREASEQUANTITY, payload: id });
+
+      const responseCart = await axios.put("cart/", {
+        UserId: userID,
+        productId: id,
+        quantityProd: quantityPROD,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
 
 export const createUser = (email, token) => {
   return async (dispatch) => {
@@ -472,7 +456,7 @@ export const getPromotions = () => async (dispatch) => {
 
 export const getDeletedUsers = () => async (dispatch) => {
   try {
-    const response = await axios.get('/users/deleted');
+    const response = await axios.get("/users/deleted");
     dispatch({
       type: GETALLDELETEDUSERS,
       payload: response.data,
@@ -481,13 +465,13 @@ export const getDeletedUsers = () => async (dispatch) => {
     dispatch({
       type: ERROR,
       payload: error.message,
-    });  
+    });
   }
-}
+};
 
 export const getDeletedProducts = () => async (dispatch) => {
   try {
-    const response = await axios.get('/products/deleted');
+    const response = await axios.get("/products/deleted");
     dispatch({
       type: GETALLDELETEDPRODUCTS,
       payload: response.data,
@@ -496,41 +480,39 @@ export const getDeletedProducts = () => async (dispatch) => {
     dispatch({
       type: ERROR,
       payload: error.message,
-    });  
-  }
-}
-
-export const restoreDeleteUsers = (id) => async (dispatch) => {
-  try {
-      const response = await axios.put(`/users/deleted/${id}`);
-      dispatch({
-          type: RESTOREUSERS,
-          payload: response.data,
-      });
-  } catch (error) {
-      dispatch({
-          type: ERROR,
-          payload: error.message,
-      });
+    });
   }
 };
 
-
-export const restoreProducts = (id) => 
-  async (dispatch) => {
-    try {
-      const response = await axios.put(`/products/deleted/${id}`);
-      dispatch({
-        type: RESTOREPRODUCTS,
-        payload: response.data,
-      })
-    } catch (error) { 
-      dispatch({
-        type: ERROR,
-        payload: error.message,
-    });  
+export const restoreDeleteUsers = (id) => async (dispatch) => {
+  try {
+    const response = await axios.put(`/users/deleted/${id}`);
+    dispatch({
+      type: RESTOREUSERS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: error.message,
+    });
   }
-}
+};
+
+export const restoreProducts = (id) => async (dispatch) => {
+  try {
+    const response = await axios.put(`/products/deleted/${id}`);
+    dispatch({
+      type: RESTOREPRODUCTS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: error.message,
+    });
+  }
+};
 
 export const setPageAdmin = (pageAdmin) => {
   return async (dispatch) => {
@@ -585,23 +567,23 @@ export const filterOrderById = (id) => {
     type: FILTER_ORDER_BY_ID,
     id: id,
   };
-}
+};
 
 export const updateOrderStatus = (orderId, newStatus) => {
   return async (dispatch) => {
     try {
-      const response = await axios.put('/order/update', {
+      const response = await axios.put("/order/update", {
         idOrder: orderId,
-        statusDelivery: newStatus
+        statusDelivery: newStatus,
       });
       dispatch({
         type: UPDATE_ORDER_STATUS,
-        payload: response.data  // Esto puede variar según la estructura de tu respuesta
+        payload: response.data, // Esto puede variar según la estructura de tu respuesta
       });
     } catch (error) {
       dispatch({
         type: ERROR,
-        payload: error.message
+        payload: error.message,
       });
     }
   };
@@ -626,33 +608,38 @@ export const createOrder = (paymentResults) => {
 
 export const postReview = (review) => {
   console.log("Estas son mis review");
-  console.log(review);
+  console.log(
+    review.UserId,
+    review.reviewText,
+    review.rating,
+    review.productId
+  );
   return async (dispatch) => {
     try {
-    const {data} = await axios.post(`reviews`, review, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    dispatch({
-      type: SENDREVIEWPRODUCT,
-      payload: data,
-    });
-  }
-  catch (error) {
-    dispatch({
-      type: ERROR,
-      payload: error.message,
-    });
+      const { data } = await axios.post(`/reviews/create`, {
+        UserId: review.UserId,
+        reviewText: review.reviewText,
+        rating: review.rating,
+        productId: review.productId,
+      });
+      console.log("data ", data);
+      dispatch({
+        type: SENDREVIEWPRODUCT,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
     }
-  }
-}
-
+  };
+};
 
 export const getCartById = (userId) => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.get(`cart/${userId}`);
+      const { data } = await axios.get(`cart/${userId}`);
       dispatch({
         type: GETCARTBYID,
         payload: data,
