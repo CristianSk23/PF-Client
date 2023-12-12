@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers, updateUser, getOrders } from "../../redux/action/actions";
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +17,16 @@ const AdminModuleUser = () => {
   const navigate = useNavigate();
   const isUser = useSelector((state) => state.isUser)
   const {isAuthenticated, isLoading} = useAuth0()
+  const [shouldRender, setShouldRender] = useState(true);
+
+useEffect(() => {
+      const timeoutId = setTimeout(() => {
+        if(isUser === "Invited") {setShouldRender(false)}else{
+        setShouldRender(isUser === "Admin")};
+      }, 250);
+    
+      return () => clearTimeout(timeoutId);
+    }, [isUser]);
 
   useEffect(() => {
     dispatch(getUsers());
@@ -53,16 +63,10 @@ const AdminModuleUser = () => {
     dispatch(updateUser(user))
   }
 
-  if(!isLoading && (isUser === "User" || (!isAuthenticated && isUser === "Invited"))){
-    return(
-      <div>
-        <ErrorView />
-      </div>
-    )
-  }
+  if(shouldRender){
   return (
     !isLoading && isUser === "Admin" && isAuthenticated && 
-    (<div>
+    <div>
         <h5>Users list:</h5>
         <table className="table table-hover">
       <thead>
@@ -115,8 +119,14 @@ const AdminModuleUser = () => {
         ))}
       </tbody>
     </table>
-    </div>)
-  );
+    </div>
+  )} else {
+    return(
+      <div>
+        <ErrorView />
+      </div>
+    )
+  };
 };
 
 export default AdminModuleUser;
