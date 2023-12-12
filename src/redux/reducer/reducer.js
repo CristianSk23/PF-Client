@@ -27,11 +27,9 @@ import {
   UPDATEUSER,
   GENERATEUSER,
   LOGOUT,
-  COUNTRY,
   POPUTSPROMOTIONS,
   INCREASESTOCK,
   DECREASESTOCK,
-  GETALLCOUNTRIES,
   GETALLDELETEDPRODUCTS,
   RESTOREPRODUCTS,
   GETALLDELETEDUSERS,
@@ -75,7 +73,6 @@ const initialState = {
   userById: {},
   deletedUsers: [],
   country: "",
-  countries: [],
   pageAdmin: "dassboard",
   ordersForUser: [],
   ordersForUserId: [],
@@ -584,12 +581,6 @@ const reducer = (state = initialState, action) => {
           deletedUsers: state.deletedUsers.filter((user) => user.id !== action.payload.id),
         };
 
-    case COUNTRY:
-      return {
-        ...state,
-        country: action.payload,
-      };
-
     case LOGOUT:
       return {
         ...state,
@@ -610,14 +601,6 @@ const reducer = (state = initialState, action) => {
         },
       };
 
-    case GETALLCOUNTRIES:
-      const ordenCountries = action.payload.sort((a, b) =>
-        a.name.localeCompare(b.name)
-      );
-      return {
-        ...state,
-        countries: ordenCountries,
-      };
     case SETPAGEADMIN: {
       return {
         ...state,

@@ -16,11 +16,9 @@ import AdminModuleUpdateUser from "./components/adminModuleUpdateUser/AdminModul
 import AdminModuleDeleteUser from "./components/adminModuleDeleteUser/AdminModuleDeleteUser";
 import ModuleHistoryOrderUser from "./components/moduleHistoryOrderUser/ModuleHistoryOrderUser"
 
-
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { createUser, typeUser, getCountry } from "./redux/action/actions";
+import { createUser, typeUser } from "./redux/action/actions";
 import { useAuth0 } from "@auth0/auth0-react";
 import ListProducts from "./components/ListProducts/listProducts";
 import { ToastContainer} from 'react-toastify'
@@ -69,6 +67,7 @@ const App = () => {
       dispatch(typeUser(userAuth.typeUser));
     }
   }, [userAuth]);
+
 
   useEffect(() => {
     if (userAuth?.CountryId) {

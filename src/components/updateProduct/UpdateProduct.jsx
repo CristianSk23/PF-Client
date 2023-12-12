@@ -86,7 +86,7 @@ const UpdateProduct = () => {
     if (id && !productLoaded && prodById?.nameProd) {
       setProduct({
         name: prodById.nameProd || "",
-        category: prodById.CategoryId || "",
+        category: prodById.categoryId || "",
         brand: prodById.brand || "",
         description: prodById.description || "",
         price: prodById.price || 0,
@@ -228,6 +228,8 @@ const UpdateProduct = () => {
       tags: product.tags,
       stock: product.stock,
     };
+    console.log('newProduct');
+    console.log(newProduct);
     await dispatch(updateProduct(newProduct));
     setShowConfirmation(true);
   };

@@ -217,12 +217,8 @@ const PaymentGateway=()=>{
 
                   <div className="col-md-6">
                     <label className="form-label">Country</label>
-                    <select className="form-control" id="country" value="" onChange="" > {/* CUANDO TENGA FUNCIONABILIDAD HACERLO REQUIRED*/}
-                      <option value="" disabled hidden>Select a country</option>
-                      <option value="">Argentina</option>
-                      <option value="">Chile</option>
-                      <option value="">Peru</option>
-                      <option value="">Venezuela</option>
+                    <select className="form-control" id="country" disabled value="Argentina" onChange="" > {/* CUANDO TENGA FUNCIONABILIDAD HACERLO REQUIRED*/}
+                      <option value="Argentina">Argentina</option>
                     </select>
                     <div className="invalid-feedback">
                       Please provide a valid country.

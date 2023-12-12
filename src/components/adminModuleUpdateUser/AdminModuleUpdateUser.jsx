@@ -276,7 +276,8 @@ const AdminModuleUpdateUser = () => {
                       type="text"
                       placeholder="Country"
                       name="country"
-                      value={user.country}
+                      disabled
+                      value="Argentina"
                       onChange={handleChange}
                     />
                   </FloatingLabel>
