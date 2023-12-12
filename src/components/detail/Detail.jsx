@@ -114,7 +114,7 @@ const Detail = () => {
         <div className="d-flex align-items-center justify-content-center">
           <div
             className="card mb-3"
-            style={{ width: "1080px", marginTop: "160px" }}
+            style={{ width: "1080px", marginTop: "100px" }}
           >
             <div className="row g-0">
               <div className="col-md-4">
@@ -264,11 +264,12 @@ const Detail = () => {
         </div>
 
         <div className="d-flex align-items-center justify-content-center">
-          <p className="card-text">
-            <h3>REVIEWS</h3>
+        <div style={{width:"1080px", margin: "auto", marginBottom:"30px"}}>
+          <div style={{marginTop:"20px", padding:"10px", backgroundColor: "ffffff", boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'}}>
+          <h3>REVIEWS:</h3>
             {product.reviews && product.reviews.length > 0 ? (
               product.reviews.map((review, index) => (
-                <div key={index}>
+                <div key={index} style={{marginTop:"20px", padding:"10px", backgroundColor: "ffffff", boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'}}>
                   <h3>{review.name}</h3>
                   <StarRating rating={review.rating} />
                   <p>{review.comment}</p>
@@ -277,7 +278,8 @@ const Detail = () => {
             ) : (
               <p>No reviews available.</p>
             )}
-          </p>
+          </div>
+        </div>
         </div>
       </div>
     </div>

@@ -18,8 +18,6 @@ const NavBar = ({ onSearch, filterCond }) => {
   const dispatch = useDispatch();
   const prodCategories = useSelector((state) => state.prodCategories) || [];
   const isLandingPage = location.pathname === '/';
-  const isAdminPanel = location.pathname === '/adminPanel';
-
 
   const { logout, loginWithRedirect, isAuthenticated } = useAuth0()
 
@@ -58,9 +56,10 @@ const NavBar = ({ onSearch, filterCond }) => {
       <img
         src={logoImage}
         alt="Logo"
-        width="150"
+        width="130"
         height="auto"
         className="d-inline-block align-top"
+        style={{marginTop:"-8px"}}
       />
       </a>
       {isLandingPage && (
@@ -78,21 +77,7 @@ const NavBar = ({ onSearch, filterCond }) => {
       </div>
       </div>
       )}
-      {isAdminPanel && (
-      <div className="d-flex align-items-center">
-      <div className="d-flex mx-auto" role="search">
-          <input id="search" value={name} className="form-control me-2" type="search" placeholder="Product name..." aria-label="Search" onChange={handleChange}/>
-          <button className="btn btn-outline-light" disabled={name == ""} onClick={() => {
-          onSearch(name);
-          clearSearch();
-        }}>
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-          />
-          </button>
-      </div>
-      </div>
-      )}
+
         <div className="d-flex align-items-center">
         { isUser === "User" && (
           <button className="btn btn-outline-light" style={{marginRight:"5px"}}>
@@ -121,11 +106,8 @@ const NavBar = ({ onSearch, filterCond }) => {
                     Hola {user.email}
                   </a>
                   <ul className="dropdown-menu dropdown-menu-dark">
-                  <li><a className="dropdown-item" href="/productsList">My Products</a></li>
-                  <li><a className="dropdown-item" href="/createProduct">Create Product</a></li>
                   {!isAuthenticated && <li><a className="dropdown-item" onClick={handleLogin}>Login</a></li>}
                   {isAuthenticated && <li><a href="/myProfile" className="dropdown-item" >My Account</a></li>}
-
                   {isAuthenticated && <li><a className="dropdown-item" onClick={handleLogout}>Logout</a></li>}
                   </ul>
                 </li>
@@ -141,7 +123,6 @@ const NavBar = ({ onSearch, filterCond }) => {
                   <ul className="dropdown-menu dropdown-menu-dark">
                   {!isAuthenticated && <li><a className="dropdown-item" onClick={handleLogin}>Login</a></li>}
                   {isAuthenticated && <li><a href="/myProfile" className="dropdown-item">My Account</a></li>}
-                  {isAuthenticated && <li><a href="/shopping" className="dropdown-item">My Cart</a></li>}
                   {isAuthenticated && <li><a className="dropdown-item" onClick={handleLogout}>Logout</a></li>}
                   </ul>
                 </li>
