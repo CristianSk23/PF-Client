@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  allOrders,
-  filterOrderById,
-  updateOrderStatus,
-} from "../../redux/action/actions";
+import { allOrders, filterOrderPurchase, updateOrderStatus } from "../../redux/action/actions";
 import UserPurchaseHistory from "./userPurchaseHistory";
 import styles from "./orderList.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,31 +16,22 @@ export default function OrderList() {
   }, [dispatch, update]);
 
 
-
   const [visibleModal, setvisibleModal] = useState(false);
   const [actualData, setactualData] = useState({});
-  const [id, setId] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("All");
+  const [name, setname] = useState("");
 
   const handleChange = (e) => {
-    setId(e.target.value);
+    setname(e.target.value);
   };
 
-  const handleStatusChange = (e) => {
-    setSelectedStatus(e.target.value);
-  };
-
-  const search = () => {
-    if (id.trim() !== "") {
-      dispatch(filterOrderById(id));
+  const search = (e) => {
+    e.preventDefault();
+    if (name.length >= 2) {
+      dispatch(filterOrderPurchase(name));
     } else {
       dispatch(allOrders());
     }
   };
-
-  useEffect(() => {
-    search();
-  }, [id]);
 
   const openModal = (e) => {
     e.preventDefault();
@@ -65,6 +52,7 @@ export default function OrderList() {
     setTimeout(() => {
       setUpdate(update + 1);
     }, 1000);
+
   };
 
   return (
@@ -73,38 +61,19 @@ export default function OrderList() {
         <UserPurchaseHistory closeModal={openModal} data={actualData} />
       )}
       <h5>Orders List:</h5>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          paddingBottom: "10px",
-        }}
-      >
-        <select
-          className="form-select"
-          aria-label="Default select example"
-          style={{ width: "200px", margin: "2px" }}
-          value={selectedStatus}
-          onChange={handleStatusChange}
-        >
-          <option value="All">Select status</option>
-          <option value="Approved">Approved</option>
-          <option value="Pending">Pending</option>
-          <option value="Rejected">Rejected</option>
-        </select>
-        <input
-          type="text"
-          onChange={handleChange}
-          placeholder="Searching by ID:"
-          style={{ margin: "2px", borderRadius: "8px" }}
-        />
-        <button onClick={search} style={{ margin: "2px" }}>
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-            style={{ color: "#000000" }}
-          />
-        </button>
+      <div style={{display: "flex", justifyContent: "flex-end", paddingBottom:"10px" }}> 
+      <select className="form-select" aria-label="Default select example" style={{width:"200px", margin:"2px"}}>
+          <option selected hidden disabled>Select status</option> {/* DARLE FUNCIONABILIDAD AL SELECT */}
+          <option value="0">All</option>
+          <option value="1">Approved</option>
+          <option value="2">Pending</option>
+          <option value="3">Rejected</option>
+      </select>
+        <input type="text" onChange={handleChange} value={name} placeholder="Inserte dato..." style={{margin:"2px", borderRadius:"8px"}}/>
+        {/* Modificar el place holder segun el dato que vayamos a pedir finalmente ahi */}
+        <button onClick={search} style={{ margin:"2px"}}><FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "#000000",}} /></button>
       </div>
+
       <table className="table table-hover">
         <thead>
           <tr>

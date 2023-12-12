@@ -10,14 +10,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth0 } from "@auth0/auth0-react";
+import ErrorView from "../error404/Error404";
+
 
 const ShoppingCart = ({}) => {
 
  const dispatch = useDispatch(); 
  const navigate = useNavigate();
+ const [stock, setStock] = useState("")
 
  const products = useSelector((state) => state.cart.items)
  const userID = useSelector((state) => state.user.id)
+
+ const isUser = useSelector((state) => state.isUser)
+ const {isAuthenticated, isLoading} = useAuth0()
  
 
  useEffect(() => {
@@ -46,10 +53,17 @@ const ShoppingCart = ({}) => {
  }
 
  const IncreaseQuantity = (userID, productsid, quantityPROD) => {
+    const itemToCheck = products.find(
+        (item) => item.id === productsid
+      );
+      if(itemToCheck.stock < itemToCheck.quantity + 1) {
+        setStock("MAX")
+      }
     dispatch(increaseQuantity(userID, productsid, quantityPROD))
  }
 
  const DecreaseQuantity = (userID, productsid, quantityPROD) => {
+    setStock("");
     dispatch(decreaseQuantity(userID, productsid, quantityPROD))
  }
 
@@ -57,13 +71,42 @@ const ShoppingCart = ({}) => {
     navigate(-1);
   };
 
+  const handleStock = () => {
+    if (stock === "MAX") {
+        // return "There are no more units available for this product"
+        toast.warning("There are no more units available for this product", {
+            position: "bottom-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            // theme: "dark",
+            // theme: "light",
+            });
+    } 
+    return ""
+  }
+
+if(!isLoading && !isAuthenticated && isUser === "Invited"){
+    return(
+        <div>
+            <ErrorView/>
+        </div>
+    )
+}
+
+
   
  return(
- <div style={{backgroundColor:"#F8F9F9", minHeight:"800px", minWidth:"1550px"}}>
+ <div style={{backgroundColor:"#F8F9F9", minHeight:"750px", minWidth:"1550px"}}>
     <NavBar/>
       {products.length > 0 && (
-                <div className="container" style={{marginTop: "56px"}}>
+                <div className="container" style={{marginTop: "62px"}}>
                 <h1 style={{textAlign:"center", marginBottom:"40px"}}>Shopping Cart</h1>
+                <p style={{"color": "red"}}>{handleStock()}</p>
                 <table className="table table-hover">
                     <thead>
                         <tr>
@@ -155,6 +198,7 @@ const ShoppingCart = ({}) => {
         </div>
     </div>
     )}
+
 </div>
 
 )}

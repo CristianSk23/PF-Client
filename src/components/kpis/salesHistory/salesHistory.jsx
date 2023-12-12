@@ -19,13 +19,13 @@ const SalesHistory = () =>{
         const fetchData = async () => {
             if (prodCategories.length === 0) {
                 dispatch(getProdCategories());
+                dispatch(allOrders());
             }
-            dispatch(allOrders());
             setGraphData(calculateData(orders, filter));
         };
     
         fetchData();
-    }, [filter, dispatch]);
+    }, [dispatch, orders]);
 
 
     const handleChange = (event) => {
@@ -39,7 +39,6 @@ const SalesHistory = () =>{
           ...filter,
           [event.target.name]: event.target.value,
         });
-console.log(monthBarData);
         setGraphData({ yearBarData, monthBarData, lineData, itemsData, years});
     };
 

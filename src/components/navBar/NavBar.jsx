@@ -1,46 +1,56 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getProdCategories, logOut } from "../../redux/action/actions";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import logoImage from "../../assets/logo.jpg";
+import logoImage from "../../assets/Logo.png";
 
-
-
-const NavBar = ({ onSearch, filterCond }) => {
+const NavBar = ({ onSearch, filterCond, onNavBarHeightChange }) => {
   const [name, setName] = useState("");
-  const isUser = useSelector((state) => state.isUser)
-  const user = useSelector((state) => state.user)
+  const isUser = useSelector((state) => state.isUser);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const prodCategories = useSelector((state) => state.prodCategories) || [];
+  const [height, setHeight] = useState(0);
   const isLandingPage = location.pathname === '/';
-  const isAdminPanel = location.pathname === '/adminPanel';
+  const navBarRef = useRef(null);
 
+  const { logout, loginWithRedirect, isAuthenticated } = useAuth0();
 
-  const { logout, loginWithRedirect, isAuthenticated } = useAuth0()
+  const handleLogin = async () => {
+    await loginWithRedirect();
+  };
 
-  const handleLogin= async() => {
-    await loginWithRedirect()
-  }
-
-  const handleLogout = async() => {
+  const handleLogout = async () => {
     try {
-      await logout({ logoutParams: { returnTo: window.location.origin } })
-      dispatch(logOut())
+      await logout({ logoutParams: { returnTo: window.location.origin } });
+      dispatch(logOut());
     } catch (error) {
       console.error('Error during logout:', error);
     }
-  }
+  };
 
   useEffect(() => {
     if (prodCategories.length === 0) {
       dispatch(getProdCategories());
     }
-  }, []);
+  }, [dispatch, prodCategories.length]);
+
+  useEffect(() => {
+    // Llamada a la función cuando cambia la altura del NavBar
+    onNavBarHeightChange && onNavBarHeightChange(height);
+  }, [height, onNavBarHeightChange]);
+
+  useEffect(() => {
+    // Obtener la altura del NavBar al montar el componente
+    getNavBarHeight();
+    // Escuchar cambios de tamaño de la ventana para actualizar la altura si es necesario
+    const handleResize = () => getNavBarHeight();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []); // Solo se ejecuta al montar y desmontar el componente
 
   const handleChange = (event) => {
     setName(event.target.value);
@@ -51,16 +61,25 @@ const NavBar = ({ onSearch, filterCond }) => {
     setName('');
   };
 
+  const getNavBarHeight = () => {
+    if (navBarRef.current) {
+      const height = navBarRef.current.clientHeight;
+      // Actualizar el estado con la altura actual del NavBar
+      setHeight(height);
+    }
+  };
+
   return (
-    <nav className="navbar navbar-dark bg-dark fixed-top">
-    <div className="container-fluid">
+    <nav className="navbar navbar-dark bg-dark fixed-top" ref={navBarRef}>
+    <div className="container-fluid" >
       <a className="navbar-brand" href="/">
       <img
         src={logoImage}
         alt="Logo"
-        width="120"
-        height="30"
+        width="130"
+        height="auto"
         className="d-inline-block align-top"
+        style={{marginTop:"-8px"}}
       />
       </a>
       {isLandingPage && (
@@ -78,21 +97,7 @@ const NavBar = ({ onSearch, filterCond }) => {
       </div>
       </div>
       )}
-      {isAdminPanel && (
-      <div className="d-flex align-items-center">
-      <div className="d-flex mx-auto" role="search">
-          <input id="search" value={name} className="form-control me-2" type="search" placeholder="Product name..." aria-label="Search" onChange={handleChange}/>
-          <button className="btn btn-outline-light" disabled={name == ""} onClick={() => {
-          onSearch(name);
-          clearSearch();
-        }}>
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-          />
-          </button>
-      </div>
-      </div>
-      )}
+
         <div className="d-flex align-items-center">
         { isUser === "User" && (
           <button className="btn btn-outline-light" style={{marginRight:"5px"}}>
@@ -121,11 +126,8 @@ const NavBar = ({ onSearch, filterCond }) => {
                     Hola {user.email}
                   </a>
                   <ul className="dropdown-menu dropdown-menu-dark">
-                  <li><a className="dropdown-item" href="/productsList">My Products</a></li>
-                  <li><a className="dropdown-item" href="/createProduct">Create Product</a></li>
                   {!isAuthenticated && <li><a className="dropdown-item" onClick={handleLogin}>Login</a></li>}
                   {isAuthenticated && <li><a href="/myProfile" className="dropdown-item" >My Account</a></li>}
-
                   {isAuthenticated && <li><a className="dropdown-item" onClick={handleLogout}>Logout</a></li>}
                   </ul>
                 </li>
@@ -141,7 +143,6 @@ const NavBar = ({ onSearch, filterCond }) => {
                   <ul className="dropdown-menu dropdown-menu-dark">
                   {!isAuthenticated && <li><a className="dropdown-item" onClick={handleLogin}>Login</a></li>}
                   {isAuthenticated && <li><a href="/myProfile" className="dropdown-item">My Account</a></li>}
-                  {isAuthenticated && <li><a href="/shopping" className="dropdown-item">My Cart</a></li>}
                   {isAuthenticated && <li><a className="dropdown-item" onClick={handleLogout}>Logout</a></li>}
                   </ul>
                 </li>

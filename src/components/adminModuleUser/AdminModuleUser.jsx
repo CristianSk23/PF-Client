@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers, updateUser, getOrders } from "../../redux/action/actions";
 import { useNavigate } from 'react-router-dom';
@@ -7,12 +7,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { Form } from 'react-bootstrap';
+import { useAuth0 } from "@auth0/auth0-react";
+import ErrorView from "../error404/Error404";
 
 
 const AdminModuleUser = () => {
   const dispatch = useDispatch();
   const userList = useSelector((state) => state.users); 
   const navigate = useNavigate();
+  const isUser = useSelector((state) => state.isUser)
+  const {isAuthenticated, isLoading} = useAuth0()
 
   useEffect(() => {
     dispatch(getUsers());
@@ -48,7 +52,10 @@ const AdminModuleUser = () => {
     }
     dispatch(updateUser(user))
   }
+
+  if(!isLoading && isUser === "Admin"){
   return (
+    !isLoading && isUser === "Admin" && isAuthenticated && 
     <div>
         <h5>Users list:</h5>
         <table className="table table-hover">
@@ -103,7 +110,13 @@ const AdminModuleUser = () => {
       </tbody>
     </table>
     </div>
-  );
+  )} else {
+    return(
+      <div>
+        <ErrorView />
+      </div>
+    )
+  };
 };
 
 export default AdminModuleUser;

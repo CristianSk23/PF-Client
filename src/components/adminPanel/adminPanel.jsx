@@ -8,7 +8,7 @@ import { Dropdown } from 'react-bootstrap';
 import NavBar from '../navBar/NavBar';
 import BarGraphics from '../BarGraphic/BarGraphic';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPageAdmin } from '../../redux/action/actions';
+import { setPageAdmin, logOut } from '../../redux/action/actions';
 import LineGraph from '../LineGraph/LineGraph';
 import PieChart from '../PieChart/PieChart';
 import OrderList from '../orderList/orderList';
@@ -19,6 +19,9 @@ import DeletedUsers from '../adminModuleRestoreDeletedUsers/AdminModuleRestoreDe
 import DeletedProducts from '../adminModuleRestoreProduct/AdminModuleRestoreProduct';
 import SalesByCategory from "../kpis/salesByCategory/SalesByCategory";
 import SalesHistory from '../kpis/salesHistory/salesHistory';
+import {useAuth0} from '@auth0/auth0-react'
+import ErrorView from '../error404/Error404';
+import Footer from '../Footer/Footer';
 
 //ENLAZAR A QUE AHORA ESTO SEA LA "LANDING" DEL ADMIN
 
@@ -27,12 +30,22 @@ export default function AdminPanel() {
     const pageAdmin = useSelector((state) => state.pageAdmin);
     const initialActiveButton = pageAdmin || 'dassboard';
     const [activeButton, setActiveButton] = useState(initialActiveButton);
-    
+    const typeUser = useSelector((state) => state.user.typeUser) 
+    const {isLoading, logout} = useAuth0()
 
     const handleButtonClick = (buttonName) => {
         setActiveButton(buttonName)
         dispatch(setPageAdmin(buttonName))
       };
+    
+    const handleLogout = async() => {
+      try {
+        await logout({ logoutParams: { returnTo: window.location.origin } })
+        dispatch(logOut())
+      } catch (error) {
+        console.error('Error during logout:', error);
+      }
+    }
 
     const renderContent = () => {
         switch (activeButton) {
@@ -136,34 +149,11 @@ export default function AdminPanel() {
         }
       };
 
-
-
-  return (
+  if(!isLoading && typeUser === "Admin"){
+  return (  
     <div>
-      {/*  ESTA NAVBAR ESTA COMENTADA PORQUE QUERIAN QUE ESTE LA NAV ANTERIOR, VER SI QUEREMOS LA SEARCHBAR O NO
-      
-      Navbar 
-      <nav className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-        <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/">
-          TECHNOOK
-        </a>
-        <button
-          className="navbar-toggler position-absolute d-md-none collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#sidebarMenu"
-          aria-controls="sidebarMenu"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-      </nav>*/}
-
       <NavBar />
-
       {/* Sidebar */}
-        {/* LA SIDEBAR SE ADAPTA AL TAMAÑO DEL CONTENIDO QUE HAY EN EL MAIN, POR ESO POR AHORA QUEDA CORTA, PERO CUANDO SE CARGUE SE ESTIRA BIEN */}
       <div className="container-fluid" style={{marginTop:"48px"}}>
         <div className="row">
           <nav
@@ -222,7 +212,7 @@ export default function AdminPanel() {
               <hr className="my-3"/>
               <ul className="nav flex-column mb-auto">
                 <li className={`nav-item ${activeButton === 'signout' ? 'active' : ''}`}>
-                    <a className="nav-link" href="#" onClick={() => handleButtonClick('signout')}>
+                    <a className="nav-link" href="#" onClick={handleLogout}>
                     <i className="bi bi-door-closed"></i> Sign Out
                     </a>
                 </li>
@@ -241,10 +231,16 @@ export default function AdminPanel() {
                     {renderContent()}
                 </div>
             </div>
+            <Footer />
           </main>
         </div>
       </div>
-    </div>
-  );
+    </div>)} else {
+      return(!isLoading &&
+        <div>
+          <ErrorView/>
+        </div>
+      )
+    }
 }
   

@@ -110,7 +110,7 @@ const Card = ({
           {discountPercentage > 0 ? (
           <div style={{marginTop:"10px"}}>
               <small className="text-body-secondary" style={{fontWeight: "bold", fontSize: "18px", marginTop:"0px"}}>
-                ${priceOnSale?.toFixed(2)}
+                ${Number(priceOnSale).toFixed(2)}
               </small>
           </div>
           ) : (

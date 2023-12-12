@@ -12,11 +12,16 @@ import {useEffect, useState} from "react"
 import { useNavigate } from "react-router-dom";
 import Cards from "../cards/Cards"
 import { Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import ErrorView from "../error404/Error404";
 
 export default function ListProducts(){
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const {isAuthenticated, isLoading} =useAuth0()
+    const isUser = useSelector((state) => state.isUser)
 
     useEffect(() => {
         dispatch(getAllProducts());
@@ -71,7 +76,15 @@ export default function ListProducts(){
         }    
     }
 
+    if(!isLoading && ((!isAuthenticated && isUser !== "Admin") || isUser === "User")){
+        return(
+            <div>
+                <ErrorView/>
+            </div>
+        )
+    }
     return(
+        !isLoading &&
         <div>
 
         <h5 style={{marginBottom:"-55px"}}>List of Products:</h5>
@@ -133,22 +146,22 @@ export default function ListProducts(){
                     <tbody>
 
                         {products.map((product) => (
-                            <tr>
-                            <img className={styles.td} style={{ width: '50px', height: '50px' }}  src={product.image[0]} alt={product.nameProd} />
+                            <tr key={product.id}>
+                            <td className={styles.td}><img className={styles.td} style={{ width: '50px', height: '50px', objectFit:"contain" }}  src={product.image[0]} alt={product.nameProd} /></td>
                             <td className={styles.td}>{product.nameProd}</td>
                             <td className={styles.td}>{product.category}</td>
-                            <td className={styles.td}>{product.price}</td>  
+                            <td className={styles.td}>${product.price}</td>  
                             <td className={styles.td}>
                             <div className="container">{/*A PEDIDO DE DIEGO Z PUSE BOTONES PARA MANEJAR EL STOCK DIRECTAMENTE DE ACA, FALTA DARLE EL FUNCIONAMIENTO
                             COMO LO TIENE EN EL CARRITO DE COMPRAS, SI SE COMPLICA USAR SOLO EL UPDATE */}
                                 <div className="btn-group" role="group" aria-label="Botones de Suma y Resta">
-                                    <button type="button" onClick={()=> DecreaseSTOCK(product.id)} className="btn btn-primary" style={{marginTop:"-6px"}}>
+                                    <button type="button" onClick={()=> DecreaseSTOCK(product.id)} className="btn btn-primary" style={{ marginTop:"-6px" }}>
                                     -
                                     </button>
                                     <div style={{padding:"10px", height:"1px", marginTop:"-9px"}}>
                                         <p>{product.stock}</p>
                                     </div>
-                                    <button type="button" onClick={() => IncreaseSTOCK(product.id)} className="btn btn-primary"style={{marginTop:"-6px"}}>
+                                    <button type="button" onClick={() => IncreaseSTOCK(product.id)} className="btn btn-primary" style={{ marginTop:"-6px" }}>
                                     +
                                     </button>
                                 </div>
@@ -170,7 +183,7 @@ export default function ListProducts(){
                                 </button>
                                 </Link>
                             </td>
-                            <td className={styles.td}> {/* DARLE FUNCIONAMIENTO AL BOTON DE DELETE */}
+                            <td className={styles.td}> 
                                 <button onClick={()=>DeletePRODUCT(product.id, product.nameProd)} className={styles.button}>
                                     <FontAwesomeIcon icon={faTrash} style={{ color: "#dd3636", }} />
                                 </button>
@@ -224,14 +237,6 @@ export default function ListProducts(){
                     </li>
                     </ul>
                 </nav>    
-
-                <a
-                    onClick={handleCancel}
-                    className="btn btn-primary"
-                    style={{ bottom: "10px", right: "10px" }}
-                    >
-                    Back
-                </a>
                 </div>
     )
 }

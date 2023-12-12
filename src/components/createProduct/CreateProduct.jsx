@@ -1,8 +1,7 @@
 import styles from "./createProduct.module.css";
 import validation from "./validation";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { createProduct, getProdCategories } from "../../redux/action/actions";
 import { Image } from "cloudinary-react";
 import {
@@ -13,8 +12,10 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import PopupGeneral from "../popupGeneral/PopupGeneral";
-import NavBar from "../navBar/NavBar";
+import ErrorView from "../error404/Error404";
 import { toast } from "react-toastify";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router";
 
 const CreateProduct = () => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const CreateProduct = () => {
   const prodCategories = useSelector((state) => state.prodCategories);
   const allProducts = useSelector((state) => state.products?.allProducts);
   const isUser = useSelector((state) => state.isUser)
-  const navigate = useNavigate();
+  const {isAuthenticated, isLoading} = useAuth0()
   const [errors, setErrors] = useState({});
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isFile, setIsFile] = useState(false);
@@ -190,14 +191,6 @@ const CreateProduct = () => {
     }
   };
 
-  const handleCancel = () => {
-    navigate(-1);
-  };
-  const handleConfirmationClose = () => {
-    //setShowConfirmation(false);
-    navigate(-1);
-  };
-
   const changeIsFile = () => {
     setIsFile(!isFile);
   };
@@ -206,7 +199,16 @@ const CreateProduct = () => {
     await uploadImageByFileToCloudinary(event, setProduct, product);
   };
 
+  if(!isLoading && ((!isAuthenticated && isUser !== "Admin") || isUser === "User")){
+    return(
+      <div>
+        <ErrorView />
+      </div>
+    )
+  }
+
   return (
+    !isLoading &&
     <div style={{ minHeight: "800px" }}>
       <div>
         <h1 className="text-center m-5">Create Product</h1>
@@ -546,7 +548,7 @@ const CreateProduct = () => {
               Create
             </Button>
             <a
-              onClick={handleCancel}
+              href="/"
               className="btn btn-danger"
               style={{ marginTop: "-25px", marginBottom: "15px" }}
             >

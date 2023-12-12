@@ -8,8 +8,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboard } from "@fortawesome/free-solid-svg-icons";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import ErrorView from "../error404/Error404";
 
 const ModuleHistoryOrderUser =({idProp}) =>{
+    const {isAuthenticated, isLoading} = useAuth0()
     const { id } = useParams();
     const dispatch = useDispatch()
     const ordersById = useSelector((state) => state.ordersForUserId) || [];
@@ -27,9 +30,8 @@ const ModuleHistoryOrderUser =({idProp}) =>{
     },[dispatch])
 
     const handleSeeDetail = (order) => {
-        setSelectedOrder(order);
-      };
-
+      setSelectedOrder(order);
+  };
     const handleClosePopup = () => {
         setSelectedOrder(null);
     };
@@ -38,10 +40,18 @@ const ModuleHistoryOrderUser =({idProp}) =>{
       navigate(-1);
     };
 
-    return(
+    if(!isLoading && (!isAuthenticated && isUser === "Invited")){
+      return(
+        <div>
+          <ErrorView/>
+        </div>
+      )
+    }
+
+    return(!isLoading &&
       <div>
       {isUser === "Admin" ? (
-        <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
+        <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"780px"}}>
         <Container>
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 className="h2"><FontAwesomeIcon icon={faClipboard} /> Orders list for user {ordersById[0]?.userName}</h1>
@@ -70,7 +80,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
                 </tr>))}
                 {ordersById.length == 0 && 
                 <tr key="na">
-                <td>To date there are no purchase orders</td>
+                <td align="center" colSpan="7"><strong>To date there are no purchase orders</strong></td>
                 </tr>}
               </tbody>
         </table>
@@ -107,11 +117,11 @@ const ModuleHistoryOrderUser =({idProp}) =>{
                     <td className={styles.td}>{order.orderDate}</td>
                     <td className={styles.td}>{order.deliveryStatus}</td>
                     <td className={styles.td}>${parseFloat(order.totalPrice).toFixed(2)}</td>
-                    <td className={styles.td}><Link onClick={() => handleSeeDetail(JSON.parse(order.itemsCart))}>See detail</Link></td>
+                    <td className={styles.td}><span onClick={() => handleSeeDetail(JSON.parse(order.itemsCart))}>See detail</span></td>
                 </tr>))}
                 {ordersById.length == 0 && 
                 <tr key="na">
-                <td>To date there are no purchase orders</td>
+                <td align="center" colSpan="7"><strong>To date there are no purchase orders</strong></td>
                 </tr>}
               </tbody>
         </table>

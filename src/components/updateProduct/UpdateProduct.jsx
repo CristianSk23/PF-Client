@@ -20,14 +20,18 @@ import {
 import PopupGeneral from "../popupGeneral/PopupGeneral";
 import NavBar from "../navBar/NavBar";
 import { toast } from "react-toastify";
+import { useAuth0 } from "@auth0/auth0-react";
+import ErrorView from "../error404/Error404";
 
 const UpdateProduct = () => {
+  const {isAuthenticated, isLoading} = useAuth0()
   const dispatch = useDispatch();
   const { id } = useParams();
   const catchError = useSelector((state) => state.catchError);
   const prodCategories = useSelector((state) => state.prodCategories);
   const allProducts = useSelector((state) => state.products.allProducts);
   const prodById = useSelector((state) => state.products.singleProduct);
+  const isUser = useSelector((state) => state.isUser) 
   const navigate = useNavigate();
   const [productLoaded, setProductLoaded] = useState(false);
   const [errors, setErrors] = useState({});
@@ -82,7 +86,7 @@ const UpdateProduct = () => {
     if (id && !productLoaded && prodById?.nameProd) {
       setProduct({
         name: prodById.nameProd || "",
-        category: prodById.CategoryId || "",
+        category: prodById.categoryId || "",
         brand: prodById.brand || "",
         description: prodById.description || "",
         price: prodById.price || 0,
@@ -224,6 +228,8 @@ const UpdateProduct = () => {
       tags: product.tags,
       stock: product.stock,
     };
+    console.log('newProduct');
+    console.log(newProduct);
     await dispatch(updateProduct(newProduct));
     setShowConfirmation(true);
   };
@@ -245,7 +251,15 @@ const UpdateProduct = () => {
     await uploadImageByFileToCloudinary(event, setProduct, product);
   };
 
-  return (
+  if(!isLoading && ((!isAuthenticated && isUser !== "Admin") || isUser === "User")){
+    return(
+      <div>
+        <ErrorView />
+      </div>
+    )
+  }
+
+  return (!isLoading &&
     <div style={{ backgroundColor: "#F8F9F9", minHeight: "900px" }}>
       <NavBar />
       <div style={{ marginTop: "60px" }}>
