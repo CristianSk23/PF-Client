@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth0 } from "@auth0/auth0-react";
 import ErrorView from "../error404/Error404";
+import Button from "react-bootstrap/Button";
 
 
 const ShoppingCart = ({}) => {
@@ -101,13 +102,13 @@ if(!isLoading && !isAuthenticated && isUser === "Invited"){
 
   
  return(
- <div style={{backgroundColor:"#F8F9F9", minHeight:"750px", minWidth:"1550px"}}>
+ <div style={{backgroundColor:"#F8F9F9", minHeight:"750px", minWidth:"100%"}}>
     <NavBar/>
       {products.length > 0 && (
                 <div className="container" style={{marginTop: "62px"}}>
                 <h1 style={{textAlign:"center", marginBottom:"40px"}}>Shopping Cart</h1>
                 <p style={{"color": "red"}}>{handleStock()}</p>
-                <table className="table table-hover">
+                <table className="table table-hover table-responsive">
                     <thead>
                         <tr>
                         <th className={styles.th} scope="col">Product</th>
@@ -156,21 +157,26 @@ if(!isLoading && !isAuthenticated && isUser === "Invited"){
                     </tr>
                     </tbody>
                 </table>
-                <div className="d-grid gap-2">
+                <div className="text-center" style={{marginTop:"-16px"}}>
+                <div className="d-flex justify-content-center">
                 {products.length > 0 &&
-                    <button className="btn btn-primary" type="button">
+                    <Button 
+                    className="mx-2 btn-md"
+                    variant="primary"
+                    type="submit"
+                    style={{margin:"8px", width:"180px"}}>
                         <Link
                             to={`/paymentGateway`}
                             style={{
                             textDecoration: "none",
                             color: "white",
-                            margin: "5px",
                             }}
                         >
                             Confirm and Payment
                         </Link>
-                    </button>}
-                    <a className="btn btn-danger" type="button" onClick={ handleCancel }>Back</a>
+                    </Button>}
+                    <a className="btn btn-danger mx-2 btn-md" type="button" style={{margin:"8px", width:"180px"}} onClick={ handleCancel }>Back</a>
+                </div>
                 </div>
             </div>
       )} {products.length === 0 && (
@@ -193,8 +199,8 @@ if(!isLoading && !isAuthenticated && isUser === "Invited"){
                 </tr>
             </tbody>
         </table>
-        <div className="d-grid gap-2">
-            <a className="btn btn-danger" type="button" onClick={ handleCancel }>Back</a>
+        <div className="d-flex justify-content-center" style={{marginTop:"-16px"}}>
+            <a className="btn btn-danger mx-2 btn-md" type="button" style={{margin:"8px", width:"180px"}} onClick={ handleCancel }>Back</a>
         </div>
     </div>
     )}

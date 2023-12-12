@@ -538,21 +538,25 @@ const CreateProduct = () => {
               </FloatingLabel>
             </div>
 
-            <Button
-              className="w-100 my-4"
-              variant="primary"
-              type="submit"
-              disabled={Object.keys(errors).length > 0 || product.name === ""}
-            >
-              Create
-            </Button>
-            <a
-              href="/"
-              className="btn btn-danger"
-              style={{ marginTop: "-25px", marginBottom: "15px" }}
-            >
-              Cancel
-            </a>
+            <div className="text-center">
+              <Button
+                className="w-25 my-4"
+                variant="primary"
+                type="submit"
+                style={{margin:"8px"}}
+                disabled={Object.keys(errors).length > 0 || product.name === ""}
+              >
+                Create
+              </Button>
+
+              <a
+                href="/"
+                className="btn btn-danger"
+                style={{width:"25%", margin:"8px"}}
+              >
+                Cancel
+              </a>
+            </div>
           </div>
         </Form>
         {showConfirmation && (

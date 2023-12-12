@@ -100,7 +100,15 @@ useEffect(() => {
             </Form.Select>
           </td>
           <td className={styles.td}>
-            <button className={styles.button} onClick={() => handleOrder(user.id)}>
+            <button                    
+              className="btn btn-primary"
+              style={{
+                '--bs-btn-padding-y': '.25rem',
+                '--bs-btn-padding-x': '.5rem',
+                '--bs-btn-font-size': '.75rem',
+              }}  
+              onClick={() => handleOrder(user.id)}
+            >
             See history
             </button>
           </td>

@@ -582,21 +582,25 @@ const UpdateProduct = () => {
             {errors.description !== "" && (
               <span className={styles.errorMessage}> {errors.description}</span>
             )}
-            <Button
-              className="w-100 my-4"
-              variant="primary"
-              type="submit"
-              disabled={Object.keys(errors).length > 0 || product.name === ""}
-            >
-              Update
-            </Button>
-            <a
-              onClick={handleCancel}
-              className="btn btn-danger"
-              style={{ marginTop: "-25px", marginBottom: "15px" }}
-            >
-              Cancel
-            </a>
+
+            <div className="text-center">
+              <Button
+                className="w-25 my-4"
+                variant="primary"
+                type="submit"
+                style={{margin:"8px"}}
+                disabled={Object.keys(errors).length > 0 || product.name === ""}
+              >
+                Update
+              </Button>
+              <a
+                onClick={handleCancel}
+                className="btn btn-danger"
+                style={{width:"25%", margin:"8px"}}
+              >
+                Cancel
+              </a>
+            </div>
           </div>
         </Form>
         {showConfirmation && (
