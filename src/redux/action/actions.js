@@ -625,9 +625,10 @@ export const createOrder = (paymentResults) => {
 };
 
 export const postReview = (review) => {
+  console.log(review);
   return async (dispatch) => {
     try {
-    const {data} = await axios.post(`reviews`, {review}, {
+    const {data} = await axios.post(`review/create`, {review}, {
       headers: {
         "Content-Type": "application/json",
       },
