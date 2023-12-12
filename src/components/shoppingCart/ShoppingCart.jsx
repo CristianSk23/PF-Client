@@ -1,7 +1,7 @@
 
 import { removeOneCart, increaseQuantity, decreaseQuantity, getCartById } from "../../redux/action/actions"
 import { useSelector } from "react-redux/es/hooks/useSelector"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { Link } from 'react-router-dom';
 import NavBar from "../navBar/NavBar";
