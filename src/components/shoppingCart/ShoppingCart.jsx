@@ -55,7 +55,6 @@ const ShoppingCart = ({}) => {
         setStock("MAX")
       }
     dispatch(increaseQuantity(userID, productsid, quantityPROD))
-    
  }
 
  const DecreaseQuantity = (userID, productsid, quantityPROD) => {
