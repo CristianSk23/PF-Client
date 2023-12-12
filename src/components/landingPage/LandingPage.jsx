@@ -16,12 +16,16 @@ import { Carousel } from "react-bootstrap";
 import Footer from "../Footer/Footer";
 import imagen1 from "../../assets/image101.png"
 
+import { useAuth0 } from "@auth0/auth0-react";
+import { toast } from "react-toastify";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products?.data);
   const isUser = useSelector((state) => state.isUser)
+  const [isLoging, setIsLoging] = useState(false)
   const [shouldRenderPromotionPopup, setShouldRenderPromotionPopup] = useState(false);
+  const {isAuthenticated, loginWithRedirect, AuthenticationError} = useAuth0()
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
   };
@@ -34,6 +38,25 @@ const LandingPage = () => {
       setShouldRenderPromotionPopup(true)
     }
   }, [isUser]);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get("error");
+    const errorDescription = urlParams.get("error_description");
+
+    if (error && errorDescription) {
+      toast.warn(`Please verify your email and Try to Login Again`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }, []);
 
 
 
