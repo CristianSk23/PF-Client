@@ -120,11 +120,10 @@ const MyProfile = () => {
         </Container>
         <br /><hr />
         {isuser?.id && <ModuleHistoryOrderUser idProp={isuser?.id}/>}
-        <a className="w-100 btn btn-danger btn-lg" type="button"  style={{marginTop:"8px"}} onClick={ handleCancel }>Back</a>
         </div>
     ) :
     auxUpdateUser && (
-        <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
+        <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"780px"}}>
             <Container>
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 className="h2"><FontAwesomeIcon icon={faUser} /> {isuser.name ? `${isUser}: ${isuser.name} ${isuser.lastName}` : `My Account: ${isuser.email} ` }  </h1>
@@ -207,11 +206,11 @@ const MyProfile = () => {
         onClick={handleUpdateUser}
         className="btn btn-primary mb-3"
         style={{ position: "absolute", bottom: "10px", right: "10px" }}
-        size='lg'
+        size='md'
         >
         Cancel
         </Button>
-        <a className="w-100 btn btn-danger btn-lg" type="button"  style={{marginTop:"8px"}} onClick={ handleCancel }>Back</a>
+        {/*<a className="w-100 btn btn-danger btn-lg" type="button"  style={{marginTop:"8px"}} onClick={ handleCancel }>Back</a>*/}
         </div>
     )
     

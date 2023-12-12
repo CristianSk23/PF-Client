@@ -20,6 +20,7 @@ import image3 from "../../assets/image3.png";
 import image4 from "../../assets/image4.png";
 import image5 from "../../assets/image5.png";
 
+
 const LandingPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products?.data);
@@ -65,13 +66,18 @@ const LandingPage = () => {
     <div className={styles.container}>
       {shouldRenderPromotionPopup && <PromotionPopup />}
 
-      <Carousel style={{ marginTop: "55px" }}>
+
+{shouldRenderPromotionPopup && <PromotionPopup />}
+
+<Carousel style={{ marginTop: "55px" }}>
         <Carousel.Item>
         <img
             className="d-block w-100"
+
             src={image1}
             alt="Second slide"
             style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
+
           />
         </Carousel.Item>
         <Carousel.Item>
@@ -79,31 +85,39 @@ const LandingPage = () => {
             className="d-block w-100"
             src={image2}
             alt="Second slide"
+
             style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
+
           />
         </Carousel.Item>
         <Carousel.Item>
         <img
             className="d-block w-100"
+
             src={image3}
             alt="Second slide"
             style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
+
           />
         </Carousel.Item>
         <Carousel.Item>
         <img
             className="d-block w-100"
+
             src={image4}
             alt="Second slide"
             style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
+
           />
         </Carousel.Item>
         <Carousel.Item>
         <img
             className="d-block w-100"
+
             src={image5}
             alt="Second slide"
             style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
+
           />
         </Carousel.Item>
       </Carousel>

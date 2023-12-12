@@ -41,7 +41,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
     return(
       <div>
       {isUser === "Admin" ? (
-        <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
+        <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"780px"}}>
         <Container>
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 className="h2"><FontAwesomeIcon icon={faClipboard} /> Orders list for user {ordersById[0]?.userName}</h1>
@@ -70,7 +70,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
                 </tr>))}
                 {ordersById.length == 0 && 
                 <tr key="na">
-                <td>To date there are no purchase orders</td>
+                <td align="center" colSpan="7"><strong>To date there are no purchase orders</strong></td>
                 </tr>}
               </tbody>
         </table>
@@ -111,7 +111,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
                 </tr>))}
                 {ordersById.length == 0 && 
                 <tr key="na">
-                <td>To date there are no purchase orders</td>
+                <td align="center" colSpan="7"><strong>To date there are no purchase orders</strong></td>
                 </tr>}
               </tbody>
         </table>
