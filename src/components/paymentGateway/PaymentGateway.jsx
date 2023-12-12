@@ -8,12 +8,17 @@ import RingLoader  from "react-spinners/RingLoader"; // spinner para el loading
 import axios from "axios"; // hay que hacer redux. hasta entonces, no eliminar
 import { useNavigate } from "react-router-dom";
 import logoImage from "../../assets/Logo.png";
+import { useAuth0 } from "@auth0/auth0-react";
+import ErrorView from "../error404/Error404";
 
 const PaymentGateway=()=>{
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart)
   const userInSession = useSelector((state) => state.user)
   const catchError = useSelector((state) => state.catchError)
+  const isUser = useSelector((state) => state.isUser)
+  const {isAuthenticated, isLoading} = useAuth0()
+  const [shouldRender, setShouldRender] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [userInfo, setUserInfo] = useState({
@@ -117,7 +122,20 @@ const PaymentGateway=()=>{
     navigate(-1);
   };
 
+  useEffect(() => {
+    const conditionsMet = !isLoading && !isAuthenticated && isUser === 'Invited';
+    setShouldRender(conditionsMet);
+  }, [isLoading, isAuthenticated, isUser]);
+
+  if(shouldRender){
     return(
+      <div>
+        <ErrorView/>
+      </div>
+    )
+  }
+
+    return(!isLoading &&
       <div className="container">  
           <div className="py-5 text-center">
             <img className="d-block mx-auto mb-4" src={logoImage} alt="logo" height="57px"/>

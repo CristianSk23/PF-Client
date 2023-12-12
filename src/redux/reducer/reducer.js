@@ -72,6 +72,7 @@ const initialState = {
   },
   isUser: "Invited",
   user: {},
+  userById: {},
   deletedUsers: [],
   country: "",
   countries: [],
@@ -182,7 +183,7 @@ const reducer = (state = initialState, action) => {
     case GETUSERBYID:
       return {
         ...state,
-        user: action.payload,
+        userById: action.payload,
       };
 
     case GETUSERBYID:

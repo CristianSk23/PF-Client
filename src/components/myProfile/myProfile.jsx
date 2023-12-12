@@ -6,12 +6,15 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllCountries, updateUser } from '../../redux/action/actions';
 import ModuleHistoryOrderUser from '../moduleHistoryOrderUser/ModuleHistoryOrderUser';
+import { useAuth0 } from '@auth0/auth0-react';
+import ErrorView from '../error404/Error404';
 
 const MyProfile = () => {
     const isuser = useSelector((state) => state.user)
     const isUser = useSelector((state) => state.isUser)
     const country = useSelector((state) => state.country)
     const navigate = useNavigate();
+    const {isAuthenticated, isLoading} = useAuth0()
 
     const [auxUpdateUser, setAuxUptdateUser] = useState(false)
     const countries = useSelector((state) => state.countries)
@@ -47,7 +50,7 @@ const MyProfile = () => {
             user.postalCode != isuser?.postalCode || 
             user.city != isuser?.city)
         {
-          dispatch(updateUser({...user, id: isuser?.id}))
+          dispatch(updateUser({...user, id: isuser?.id, email: isuser?.email, active: isuser?.active, typeUser: isuser?.typeUser}))
           setAuxUptdateUser(false)
         }
     }
@@ -83,7 +86,15 @@ const MyProfile = () => {
         navigate(-1);
       };
 
-    return !auxUpdateUser ? (
+      if(!isLoading && !isAuthenticated && isUser === "Invited"){
+        return(
+          <div>
+            <ErrorView />
+          </div>
+        )
+      }
+
+    return !auxUpdateUser ? (!isLoading &&
         <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
         <Container >
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -131,9 +142,9 @@ const MyProfile = () => {
             <Form onSubmit={handleSubmit}>
             <fieldset>
                 <Row className='mb-3'>
-                    <Form.Group class="mb-3">
+                    <Form.Group className="mb-3">
                         <Form.Label for="staticEmail">Email</Form.Label>
-                        <Form.Control className="form-control-plaintext" id="staticEmail" value={isuser?.email} />
+                        <Form.Control className="form-control-plaintext" id="staticEmail" value={isuser?.email} readOnly/>
                     </Form.Group>
                     <Col>
                     <Form.Group className="mb-3" controlId="formFirstName">
