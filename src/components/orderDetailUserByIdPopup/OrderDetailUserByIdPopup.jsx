@@ -7,6 +7,7 @@ import StarRating from "../starRating/StarRating";
 import { CloseButton } from "react-bootstrap";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 import { getOrdersByUserId } from "../../redux/action/actions";
+import { toast } from "react-toastify";
 
 const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
   const isUser = useSelector((state) => state.isUser);
@@ -28,8 +29,19 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
     setReviews(updatedReviews);
 
     for (const updatedReview of updatedReviews) {
-      console.log(updatedReview);
       await dispatch(postReview(updatedReview));
+      toast.success("Review added successfully!", {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        // theme: "dark",
+        // theme: "light",
+      });
     }
     onClose();
     dispatch(getOrdersByUserId(idUser));

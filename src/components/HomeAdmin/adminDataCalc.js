@@ -1,8 +1,5 @@
 const adminDataCalcs =(orders, filter)=>{
     if (orders.length == 0) return 0;
-
-    console.log('filter');
-    console.log(filter);
     let filteredOrders = orders;
 
     // Filter by year if specified
@@ -52,9 +49,6 @@ const adminDataCalcs =(orders, filter)=>{
     let topUsers = userTotals.slice(0, 5);
     let userNames = topUsers.map(user => user.userName);
     let userTotalsAmounts = topUsers.map(user => user.total);
-
-    console.log('userTotals');
-    console.log(userTotals);
 //---------------------------------------------------------------------------------------
 
 
@@ -169,9 +163,6 @@ const adminDataCalcs =(orders, filter)=>{
     let averageOrderValue = totalRevenue / numberOfOrders;
 // -------------------------------------------------------------------------------------------------------------------------------
     // Extract an array of unique years from orders
-    
-    console.log('orderYears');
-    console.log(orderYears);
 
     return {topUsers, topProducts, topQuantityProducts, mostSoldCategory, bestMonth, averageOrderValue, orderYears, monthNames}
 

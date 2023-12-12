@@ -173,7 +173,6 @@ export const cleanSingleProd = () => {
 };
 export const deleteProduct = (id) => {
   return async (dispatch) => {
-    console.log(id);
     try {
       await axios.delete(`/products`, {
         data: { id },
@@ -607,13 +606,6 @@ export const createOrder = (paymentResults) => {
 };
 
 export const postReview = (review) => {
-  console.log("Estas son mis review");
-  console.log(
-    review.UserId,
-    review.reviewText,
-    review.rating,
-    review.productId
-  );
   return async (dispatch) => {
     try {
       const { data } = await axios.post(`/reviews/create`, {
@@ -622,7 +614,6 @@ export const postReview = (review) => {
         rating: review.rating,
         productId: review.productId,
       });
-      console.log("data ", data);
       dispatch({
         type: SENDREVIEWPRODUCT,
         payload: data,

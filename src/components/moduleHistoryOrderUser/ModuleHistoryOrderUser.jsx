@@ -30,7 +30,6 @@ const ModuleHistoryOrderUser =({idProp}) =>{
     },[dispatch])
 
     const handleSeeDetail = (order) => {
-      console.log("Order itemsCart:", order.itemsCart);
       setSelectedOrder(order);
   };
     const handleClosePopup = () => {

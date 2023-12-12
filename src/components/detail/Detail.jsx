@@ -93,8 +93,6 @@ const Detail = () => {
     };
   }, [dispatch, id]);
 
-  console.log("Detail del producto ", product);
-
   useEffect(() => {
     if (id && !productLoaded && prodById?.nameProd) {
       setProduct({
