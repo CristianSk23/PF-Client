@@ -1,7 +1,7 @@
 
 import { removeOneCart, increaseQuantity, decreaseQuantity, getCartById } from "../../redux/action/actions"
 import { useSelector } from "react-redux/es/hooks/useSelector"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { Link } from 'react-router-dom';
 import NavBar from "../navBar/NavBar";
@@ -10,6 +10,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth0 } from "@auth0/auth0-react";
+import ErrorView from "../error404/Error404";
 
 
 const ShoppingCart = ({}) => {
@@ -20,6 +22,9 @@ const ShoppingCart = ({}) => {
 
  const products = useSelector((state) => state.cart.items)
  const userID = useSelector((state) => state.user.id)
+
+ const isUser = useSelector((state) => state.isUser)
+ const {isAuthenticated, isLoading} = useAuth0()
  
 
  useEffect(() => {
@@ -85,12 +90,21 @@ const ShoppingCart = ({}) => {
     return ""
   }
 
+if(!isLoading && !isAuthenticated && isUser === "Invited"){
+    return(
+        <div>
+            <ErrorView/>
+        </div>
+    )
+}
+
+
   
  return(
- <div style={{backgroundColor:"#F8F9F9", minHeight:"800px", minWidth:"1550px"}}>
+ <div style={{backgroundColor:"#F8F9F9", minHeight:"750px", minWidth:"1550px"}}>
     <NavBar/>
       {products.length > 0 && (
-                <div className="container" style={{marginTop: "56px"}}>
+                <div className="container" style={{marginTop: "62px"}}>
                 <h1 style={{textAlign:"center", marginBottom:"40px"}}>Shopping Cart</h1>
                 <p style={{"color": "red"}}>{handleStock()}</p>
                 <table className="table table-hover">
@@ -184,6 +198,7 @@ const ShoppingCart = ({}) => {
         </div>
     </div>
     )}
+
 </div>
 
 )}

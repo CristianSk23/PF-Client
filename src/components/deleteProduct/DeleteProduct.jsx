@@ -5,12 +5,17 @@ import { useEffect, useState } from "react";
 import styles from "./deleteProduct.module.css";
 import NavBar from "../navBar/NavBar";
 import PopupGeneral from "../popupGeneral/PopupGeneral";
+import { useAuth0 } from "@auth0/auth0-react";
+import ErrorView from "../error404/Error404";
 
 const DeleteProduct = () => {
   const { id } = useParams();
   const prodById = useSelector((state) => state.products.singleProduct);
+  const isUser = useSelector((state) => state.isUser);
+  const {isAuthenticated, isLoading} = useAuth0()
   const [productLoaded, setProductLoaded] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [user, setUser] = useState(false)
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -46,7 +51,15 @@ const DeleteProduct = () => {
     navigate(-1);
   };
 
-  return (
+  if(!isLoading && ((!isAuthenticated && isUser !== "Admin") || isUser === "User")){
+    return(
+      <div>
+        <ErrorView />
+      </div>
+    )
+  }
+
+  return (!isLoading &&
     <div style={{backgroundColor: "#F8F9F9", minHeight:"700px"}}>
       <NavBar />
     <div className={styles.container}>

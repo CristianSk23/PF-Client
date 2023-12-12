@@ -5,30 +5,46 @@ import { postReview } from "../../redux/action/actions";
 import { useNavigate } from "react-router-dom";
 import StarRating from "../starRating/StarRating";
 import { CloseButton } from "react-bootstrap";
+import { faL } from "@fortawesome/free-solid-svg-icons";
+import { getOrdersByUserId } from "../../redux/action/actions";
+import { toast } from "react-toastify";
 
 const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
   const isUser = useSelector((state) => state.isUser);
   const user = useSelector((state) => state.user.email);
   const [reviews, setReviews] = useState([]);
+  const [send, setSend] = useState(false);
   const products = orderDetails;
   const dispatch = useDispatch();
 
-  const sendReview = () => {
+  const sendReview = async () => {
     const updatedReviews = reviews.map((review) => ({
       ...review,
-      UserId: idUser,
+      UserId: idUser.toString(),
       email: user,
       rating: review.rating?.toString() || "0",
       reviewText: review.reviewText || "",
     }));
 
     setReviews(updatedReviews);
-    console.log("Sending review for product:", updatedReviews);
 
-    updatedReviews.forEach((updatedReview) => {
-      dispatch(postReview(updatedReview));
-    });
+    for (const updatedReview of updatedReviews) {
+      await dispatch(postReview(updatedReview));
+      toast.success("Review added successfully!", {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        // theme: "dark",
+        // theme: "light",
+      });
+    }
     onClose();
+    dispatch(getOrdersByUserId(idUser));
   };
 
   const existingReview = (productId) => {
@@ -188,7 +204,11 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
                                   existingReview(product.id)?.rating || 0
                                 }
                                 onSelectStar={(rating) =>
-                                  handleStarRating(product.id, rating)
+                                  handleStarRating(
+                                    product.id,
+                                    rating,
+                                    setSend(true)
+                                  )
                                 }
                                 isSelect={true}
                               />
@@ -210,31 +230,16 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
                   ))}
               </tbody>
             </table>
-
-            {Array.isArray(orderDetails) &&
-              orderDetails.map((product) => (
-                <tr>
-                  <td className={styles.td}>
-                    {product?.reviews.filter(
-                      (review) => review.idUser == idUser
-                    ).length > 0 ? (
-                      <div>
-                      </div>
-                    ) : (
-                      <div className="d-grid gap-2 col-3 mx-auto">
-                        <button
-                          className="btn btn-primary"
-                          type="button"
-                          onClick={sendReview}
-                          style={{ marginTop: "5px" }}
-                        >
-                          Send review
-                        </button>
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              ))}
+            {send && (
+              <button
+                className="btn btn-primary"
+                type="button"
+                onClick={sendReview}
+                style={{ marginTop: "5px" }}
+              >
+                Send review
+              </button>
+            )}
           </div>
         </div>
       )}
