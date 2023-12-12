@@ -1,7 +1,7 @@
 import styles from "./createProduct.module.css";
 import validation from "./validation";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { createProduct, getProdCategories } from "../../redux/action/actions";
 import { Image } from "cloudinary-react";
 import {
@@ -16,6 +16,7 @@ import NavBar from "../navBar/NavBar";
 import ErrorView from "../error404/Error404";
 import { toast } from "react-toastify";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router";
 
 const CreateProduct = () => {
   const dispatch = useDispatch();

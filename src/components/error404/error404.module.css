@@ -20,12 +20,12 @@
     background-color: #333333;
 }
 
-.container {
+.container, .container:after {
     padding: 69px; 
     color: #ffffff; 
     background-color: rgba(0, 0, 0, 0.7); 
     border-radius: 10px;
-    transition: transform 0.8s;
+    transition: transform 0.8s, background-color 0.5s, box-shadow 0.5s, color 0.7s, margin 0.5s;
 }
 
 .container:hover {
@@ -38,11 +38,12 @@
     transform: scale(1);
 }
 
-.card {
+.card, .card:after {
     background-color: rgba(0, 0, 0, 0.7);
     color: whitesmoke;
     padding: 40px;
     border-radius: 10px;
+    transition: background-color 0.7s, box-shadow 0.5s, color 0.7s, margin 0.5s
   }
 
 .card:hover {
@@ -54,9 +55,10 @@
     transition: background-color 0.7s, box-shadow 0.5s, color 0.7s, margin 0.5s;
 }
 
-.link {
+.link, .link:after {
     color: rgb(255, 255, 255);
     text-decoration: none;
+    transition: text-shadow 0.5s, color 0.7s, margin 0.5s;
   }
 
   .link:hover {

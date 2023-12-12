@@ -86,14 +86,7 @@ const MyProfile = () => {
         navigate(-1);
       };
 
-      if(!isLoading && !isAuthenticated && isUser === "Invited"){
-        return(
-          <div>
-            <ErrorView />
-          </div>
-        )
-      }
-
+    if(!isLoading && isUser !== "Invited" && isAuthenticated){
     return !auxUpdateUser ? (!isLoading &&
         <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
         <Container >
@@ -223,7 +216,13 @@ const MyProfile = () => {
         </Button>
         {/*<a className="w-100 btn btn-danger btn-lg" type="button"  style={{marginTop:"8px"}} onClick={ handleCancel }>Back</a>*/}
         </div>
-    )
+    )} else if (!isAuthenticated){
+        return(
+            <div>
+                <ErrorView />
+            </div>
+        )
+    }
     
 };
 
