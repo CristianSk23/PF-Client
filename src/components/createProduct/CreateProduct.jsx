@@ -23,11 +23,8 @@ const CreateProduct = () => {
   const prodCategories = useSelector((state) => state.prodCategories);
   const allProducts = useSelector((state) => state.products?.allProducts);
   const isUser = useSelector((state) => state.isUser)
-<<<<<<< HEAD
   const {isAuthenticated, isLoading} = useAuth0()
   const navigate = useNavigate();
-=======
->>>>>>> develop
   const [errors, setErrors] = useState({});
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isFile, setIsFile] = useState(false);
