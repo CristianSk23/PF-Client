@@ -5,7 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getProdCategories, logOut } from "../../redux/action/actions";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import logoImage from "../../assets/Logo.png";
+
+
 
 const NavBar = ({ onSearch, filterCond }) => {
   const [name, setName] = useState("");
@@ -50,9 +54,18 @@ const NavBar = ({ onSearch, filterCond }) => {
   return (
     <nav className="navbar navbar-dark bg-dark fixed-top">
     <div className="container-fluid">
-      <a className="navbar-brand" href="/">Logo</a>
+      <a className="navbar-brand" href="/">
+      <img
+        src={logoImage}
+        alt="Logo"
+        width="150"
+        height="auto"
+        className="d-inline-block align-top"
+      />
+      </a>
       {isLandingPage && (
-      <div className="d-flex" role="search">
+      <div className="d-flex align-items-center">
+      <div className="d-flex mx-auto" role="search">
           <input id="search" value={name} className="form-control me-2" type="search" placeholder="Product name..." aria-label="Search" onChange={handleChange}/>
           <button className="btn btn-outline-light" disabled={name == ""} onClick={() => {
           onSearch(name);
@@ -62,23 +75,12 @@ const NavBar = ({ onSearch, filterCond }) => {
             icon={faMagnifyingGlass}
           />
           </button>
-          <div style={{"text-align": "right"}}>
-            <Link to={"/shopping"}>
-            <button style={{"background-color": "white",
-                            color: "black",
-                            padding: "10px 15px",
-                            border: "none",
-                            "border-radius": "5px",
-                            cursor: "pointer",
-                            }}>
-              My Cart <FontAwesomeIcon icon={faCartShopping} />
-            </button>
-            </Link>
-          </div>
+      </div>
       </div>
       )}
       {isAdminPanel && (
-      <div className="d-flex" role="search">
+      <div className="d-flex align-items-center">
+      <div className="d-flex mx-auto" role="search">
           <input id="search" value={name} className="form-control me-2" type="search" placeholder="Product name..." aria-label="Search" onChange={handleChange}/>
           <button className="btn btn-outline-light" disabled={name == ""} onClick={() => {
           onSearch(name);
@@ -89,10 +91,21 @@ const NavBar = ({ onSearch, filterCond }) => {
           />
           </button>
       </div>
+      </div>
       )}
-      <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
-      </button>
+        <div className="d-flex align-items-center">
+        { isUser === "User" && (
+          <button className="btn btn-outline-light" style={{marginRight:"5px"}}>
+          <Link to="/shopping" style={{textDecoration: 'none', color: 'inherit'}}>
+            <FontAwesomeIcon icon={faShoppingCart} />
+          </Link>
+          </button>
+        )}
+
+          <button className="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation" >
+            <span className="navbar-toggler-icon" ></span>
+          </button>
+        </div>
       <div className="offcanvas offcanvas-end text-bg-dark" tabIndex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
         <div className="offcanvas-header">
           <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel">Options</h5>
@@ -108,6 +121,7 @@ const NavBar = ({ onSearch, filterCond }) => {
                     Hola {user.email}
                   </a>
                   <ul className="dropdown-menu dropdown-menu-dark">
+                  <li><a className="dropdown-item" href="/productsList">My Products</a></li>
                   <li><a className="dropdown-item" href="/createProduct">Create Product</a></li>
                   {!isAuthenticated && <li><a className="dropdown-item" onClick={handleLogin}>Login</a></li>}
                   {isAuthenticated && <li><a href="/myProfile" className="dropdown-item" >My Account</a></li>}

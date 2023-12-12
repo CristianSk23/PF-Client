@@ -1,5 +1,5 @@
 
-import { removeOneCart, increaseQuantity, decreaseQuantity } from "../../redux/action/actions"
+import { removeOneCart, increaseQuantity, decreaseQuantity, getCartById } from "../../redux/action/actions"
 import { useSelector } from "react-redux/es/hooks/useSelector"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
@@ -9,6 +9,7 @@ import styles from "./shoppingCart.module.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 
 const ShoppingCart = ({}) => {
@@ -20,8 +21,10 @@ const ShoppingCart = ({}) => {
  const products = useSelector((state) => state.cart.items)
  const userID = useSelector((state) => state.user.id)
  
+
  useEffect(() => {
-  }, [products]);
+    userID && dispatch(getCartById(userID))
+  }, [userID]);
 
   const totalCart = products.reduce((accumulator, item) => {
     let newPrice = item.priceOnSale || item.price;
@@ -30,6 +33,18 @@ const ShoppingCart = ({}) => {
 
  const DeleteCart = (productsid, nameProd, userID) => {
     dispatch(removeOneCart(productsid, nameProd, userID))
+    toast.success('Product has been removed from cart!', {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        // theme: "dark",
+        // theme: "light",
+        });
  }
 
  const IncreaseQuantity = (userID, productsid, quantityPROD) => {
@@ -112,7 +127,7 @@ const ShoppingCart = ({}) => {
                     })                   
                     }
                     <tr>
-                    <td align="center" colSpan="6"><strong>Total Carts: ${totalCart}</strong></td>
+                    <td align="center" colSpan="6" style={{fontSize:"20px"}}><strong>Cart Total: ${totalCart}</strong></td>
                     </tr>
                     </tbody>
                 </table>

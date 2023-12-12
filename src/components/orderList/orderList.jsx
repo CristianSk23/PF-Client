@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { allOrders, filterOrderPurchase, updateOrderStatus } from "../../redux/action/actions";
 import UserPurchaseHistory from "./userPurchaseHistory";
 import styles from "./orderList.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 export default function OrderList() {
   const dispatch = useDispatch();
@@ -52,9 +54,20 @@ export default function OrderList() {
       {visibleModal && (
         <UserPurchaseHistory closeModal={openModal} data={actualData} />
       )}
-      <h5>Orders list:</h5>
-      <input type="text" onChange={handleChange} value={name} />
-      <button onClick={search}>Search</button>
+      <h5>Orders List:</h5>
+      <div style={{display: "flex", justifyContent: "flex-end", paddingBottom:"10px" }}> 
+      <select className="form-select" aria-label="Default select example" style={{width:"200px", margin:"2px"}}>
+          <option selected hidden disabled>Select status</option> {/* DARLE FUNCIONABILIDAD AL SELECT */}
+          <option value="0">All</option>
+          <option value="1">Approved</option>
+          <option value="2">Pending</option>
+          <option value="3">Rejected</option>
+      </select>
+        <input type="text" onChange={handleChange} value={name} placeholder="Inserte dato..." style={{margin:"2px", borderRadius:"8px"}}/>
+        {/* Modificar el place holder segun el dato que vayamos a pedir finalmente ahi */}
+        <button onClick={search} style={{ margin:"2px"}}><FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "#000000",}} /></button>
+      </div>
+
       <table className="table table-hover">
         <thead>
           <tr>
@@ -101,8 +114,8 @@ export default function OrderList() {
                   </select>
                 </td>
                 <td className={styles.td}>${order.totalPrice.toFixed(2)}</td>
-                <td className={styles.td}>
-                  <button onClick={openModal} value={order.id}>
+                <td className={styles.td}> {/*BOTON CON ESTILADO DE LINK*/}
+                  <button className={styles.button} onClick={openModal} value={order.id}>
                     See Detail
                   </button>
                 </td>

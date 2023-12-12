@@ -14,8 +14,8 @@ const ModuleHistoryOrderUser =({idProp}) =>{
     const dispatch = useDispatch()
     const ordersById = useSelector((state) => state.ordersForUserId) || [];
     const [selectedOrder, setSelectedOrder] = useState(null);
+    const isUser = useSelector((state) => state.isUser);
     const navigate = useNavigate();
-    
     
     useEffect(() => {
       if (id != undefined){
@@ -27,9 +27,9 @@ const ModuleHistoryOrderUser =({idProp}) =>{
     },[dispatch])
 
     const handleSeeDetail = (order) => {
-        setSelectedOrder(order);
-      };
-
+      console.log("Order itemsCart:", order.itemsCart);
+      setSelectedOrder(order);
+  };
     const handleClosePopup = () => {
         setSelectedOrder(null);
     };
@@ -39,11 +39,13 @@ const ModuleHistoryOrderUser =({idProp}) =>{
     };
 
     return(
+      <div>
+      {isUser === "Admin" ? (
         <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
-          <Container>
-          <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 className="h2"><FontAwesomeIcon icon={faClipboard} /> {ordersById[0]?.userName} Purchase History</h1>
-          </div>
+        <Container>
+        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 className="h2"><FontAwesomeIcon icon={faClipboard} /> Orders list for user {ordersById[0]?.userName}</h1>
+        </div>
         <table className="table table-hover">
             <thead>
                 <tr>
@@ -83,6 +85,50 @@ const ModuleHistoryOrderUser =({idProp}) =>{
         </div>
       </Container>
     </div>
+      ) : (
+        <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
+        <Container>
+        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 className="h2"><FontAwesomeIcon icon={faClipboard} /> Your Orders {ordersById[0]?.userName}</h1>
+        </div>
+        <table className="table table-hover">    
+            <thead>
+                <tr>
+                <th className={styles.th} scope="col">Number order</th>
+                <th className={styles.th} scope="col">Order Date</th>
+                <th className={styles.th} scope="col">Delivery Status</th>
+                <th className={styles.th} scope="col">Total Amount</th>
+                <th className={styles.th} scope="col">Order</th>
+                </tr>
+            </thead>
+                <tbody>
+                    {ordersById?.map((order) =>(<tr key={order.id}>
+                    <td className={styles.td}>{order.id}</td>
+                    <td className={styles.td}>{order.orderDate}</td>
+                    <td className={styles.td}>{order.deliveryStatus}</td>
+                    <td className={styles.td}>${parseFloat(order.totalPrice).toFixed(2)}</td>
+                    <td className={styles.td}><span onClick={() => handleSeeDetail(JSON.parse(order.itemsCart))}>See detail</span></td>
+                </tr>))}
+                {ordersById.length == 0 && 
+                <tr key="na">
+                <td>To date there are no purchase orders</td>
+                </tr>}
+              </tbody>
+        </table>
+        {selectedOrder && (
+        <OrderDetailUserByIdPopup
+          orderDetails={selectedOrder}
+          onClose={handleClosePopup}
+          idUser={idProp || id}
+        />
+      )}
+        <div className="d-grid gap-2">
+          <a className="btn btn-danger" type="button" onClick={ handleCancel }>Back</a>
+        </div>
+      </Container>
+    </div>
+      )}
+        </div>
     )
 }
 

@@ -6,12 +6,15 @@ import { updateUser } from "../../redux/action/actions";
 import styles from "./paymentGateway.module.css"; 
 import RingLoader  from "react-spinners/RingLoader"; // spinner para el loading 
 import axios from "axios"; // hay que hacer redux. hasta entonces, no eliminar
+import { useNavigate } from "react-router-dom";
+import logoImage from "../../assets/Logo.png";
 
 const PaymentGateway=()=>{
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart)
   const userInSession = useSelector((state) => state.user)
   const catchError = useSelector((state) => state.catchError)
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [userInfo, setUserInfo] = useState({
         id: userInSession?.id || "", 
@@ -22,7 +25,9 @@ const PaymentGateway=()=>{
         phone: userInSession?.phone || "",
         identityCard: userInSession?.identityCard || "",
         postalCode: userInSession?.postalCode || "",
-        city: userInSession?.city || ""
+        city: userInSession?.city || "",
+        active: userInSession?.active,
+        typeUser: userInSession?.typeUser,
   })
 
   const totalCart = cart.items.reduce((accumulator, item) => {
@@ -30,13 +35,7 @@ const PaymentGateway=()=>{
     return accumulator + newPrice * item.quantity;
   }, 0).toFixed(2);
 
-  useEffect(() => {
-    console.log('userInfo');
-    console.log(userInSession);
-    console.log('cart');
-    console.log(cart);
-    return ()=> setLoading(false)
-  }, []);   
+
 
   const handleChange = (event) =>{
     setUserInfo({
@@ -71,6 +70,9 @@ const PaymentGateway=()=>{
         userInfo.postalCode != userInSession?.postalCode || 
         userInfo.city != userInSession?.city)
     {
+      console.log('entro a actualizar User');
+      console.log(userInfo);
+
       dispatch(updateUser(userInfo))
     }
     // VER DE AGREGAR INFORMACION PARA EL CART DE Mercadopago. Ej address,phone etc.
@@ -91,23 +93,33 @@ const PaymentGateway=()=>{
     }
     //------------------------------------------------------------------------------
 
-
+    console.log('CatchError');
+    console.log(catchError);
     if(catchError===""){
+      console.log('Creo la Order');
+      console.log(newOrder);
       axios
       .post("/payments/createOrder", newOrder)
       .then((response) => {
           window.location.href = response.data.init_point;
+          setLoading(false) 
       })
-      .catch((error) => (error));
+      .catch((error) => {
+        setLoading(false)
+        console.log(error)
+      });
     }
-    setLoading(false)   
   }
+
+  const handleCancel = () => {
+    navigate(-1);
+  };
 
     return(
       <div className="container">  
           <div className="py-5 text-center">
-            <img className="d-block mx-auto mb-4" src="" alt="" width="72" height="57"/>
-            <h2>Checkout form</h2>
+            <img className="d-block mx-auto mb-4" src={logoImage} alt="logo" height="57px"/>
+            <h2 style={{marginTop:"-20px"}}>Checkout form</h2>
           </div>
 
           <div className="row g-5">
@@ -191,7 +203,7 @@ const PaymentGateway=()=>{
                   </div>
 
 
-                  <div className="col-md-4">
+                  <div className="col-md-6">
                     <label className="form-label">City</label>
                     <input type="text" className="form-control" id="city" name="city" value={userInfo.city} onChange={handleChange} required/>
                     <div className="invalid-feedback">
@@ -199,7 +211,7 @@ const PaymentGateway=()=>{
                     </div>
                   </div>
 
-                  <div className="col-md-3">
+                  <div className="col-md-6">
                     <label className="form-label">Postal Code</label>
                     <input type="number" className="form-control" id="postalCode" placeholder="" name="postalCode" value={userInfo.postalCode} onChange={handleChange} required/>
                     <div className="invalid-feedback">
@@ -221,6 +233,7 @@ const PaymentGateway=()=>{
                 <hr className="my-4"/>
                 
                 <button className="w-100 btn btn-primary btn-lg" type="submit" >Continue to pay</button>
+                <a className="w-100 btn btn-danger btn-lg" type="button"  style={{marginTop:"8px"}} onClick={ handleCancel }>Back</a>
               </form>
             </div>
           </div>

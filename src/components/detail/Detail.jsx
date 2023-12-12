@@ -3,18 +3,21 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import Fireworks from 'react-fireworks';
+import Fireworks from "react-fireworks";
 import {
   getProductsById,
   cleanSingleProd,
   addToCart,
 } from "../../redux/action/actions";
 import NavBar from "../navBar/NavBar";
+import StarRating from "./startCont"; //* Agregado para mostrar el rating en forma de estrella
+import { toast } from "react-toastify";
 
 const Detail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const prodById = useSelector((state) => state.products.singleProduct);
+  const isUser = useSelector((state) => state.isUser);
   const dispatch = useDispatch();
   const [productLoaded, setProductLoaded] = useState(false);
   const [product, setProduct] = useState({
@@ -25,6 +28,7 @@ const Detail = () => {
     price: 0,
     discountPercentage: 0,
     image: [],
+    reviews: [],
     active: false,
     tags: "None",
     stock: 0,
@@ -37,6 +41,18 @@ const Detail = () => {
 
   const handleBuy = () => {
     dispatch(addToCart(id));
+    toast.success('Product added to cart!', {
+      position: "bottom-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      // theme: "dark",
+      // theme: "light",
+      });
   };
 
   useEffect(() => {
@@ -58,6 +74,7 @@ const Detail = () => {
         price: 0,
         discountPercentage: 0,
         image: [],
+        reviews: [],
         active: false,
         tags: "None",
         stock: 0,
@@ -66,6 +83,8 @@ const Detail = () => {
       dispatch(cleanSingleProd());
     };
   }, [dispatch, id]);
+
+  console.log("Detail del producto ", product);
 
   useEffect(() => {
     if (id && !productLoaded && prodById?.nameProd) {
@@ -77,6 +96,7 @@ const Detail = () => {
         price: prodById.price || 0,
         discountPercentage: prodById.discountPercentage || 0,
         image: prodById.image || [],
+        reviews: prodById.reviews || [],
         active: prodById.active.toString() || "true",
         tags: prodById.tags || "None",
         stock: prodById.stock || 0,
@@ -88,6 +108,7 @@ const Detail = () => {
 
   return (
     <div>
+      
       <NavBar />
       <div style={{ backgroundColor: "#F8F9F9", minHeight: "100vh" }}>
         <div className="d-flex align-items-center justify-content-center">
@@ -172,29 +193,41 @@ const Detail = () => {
                     <span style={{ fontWeight: "bold" }}>Stock:</span>{" "}
                     {product.stock}
                   </p>
-                  <p>
-                  </p>
+                  <p></p>
                   <p className="card-text">
                     <span style={{ fontWeight: "bold" }}>Price:</span>{" "}
                     {product.discountPercentage > 0 ? (
                       <>
-                        <span style={{ textDecoration: "line-through", color: "red" }}>
+                        <span
+                          style={{
+                            textDecoration: "line-through",
+                            color: "red",
+                          }}
+                        >
                           ${product.price}
                         </span>
-                        <span style={{ fontWeight: "bold", color: "green", marginLeft:"10px" }}>
+                        <span
+                          style={{
+                            fontWeight: "bold",
+                            color: "green",
+                            marginLeft: "10px",
+                          }}
+                        >
                           {product.discountPercentage}% OFF
                         </span>
-                        <p className="card-text" style={{marginTop:"15px"}}>
-                        <span style={{ fontWeight: "bold" }}>
-                          Price On Sale:
-                        </span>{" "}
-                        ${product.priceOnSale}
+                        <p className="card-text" style={{ marginTop: "15px" }}>
+                          <span style={{ fontWeight: "bold" }}>
+                            Price On Sale:
+                          </span>{" "}
+                          ${product.priceOnSale}
                         </p>
                       </>
                     ) : (
                       `$ ${product.price}`
                     )}
                   </p>
+                  {isUser === "Admin" ? (<div></div>): (
+                  <div>
                   <a
                     className="btn btn-success"
                     style={{
@@ -209,6 +242,8 @@ const Detail = () => {
                   >
                     <FontAwesomeIcon icon={faCartShopping} />
                   </a>
+                  </div>
+                  )}
                   <a
                     onClick={handleCancel}
                     className="btn btn-light"
@@ -226,6 +261,23 @@ const Detail = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="d-flex align-items-center justify-content-center">
+          <p className="card-text">
+            <h3>REVIEWS</h3>
+            {product.reviews && product.reviews.length > 0 ? (
+              product.reviews.map((review, index) => (
+                <div key={index}>
+                  <h3>{review.name}</h3>
+                  <StarRating rating={review.rating} />
+                  <p>{review.comment}</p>
+                </div>
+              ))
+            ) : (
+              <p>No reviews available.</p>
+            )}
+          </p>
         </div>
       </div>
     </div>

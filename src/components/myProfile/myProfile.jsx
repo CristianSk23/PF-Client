@@ -119,7 +119,8 @@ const MyProfile = () => {
             </Row>
         </Container>
         <br /><hr />
-        <ModuleHistoryOrderUser idProp={isuser?.id}/>
+        {isuser?.id && <ModuleHistoryOrderUser idProp={isuser?.id}/>}
+        <a className="w-100 btn btn-danger btn-lg" type="button"  style={{marginTop:"8px"}} onClick={ handleCancel }>Back</a>
         </div>
     ) :
     auxUpdateUser && (
@@ -210,8 +211,10 @@ const MyProfile = () => {
         >
         Cancel
         </Button>
+        <a className="w-100 btn btn-danger btn-lg" type="button"  style={{marginTop:"8px"}} onClick={ handleCancel }>Back</a>
         </div>
     )
+    
 };
 
 export default MyProfile;

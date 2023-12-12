@@ -1,22 +1,32 @@
-import orders from '../../../assets/orderData' //ELIMINAR CUANDO SE TENGA LA INFO DE LAS ORDENES EN STATE
+
 import calculateData from './claculateData';
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BarGraphics from '../../BarGraphic/BarGraphic';
 import LineGraph from '../../LineGraph/LineGraph';
-import { getProdCategories } from '../../../redux/action/actions';
+import { getProdCategories, allOrders } from '../../../redux/action/actions';
 import { Link } from "react-router-dom";
 
 const SalesHistory = () =>{
-    // const orders = useSelector((state)=> state.orders)
+    const orders = useSelector((state)=> state.orderHistoryCache);
     const prodCategories = useSelector((state) => state.prodCategories);
     const [filter, setFilter] = useState({year:"all", month:"all"})
     const [graphData, setGraphData] = useState({yearBarData:{}, monthBarData:{}, lineData:{}, itemsData:[], years:[] })
     const dispatch = useDispatch();
-    const monthsText = [
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-      ];
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (prodCategories.length === 0) {
+                dispatch(getProdCategories());
+            }
+            dispatch(allOrders());
+            setGraphData(calculateData(orders, filter));
+        };
+    
+        fetchData();
+    }, [filter, dispatch]);
+
 
     const handleChange = (event) => {
         setGraphData({yearBarData:{}, monthBarData:{}, lineData:{}, itemsData:[], years:[] })
@@ -29,27 +39,15 @@ const SalesHistory = () =>{
           ...filter,
           [event.target.name]: event.target.value,
         });
-
+console.log(monthBarData);
         setGraphData({ yearBarData, monthBarData, lineData, itemsData, years});
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            if (prodCategories.length === 0) {
-
-                dispatch(getProdCategories());
-            }
-
-            setGraphData(calculateData(orders, filter));
-        };
-    
-        fetchData();
-    }, [filter]);
     
 
     return(
         <div>
-
+        <div className="row">
             <div className="col-sm">
                 <select name="year" defaultValue="all" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleChange}>
                     <option value="all" disabled hidden>Year</option>
@@ -63,7 +61,9 @@ const SalesHistory = () =>{
                     })}
                 </select>
             </div>
-            
+        </div> 
+
+        <div className='row'>
             <div className="col-sm">
                 {graphData.yearBarData.datasets?.length > 0 ? (
                 <BarGraphics data={graphData?.yearBarData} />
@@ -71,6 +71,8 @@ const SalesHistory = () =>{
                 <p>Loading Line Chart...</p>
                 )}
             </div>
+
+            <hr />
 
             <div className="col-sm">
                 {graphData.monthBarData.datasets?.length > 0 ? (
@@ -80,6 +82,8 @@ const SalesHistory = () =>{
                 )}
             </div>
 
+            <hr />
+
             <div className="col-sm">
                 {graphData.lineData.datasets?.length > 0 ? (
                 <LineGraph data={graphData?.lineData} />
@@ -87,7 +91,9 @@ const SalesHistory = () =>{
                 <p>Loading Line Chart...</p>
                 )}
             </div>
+        </div>
 
+        <div className='row'>
             <div className="col-sm">
                 <h3>Raw Data totals: {}</h3>
                 <table className="table table-bordered">
@@ -126,7 +132,7 @@ const SalesHistory = () =>{
                 </tbody>
                 </table>
             </div>
-
+        </div>
         </div>
     )
 

@@ -12,6 +12,8 @@ import Cards from "../cards/Cards";
 import styles from "./landingPage.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
+import { Carousel } from "react-bootstrap";
+import Footer from "../Footer/Footer";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -61,6 +63,49 @@ const LandingPage = () => {
 
        
 {shouldRenderPromotionPopup && <PromotionPopup />}
+
+<Carousel style={{marginTop:"55px"}}>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src="https://images.fravega.com/f300/097a440178590fd98040afa5aea7ce48.jpg" 
+            alt="First slide"
+            style={{ maxWidth: "100%", height: "400px", objectFit: "cover" }}
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src="https://images.fravega.com/f300/a0ee87234cb6af25219a71973dd76de4.jpg" 
+            alt="Second slide"
+            style={{ maxWidth: "100%", height: "400px", objectFit: "cover" }}
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src="https://jugueteriascarrousel.com.ar/wp-content/uploads/2023/06/Recurso-5.webp" 
+            alt="Third slide"
+            style={{ maxWidth: "100%", height: "400px", objectFit: "cover" }}
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src="https://jugueteriascarrousel.com.ar/wp-content/uploads/2023/07/bannersok-bancos.jpg" 
+            alt="Quarter slide"
+            style={{ maxWidth: "100%", height: "400px", objectFit: "cover" }}
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src="https://senseiar.vteximg.com.br/arquivos/ids/160651/banner%20COTIZACION.png?v=638042853101730000" 
+            alt="Fifth slide"
+            style={{ maxWidth: "100%", height: "400px", objectFit: "cover" }}
+          />
+        </Carousel.Item>
+      </Carousel>
       
 
       <NavBar
@@ -71,7 +116,7 @@ const LandingPage = () => {
           aux={aux}
         />
 
-<FilterAndOrder
+      <FilterAndOrder
           setFilterCond={setFilterCond}
           filterCond={filterCond}
           setAux={setAux}
@@ -115,6 +160,7 @@ const LandingPage = () => {
           </li>
         </ul>
       </nav>
+      <Footer />
     </div>
   );
 };
