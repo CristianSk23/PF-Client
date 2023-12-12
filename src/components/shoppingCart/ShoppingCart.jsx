@@ -69,7 +69,19 @@ const ShoppingCart = ({}) => {
 
   const handleStock = () => {
     if (stock === "MAX") {
-        return "There are no more units available for this product"
+        // return "There are no more units available for this product"
+        toast.warning("There are no more units available for this product", {
+            position: "bottom-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            // theme: "dark",
+            // theme: "light",
+            });
     } 
     return ""
   }
