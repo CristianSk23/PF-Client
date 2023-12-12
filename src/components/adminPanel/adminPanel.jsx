@@ -41,6 +41,7 @@ export default function AdminPanel() {
     const handleLogout = async() => {
       try {
         await logout({ logoutParams: { returnTo: window.location.origin } })
+        navigator('/')
         dispatch(logOut())
       } catch (error) {
         console.error('Error during logout:', error);
