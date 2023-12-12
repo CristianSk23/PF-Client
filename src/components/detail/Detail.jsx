@@ -16,9 +16,11 @@ import { toast } from "react-toastify";
 const Detail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const products = useSelector((state) => state.cart.items)
   const prodById = useSelector((state) => state.products.singleProduct);
   const isUser = useSelector((state) => state.isUser);
   const dispatch = useDispatch();
+  const userID = useSelector((state) => state.user.id)
   const [productLoaded, setProductLoaded] = useState(false);
   const [product, setProduct] = useState({
     name: "",
@@ -40,7 +42,14 @@ const Detail = () => {
   };
 
   const handleBuy = () => {
-    dispatch(addToCart(id));
+  
+    let clickedProduct = products.find((item)=> item.id == prodById.id)
+    console.log('************************************');
+    console.log(userID,);
+    console.log(prodById.id);
+    console.log(clickedProduct?.quantity);
+    console.log('************************************');
+    dispatch(addToCart(userID, prodById.id, (clickedProduct?.quantity + 1 || 1))),
     toast.success('Product added to cart!', {
       position: "bottom-right",
       autoClose: 2000,
@@ -87,6 +96,7 @@ const Detail = () => {
   useEffect(() => {
     if (id && !productLoaded && prodById?.nameProd) {
       setProduct({
+        id: prodById.id,
         name: prodById.nameProd || "",
         category: prodById.category || "",
         brand: prodById.brand || "",

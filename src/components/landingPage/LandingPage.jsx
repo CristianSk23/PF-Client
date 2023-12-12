@@ -20,6 +20,8 @@ import image3 from "../../assets/image3.png";
 import image4 from "../../assets/image4.png";
 import image5 from "../../assets/image5.png";
 
+import { useAuth0 } from "@auth0/auth0-react";
+import { toast } from "react-toastify";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -28,6 +30,8 @@ const LandingPage = () => {
   const [navBarHeight, setNavBarHeight] = useState(0);
   const [shouldRenderPromotionPopup, setShouldRenderPromotionPopup] =
     useState(false);
+  const {isAuthenticated, loginWithRedirect, AuthenticationError} = useAuth0()
+
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
   };
@@ -39,6 +43,26 @@ const LandingPage = () => {
       setShouldRenderPromotionPopup(true);
     }
   }, [isUser]);
+
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get("error");
+    const errorDescription = urlParams.get("error_description");
+
+    if (error && errorDescription) {
+      toast.warn(`Please verify your email and Try to Login Again`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(getAllProducts());

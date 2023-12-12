@@ -8,8 +8,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboard } from "@fortawesome/free-solid-svg-icons";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import ErrorView from "../error404/Error404";
 
 const ModuleHistoryOrderUser =({idProp}) =>{
+    const {isAuthenticated, isLoading} = useAuth0()
     const { id } = useParams();
     const dispatch = useDispatch()
     const ordersById = useSelector((state) => state.ordersForUserId) || [];
@@ -37,7 +40,15 @@ const ModuleHistoryOrderUser =({idProp}) =>{
       navigate(-1);
     };
 
-    return(
+    if(!isLoading && ((!isAuthenticated && isUser !== "Admin") || isUser === "User")){
+      return(
+        <div>
+          <ErrorView/>
+        </div>
+      )
+    }
+
+    return(!isLoading &&
       <div>
       {isUser === "Admin" ? (
         <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"780px"}}>

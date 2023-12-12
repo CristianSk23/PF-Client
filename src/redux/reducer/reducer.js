@@ -72,6 +72,7 @@ const initialState = {
   },
   isUser: "Invited",
   user: {},
+  userById: {},
   deletedUsers: [],
   country: "",
   countries: [],
@@ -182,7 +183,7 @@ const reducer = (state = initialState, action) => {
     case GETUSERBYID:
       return {
         ...state,
-        user: action.payload,
+        userById: action.payload,
       };
 
     case GETUSERBYID:
@@ -375,6 +376,8 @@ const reducer = (state = initialState, action) => {
       };
 
     case ADDTOCART:
+      console.log('payload');
+      console.log(action.payload);
       if (action.payload.stock == 0) {
         alert("This product is out of stock");
         return {

@@ -12,11 +12,16 @@ import {useEffect, useState} from "react"
 import { useNavigate } from "react-router-dom";
 import Cards from "../cards/Cards"
 import { Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import ErrorView from "../error404/Error404";
 
 export default function ListProducts(){
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const {isAuthenticated, isLoading} =useAuth0()
+    const isUser = useSelector((state) => state.isUser)
 
     useEffect(() => {
         dispatch(getAllProducts());
@@ -71,7 +76,15 @@ export default function ListProducts(){
         }    
     }
 
+    if(!isLoading && ((!isAuthenticated && isUser !== "Admin") || isUser === "User")){
+        return(
+            <div>
+                <ErrorView/>
+            </div>
+        )
+    }
     return(
+        !isLoading &&
         <div>
 
         <h5 style={{marginBottom:"-55px"}}>List of Products:</h5>

@@ -301,7 +301,7 @@ export const removeOneCart = (id, nameProd, userID) => {
     try {
       dispatch({ type: REMOVEONECART, payload: id });
 
-      const responseCart = await axios.delete("cart/", {
+      const responseCart = await axios.delete("cart/delete", {
         data: {
           nameProd: nameProd,
           UserId: userID,

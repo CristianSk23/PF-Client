@@ -10,6 +10,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth0 } from "@auth0/auth0-react";
+import ErrorView from "../error404/Error404";
 
 const ShoppingCart = ({}) => {
 
@@ -18,6 +20,9 @@ const ShoppingCart = ({}) => {
 
  const products = useSelector((state) => state.cart.items)
  const userID = useSelector((state) => state.user.id)
+
+ const isUser = useSelector((state) => state.isUser)
+ const {isAuthenticated, isLoading} = useAuth0()
  
 
  useEffect(() => {
@@ -56,6 +61,14 @@ const ShoppingCart = ({}) => {
  const handleCancel = () => {
     navigate(-1);
   };
+
+if(!isLoading && !isAuthenticated && isUser === "Invited"){
+    return(
+        <div>
+            <ErrorView/>
+        </div>
+    )
+}
 
   
  return(

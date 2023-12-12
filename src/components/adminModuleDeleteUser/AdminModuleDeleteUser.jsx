@@ -3,10 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, getUserById } from "../../redux/action/actions";
 import { useState, useEffect } from "react";
 import PopupGeneral from "../popupGeneral/PopupGeneral";
+import { useAuth0 } from "@auth0/auth0-react";
+import ErrorView from "../error404/Error404";
 import styles from "./adminModuleDeleteUser.module.css"
 
 const AdminModuleDeleteUser = () => {
   const { id } = useParams();
+  const isUser = useSelector((state) => state.isUser)
+  const {isAuthenticated, isLoading} = useAuth0()
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -78,7 +82,15 @@ const AdminModuleDeleteUser = () => {
     })
   }, [userById])
 
-  return (
+  if (!isLoading && (isUser === "User" || !isAuthenticated && isUser === "Invited")) {
+    return (
+      <div>
+        <ErrorView />
+      </div>
+    );
+  }
+
+  return (!isLoading && isUser === "Admin" &&
     <div className={styles.containerDelete}>
     <div className="card" style={{ width: "400px", height: "360px" }}>
       <h5 className={styles.deleteT}>Are you sure you want to delete this user?</h5>
