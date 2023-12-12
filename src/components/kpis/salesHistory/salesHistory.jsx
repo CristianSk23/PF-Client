@@ -19,13 +19,13 @@ const SalesHistory = () =>{
         const fetchData = async () => {
             if (prodCategories.length === 0) {
                 dispatch(getProdCategories());
+                dispatch(allOrders());
             }
-            dispatch(allOrders());
             setGraphData(calculateData(orders, filter));
         };
     
         fetchData();
-    }, [filter, dispatch]);
+    }, [dispatch, orders]);
 
 
     const handleChange = (event) => {
