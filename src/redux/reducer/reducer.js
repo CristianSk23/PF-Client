@@ -376,6 +376,8 @@ const reducer = (state = initialState, action) => {
       };
 
     case ADDTOCART:
+      console.log('payload');
+      console.log(action.payload);
       if (action.payload.stock == 0) {
         alert("This product is out of stock");
         return {
