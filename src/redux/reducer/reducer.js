@@ -645,7 +645,6 @@ const reducer = (state = initialState, action) => {
   
     case FILTER_ORDER_BY_ID:
       const result = state.orderHistoryCache.filter((item) => item.id === action.id)
-      console.log('ID REDUCER', result)
     return {
       ...state,
       orderHistory: result

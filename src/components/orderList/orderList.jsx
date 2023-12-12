@@ -13,7 +13,6 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 export default function OrderList() {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orderHistory);
-  console.log('ORDES',orders)
 
   useEffect(() => {
     dispatch(allOrders());
@@ -31,8 +30,6 @@ export default function OrderList() {
 
   const handleStatusChange = (e) => {
     setSelectedStatus(e.target.value);
-    console.log("selectedStatus:", e.target.value);
-    console.log("orders:", orders);
   };
 
   const search = () => {
@@ -57,7 +54,6 @@ export default function OrderList() {
       }
     }
     setvisibleModal(!visibleModal);
-    // console.log('SETACUALDATA',actualData)
   };
 
   const updateDeliveryStatus = (orderId, newStatus) => {
