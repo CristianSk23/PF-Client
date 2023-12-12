@@ -18,11 +18,6 @@ const FilterAndOrder = ({ setFilterCond, filterCond, setAux }) => {
   }, []);
 
   const handleOpChange = async (event) => {
-    console.log('event.target.name');
-    console.log(event.target.name);
-    console.log('event.target.value');
-    console.log(event.target.value);
-
     event.target.name === "type" && setFilterCond({...filterCond, type: event.target.value});
     event.target.name === "price" && setFilterCond({...filterCond, price: event.target.value});
   }
