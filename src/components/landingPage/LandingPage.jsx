@@ -14,7 +14,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import { Carousel } from "react-bootstrap";
 import Footer from "../Footer/Footer";
-import imagen1 from "../../assets/image101.png"
+import image1 from "../../assets/image1.png";
+import image2 from "../../assets/image2.png";
+import image3 from "../../assets/image3.png";
+import image4 from "../../assets/image4.png";
+import image5 from "../../assets/image5.png";
 
 import { useAuth0 } from "@auth0/auth0-react";
 import { toast } from "react-toastify";
@@ -26,18 +30,19 @@ const LandingPage = () => {
   const [isLoging, setIsLoging] = useState(false)
   const [shouldRenderPromotionPopup, setShouldRenderPromotionPopup] = useState(false);
   const {isAuthenticated, loginWithRedirect, AuthenticationError} = useAuth0()
+
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
   };
-
 
   useEffect(() => {
     if (isUser === "Admin") {
       setShouldRenderPromotionPopup(false);
     } else {
-      setShouldRenderPromotionPopup(true)
+      setShouldRenderPromotionPopup(true);
     }
   }, [isUser]);
+
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -58,12 +63,10 @@ const LandingPage = () => {
     }
   }, []);
 
-
-
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
-  
+
   const [filterCond, setFilterCond] = useState({
     type: "all",
     price: "all",
@@ -85,81 +88,95 @@ const LandingPage = () => {
 
   return (
     <div className={styles.container}>
+      {shouldRenderPromotionPopup && <PromotionPopup />}
 
-       
+
 {shouldRenderPromotionPopup && <PromotionPopup />}
 
-<Carousel style={{marginTop:"62px"}}>
+<Carousel style={{ marginTop: "55px" }}>
         <Carousel.Item>
-          <img
+        <img
             className="d-block w-100"
-            src={imagen1} 
-            alt="First slide"
-            style={{ maxWidth: "100%", height: "220px", objectFit: "cover" }}
-          />
-        </Carousel.Item>
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src="https://images.fravega.com/f300/a0ee87234cb6af25219a71973dd76de4.jpg" 
+
+            src={image1}
             alt="Second slide"
-            style={{ maxWidth: "100%", height: "220px", objectFit: "cover" }}
+            style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
+
           />
         </Carousel.Item>
         <Carousel.Item>
-          <img
+        <img
             className="d-block w-100"
-            src="https://jugueteriascarrousel.com.ar/wp-content/uploads/2023/06/Recurso-5.webp" 
-            alt="Third slide"
-            style={{ maxWidth: "100%", height: "220px", objectFit: "cover" }}
+            src={image2}
+            alt="Second slide"
+
+            style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
+
           />
         </Carousel.Item>
         <Carousel.Item>
-          <img
+        <img
             className="d-block w-100"
-            src="https://jugueteriascarrousel.com.ar/wp-content/uploads/2023/07/bannersok-bancos.jpg" 
-            alt="Quarter slide"
-            style={{ maxWidth: "100%", height: "220px", objectFit: "cover" }}
+
+            src={image3}
+            alt="Second slide"
+            style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
+
           />
         </Carousel.Item>
         <Carousel.Item>
-          <img
+        <img
             className="d-block w-100"
-            src="https://senseiar.vteximg.com.br/arquivos/ids/160651/banner%20COTIZACION.png?v=638042853101730000" 
-            alt="Fifth slide"
-            style={{ maxWidth: "100%", height: "220px", objectFit: "cover" }}
+
+            src={image4}
+            alt="Second slide"
+            style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
+
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+        <img
+            className="d-block w-100"
+
+            src={image5}
+            alt="Second slide"
+            style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
+
           />
         </Carousel.Item>
       </Carousel>
-      
 
       <NavBar
-          onSearch={onSearch}
-          setFilterCond={setFilterCond}
-          filterCond={filterCond}
-          setAux={setAux}
-          aux={aux}
-        />
+        onSearch={onSearch}
+        setFilterCond={setFilterCond}
+        filterCond={filterCond}
+        setAux={setAux}
+        aux={aux}
+      />
 
       <FilterAndOrder
-          setFilterCond={setFilterCond}
-          filterCond={filterCond}
-          setAux={setAux}
-        />
-
+        setFilterCond={setFilterCond}
+        filterCond={filterCond}
+        setAux={setAux}
+      />
 
       <div className="pagination justify-content-center">
-        <button 
-          type="button" 
-          className="form-control" 
-          style={{ width: '50px', textAlign:"center", marginTop:"5px", height:"37.6px"}}
+        <button
+          type="button"
+          className="form-control"
+          style={{
+            width: "50px",
+            textAlign: "center",
+            marginTop: "5px",
+            height: "37.6px",
+          }}
           onClick={reset}
         >
-        <FontAwesomeIcon icon={faArrowsRotate} />
+          <FontAwesomeIcon icon={faArrowsRotate} />
         </button>
       </div>
 
-      <Cards products={products}/>
+      <Cards products={products} />
 
       <nav aria-label="Page navigation example" style={{ marginTop: "22px" }}>
         <ul className="pagination justify-content-center">
