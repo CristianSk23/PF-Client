@@ -117,7 +117,21 @@ const ModuleHistoryOrderUser =({idProp}) =>{
                     <td className={styles.td}>{order.orderDate}</td>
                     <td className={styles.td}>{order.deliveryStatus}</td>
                     <td className={styles.td}>${parseFloat(order.totalPrice).toFixed(2)}</td>
-                    <td className={styles.td}><span onClick={() => handleSeeDetail(JSON.parse(order.itemsCart))}>See detail</span></td>
+                    <td className={styles.td}>
+                    <button 
+                      type="button" 
+                      className="btn btn-primary"
+                      style={{
+                        '--bs-btn-padding-y': '.25rem',
+                        '--bs-btn-padding-x': '.5rem',
+                        '--bs-btn-font-size': '.75rem',
+                      }} 
+                      onClick={() => handleSeeDetail(JSON.parse(order.itemsCart))} 
+                      value={order.id}
+                    >
+                    See Detail
+                    </button>
+                  </td>
                 </tr>))}
                 {ordersById.length == 0 && 
                 <tr key="na">
