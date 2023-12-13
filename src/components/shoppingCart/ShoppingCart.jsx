@@ -163,7 +163,7 @@ if(!isLoading && !isAuthenticated && isUser === "Invited"){
                     className="mx-2 btn-md"
                     variant="primary"
                     type="submit"
-                    style={{margin:"8px", width:"180px"}}>
+                    style={{margin:"8px", width:"200px"}}>
                         <Link
                             to={`/paymentGateway`}
                             style={{
@@ -171,10 +171,10 @@ if(!isLoading && !isAuthenticated && isUser === "Invited"){
                             color: "white",
                             }}
                         >
-                            Confirm and Payment
+                            Confirm and payment
                         </Link>
                     </Button>}
-                    <a className="btn btn-danger mx-2 btn-md" type="button" style={{margin:"8px", width:"180px"}} onClick={ handleCancel }>Back</a>
+                    <a className="btn btn-danger mx-2 btn-md" type="button" style={{margin:"8px", width:"200px"}} onClick={ handleCancel }>Back</a>
                 </div>
                 </div>
             </div>

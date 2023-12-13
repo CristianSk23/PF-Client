@@ -11,8 +11,8 @@ import logoImage from "../../assets/Logo.png";
 import { useAuth0 } from "@auth0/auth0-react";
 import ErrorView from "../error404/Error404";
 import { Button } from "react-bootstrap";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import PopupGeneral from "../popupGeneral/PopupGeneral";
 
 const PaymentGateway=()=>{
   const dispatch = useDispatch();
@@ -37,7 +37,8 @@ const PaymentGateway=()=>{
         active: userInSession?.active,
         typeUser: userInSession?.typeUser,
   })
-
+  const [showPopup, setShowPopup] = useState(false);
+  const [currentNewOrder, setCurrentNewOrder] = useState(null);
   const totalCart = cart.items.reduce((accumulator, item) => {
     let newPrice = item.priceOnSale || item.price;
     return accumulator + newPrice * item.quantity;
@@ -67,53 +68,59 @@ const PaymentGateway=()=>{
       });
 
 
-  const purchaseHandler = (event) => {
-    event.preventDefault();
-    setLoading(true)   
-
-    // Si hay cambios en los datos del usuario, actualizo
-    if( userInfo.name != userInSession?.name || 
-        userInfo.lastName != userInSession?.lastName || 
-        userInfo.address != userInSession?.address || 
-        userInfo.phone != userInSession?.phone || 
-        userInfo.identityCard != userInSession?.identityCard || 
-        userInfo.postalCode != userInSession?.postalCode || 
-        userInfo.city != userInSession?.city)
-    {
-      dispatch(updateUser(userInfo))
-    }
-    // VER DE AGREGAR INFORMACION PARA EL CART DE Mercadopago. Ej address,phone etc.
-    const newOrder = { items,
-                       payer:{
-                        id: userInfo.id,
-                        name: userInfo.name,
-                        surname: userInfo.lastName,
-                        email: userInfo.email,
-                        idenification:{
-                          number: userInfo.identityCard
-                        },
-                        address: {
-                          street_name: userInfo.address,
-                          zip_code: userInfo.postalCode
-                        }
-                       }
-    }
-    //------------------------------------------------------------------------------
-
-    if(catchError===""){
-      toast.info('We are redirecting you to Mercadopago payment site');
-      axios
-      .post("/payments/createOrder", newOrder)
-      .then((response) => {
-          window.location.href = response.data.init_point;
-          setLoading(false) 
-      })
-      .catch((error) => {
-        setLoading(false)
-      });
-    }
-  }
-
+      const purchaseHandler = (event) => {
+        event.preventDefault();
+        setLoading(true);
+    
+        if (
+          userInfo.name !== userInSession?.name ||
+          userInfo.lastName !== userInSession?.lastName ||
+          userInfo.address !== userInSession?.address ||
+          userInfo.phone !== userInSession?.phone ||
+          userInfo.identityCard !== userInSession?.identityCard ||
+          userInfo.postalCode !== userInSession?.postalCode ||
+          userInfo.city !== userInSession?.city
+        ) {
+          dispatch(updateUser(userInfo));
+        }
+        // VER DE AGREGAR INFORMACION PARA EL CART DE Mercadopago. Ej address,phone etc.
+        const newOrder = {
+          items,
+          payer: {
+            id: userInfo.id,
+            name: userInfo.name,
+            surname: userInfo.lastName,
+            email: userInfo.email,
+            idenification: {
+              number: userInfo.identityCard,
+            },
+            address: {
+              street_name: userInfo.address,
+              zip_code: userInfo.postalCode,
+            },
+          },
+        };
+        //------------------------------------------------------------------------------
+        setCurrentNewOrder(newOrder)
+        setLoading(false);
+        setShowPopup(true);
+      };
+    
+      const handlePopupAccept = (newOrder) => {
+        axios
+          .post("/payments/createOrder", newOrder)
+          .then((response) => {
+            window.location.href = response.data.init_point;
+          })
+          .catch((error) => {
+          });
+      };
+    
+      const handlePopupClose = () => {
+        setShowPopup(false); 
+      };
+    
+    
   const handleCancel = () => {
     navigate(-1);
   };
@@ -289,6 +296,15 @@ const PaymentGateway=()=>{
           width={2}
           />
         </div>}
+        {showPopup && (
+      <PopupGeneral
+        textButton="Aceptar"
+        descripcion="We are redirecting you to Mercadopago payment site"
+        onClick={() => {
+          handlePopupAccept(currentNewOrder);
+          handlePopupClose(); 
+        }}
+      /> )}
       </div>
     )
 }
