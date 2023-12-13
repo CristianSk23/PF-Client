@@ -41,6 +41,7 @@ export default function AdminPanel() {
     const handleLogout = async() => {
       try {
         await logout({ logoutParams: { returnTo: window.location.origin } })
+        navigator('/')
         dispatch(logOut())
       } catch (error) {
         console.error('Error during logout:', error);
@@ -204,7 +205,6 @@ export default function AdminPanel() {
                         <Dropdown.Menu>
                           <Dropdown.Item onClick={() => handleButtonClick('saleHistorial')}>Sales History</Dropdown.Item>
                           <Dropdown.Item onClick={() => handleButtonClick('saleCategory')}>Sales by Category</Dropdown.Item>
-                          <Dropdown.Item onClick={() => handleButtonClick('saleUser')}>Sales by User</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </li>

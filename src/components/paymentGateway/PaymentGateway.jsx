@@ -10,6 +10,9 @@ import { useNavigate } from "react-router-dom";
 import logoImage from "../../assets/Logo.png";
 import { useAuth0 } from "@auth0/auth0-react";
 import ErrorView from "../error404/Error404";
+import { Button } from "react-bootstrap";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PaymentGateway=()=>{
   const dispatch = useDispatch();
@@ -98,7 +101,7 @@ const PaymentGateway=()=>{
     //------------------------------------------------------------------------------
 
     if(catchError===""){
-      alert('We are redirecting you to Mercadopago payment site');
+      toast.info('We are redirecting you to Mercadopago payment site');
       axios
       .post("/payments/createOrder", newOrder)
       .then((response) => {
@@ -129,7 +132,8 @@ const PaymentGateway=()=>{
   }
 
     return(!isLoading &&
-      <div className="container">  
+      <div className="container">
+          <ToastContainer />
           <div className="py-5 text-center">
             <img className="d-block mx-auto mb-4" src={logoImage} alt="logo" height="57px"/>
             <h2 style={{marginTop:"-25px"}}>Checkout form</h2>
@@ -253,9 +257,19 @@ const PaymentGateway=()=>{
                 </div>
 
                 <hr className="my-4"/>
-                
-                <button className="w-100 btn btn-primary btn-lg" type="submit" >Continue to pay</button>
-                <a className="w-100 btn btn-danger btn-lg" type="button"  style={{marginTop:"8px"}} onClick={ handleCancel }>Back</a>
+
+                <div className="text-center" style={{marginTop:"-16px"}}>
+                  <div className="d-flex justify-content-center">
+                    <Button 
+                        className="mx-2 btn-md"
+                        variant="primary"
+                        type="submit"
+                        style={{margin:"8px", width:"180px"}}>
+                          Continue to pay
+                    </Button>
+                    <a className="btn btn-danger mx-2 btn-md" type="button" style={{margin:"8px", width:"180px"}} onClick={ handleCancel }>Back</a>
+                  </div>
+                </div>
               </form>
             </div>
           </div>

@@ -36,6 +36,7 @@ const Detail = () => {
     stock: 0,
     priceOnSale: 0,
   });
+  const [visibleReviews, setVisibleReviews] = useState(3);
 
   const handleCancel = () => {
     navigate(-1);
@@ -113,6 +114,10 @@ const Detail = () => {
       setProductLoaded(true);
     }
   }, [id, productLoaded, prodById, product]);
+
+  const handleLoadMoreReviews = () => {
+    setVisibleReviews(product.reviews.length);
+  };
 
   return (
     <div>
@@ -276,7 +281,7 @@ const Detail = () => {
           <div style={{marginTop:"20px", padding:"10px", backgroundColor: "ffffff", boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'}}>
           <h3>REVIEWS:</h3>
             {product.reviews && product.reviews.length > 0 ? (
-              product.reviews.map((review, index) => (
+              product.reviews.slice(0, visibleReviews).map((review, index) => (
                 <div key={index} style={{marginTop:"20px", padding:"10px", backgroundColor: "ffffff", boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'}}>
                   <h3>{review.name}</h3>
                   <StarRating rating={review.rating} />
@@ -285,6 +290,16 @@ const Detail = () => {
               ))
             ) : (
               <p>No reviews available.</p>
+            )}
+
+            {product.reviews.length > 3 && visibleReviews < product.reviews.length && (
+              <button
+                onClick={handleLoadMoreReviews}
+                className="btn btn-primary"
+                style={{ marginTop: '10px' }}
+              >
+                Mostrar más reseñas
+              </button>
             )}
           </div>
         </div>
