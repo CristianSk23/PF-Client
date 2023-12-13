@@ -1,0 +1,19 @@
+.th, .td {
+  padding: 10px;
+  text-align: center;
+}
+
+.button{
+    border: none;
+    background: transparent;
+}
+
+.containerRestore {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; 
+  }
+  .restoreU {
+    text-align: left;
+  }

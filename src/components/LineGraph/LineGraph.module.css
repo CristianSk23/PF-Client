@@ -1,0 +1,23 @@
+.responsiveChartContainer {
+    width: 80%;
+    max-width: 1000px;
+    height: 520px; /* Altura predeterminada para pantallas grandes */
+  }
+
+  @media (max-width: 1200px) {
+    .responsiveChartContainer {
+      height: 400px; /* Altura para pantallas más pequeñas */
+    }
+}
+
+@media (max-width: 1000px) {
+    .responsiveChartContainer {
+      height: 300px; /* Altura para pantallas más pequeñas */
+    }
+}
+
+  @media (max-width: 768px) {
+    .responsiveChartContainer {
+      height: 200px; /* Altura para pantallas más pequeñas */
+    }
+  }
