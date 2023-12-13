@@ -5,7 +5,7 @@ import {
   filterOrderById,
   updateOrderStatus,
 } from "../../redux/action/actions";
-import UserPurchaseHistory from "./userPurchaseHistory";
+import UserPurchaseHistory from "./UserPurchaseHistory";
 import styles from "./orderList.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
