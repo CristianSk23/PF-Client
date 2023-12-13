@@ -109,62 +109,58 @@ const HomeAdmin=()=>{
         </div>
 
         <div className="row">
-            <div className="col-sm-12">
+            <div className="col-sm">
                 <h5 style={{marginTop:"35px"}}>Top 5 Clients/Users:</h5>
                 <table className="table table-bordered">
-                <thead>
-                    <tr>
-                        <th className={styles.th} style={{width:"50%"}}>User</th>
-                        <th className={styles.th} style={{width:"50%"}}>Spent amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {graphData.topUsers?.map((user, index)=>{
-                    return (
-                        <tr key={index}>
-                            <td className={styles.td}>{user.userName}</td>
-                            <td className={styles.td}>${user.total?.toFixed(0)}</td>
+                    <thead>
+                        <tr>
+                            <th className={styles.th} style={{width:"50%"}}>User</th>
+                            <th className={styles.th} style={{width:"50%"}}>Spent amount</th>
                         </tr>
-                    )
-                })}
-                </tbody>
+                    </thead>
+                    <tbody>
+                    {graphData.topUsers?.map((user, index)=>{
+                        return (
+                            <tr key={index}>
+                                <td className={styles.td}>{user.userName}</td>
+                                <td className={styles.td}>${user.total?.toFixed(0)}</td>
+                            </tr>
+                        )
+                    })}
+                    </tbody>
                 </table>
             </div>
-        </div>
-
-        <div className="row">
+ 
             <div className="col-sm">
                 <h5 style={{marginTop:"35px"}}>Top 5 Products by Sales Amount:</h5>
                 <table className="table table-bordered">
-                <thead>
-                    <tr>
-                        <td className={styles.td} style={{width:"50%"}}>Product Name</td>
-                        <td className={styles.td} style={{width:"50%"}}>Total sell</td>
-                    </tr>
-                </thead>
-                <tbody>
-                {graphData.topProducts?.map((prod, index)=>{
-                    return (
-                        <tr key={index}>
-                            <td className={styles.td}>{prod.nameProd}</td>
-                            <td className={styles.td}>${prod.total?.toFixed(0)}</td>
+                    <thead>
+                        <tr>
+                            <th className={styles.td} style={{width:"50%"}}>Product Name</th>
+                            <th className={styles.td} style={{width:"50%"}}>Total sell</th>
                         </tr>
-                    )
-                })}
-                </tbody>
+                    </thead>
+                    <tbody>
+                    {graphData.topProducts?.map((prod, index)=>{
+                        return (
+                            <tr key={index}>
+                                <td className={styles.td}>{prod.nameProd}</td>
+                                <td className={styles.td}>${prod.total?.toFixed(0)}</td>
+                            </tr>
+                        )
+                    })}
+                    </tbody>
                 </table>
             </div>
-        </div>
+      
 
-        
-        <div className="row">
             <div className="col-sm">
                 <h5 style={{marginTop:"35px"}}>Top 5 Products by Units Sale:</h5>
                 <table className="table table-bordered">
                 <thead>
                     <tr>
-                    <td className={styles.td} style={{width:"50%"}}>Product Name</td>
-                    <td className={styles.td} style={{width:"50%"}}>Total sell</td>
+                    <th className={styles.td} style={{width:"50%"}}>Product Name</th>
+                    <th className={styles.td} style={{width:"50%"}}>Total sell</th>
                     </tr>
                 </thead>
                 <tbody>

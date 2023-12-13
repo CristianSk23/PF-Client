@@ -1,37 +1,50 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { allOrders, filterOrderPurchase, updateOrderStatus } from "../../redux/action/actions";
+import {
+  allOrders,
+  filterOrderById,
+  updateOrderStatus,
+} from "../../redux/action/actions";
 import UserPurchaseHistory from "./userPurchaseHistory";
 import styles from "./orderList.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 export default function OrderList() {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orderHistory);
+  const [update, setUpdate] = useState(0);
 
   useEffect(() => {
     dispatch(allOrders());
-  }, [dispatch]);
+  }, [dispatch, update]);
+
+
 
   const [visibleModal, setvisibleModal] = useState(false);
   const [actualData, setactualData] = useState({});
-  const [name, setname] = useState("");
+  const [id, setId] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("All");
 
   const handleChange = (e) => {
-    setname(e.target.value);
+    setId(e.target.value);
   };
 
-  const search = (e) => {
-    e.preventDefault();
-    if (name.length >= 2) {
-      dispatch(filterOrderPurchase(name));
+  const handleStatusChange = (e) => {
+    setSelectedStatus(e.target.value);
+  };
+
+  const search = () => {
+    if (id.trim() !== "") {
+      dispatch(filterOrderById(id));
     } else {
       dispatch(allOrders());
     }
   };
+
+  useEffect(() => {
+    search();
+  }, [id]);
 
   const openModal = (e) => {
     e.preventDefault();
@@ -45,9 +58,13 @@ export default function OrderList() {
     setvisibleModal(!visibleModal);
   };
 
-
-  const updateDeliveryStatus = (orderId, newStatus) => {
-    dispatch(updateOrderStatus(orderId, newStatus));
+  const updateDeliveryStatus = (e, orderId) => {
+    e.preventDefault();
+    const newStatus = e.target.value;
+    updateOrderStatus(orderId, newStatus);
+    setTimeout(() => {
+      setUpdate(update + 1);
+    }, 1000);
   };
 
   return (
@@ -56,19 +73,38 @@ export default function OrderList() {
         <UserPurchaseHistory closeModal={openModal} data={actualData} />
       )}
       <h5>Orders List:</h5>
-      <div style={{display: "flex", justifyContent: "flex-end", paddingBottom:"10px" }}> 
-      <select className="form-select" aria-label="Default select example" style={{width:"200px", margin:"2px"}}>
-          <option selected hidden disabled>Select status</option> {/* DARLE FUNCIONABILIDAD AL SELECT */}
-          <option value="0">All</option>
-          <option value="1">Approved</option>
-          <option value="2">Pending</option>
-          <option value="3">Rejected</option>
-      </select>
-        <input type="text" onChange={handleChange} value={name} placeholder="Inserte dato..." style={{margin:"2px", borderRadius:"8px"}}/>
-        {/* Modificar el place holder segun el dato que vayamos a pedir finalmente ahi */}
-        <button onClick={search} style={{ margin:"2px"}}><FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "#000000",}} /></button>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          paddingBottom: "10px",
+        }}
+      >
+        <select
+          className="form-select"
+          aria-label="Default select example"
+          style={{ width: "200px", margin: "2px" }}
+          value={selectedStatus}
+          onChange={handleStatusChange}
+        >
+          <option value="All">Select status</option>
+          <option value="Approved">Approved</option>
+          <option value="Pending">Pending</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+        <input
+          type="text"
+          onChange={handleChange}
+          placeholder="Searching by ID:"
+          style={{ margin: "2px", borderRadius: "8px" }}
+        />
+        <button onClick={search} style={{ margin: "2px" }}>
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+            style={{ color: "#000000" }}
+          />
+        </button>
       </div>
-
       <table className="table table-hover">
         <thead>
           <tr>
@@ -97,55 +133,46 @@ export default function OrderList() {
         </thead>
         <tbody>
           {orders &&
-            orders.map((order) => (
-              <tr key={order.id}>
-                <td className={styles.td}>{order.id}</td>
-                <td className={styles.td}>{order.orderDate}</td>
-                <td className={styles.td}>{order.userName}</td>
-                <td className={styles.td}>{order.mercadopagoTransactionStatus}</td>
-                <td className={styles.td}>
-                  <select
-                    value={order.statusDelivery}
-                    onChange={(e) => {
-                      updateDeliveryStatus(order.id, e.target.value);
-                      toast.success(`Status updated to ${e.target.value}`, {
-                        position: "bottom-right",
-                        autoClose: 2500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                        // theme: "dark",
-                        // theme: "light",
-                        });
-                    }}
-                  >
-                    <option value="Delivered">Delivered</option>
-                    <option value="In Process">In Process</option>
-                    <option value="Paid">Paid</option>
-                    <option value="Cancelled">Cancelled</option>
-                  </select>
-                </td>
-                <td className={styles.td}>${order.totalPrice.toFixed(2)}</td>
-                <td className={styles.td}> 
-                  <button 
-                    type="button" 
-                    className="btn btn-primary"
-                    style={{
-                      '--bs-btn-padding-y': '.25rem',
-                      '--bs-btn-padding-x': '.5rem',
-                      '--bs-btn-font-size': '.75rem',
-                    }} 
-                    onClick={openModal} 
-                    value={order.id}
+            orders
+              .filter(
+                (order) =>
+                  selectedStatus === "All" ||
+                  order.mercadopagoTransactionStatus ===
+                    selectedStatus.toString()
+              )
+              .map((order) => (
+                <tr key={order.id}>
+                  <td className={styles.td}>{order.id}</td>
+                  <td className={styles.td}>{order.orderDate}</td>
+                  <td className={styles.td}>{order.userName}</td>
+                  <td className={styles.td}>
+                    {order.mercadopagoTransactionStatus}
+                  </td>
+                  <td className={styles.td}>
+                    <select
+                      value={order.deliveryStatus}
+                      onChange={(e) => updateDeliveryStatus(e, order.id)}
                     >
-                    See Detail
-                  </button>
-                </td>
-              </tr>
-            ))}
+                      <option value="Delivered">Delivered</option>
+                      <option value="In Process">In Process</option>
+                      <option value="Paid">Paid</option>
+                      <option value="Cancelled">Cancelled</option>
+                    </select>
+                  </td>
+                  <td className={styles.td}>${order.totalPrice.toFixed(2)}</td>
+                  <td className={styles.td}>
+                    {" "}
+                    {/*BOTON CON ESTILADO DE LINK*/}
+                    <button
+                      className={styles.button}
+                      onClick={openModal}
+                      value={order.id}
+                    >
+                      See Detail
+                    </button>
+                  </td>
+                </tr>
+              ))}
         </tbody>
       </table>
     </div>
