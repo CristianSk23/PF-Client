@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth0 } from "@auth0/auth0-react";
 import ErrorView from "../error404/Error404";
+import Button from "react-bootstrap/Button";
+
 
 const ShoppingCart = ({}) => {
   const dispatch = useDispatch();
@@ -91,177 +93,98 @@ const ShoppingCart = ({}) => {
     return "";
   };
 
-  if (!isLoading && !isAuthenticated && isUser === "Invited") {
-    return (
-      <div>
-        <ErrorView />
-      </div>
-    );
-  }
-
-  return (
-    <div
-      style={{
-        backgroundColor: "#F8F9F9",
-        minHeight: "750px",
-        minWidth: "1550px",
-      }}
-    >
-      <NavBar />
-      {products.length > 0 && (
-        <div className="container" style={{ marginTop: "62px" }}>
-          <h1 style={{ textAlign: "center", marginBottom: "40px" }}>
-            Shopping Cart
-          </h1>
-          <p style={{ color: "red" }}>{handleStock()}</p>
-          <table className="table table-hover">
-            <thead>
-              <tr>
-                <th className={styles.th} scope="col">
-                  Product
-                </th>
-                <th className={styles.th} scope="col">
-                  Name
-                </th>
-                <th className={styles.th} scope="col">
-                  Price
-                </th>
-                <th className={styles.th} scope="col">
-                  Quantity
-                </th>
-                <th className={styles.th} scope="col">
-                  Total Price
-                </th>
-                <th className={styles.th} scope="col">
-                  Delete
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((item) => {
-                return (
-                  <tr key={item.id}>
-                    <td className={styles.td}>
-                      <img
-                        src={item.image[0]}
-                        style={{
-                          width: "40px",
-                          height: "40px",
-                          objectFit: "contain",
-                        }}
-                      />
-                    </td>
-                    <td className={styles.td} style={{ margin: "500px" }}>
-                      {item.nameProd}
-                    </td>
-                    <td className={styles.td}>
-                      {item.priceOnSale?.toFixed(2) || item.price.toFixed(2)} $
-                    </td>
-                    <td className={styles.td}>
-                      <div className="container">
-                        <div
-                          className="btn-group"
-                          role="group"
-                          aria-label="Botones de Suma y Resta"
-                        >
-                          <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick={() =>
-                              DecreaseQuantity(
-                                userID,
-                                item.id,
-                                item.nameProd,
-                                item.quantity - 1
-                              )
-                            }
-                            style={{ marginTop: "-6px" }}
-                          >
-                            -
-                          </button>
-                          <div
-                            style={{
-                              padding: "10px",
-                              height: "1px",
-                              marginTop: "-9px",
-                            }}
-                          >
-                            <p>{item.quantity}</p>
-                          </div>
-                          <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick={() =>
-                              IncreaseQuantity(
-                                userID,
-                                item.id,
-                                item.quantity + 1
-                              )
-                            }
-                            style={{ marginTop: "-6px" }}
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
-                    </td>
-                    <td className={styles.td}>
-                      {(
-                        (item.priceOnSale?.toFixed(2) ||
-                          item.price.toFixed(2)) * item.quantity
-                      ).toFixed(2)}
-                      $
-                    </td>
-                    <td className={styles.td}>
-                      <button
-                        className={styles.button}
-                        onClick={() =>
-                          DeleteCart(item.id, item.nameProd, userID)
-                        }
-                      >
-                        <FontAwesomeIcon
-                          icon={faTrash}
-                          style={{ color: "#dd3636" }}
-                        />
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-              <tr>
-                <td align="center" colSpan="6" style={{ fontSize: "20px" }}>
-                  <strong>Cart Total: ${totalCart}</strong>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div className="d-grid gap-2">
-            {products.length > 0 && (
-              <button className="btn btn-primary" type="button">
-                <Link
-                  to={`/paymentGateway`}
-                  style={{
-                    textDecoration: "none",
-                    color: "white",
-                    margin: "5px",
-                  }}
-                >
-                  Confirm and Payment
-                </Link>
-              </button>
-            )}
-            <a className="btn btn-danger" type="button" onClick={handleCancel}>
-              Back
-            </a>
-          </div>
+if(!isLoading && !isAuthenticated && isUser === "Invited"){
+    return(
+        <div>
+            <ErrorView/>
         </div>
-      )}{" "}
-      {products.length === 0 && (
-        <div className="container" style={{ marginTop: "56px" }}>
-          <h1 style={{ textAlign: "center", marginBottom: "40px" }}>
-            Shopping Cart
-          </h1>
-          <table className="table table-hover">
+    )
+}
+
+
+  
+ return(
+ <div style={{backgroundColor:"#F8F9F9", minHeight:"750px", minWidth:"100%"}}>
+    <NavBar/>
+      {products.length > 0 && (
+                <div className="container" style={{marginTop: "62px"}}>
+                <h1 style={{textAlign:"center", marginBottom:"40px"}}>Shopping Cart</h1>
+                <p style={{"color": "red"}}>{handleStock()}</p>
+                <table className="table table-hover table-responsive">
+                    <thead>
+                        <tr>
+                        <th className={styles.th} scope="col">Product</th>
+                        <th className={styles.th} scope="col">Name</th>
+                        <th className={styles.th} scope="col">Price</th>
+                        <th className={styles.th} scope="col">Quantity</th>
+                        <th className={styles.th} scope="col">Total Price</th>
+                        <th className={styles.th} scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {
+                    products.map((item)=>{
+                        return(
+                            <tr key={item.id}>
+                            <td className={styles.td}><img src={item.image[0]} style={{width:"40px", height:"40px", objectFit:"contain"}}/></td>
+                            <td className={styles.td} style={{margin:"500px"}}>{item.nameProd}</td>
+                            <td className={styles.td}>{item.priceOnSale?.toFixed(2) || item.price.toFixed(2)} $</td>  
+                            <td className={styles.td}>
+                            <div className="container">
+                                <div className="btn-group" role="group" aria-label="Botones de Suma y Resta">
+                                    <button type="button" className="btn btn-primary" onClick={()=>DecreaseQuantity(userID, item.id, item.quantity - 1)} style={{marginTop:"-6px"}}>
+                                    -
+                                    </button>
+                                    <div style={{padding:"10px", height:"1px", marginTop:"-9px"}}>
+                                        <p>{item.quantity}</p>
+                                    </div>
+                                    <button type="button" className="btn btn-primary" onClick={()=>IncreaseQuantity(userID, item.id, item.quantity + 1)} style={{marginTop:"-6px"}}>
+                                    +
+                                    </button>
+                                </div>
+                            </div>
+                            </td>
+                            <td className={styles.td}>{((item.priceOnSale?.toFixed(2) || item.price.toFixed(2))*item.quantity).toFixed(2)}$</td>
+                            <td className={styles.td}>
+                                <button className={styles.button} onClick={()=>DeleteCart(item.id, item.nameProd, userID)}>
+                                    <FontAwesomeIcon icon={faTrash} style={{ color: "#dd3636", }} />
+                                </button>
+                            </td>
+                        </tr>
+                        )
+                    })                   
+                    }
+                    <tr>
+                    <td align="center" colSpan="6" style={{fontSize:"20px"}}><strong>Cart Total: ${totalCart}</strong></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div className="text-center" style={{marginTop:"-16px"}}>
+                <div className="d-flex justify-content-center">
+                {products.length > 0 &&
+                    <Button 
+                    className="mx-2 btn-md"
+                    variant="primary"
+                    type="submit"
+                    style={{margin:"8px", width:"180px"}}>
+                        <Link
+                            to={`/paymentGateway`}
+                            style={{
+                            textDecoration: "none",
+                            color: "white",
+                            }}
+                        >
+                            Confirm and Payment
+                        </Link>
+                    </Button>}
+                    <a className="btn btn-danger mx-2 btn-md" type="button" style={{margin:"8px", width:"180px"}} onClick={ handleCancel }>Back</a>
+                </div>
+                </div>
+            </div>
+      )} {products.length === 0 && (
+        <div className="container" style={{marginTop: "56px"}}>
+        <h1 style={{textAlign:"center", marginBottom:"40px"}}>Shopping Cart</h1>
+        <table className="table table-hover">
             <thead>
               <tr>
                 <th className={styles.th} scope="col">
@@ -291,12 +214,9 @@ const ShoppingCart = ({}) => {
                 </td>
               </tr>
             </tbody>
-          </table>
-          <div className="d-grid gap-2">
-            <a className="btn btn-danger" type="button" onClick={handleCancel}>
-              Back
-            </a>
-          </div>
+        </table>
+        <div className="d-flex justify-content-center" style={{marginTop:"-16px"}}>
+            <a className="btn btn-danger mx-2 btn-md" type="button" style={{margin:"8px", width:"180px"}} onClick={ handleCancel }>Back</a>
         </div>
       )}
     </div>

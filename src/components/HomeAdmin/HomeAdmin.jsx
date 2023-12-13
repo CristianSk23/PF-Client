@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProdCategories, allOrders } from "../../redux/action/actions";
 import styles from "./homeAdmin.module.css"
-import { Link } from "react-router-dom";
 
 const HomeAdmin=()=>{
     const orders = useSelector((state)=> state.orderHistoryCache);
@@ -56,7 +55,7 @@ const HomeAdmin=()=>{
 
     return(
     <div>
-        <h5>Year and Month filters</h5>
+        <h5>Year and Month filters:</h5>
         <div className="row">
             <div className="col-sm">
                 <select name="year" defaultValue="all" className="form-control text-center" style={{ width: '100%', textAlign: "center", margin: "5px" }} onChange={handleChange}>
@@ -86,33 +85,40 @@ const HomeAdmin=()=>{
                 </select>
             </div>
         </div>
-        <hr/>
-        <h5 style={{marginTop:"25px"}}>General information</h5>
-        <table className="table table-hover">
-            <thead>
-                <tr>
-                    <td className={styles.td}>Average Order value</td>
-                    <td className={styles.td}>Best month</td>
-                    <td className={styles.td}>Best Category</td>
-                </tr>               
-            </thead>
-            <tbody>
-                <tr>
-                    <td className={styles.td}>${graphData.averageOrderValue?.toFixed(0)}</td>
-                    <td className={styles.td}>{graphData.bestMonth?.name}  ${graphData.bestMonth?.amount?.toFixed(0)}</td>
-                    <td className={styles.td}>{graphData.mostSoldCategory?.name}  ${graphData.mostSoldCategory?.amount?.toFixed(0)}</td>
-                </tr>
-            </tbody>
-        </table>
-        <h5 style={{marginTop:"25px"}}>Top 5 Clients/Users</h5>
-        <table className="table table-hover">
-            <thead>
-                <tr>
-                    <td className={styles.td}>User</td>
-                    <td className={styles.td}>Spent amount</td>
-                </tr>               
-            </thead>
-            <tbody>
+
+        <div className="row">
+            <div className="col-sm-12">
+                <h5 style={{marginTop:"35px"}}>General Information:</h5>
+                <table className="table table-bordered">
+                <thead>
+                    <tr>
+                        <th className={styles.th} style={{width:"33.33%"}}>Average Order Value</th>
+                        <th className={styles.th} style={{width:"33.33%"}}>Best month</th>
+                        <th className={styles.th} style={{width:"33.33%"}}>Best Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td className={styles.td}>${graphData.averageOrderValue?.toFixed(0)}</td>
+                        <td className={styles.td}>{graphData.bestMonth?.name}  ${graphData.bestMonth?.amount?.toFixed(0)}</td>
+                        <td className={styles.td}>{graphData.mostSoldCategory?.name}  ${graphData.mostSoldCategory?.amount?.toFixed(0)}</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div className="row">
+            <div className="col-sm-12">
+                <h5 style={{marginTop:"35px"}}>Top 5 Clients/Users:</h5>
+                <table className="table table-bordered">
+                <thead>
+                    <tr>
+                        <th className={styles.th} style={{width:"50%"}}>User</th>
+                        <th className={styles.th} style={{width:"50%"}}>Spent amount</th>
+                    </tr>
+                </thead>
+                <tbody>
                 {graphData.topUsers?.map((user, index)=>{
                     return (
                         <tr key={index}>
@@ -121,17 +127,22 @@ const HomeAdmin=()=>{
                         </tr>
                     )
                 })}
-            </tbody>
-        </table>
-        <h5 style={{marginTop:"25px"}}>Top 5 Products by sales amount</h5>
-        <table className="table table-hover">
-            <thead>
-                <tr>
-                    <td className={styles.td}>Product Name</td>
-                    <td className={styles.td}>Total sell</td>
-                </tr>               
-            </thead>
-            <tbody>
+                </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div className="row">
+            <div className="col-sm">
+                <h5 style={{marginTop:"35px"}}>Top 5 Products by Sales Amount:</h5>
+                <table className="table table-bordered">
+                <thead>
+                    <tr>
+                        <td className={styles.td} style={{width:"50%"}}>Product Name</td>
+                        <td className={styles.td} style={{width:"50%"}}>Total sell</td>
+                    </tr>
+                </thead>
+                <tbody>
                 {graphData.topProducts?.map((prod, index)=>{
                     return (
                         <tr key={index}>
@@ -140,17 +151,23 @@ const HomeAdmin=()=>{
                         </tr>
                     )
                 })}
-            </tbody>
-        </table>
-        <h5 style={{marginTop:"25px"}}>Top 5 Products by units sale</h5>
-        <table className="table table-hover">
-            <thead>
-                <tr>
-                    <td className={styles.td}>Product Name</td>
-                    <td className={styles.td}>Total sell</td>
-                </tr>               
-            </thead>
-            <tbody>
+                </tbody>
+                </table>
+            </div>
+        </div>
+
+        
+        <div className="row">
+            <div className="col-sm">
+                <h5 style={{marginTop:"35px"}}>Top 5 Products by Units Sale:</h5>
+                <table className="table table-bordered">
+                <thead>
+                    <tr>
+                    <td className={styles.td} style={{width:"50%"}}>Product Name</td>
+                    <td className={styles.td} style={{width:"50%"}}>Total sell</td>
+                    </tr>
+                </thead>
+                <tbody>
                 {graphData.topQuantityProducts?.map((prod, index)=>{
                     return (
                         <tr key={index}>
@@ -159,8 +176,10 @@ const HomeAdmin=()=>{
                         </tr>
                     )
                 })}
-            </tbody>
-        </table>
+                </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     )
 }

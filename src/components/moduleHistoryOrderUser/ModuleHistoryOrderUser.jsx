@@ -90,7 +90,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
           onClose={handleClosePopup}
         />
       )}
-        <div className="d-grid gap-2">
+        <div className="d-grid gap-2 d-sm-flex justify-content-sm-end">
           <a className="btn btn-danger" type="button" onClick={ handleCancel }>Back</a>
         </div>
       </Container>
@@ -132,7 +132,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
           idUser={idProp || id}
         />
       )}
-        <div className="d-grid gap-2">
+        <div className="d-grid gap-2 d-sm-flex justify-content-sm-end">
           <a className="btn btn-danger" type="button" onClick={ handleCancel }>Back</a>
         </div>
       </Container>
