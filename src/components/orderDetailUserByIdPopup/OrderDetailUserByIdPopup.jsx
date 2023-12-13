@@ -125,7 +125,10 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
                         ${parseFloat(product?.price).toFixed(2)}
                       </td>
                       <td className={styles.td}>
-                        ${parseFloat(product?.priceOnSale).toFixed(2)}
+                        $
+                        {parseFloat(product?.priceOnSale) > 0
+                          ? parseFloat(product?.priceOnSale).toFixed(2)
+                          : parseFloat(product?.price).toFixed(2)}
                       </td>
                       <td className={styles.td}>{product?.stock}</td>
                       <td className={styles.td}>{product?.quantityProd}</td>
@@ -144,7 +147,7 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
             <table className="table table-hover" style={{ marginTop: "10px" }}>
               <thead>
                 <tr>
-                <th className={styles.th} scope="col">
+                  <th className={styles.th} scope="col">
                     Quantity
                   </th>
                   <th className={styles.th} scope="col">
@@ -172,15 +175,24 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
                   orderDetails.map((product) => (
                     <React.Fragment key={product.id}>
                       <tr>
-                      <td className={styles.td}>{product?.quantityProd}</td>
-                        <td className={styles.td}><img src={product?.image[0]} alt="" style={{height:"50px"}}/></td>
+                        <td className={styles.td}>{product?.quantityProd}</td>
+                        <td className={styles.td}>
+                          <img
+                            src={product?.image[0]}
+                            alt=""
+                            style={{ height: "50px" }}
+                          />
+                        </td>
                         <td className={styles.td}>{product?.nameProd}</td>
                         <td className={styles.td}>
                           ${parseFloat(product?.price).toFixed(2)}
                         </td>
                         <td className={styles.td}>
-                          ${parseFloat(product?.priceOnSale).toFixed(2)}
-                        </td>
+                        $
+                        {parseFloat(product?.priceOnSale) > 0
+                          ? parseFloat(product?.priceOnSale).toFixed(2)
+                          : parseFloat(product?.price).toFixed(2)}
+                      </td>
                         <td className={styles.td}>{product?.category}</td>
                         <td className={styles.td}>
                           {product?.reviews

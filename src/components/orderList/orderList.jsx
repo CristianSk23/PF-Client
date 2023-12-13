@@ -5,7 +5,7 @@ import {
   filterOrderById,
   updateOrderStatus,
 } from "../../redux/action/actions";
-import UserPurchaseHistory from "./userPurchaseHistory";
+import UserPurchaseHistory from "./UserPurchaseHistory";
 import styles from "./orderList.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
@@ -159,7 +159,7 @@ export default function OrderList() {
                       <option value="Cancelled">Cancelled</option>
                     </select>
                   </td>
-                  <td className={styles.td}>${order.totalPrice.toFixed(2)}</td>
+                  <td className={styles.td}>${Number(order.totalPrice).toFixed(2)}</td>
                   <td className={styles.td}>
                     {" "}
                     {/*BOTON CON ESTILADO DE LINK*/}

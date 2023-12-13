@@ -78,7 +78,7 @@ const LandingPage = () => {
     if (allProducts) {
       let filteredProducts = allProducts.filter(
         
-        (product) => product.active === true && product.stock !== 0
+        (product) => product.active === true && product.stock > 0
       );
       console.log(filteredProducts)
       setProducts(filteredProducts);
