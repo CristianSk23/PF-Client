@@ -7,7 +7,7 @@ import { Form } from 'react-bootstrap';
 import FilterAndOrder from "../filterAndOrder/FilterAndOrder";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux";
-import { getAllProducts, changePage, increaseStock, decreaseStock, deleteProduct } from "../../redux/action/actions";
+import { getAllProducts, changePage, increaseStock, decreaseStock, deleteProduct, updateProduct } from "../../redux/action/actions";
 import {useEffect, useState} from "react"
 import { useNavigate } from "react-router-dom";
 import Cards from "../cards/Cards"
@@ -23,10 +23,6 @@ export default function ListProducts(){
     const {isAuthenticated, isLoading} =useAuth0()
     const isUser = useSelector((state) => state.isUser)
 
-    useEffect(() => {
-        dispatch(getAllProducts());
-      }, [dispatch]);
-
     const products = useSelector((state) => state.products?.data)
 
     const [filterCond, setFilterCond] = useState({
@@ -35,8 +31,12 @@ export default function ListProducts(){
         order: "ascendent",
       });
     const [aux, setAux] = useState(false);
-    const [prev, setPrev] = useState(true)  
-
+    const [prev, setPrev] = useState(true);
+    
+    useEffect(() => {
+        dispatch(getAllProducts());
+      }, [dispatch]);
+      
     const pagination = (event) => {
         dispatch(changePage(event.target.name));
       };
@@ -61,20 +61,28 @@ export default function ListProducts(){
         setPrev(true)
     }
 
-    const IncreaseSTOCK = (id) => {
-        dispatch(increaseStock(id))
+    const IncreaseSTOCK = (id, stock) => {
+        const stockup = stock + 1;
+        dispatch(increaseStock(id, stockup))
      }
     
-     const DecreaseSTOCK = (id) => {
-        dispatch(decreaseStock(id))
+     const DecreaseSTOCK = (id, stock) => {
+        const stockdown = stock - 1;
+        dispatch(decreaseStock(id, stockdown))
      }
 
-     const DeletePRODUCT = (id, name) => {
+     const DeletePRODUCT = async (id, name) => {
         const prodToDelete =  confirm(`Are you sure you want to delete the following product: ${name}`)
         if(prodToDelete){
-        dispatch(deleteProduct(id))
+        await dispatch(deleteProduct(id))
+        dispatch(getAllProducts())
         }    
     }
+
+     const handleActive = (value) => {
+        console.log(value === null ? product.active : value) 
+       
+     }
 
     if(!isLoading && ((!isAuthenticated && isUser !== "Admin") || isUser === "User")){
         return(
@@ -151,16 +159,15 @@ export default function ListProducts(){
                             <td className={styles.td}>{product.category}</td>
                             <td className={styles.td}>${product.price}</td>  
                             <td className={styles.td}>
-                            <div className="container">{/*A PEDIDO DE DIEGO Z PUSE BOTONES PARA MANEJAR EL STOCK DIRECTAMENTE DE ACA, FALTA DARLE EL FUNCIONAMIENTO
-                            COMO LO TIENE EN EL CARRITO DE COMPRAS, SI SE COMPLICA USAR SOLO EL UPDATE */}
+                            <div className="container">
                                 <div className="btn-group" role="group" aria-label="Botones de Suma y Resta">
-                                    <button type="button" onClick={()=> DecreaseSTOCK(product.id)} className="btn btn-primary" style={{ marginTop:"-6px" }}>
+                                    <button type="button" onClick={()=> DecreaseSTOCK(product.id, product.stock)} className="btn btn-primary" style={{ marginTop:"-6px" }}>
                                     -
                                     </button>
                                     <div style={{padding:"10px", height:"1px", marginTop:"-9px"}}>
                                         <p>{product.stock}</p>
                                     </div>
-                                    <button type="button" onClick={() => IncreaseSTOCK(product.id)} className="btn btn-primary" style={{ marginTop:"-6px" }}>
+                                    <button type="button" onClick={() => IncreaseSTOCK(product.id, product.stock)} className="btn btn-primary" style={{ marginTop:"-6px" }}>
                                     +
                                     </button>
                                 </div>
@@ -168,11 +175,17 @@ export default function ListProducts(){
                             </td>
                             <td className={styles.td}>
                                 {/*A PEDIDO DE DIEGO Z PUSE UN SELECT PARA EDITAR SU STATUS DESDE ACA, SI SE COMPLICA USAR SOLO EL UPDATE */}
-                            <Form.Select aria-label="Seleccionar ejemplo" className='form-select-sm'>
-                                <option>Seleccionar...</option>
-                                <option value="1">Active</option>
-                                <option value="2">Disabled</option>
-                            </Form.Select>
+                            {/*<Form.Select aria-label="Seleccionar ejemplo" className='form-select-sm'>
+                                <option>Seleccionar...</option>*/}
+                                <select onChange={(e) => handleActive(e.target.value === "true" ? true:false)} 
+                                        value={product.active.toString()} 
+                                        aria-label="Seleccionar ejemplo" 
+                                        className='form-select-sm' name="" id="">
+                                
+                                <option value={true}>Active</option>
+                                <option value={false}>Disabled</option>
+                                </select>
+                            {/*</Form.Select>*/}
                             </td>
                             <td className={styles.td}>
                                 <Link to={`/updateProduct/${product.id}`}>

@@ -649,10 +649,14 @@ export const getCartById = (userId) => {
     }
   };
 };
-export const increaseStock = (id) => {
+export const increaseStock = (id, stock) => {
   return async (dispatch) => {
     try {
       dispatch({ type: INCREASESTOCK, payload: id });
+      const responseStock = await axios.put("/stock", {
+        "id": id,
+        "newStock": stock,
+      });
     } catch (error) {
       dispatch({
         type: ERROR,
@@ -662,10 +666,14 @@ export const increaseStock = (id) => {
   };
 };
 
-export const decreaseStock = (id) => {
+export const decreaseStock = (id, stock) => {
   return async (dispatch) => {
     try {
       dispatch({ type: DECREASESTOCK, payload: id });
+      const responseStock = await axios.put("/stock", {
+        "id": id,
+        "newStock": stock,
+      });
     } catch (error) {
       dispatch({
         type: ERROR,
