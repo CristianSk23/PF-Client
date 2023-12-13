@@ -117,6 +117,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
                     <td className={styles.td}>{order.orderDate}</td>
                     <td className={styles.td}>{order.deliveryStatus}</td>
                     <td className={styles.td}>${parseFloat(order.totalPrice).toFixed(2)}</td>
+
                     <td className={styles.td}>
                     <button 
                       type="button" 
@@ -146,9 +147,6 @@ const ModuleHistoryOrderUser =({idProp}) =>{
           idUser={idProp || id}
         />
       )}
-        <div className="d-grid gap-2 d-sm-flex justify-content-sm-end">
-          <a className="btn btn-danger" type="button" onClick={ handleCancel }>Back</a>
-        </div>
       </Container>
     </div>
       )}

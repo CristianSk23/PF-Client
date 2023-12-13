@@ -202,11 +202,19 @@ const MyProfile = () => {
                     </Card.Text>
                     <div className="text-center">
                       <Button
-                        variant="dark"
+                        variant="primary"
                         size="md"
                         onClick={handleUpdateUser}
                       >
                         Update Information
+                      </Button>
+                      <Button
+                        variant="danger"
+                        size="md"
+                        style={{margin:"8px", width:"170px"}}
+                        onClick={handleCancel}
+                      >
+                        Back
                       </Button>
                     </div>
                   </Card.Body>
@@ -329,23 +337,16 @@ const MyProfile = () => {
                   </Col>
                 </Row>
                 <div className="text-center mb-3">
-                  <Button variant="dark" size="lg" type="submit">
+                  <Button variant="primary" size="lg" type="submit">
                     Update Information
+                  </Button>
+                  <Button variant="danger" size="lg" onClick={handleUpdateUser} style={{margin:"8px", width:"200px"}}>
+                    Cancel
                   </Button>
                 </div>
               </fieldset>
             </Form>
           </Container>
-          <Button
-            variant="danger"
-            onClick={handleUpdateUser}
-            className="btn btn-primary mb-3"
-            style={{ position: "absolute", bottom: "10px", right: "10px" }}
-            size="md"
-          >
-            Cancel
-          </Button>
-          {/*<a className="w-100 btn btn-danger btn-lg" type="button"  style={{marginTop:"8px"}} onClick={ handleCancel }>Back</a>*/}
         </div>
 
     )} else if (!isAuthenticated){

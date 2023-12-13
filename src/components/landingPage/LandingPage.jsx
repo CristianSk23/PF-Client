@@ -53,14 +53,16 @@ const LandingPage = () => {
 
     if (error && errorDescription) {
       toast.warn(`Please verify your email and Try to Login Again`, {
-        position: "top-center",
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        theme: "colored",
+        // theme: "light",
+
       });
     }
   }, []);
