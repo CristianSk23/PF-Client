@@ -224,8 +224,7 @@ const MyProfile = () => {
           </Container>
           <br />
           <hr />
-          {isuser?.typeUser === "User" && isuser?.id && <ModuleHistoryOrderUser idProp={isuser?.id} />}
-          
+          {isuser?.id && isUser !== "Admin" && <ModuleHistoryOrderUser idProp={isuser?.id} />}
         </div>
       )
     : auxUpdateUser && (
