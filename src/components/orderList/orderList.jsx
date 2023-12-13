@@ -88,9 +88,10 @@ export default function OrderList() {
           onChange={handleStatusChange}
         >
           <option value="All">Select status</option>
-          <option value="Approved">Approved</option>
-          <option value="Pending">Pending</option>
-          <option value="Rejected">Rejected</option>
+          <option value="Delivered">Delivered</option>
+          <option value="In Process">In Process</option>
+          <option value="Paid">Paid</option>
+          <option value="Cancelled">Cancelled</option>
         </select>
         <input
           type="text"
@@ -137,7 +138,8 @@ export default function OrderList() {
               .filter(
                 (order) =>
                   selectedStatus === "All" ||
-                  order.mercadopagoTransactionStatus ===
+                  order.deliveryStatus
+                  ===
                     selectedStatus.toString()
               )
               .map((order) => (
