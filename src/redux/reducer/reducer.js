@@ -28,9 +28,11 @@ import {
   UPDATEUSER,
   GENERATEUSER,
   LOGOUT,
+  COUNTRY,
   POPUTSPROMOTIONS,
   INCREASESTOCK,
   DECREASESTOCK,
+  GETALLCOUNTRIES,
   GETALLDELETEDPRODUCTS,
   RESTOREPRODUCTS,
   GETALLDELETEDUSERS,
@@ -39,7 +41,7 @@ import {
   GETORDERS,
   GETORDERSBYUSERID,
   GET_ALL_ORDERS,
-  FILTER_ORDER_NAME_PURCHASE,
+  FILTER_ORDER_BY_ID,
   UPDATE_ORDER_STATUS,
   CREATEORDER,
   SENDREVIEWPRODUCT,
@@ -72,9 +74,9 @@ const initialState = {
   },
   isUser: "Invited",
   user: {},
-  userById: {},
   deletedUsers: [],
   country: "",
+  countries: [],
   pageAdmin: "dassboard",
   ordersForUser: [],
   ordersForUserId: [],
@@ -182,7 +184,7 @@ const reducer = (state = initialState, action) => {
     case GETUSERBYID:
       return {
         ...state,
-        userById: action.payload,
+        user: action.payload,
       };
 
     case GETUSERBYID:
@@ -386,8 +388,6 @@ const reducer = (state = initialState, action) => {
       };
 
     case ADDTOCART:
-      console.log('payload');
-      console.log(action.payload);
       if (action.payload.stock == 0) {
         // alert("This product is out of stock");
         toast.warning("This product is out of stock", {
@@ -422,6 +422,7 @@ const reducer = (state = initialState, action) => {
             progress: undefined,
             theme: "colored",
             });
+
           return {
             ...state,
           };
@@ -478,6 +479,7 @@ const reducer = (state = initialState, action) => {
           progress: undefined,
           theme: "colored",
           });
+
         return {
           ...state,
         };
@@ -622,6 +624,12 @@ const reducer = (state = initialState, action) => {
           deletedUsers: state.deletedUsers.filter((user) => user.id !== action.payload.id),
         };
 
+    case COUNTRY:
+      return {
+        ...state,
+        country: action.payload,
+      };
+
     case LOGOUT:
       return {
         ...state,
@@ -642,6 +650,14 @@ const reducer = (state = initialState, action) => {
         },
       };
 
+    case GETALLCOUNTRIES:
+      const ordenCountries = action.payload.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+      return {
+        ...state,
+        countries: ordenCountries,
+      };
     case SETPAGEADMIN: {
       return {
         ...state,
@@ -670,24 +686,16 @@ const reducer = (state = initialState, action) => {
         orderHistoryCache: action.payload
       };
   
-    case FILTER_ORDER_NAME_PURCHASE:
-      const result = state.orderHistoryCache.filter(i=>i.mercadopagoTransactionStatus
-        .toLowerCase().includes(action.payload.toLowerCase()))
+    case FILTER_ORDER_BY_ID:
+      const result = state.orderHistoryCache.filter((item) => item.id.toLowerCase().includes(action.id.toLowerCase()) )
     return {
       ...state,
       orderHistory: result
     };
     
     case UPDATE_ORDER_STATUS:
-      const updatedOrders = state.orderHistory.map(order => {
-        if (order.id === action.payload.orderId) {
-          return { ...order, deliveryStatus: action.payload.newStatus };
-        }
-        return order;
-      });
       return {
         ...state,
-        orderHistory: updatedOrders
       };
 
     case CREATEORDER:
@@ -717,6 +725,8 @@ const reducer = (state = initialState, action) => {
 
         }
       })
+    console.log('cartItems      *******************');
+    console.log(cartItems);
       return {
         ...state,
         cart: {

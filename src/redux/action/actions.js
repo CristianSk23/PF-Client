@@ -40,12 +40,11 @@ import {
   GETORDERS,
   GETORDERSBYUSERID,
   GET_ALL_ORDERS,
-  FILTER_ORDER_NAME_PURCHASE,
-  UPDATE_ORDER_STATUS,
   CREATEORDER,
   SENDREVIEWPRODUCT,
   GETCARTBYID,
   UPDATEUSERADMIN,
+  FILTER_ORDER_BY_ID,
 } from "../action/actionsType";
 
 export const updateUser = (user) => {
@@ -351,16 +350,32 @@ export const increaseQuantity = (userID, id, quantityPROD) => {
   };
 };
 
-export const decreaseQuantity = (userID, id, quantityPROD) => {
+export const decreaseQuantity = (userID, id, nameProd, quantityPROD) => {
   return async (dispatch) => {
     try {
       dispatch({ type: DECREASEQUANTITY, payload: id });
 
-      const responseCart = await axios.put("cart/", {
-        UserId: userID,
-        productId: id,
-        quantityProd: quantityPROD,
-      });
+      if (quantityPROD === 0) {
+        console.log(
+          "Nombre del producto ",
+          nameProd,
+          " Id del usuario ",
+          userID
+        );
+        const responseCart = await axios.delete("cart/delete", {
+          data: {
+            nameProd: nameProd,
+            UserId: userID,
+          },
+        });
+        console.log("Elimino el producto porque su cantidad es 0");
+      } else {
+        const responseCart = await axios.put("cart/", {
+          UserId: userID,
+          productId: id,
+          quantityProd: quantityPROD,
+        });
+      }
     } catch (error) {
       dispatch({
         type: ERROR,
@@ -544,32 +559,24 @@ export const allOrders = () => {
     }
   };
 };
-export const filterOrderPurchase = (nameSearch) => {
+export const filterOrderById = (id) => {
   return {
-    type: FILTER_ORDER_NAME_PURCHASE,
-    payload: nameSearch,
+    type: FILTER_ORDER_BY_ID,
+    id: id,
   };
-};
+}
 
-export const updateOrderStatus = (orderId, newStatus) => {
-  return async (dispatch) => {
+export const updateOrderStatus = async (orderId, newStatus) => {
     try {
-      const response = await axios.put("/order/update", {
+      const response = await axios.put('/order/update', {
         idOrder: orderId,
-        statusDelivery: newStatus,
-      });
-      dispatch({
-        type: UPDATE_ORDER_STATUS,
-        payload: response.data, // Esto puede variar según la estructura de tu respuesta
+        statusDelivery: newStatus
       });
     } catch (error) {
-      dispatch({
-        type: ERROR,
-        payload: error.message,
-      });
+      console.log('ERROR ACTION',error)
+      alert('error al actualizar delivery status')
     }
   };
-};
 
 export const createOrder = (paymentResults) => {
   return async (dispatch) => {
@@ -659,3 +666,4 @@ export const decreaseStock = (id, stock) => {
     }
   };
 };
+
