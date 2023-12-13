@@ -159,7 +159,7 @@ export default function OrderList() {
                       <option value="Cancelled">Cancelled</option>
                     </select>
                   </td>
-                  <td className={styles.td}>${order.totalPrice.toFixed(2)}</td>
+                  <td className={styles.td}>${Number(order.totalPrice).toFixed(2)}</td>
                   <td className={styles.td}>
                     {" "}
                     {/*BOTON CON ESTILADO DE LINK*/}
