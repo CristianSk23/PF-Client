@@ -629,17 +629,24 @@ const reducer = (state = initialState, action) => {
         orderHistoryCache: action.payload
       };
   
-    case FILTER_ORDER_BY_ID:
-      const result = state.orderHistoryCache.filter((item) => item.id.toLowerCase().includes(action.id.toLowerCase()) )
-
+    case FILTER_ORDER_NAME_PURCHASE:
+      const result = state.orderHistoryCache.filter(i=>i.mercadopagoTransactionStatus
+        .toLowerCase().includes(action.payload.toLowerCase()))
     return {
       ...state,
       orderHistory: result
     };
     
     case UPDATE_ORDER_STATUS:
+      const updatedOrders = state.orderHistory.map(order => {
+        if (order.id === action.payload.orderId) {
+          return { ...order, deliveryStatus: action.payload.newStatus };
+        }
+        return order;
+      });
       return {
         ...state,
+        orderHistory: updatedOrders
       };
 
     case CREATEORDER:

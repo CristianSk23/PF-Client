@@ -11,12 +11,10 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function OrderList() {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orderHistory);
-  const [update, setUpdate] = useState(0);
 
   useEffect(() => {
     dispatch(allOrders());
-  }, [dispatch, update]);
-
+  }, [dispatch]);
 
   const [visibleModal, setvisibleModal] = useState(false);
   const [actualData, setactualData] = useState({});
@@ -47,14 +45,9 @@ export default function OrderList() {
     setvisibleModal(!visibleModal);
   };
 
-  const updateDeliveryStatus = (e, orderId) => {
-    e.preventDefault();
-    const newStatus = e.target.value;
-    updateOrderStatus(orderId, newStatus);
-    setTimeout(() => {
-      setUpdate(update + 1);
-    }, 1000);
 
+  const updateDeliveryStatus = (orderId, newStatus) => {
+    dispatch(updateOrderStatus(orderId, newStatus));
   };
 
   return (
@@ -104,48 +97,44 @@ export default function OrderList() {
         </thead>
         <tbody>
           {orders &&
-            orders
-              .filter(
-                (order) =>
-                  selectedStatus === "All" ||
-                  order.mercadopagoTransactionStatus ===
-                    selectedStatus.toString()
-              )
-              .map((order) => (
-                <tr key={order.id}>
-                  <td className={styles.td}>{order.id}</td>
-                  <td className={styles.td}>{order.orderDate}</td>
-                  <td className={styles.td}>{order.userName}</td>
-                  <td className={styles.td}>
-                    {order.mercadopagoTransactionStatus}
-                  </td>
-                  <td className={styles.td}>
-                    <select
-                      value={order.deliveryStatus}
-                      onChange={(e) => updateDeliveryStatus(e, order.id);
+            orders.map((order) => (
+              <tr key={order.id}>
+                <td className={styles.td}>{order.id}</td>
+                <td className={styles.td}>{order.orderDate}</td>
+                <td className={styles.td}>{order.userName}</td>
+                <td className={styles.td}>{order.mercadopagoTransactionStatus}</td>
+                <td className={styles.td}>
+                  <select
+                    value={order.statusDelivery}
+                    onChange={(e) => {
+                      updateDeliveryStatus(order.id, e.target.value);
                       toast.success(`Status updated to: ${e.target.value}`);
-                    }
+                    }}
+                  >
+                    <option value="Delivered">Delivered</option>
+                    <option value="In Process">In Process</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Cancelled">Cancelled</option>
+                  </select>
+                </td>
+                <td className={styles.td}>${order.totalPrice.toFixed(2)}</td>
+                <td className={styles.td}> 
+                  <button 
+                    type="button" 
+                    className="btn btn-primary"
+                    style={{
+                      '--bs-btn-padding-y': '.25rem',
+                      '--bs-btn-padding-x': '.5rem',
+                      '--bs-btn-font-size': '.75rem',
+                    }} 
+                    onClick={openModal} 
+                    value={order.id}
                     >
-                      <option value="Delivered">Delivered</option>
-                      <option value="In Process">In Process</option>
-                      <option value="Paid">Paid</option>
-                      <option value="Cancelled">Cancelled</option>
-                    </select>
-                  </td>
-                  <td className={styles.td}>${order.totalPrice.toFixed(2)}</td>
-                  <td className={styles.td}>
-                    {" "}
-                    {/*BOTON CON ESTILADO DE LINK*/}
-                    <button
-                      className={styles.button}
-                      onClick={openModal}
-                      value={order.id}
-                    >
-                      See Detail
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                    See Detail
+                  </button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
