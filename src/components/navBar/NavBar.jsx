@@ -128,6 +128,7 @@ const NavBar = ({ onSearch, filterCond, onNavBarHeightChange }) => {
                   <ul className="dropdown-menu dropdown-menu-dark">
                   {!isAuthenticated && <li><a className="dropdown-item" onClick={handleLogin}>Login</a></li>}
                   {isAuthenticated && <li><a href="/myProfile" className="dropdown-item" >My Account</a></li>}
+                  {isAuthenticated && <li><a href="/productsList" className="dropdown-item" >My Products</a></li>}
                   {isAuthenticated && <li><a className="dropdown-item" onClick={handleLogout}>Logout</a></li>}
                   </ul>
                 </li>
