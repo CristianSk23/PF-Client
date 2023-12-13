@@ -533,19 +533,25 @@ export const filterOrderPurchase = (nameSearch) => {
   };
 };
 
-export const updateOrderStatus = async (orderId, newStatus) => {
+export const updateOrderStatus = (orderId, newStatus) => {
+  return async (dispatch) => {
     try {
       const response = await axios.put("/order/update", {
         idOrder: orderId,
         statusDelivery: newStatus,
       });
-      console.log('ERROR ACTION',response.data)
+      dispatch({
+        type: UPDATE_ORDER_STATUS,
+        payload: response.data, // Esto puede variar según la estructura de tu respuesta
+      });
     } catch (error) {
-      console.log('ERROR ACTION',error)
-      alert('error al actualizar delivery status')
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
     }
   };
-
+};
 
 export const createOrder = (paymentResults) => {
   return async (dispatch) => {
