@@ -144,11 +144,11 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
             <table className="table table-hover" style={{ marginTop: "10px" }}>
               <thead>
                 <tr>
-                  <th className={styles.th} scope="col">
-                    Product code
+                <th className={styles.th} scope="col">
+                    Quantity
                   </th>
                   <th className={styles.th} scope="col">
-                    Quantity
+                    Image
                   </th>
                   <th className={styles.th} scope="col">
                     Name product
@@ -172,8 +172,8 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
                   orderDetails.map((product) => (
                     <React.Fragment key={product.id}>
                       <tr>
-                        <td className={styles.td}>{product?.id}</td>
-                        <td className={styles.td}>{product?.quantityProd}</td>
+                      <td className={styles.td}>{product?.quantityProd}</td>
+                        <td className={styles.td}><img src={product?.image[0]} alt="" style={{height:"50px"}}/></td>
                         <td className={styles.td}>{product?.nameProd}</td>
                         <td className={styles.td}>
                           ${parseFloat(product?.price).toFixed(2)}
