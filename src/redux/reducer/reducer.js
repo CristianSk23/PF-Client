@@ -47,6 +47,7 @@ import {
   SENDREVIEWPRODUCT,
   GETCARTBYID,
   UPDATEUSERADMIN,
+  DELETEUSER,
 } from "../action/actionsType";
 
 const initialState = {
@@ -74,6 +75,7 @@ const initialState = {
   },
   isUser: "Invited",
   user: {},
+  userById: {},
   deletedUsers: [],
   country: "",
   countries: [],
@@ -184,13 +186,14 @@ const reducer = (state = initialState, action) => {
     case GETUSERBYID:
       return {
         ...state,
-        user: action.payload,
+        userById: action.payload,
       };
 
-    case GETUSERBYID:
+    case DELETEUSER:
       return {
         ...state,
-      };
+        users: state.users.filter((user) => action.payload.id !== user.id)
+    }
 
     case UPDATEUSER:
       return { ...state, user: { ...state.user, ...action.payload } };
