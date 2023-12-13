@@ -216,7 +216,7 @@ const MyProfile = () => {
           </Container>
           <br />
           <hr />
-          {isuser?.id && <ModuleHistoryOrderUser idProp={isuser?.id} />}
+          {isuser?.typeUser === "User" && isuser?.id && <ModuleHistoryOrderUser idProp={isuser?.id} />}
         </div>
       )
     : auxUpdateUser && (
