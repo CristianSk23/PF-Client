@@ -34,7 +34,7 @@ export default function UserPurchaseHistory({ closeModal, data }) {
                   <td className={styles.td}>{i.nameProd}</td>
                   <td className={styles.td}>{i.category}</td>
                   <td className={styles.td}>${Number(i.price)?.toFixed(2)}</td>
-                  <td className={styles.td}>{Number(i.priceOnSale) > 0 ? Number(i.priceOnSale).toFixed(2) : Number(i.price).toFixed(2)}</td>
+                  <td className={styles.td}>${Number(i.priceOnSale) > 0 ? Number(i.priceOnSale).toFixed(2) : Number(i.price).toFixed(2)}</td>
                   <td className={styles.td}>{i.stock}</td>
                   <td className={styles.td}>{i.quantityProd}</td>
                   </tr>
