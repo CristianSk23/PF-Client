@@ -13,7 +13,6 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 export default function OrderList() {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orderHistory);
-  console.log('ORDERS',orders)
   const [update, setUpdate] = useState(0);
 
   useEffect(() => {
