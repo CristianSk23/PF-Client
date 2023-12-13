@@ -19,7 +19,7 @@ const ShoppingCart = ({}) => {
 
  const dispatch = useDispatch(); 
  const navigate = useNavigate();
- const [stock, setStock] = useState("")
+//  const [stock, setStock] = useState("")
 
  const products = useSelector((state) => state.cart.items)
  const userID = useSelector((state) => state.user.id)
@@ -48,23 +48,21 @@ const ShoppingCart = ({}) => {
         draggable: true,
         progress: undefined,
         theme: "colored",
-        // theme: "dark",
-        // theme: "light",
         });
  }
 
  const IncreaseQuantity = (userID, productsid, quantityPROD) => {
-    const itemToCheck = products.find(
-        (item) => item.id === productsid
-      );
-      if(itemToCheck.stock < itemToCheck.quantity + 1) {
-        setStock("MAX")
-      }
+    // const itemToCheck = products.find(
+    //     (item) => item.id === productsid
+    //   );
+    //   if(itemToCheck.stock < itemToCheck.quantity + 1) {
+    //     setStock("MAX")
+    //   }
     dispatch(increaseQuantity(userID, productsid, quantityPROD))
  }
 
  const DecreaseQuantity = (userID, productsid, quantityPROD) => {
-    setStock("");
+    // setStock("");
     dispatch(decreaseQuantity(userID, productsid, quantityPROD))
  }
 
@@ -72,24 +70,25 @@ const ShoppingCart = ({}) => {
     navigate(-1);
   };
 
-  const handleStock = () => {
-    if (stock === "MAX") {
-        // return "There are no more units available for this product"
-        toast.warning("There are no more units available for this product", {
-            position: "bottom-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-            // theme: "dark",
-            // theme: "light",
-            });
-    } 
-    return ""
-  }
+//   const handleStock = () => {
+//     if (stock === "MAX") {
+//         // return "There are no more units available for this product"
+//         toast.warning("There are no more units available for this product", {
+//             position: "bottom-right",
+//             autoClose: 2000,
+//             hideProgressBar: false,
+//             closeOnClick: true,
+//             pauseOnHover: true,
+//             draggable: true,
+//             progress: undefined,
+//             theme: "colored",
+//             // theme: "dark",
+//             // theme: "light",
+//             });
+//             // setStock("");
+//     } 
+//     return ""
+//   }
 
 if(!isLoading && !isAuthenticated && isUser === "Invited"){
     return(
@@ -107,7 +106,7 @@ if(!isLoading && !isAuthenticated && isUser === "Invited"){
       {products.length > 0 && (
                 <div className="container" style={{marginTop: "62px"}}>
                 <h1 style={{textAlign:"center", marginBottom:"40px"}}>Shopping Cart</h1>
-                <p style={{"color": "red"}}>{handleStock()}</p>
+                {/* <p style={{"color": "red"}}>{handleStock()}</p> */}
                 <table className="table table-hover table-responsive">
                     <thead>
                         <tr>
@@ -115,7 +114,7 @@ if(!isLoading && !isAuthenticated && isUser === "Invited"){
                         <th className={styles.th} scope="col">Name</th>
                         <th className={styles.th} scope="col">Price</th>
                         <th className={styles.th} scope="col">Quantity</th>
-                        <th className={styles.th} scope="col">Total Price</th>
+                        <th className={styles.th} scope="col">Subtotal</th>
                         <th className={styles.th} scope="col">Delete</th>
                         </tr>
                     </thead>

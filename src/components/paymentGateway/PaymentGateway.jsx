@@ -154,7 +154,7 @@ const PaymentGateway=()=>{
                     <div>
                       <h6 className="my-0">{item.quantity} x {item.nameProd}</h6>
                     </div>
-                    <span className="text-body-secondary">${sellPrice*item.quantity}</span>
+                    <span className="text-body-secondary">${(sellPrice*item.quantity).toFixed(2)}</span>
                   </li>)
                 })}
                 <li className="list-group-item d-flex justify-content-between">
