@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers, updateUser, getOrders } from "../../redux/action/actions";
+import { getUsers, updateUserForAdmin , getOrders } from "../../redux/action/actions";
 import { useNavigate } from 'react-router-dom';
 import styles from "./adminModuleUser.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -41,7 +41,7 @@ const AdminModuleUser = () => {
       typeUser: typeUser,
       active: newStatus,
     }
-    dispatch(updateUser(user))
+    dispatch(updateUserForAdmin(user))
   }
   const handleStatusChangeTypeUser = (userId, email, active, newStatus) => {
     const user = {
@@ -50,7 +50,7 @@ const AdminModuleUser = () => {
       typeUser: newStatus,
       active: active,
     }
-    dispatch(updateUser(user))
+    dispatch(updateUserForAdmin(user))
   }
 
   if(!isLoading && isUser === "Admin"){

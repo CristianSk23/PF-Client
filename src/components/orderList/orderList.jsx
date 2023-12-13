@@ -108,7 +108,18 @@ export default function OrderList() {
                     value={order.statusDelivery}
                     onChange={(e) => {
                       updateDeliveryStatus(order.id, e.target.value);
-                      toast.success(`Status updated to: ${e.target.value}`);
+                      toast.success(`Status updated to ${e.target.value}`, {
+                        position: "bottom-right",
+                        autoClose: 2500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                        // theme: "dark",
+                        // theme: "light",
+                        });
                     }}
                   >
                     <option value="Delivered">Delivered</option>
