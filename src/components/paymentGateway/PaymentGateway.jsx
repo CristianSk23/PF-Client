@@ -101,16 +101,7 @@ const PaymentGateway=()=>{
     //------------------------------------------------------------------------------
 
     if(catchError===""){
-      toast.info('We are redirecting you to Mercadopago payment site', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        });
+      toast.info('We are redirecting you to Mercadopago payment site');
       axios
       .post("/payments/createOrder", newOrder)
       .then((response) => {
