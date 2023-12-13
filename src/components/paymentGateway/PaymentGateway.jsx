@@ -102,16 +102,21 @@ const PaymentGateway=()=>{
 
     if(catchError===""){
       toast.info('We are redirecting you to Mercadopago payment site');
-      axios
-      .post("/payments/createOrder", newOrder)
-      .then((response) => {
-          window.location.href = response.data.init_point;
-          setLoading(false) 
-      })
-      .catch((error) => {
-        setLoading(false)
-      });
+      
+      
+      setTimeout(() => {
+        axios
+        .post("/payments/createOrder", newOrder)
+        .then((response) => {
+            window.location.href = response.data.init_point;
+            setLoading(false) 
+        })
+        .catch((error) => {
+          setLoading(false)
+        }); 
+      }, 1000);
     }
+    
   }
 
   const handleCancel = () => {
@@ -221,7 +226,7 @@ const PaymentGateway=()=>{
 
                   <div className="col-md-6">
                     <label className="form-label">Country</label>
-                    <select className="form-control" id="country" disabled value="Argentina" onChange="" > {/* CUANDO TENGA FUNCIONABILIDAD HACERLO REQUIRED*/}
+                    <select className="form-control" id="country" disabled value="Argentina" > {/* CUANDO TENGA FUNCIONABILIDAD HACERLO REQUIRED*/}
                       <option value="Argentina">Argentina</option>
                     </select>
                     <div className="invalid-feedback">

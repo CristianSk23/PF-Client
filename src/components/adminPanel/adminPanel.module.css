@@ -52,7 +52,15 @@
     text-align: center;
 }
 
-.button{
-    border: none;
-    background: transparent;
-}
+  .button{
+      border: none;
+      background: transparent;
+  }
+
+  .button:hover{
+  background-color: aquamarine;
+  }
+
+  .th {
+    font-style: bold;
+  }
