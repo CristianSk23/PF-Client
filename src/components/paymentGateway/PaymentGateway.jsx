@@ -46,6 +46,7 @@ const PaymentGateway=()=>{
 
   useEffect(() => {
     userInfo.id.length == 0 && navigate(-1)
+    totalCart == 0 && navigate(-1)
   }, [userInfo]);
 
   const handleChange = (event) =>{
