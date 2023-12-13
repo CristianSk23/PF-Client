@@ -7,6 +7,7 @@ import NavBar from "../navBar/NavBar";
 import PopupGeneral from "../popupGeneral/PopupGeneral";
 import { useAuth0 } from "@auth0/auth0-react";
 import ErrorView from "../error404/Error404";
+import { setPageAdmin } from "../../redux/action/actions";
 
 const DeleteProduct = () => {
   const { id } = useParams();
@@ -48,6 +49,7 @@ const DeleteProduct = () => {
 
   const handleConfirmationClose = () => {
     setShowConfirmation(false);
+    dispatch(setPageAdmin("deletedProducts"))
     navigate(-1);
   };
 
@@ -81,7 +83,7 @@ const DeleteProduct = () => {
       </div>
       {showConfirmation && (
         <PopupGeneral
-          textButton="Go home"
+          textButton="Accept"
           descripcion="Product successfully removed"
           onClick={handleConfirmationClose}
         />
