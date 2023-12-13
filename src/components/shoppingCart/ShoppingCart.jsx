@@ -19,7 +19,7 @@ const ShoppingCart = ({}) => {
 
  const dispatch = useDispatch(); 
  const navigate = useNavigate();
- const [stock, setStock] = useState("")
+//  const [stock, setStock] = useState("")
 
  const products = useSelector((state) => state.cart.items)
  const userID = useSelector((state) => state.user.id)
