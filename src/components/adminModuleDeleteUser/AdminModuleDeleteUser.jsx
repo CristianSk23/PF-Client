@@ -14,7 +14,7 @@ const AdminModuleDeleteUser = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const userById = useSelector((state) => state.user) || {};
+  const userById = useSelector((state) => state.userById) || {};
   const [user, setUser] = useState({
     id: '',
     name: '',
