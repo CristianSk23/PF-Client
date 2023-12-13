@@ -572,7 +572,6 @@ export const updateOrderStatus = async (orderId, newStatus) => {
         idOrder: orderId,
         statusDelivery: newStatus
       });
-      console.log('ERROR ACTION',response.data)
     } catch (error) {
       console.log('ERROR ACTION',error)
       alert('error al actualizar delivery status')
