@@ -1,4 +1,5 @@
 import { UserType } from "../../utils/userType";
+import { toast } from "react-toastify";
 import {
   GETALLPRODUCTS,
   GETUSERS,
@@ -42,7 +43,8 @@ import {
   UPDATE_ORDER_STATUS,
   CREATEORDER,
   SENDREVIEWPRODUCT,
-  GETCARTBYID
+  GETCARTBYID,
+  UPDATEUSERADMIN,
 } from "../action/actionsType";
 
 const initialState = {
@@ -190,6 +192,17 @@ const reducer = (state = initialState, action) => {
 
     case UPDATEUSER:
       return { ...state, user: { ...state.user, ...action.payload } };
+
+    case UPDATEUSERADMIN:
+      const updatedUsers = state.users.map((user) => {
+        if (user.id === action.payload.id) {
+          return { ...user, ...action.payload };
+        }
+        return user;
+      });
+    
+      return { ...state, users: updatedUsers };
+  
 
     //-------------------------------- ORDERS ---------------------------------------------//
 
@@ -376,7 +389,17 @@ const reducer = (state = initialState, action) => {
       console.log('payload');
       console.log(action.payload);
       if (action.payload.stock == 0) {
-        alert("This product is out of stock");
+        // alert("This product is out of stock");
+        toast.warning("This product is out of stock", {
+          position: "bottom-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
         return {
           ...state,
         };
@@ -388,8 +411,17 @@ const reducer = (state = initialState, action) => {
 
       if (existingItem) {
         if (action.payload.stock < existingItem.quantity + 1) {
-          //alert("There are no more units available for this product");
-
+          // alert("There are no more units available for this product");
+          toast.warning("There are no more units available for this product", {
+            position: "bottom-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            });
           return {
             ...state,
           };
@@ -435,8 +467,17 @@ const reducer = (state = initialState, action) => {
       );
 
       if (itemToCheck.stock < itemToCheck.quantity + 1) {
-        //alert("There are no more units available for this product");
-
+        // toast.warning("There are no more units available for this product");
+        toast.warning("There are no more units available for this product", {
+          position: "bottom-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
         return {
           ...state,
         };
