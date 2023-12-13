@@ -1,15 +1,10 @@
-import {
-  removeOneCart,
-  increaseQuantity,
-  decreaseQuantity,
-  getCartById,
-} from "../../redux/action/actions";
-import { useSelector } from "react-redux/es/hooks/useSelector";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { removeOneCart, increaseQuantity, decreaseQuantity, getCartById } from "../../redux/action/actions"
+import { useSelector } from "react-redux/es/hooks/useSelector"
+import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import { Link } from 'react-router-dom';
 import NavBar from "../navBar/NavBar";
-import styles from "./shoppingCart.module.css";
+import styles from "./shoppingCart.module.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
@@ -20,64 +15,30 @@ import Button from "react-bootstrap/Button";
 
 
 const ShoppingCart = ({}) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [stock, setStock] = useState("");
 
-  const products = useSelector((state) => state.cart.items);
-  const userID = useSelector((state) => state.user.id);
+ const dispatch = useDispatch(); 
+ const navigate = useNavigate();
+ const [stock, setStock] = useState("")
 
-  const isUser = useSelector((state) => state.isUser);
-  const { isAuthenticated, isLoading } = useAuth0();
+ const products = useSelector((state) => state.cart.items)
+ const userID = useSelector((state) => state.user.id)
 
-  useEffect(() => {
-    userID && dispatch(getCartById(userID));
+ const isUser = useSelector((state) => state.isUser)
+ const {isAuthenticated, isLoading} = useAuth0()
+ 
+
+ useEffect(() => {
+    userID && dispatch(getCartById(userID))
   }, [userID]);
 
-  const totalCart = products
-    .reduce((accumulator, item) => {
-      let newPrice = item.priceOnSale || item.price;
-      return accumulator + newPrice * item.quantity;
-    }, 0)
-    .toFixed(2);
+  const totalCart = products.reduce((accumulator, item) => {
+    let newPrice = item.priceOnSale || item.price;
+    return accumulator + newPrice * item.quantity;
+  }, 0).toFixed(2);
 
-  const DeleteCart = (productsid, nameProd, userID) => {
-    dispatch(removeOneCart(productsid, nameProd, userID));
-    toast.success("Product has been removed from cart!", {
-      position: "bottom-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      // theme: "dark",
-      // theme: "light",
-    });
-  };
-
-  const IncreaseQuantity = (userID, productsid, quantityPROD) => {
-    const itemToCheck = products.find((item) => item.id === productsid);
-    if (itemToCheck.stock < itemToCheck.quantity + 1) {
-      setStock("MAX");
-    }
-    dispatch(increaseQuantity(userID, productsid, quantityPROD));
-  };
-
-  const DecreaseQuantity = (userID, productsid, nameProd, quantityPROD) => {
-    setStock("");
-    dispatch(decreaseQuantity(userID, productsid, nameProd, quantityPROD));
-  };
-
-  const handleCancel = () => {
-    navigate(-1);
-  };
-
-  const handleStock = () => {
-    if (stock === "MAX") {
-      // return "There are no more units available for this product"
-      toast.warning("There are no more units available for this product", {
+ const DeleteCart = (productsid, nameProd, userID) => {
+    dispatch(removeOneCart(productsid, nameProd, userID))
+    toast.success('Product has been removed from cart!', {
         position: "bottom-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -88,10 +49,46 @@ const ShoppingCart = ({}) => {
         theme: "colored",
         // theme: "dark",
         // theme: "light",
-      });
-    }
-    return "";
+        });
+ }
+
+ const IncreaseQuantity = (userID, productsid, quantityPROD) => {
+    const itemToCheck = products.find(
+        (item) => item.id === productsid
+      );
+      if(itemToCheck.stock < itemToCheck.quantity + 1) {
+        setStock("MAX")
+      }
+    dispatch(increaseQuantity(userID, productsid, quantityPROD))
+ }
+
+ const DecreaseQuantity = (userID, productsid, quantityPROD) => {
+    setStock("");
+    dispatch(decreaseQuantity(userID, productsid, quantityPROD))
+ }
+
+ const handleCancel = () => {
+    navigate(-1);
   };
+
+  const handleStock = () => {
+    if (stock === "MAX") {
+        // return "There are no more units available for this product"
+        toast.warning("There are no more units available for this product", {
+            position: "bottom-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            // theme: "dark",
+            // theme: "light",
+            });
+    } 
+    return ""
+  }
 
 if(!isLoading && !isAuthenticated && isUser === "Invited"){
     return(
@@ -186,40 +183,29 @@ if(!isLoading && !isAuthenticated && isUser === "Invited"){
         <h1 style={{textAlign:"center", marginBottom:"40px"}}>Shopping Cart</h1>
         <table className="table table-hover">
             <thead>
-              <tr>
-                <th className={styles.th} scope="col">
-                  Product
-                </th>
-                <th className={styles.th} scope="col">
-                  Name
-                </th>
-                <th className={styles.th} scope="col">
-                  Price
-                </th>
-                <th className={styles.th} scope="col">
-                  Quantity
-                </th>
-                <th className={styles.th} scope="col">
-                  Total Price
-                </th>
-                <th className={styles.th} scope="col">
-                  Delete
-                </th>
-              </tr>
+                <tr>
+                <th className={styles.th} scope="col">Product</th>
+                <th className={styles.th} scope="col">Name</th>
+                <th className={styles.th} scope="col">Price</th>
+                <th className={styles.th} scope="col">Quantity</th>
+                <th className={styles.th} scope="col">Total Price</th>
+                <th className={styles.th} scope="col">Delete</th>
+                </tr>
             </thead>
             <tbody>
-              <tr>
-                <td align="center" colSpan="6">
-                  <strong>Empty shopping cart...</strong>
-                </td>
-              </tr>
+                <tr>
+                <td align="center" colSpan="6"><strong>Empty shopping cart...</strong></td>
+                </tr>
             </tbody>
         </table>
         <div className="d-flex justify-content-center" style={{marginTop:"-16px"}}>
             <a className="btn btn-danger mx-2 btn-md" type="button" style={{margin:"8px", width:"180px"}} onClick={ handleCancel }>Back</a>
         </div>
-      )}
     </div>
-  );
-};
+    )}
+
+</div>
+
+)}
 export default ShoppingCart;
+            
