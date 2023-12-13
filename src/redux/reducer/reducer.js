@@ -1,6 +1,9 @@
+import { UserType } from "../../utils/userType";
+import { toast } from "react-toastify";
 import {
   GETALLPRODUCTS,
   GETUSERS,
+  GETUSERBYID,
   GETPRODBYID,
   GETPRODCATEGORIES,
   GETPRODUCTBYNAME,
@@ -12,7 +15,38 @@ import {
   ORDERNAME,
   FILTER,
   ERROR,
-  POPUPINITIAL
+  POPUPINITIAL,
+  CLEANSINGLEPROD,
+  ADDTOCART,
+  REMOVEALLCART,
+  REMOVEONECART,
+  INCREASEQUANTITY,
+  DECREASEQUANTITY,
+  CLEANSEARCHBAR,
+  NAMESEARCH,
+  TYPEUSER,
+  UPDATEUSER,
+  GENERATEUSER,
+  LOGOUT,
+  COUNTRY,
+  POPUTSPROMOTIONS,
+  INCREASESTOCK,
+  DECREASESTOCK,
+  GETALLCOUNTRIES,
+  GETALLDELETEDPRODUCTS,
+  RESTOREPRODUCTS,
+  GETALLDELETEDUSERS,
+  RESTOREUSERS,
+  SETPAGEADMIN,
+  GETORDERS,
+  GETORDERSBYUSERID,
+  GET_ALL_ORDERS,
+  FILTER_ORDER_BY_ID,
+  UPDATE_ORDER_STATUS,
+  CREATEORDER,
+  SENDREVIEWPRODUCT,
+  GETCARTBYID,
+  UPDATEUSERADMIN,
 } from "../action/actionsType";
 
 const initialState = {
@@ -21,17 +55,37 @@ const initialState = {
     allProducts: [], //backup
     currentPage: 0,
     productsFiltered: [],
+    productsSearch: [],
     filterType: undefined, // orderPrice, productsSearched, filterType, etc.
+    nameSearch: "",
+    promotionsProducts: [],
+    singleProduct: "",
+    deletedProducts: [],
+    orderHistory: [],
+
   },
   users: [],
   prodCategories: [],
-  singleProduct: "",
+
   catchError: "",
-  isShowPopup: true
+  isShowPopup: true,
+  cart: {
+    items: [],
+  },
+  isUser: "Invited",
+  user: {},
+  deletedUsers: [],
+  country: "",
+  countries: [],
+  pageAdmin: "dassboard",
+  ordersForUser: [],
+  ordersForUserId: [],
+  orderHistory: [],
+  orderHistoryCache: []
 };
 
 const reducer = (state = initialState, action) => {
-  const ITEM_PER_PAGE = 10;
+  const ITEM_PER_PAGE = 12;
 
   switch (action.type) {
     case GETALLPRODUCTS:
@@ -56,31 +110,66 @@ const reducer = (state = initialState, action) => {
           allProducts: [...state.products.allProducts, action.payload],
         },
       };
-    //return { ...state, products.allProducts: [...products.allProducts, action.payload] };
 
     case UPDATEPRODUCT:
       const updatedProducts = state.products.allProducts.filter((product) => {
         return product.prodName !== action.payload.prodName;
       });
       return {
+        ...state,
         products: {
-          ...state,
+          ...state.products,
           allProducts: [...updatedProducts, action.payload],
         },
       };
 
     case GETPRODBYID:
-      return { ...state, singleProduct: action.payload };
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          singleProduct: action.payload,
+        },
+      };
+
+    case CLEANSINGLEPROD:
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          singleProduct: action.payload,
+        },
+      };
 
     case DELETEPRODUCT:
       const deletedProduct = state.products.allProducts.filter((product) => {
         return product.id != action.payload;
       });
       return {
-        product: {
-          ...state,
+        ...state,
+        products: {
+          ...state.products,
           allProducts: deletedProduct,
         },
+      };
+
+    case GETALLDELETEDPRODUCTS:
+      return{
+        ...state,
+        products: {
+          ...state.products,
+          deletedProducts: action.payload
+        }
+      }
+
+    case RESTOREPRODUCTS:
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          allProducts: [...state.products.allProducts, action.payload],
+          deletedProducts: state.products.deletedProducts.filter((product) => product.id !== action.payload.id)
+        }
       };
 
     case ERROR:
@@ -91,6 +180,31 @@ const reducer = (state = initialState, action) => {
         ...state,
         users: action.payload,
       };
+
+    case GETUSERBYID:
+      return {
+        ...state,
+        user: action.payload,
+      };
+
+    case GETUSERBYID:
+      return {
+        ...state,
+      };
+
+    case UPDATEUSER:
+      return { ...state, user: { ...state.user, ...action.payload } };
+
+    case UPDATEUSERADMIN:
+      const updatedUsers = state.users.map((user) => {
+        if (user.id === action.payload.id) {
+          return { ...user, ...action.payload };
+        }
+        return user;
+      });
+    
+      return { ...state, users: updatedUsers };
+  
 
     //-------------------------------- ORDERS ---------------------------------------------//
 
@@ -172,44 +286,55 @@ const reducer = (state = initialState, action) => {
 
     // --------------------------------FILTROS --------------------------------------------//
     case FILTER:
-      let filtered = [...state.products?.allProducts] || [];
+      try {
+        let filtered =
+          state.products &&
+          state.products.productsSearch &&
+          state.products.productsSearch.length !== 0
+            ? [...state.products.productsSearch]
+            : [...state.products.allProducts];
 
-      if (action.payload.type !== "all") {
-        filtered = filtered.filter(
-          (product) =>
-            ///////////REVISAR
-            product.category == action.payload.type
-        );
-      }
-
-      if (action.payload.price !== "all") {
-        if (action.payload.price === "100") {
-          filtered = [...filtered].filter(
-            (product) => product.price < action.payload.price
-          );
-        }
-
-        if (action.payload.price === "300") {
-          filtered = [...filtered].filter(
+        if (action.payload.type !== "all") {
+          filtered = filtered.filter(
             (product) =>
-              product.price <= action.payload.price && product.price >= 100
+              ///////////REVISAR
+              product.category.toLowerCase() === action.payload.type.toLowerCase()
           );
         }
 
-        if (action.payload.price === "500") {
-          filtered = [...filtered].filter((product) => product.price > 301);
-        }
-      }
+        if (action.payload.price !== "all") {
+          if (action.payload.price === "100") {
+            filtered = [...filtered].filter(
+              (product) => product.price < action.payload.price
+            );
+          }
 
-      return {
-        ...state,
-        products: {
-          ...state.products,
-          data: [...filtered].splice(0, ITEM_PER_PAGE),
-          productsFiltered: [...filtered],
-          currentPage: 0,
-        },
-      };
+          if (action.payload.price === "300") {
+            filtered = [...filtered].filter(
+              (product) =>
+                product.price <= action.payload.price && product.price >= 100
+            );
+          }
+
+          if (action.payload.price === "500") {
+            filtered = [...filtered].filter((product) => product.price > 301);
+          }
+        }
+
+        return {
+          ...state,
+          products: {
+            ...state.products,
+            data: [...filtered].splice(0, ITEM_PER_PAGE),
+            productsFiltered: [...filtered],
+            currentPage: 0,
+          },
+        };
+      } catch (error) {
+        //console.error('Error en la acción FILTER:', error);
+
+        return { ...state, catchError: error };
+      }
 
     // -------------------------------- PAGINATION --------------------------------------- //
 
@@ -262,21 +387,355 @@ const reducer = (state = initialState, action) => {
         },
       };
 
+    case ADDTOCART:
+      if (action.payload.stock == 0) {
+        // alert("This product is out of stock");
+        toast.warning("This product is out of stock", {
+          position: "bottom-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+        return {
+          ...state,
+        };
+      }
+
+      const existingItem = state.cart.items.find(
+        (item) => item.id === action.payload.id
+      );
+
+      if (existingItem) {
+        if (action.payload.stock < existingItem.quantity + 1) {
+          // alert("There are no more units available for this product");
+          toast.warning("There are no more units available for this product", {
+            position: "bottom-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            });
+
+          return {
+            ...state,
+          };
+        }
+
+        return {
+          ...state,
+          cart: {
+            ...state.cart,
+            items: state.cart.items.map((item) =>
+              item.id === existingItem.id
+                ? { ...item, quantity: item.quantity + 1 }
+                : item
+            ),
+          },
+        };
+      } else {
+        return {
+          ...state,
+          cart: {
+            ...state.cart,
+            items: [{ ...action.payload, quantity: 1 }, ...state.cart.items],
+          },
+        };
+      }
+
+    case REMOVEONECART:
+      let filteredItems = state.cart.items.filter(
+        (product) => product.id !== action.payload
+      );
+
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          items: filteredItems,
+        },
+      };
+
+    case INCREASEQUANTITY:
+      let itemToCheck = state.cart.items.find(
+        (item) => item.id === action.payload
+      );
+
+      if (itemToCheck.stock < itemToCheck.quantity + 1) {
+        // toast.warning("There are no more units available for this product");
+        toast.warning("There are no more units available for this product", {
+          position: "bottom-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+
+        return {
+          ...state,
+        };
+      }
+
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          items: state.cart.items.map((item) =>
+            item.id === action.payload
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          ),
+        },
+      };
+
+    case DECREASEQUANTITY:
+      let itemToDec = state.cart.items.find(
+        (item) => item.id === action.payload
+      );
+
+      if (itemToDec.quantity <= 1) {
+        let filteredItemsDEC = state.cart.items.filter(
+          (product) => product.id !== action.payload
+        );
+  
+        return{
+            ...state,
+            cart: {
+              ...state.cart,
+              items: filteredItemsDEC, 
+            }
+            }
+      }
+    
+     else {
+
+    return {
+      ...state,
+      cart: {
+        ...state.cart,
+        items: state.cart.items.map((item) =>
+          item.id === action.payload ? { ...item, quantity: item.quantity - 1 } : item
+        ),
+      },
+    };
+    };
+
+    case INCREASESTOCK:
+
+    const increaseData = state.products.data.map((item) => {
+      if (item.id === action.payload) {
+        return { ...item, stock: item.stock + 1 };
+      } else {
+        return item;
+      }
+    });
+    
+    return {
+      ...state,
+      products: {
+        ...state.products,
+        data: increaseData,
+      },
+    }
+
+    case DECREASESTOCK:
+
+    const decreaseData = state.products.data.map((item) => {
+      if (item.id === action.payload) {
+        return { ...item, stock: item.stock - 1 };
+      } else {
+        return item;
+      }
+    });
+    
+    return {
+      ...state,
+      products: {
+        ...state.products,
+        data: decreaseData,
+      },
+    }
+
+
     case GETPRODUCTBYNAME:
       return {
         ...state,
         products: {
+          ...state.products,
           data: [...action.payload].splice(0, ITEM_PER_PAGE),
-          //allProducts: action.payload,
+          productsSearch: action.payload,
           currentPage: 0,
           productsFiltered: action.payload,
         },
       };
-    case POPUPINITIAL: 
-      return{
+    case POPUPINITIAL:
+      return {
         ...state,
-        isShowPopup: action.payload
+        isShowPopup: action.payload,
+      };
+
+    case CLEANSEARCHBAR:
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          productsSearch: action.payload,
+        },
+        nameSearch: "", // También asegúrate de limpiar nameSearch si es necesario
+      };
+    case NAMESEARCH:
+      return {
+        ...state,
+        nameSearch: action.payload,
+      };
+
+    // -------------------------------- USERS --------------------------------------- //
+    case GENERATEUSER:
+      return {
+        ...state,
+        user: action.payload,
+      };
+
+    case TYPEUSER:
+      return {
+        ...state,
+        isUser: action.payload,
+      };
+
+    case GETALLDELETEDUSERS:
+      return {
+        ...state,
+        deletedUsers: action.payload.reverse(),
       }
+
+      case RESTOREUSERS:   
+        return {
+          ...state,
+          users: [...state.users, action.payload],
+          deletedUsers: state.deletedUsers.filter((user) => user.id !== action.payload.id),
+        };
+
+    case COUNTRY:
+      return {
+        ...state,
+        country: action.payload,
+      };
+
+    case LOGOUT:
+      return {
+        ...state,
+        user: { typeUser: "Invited" },
+        isUser: "Invited",
+        country: "",
+      };
+    case POPUTSPROMOTIONS:
+      const promotionsProduct = action.payload.filter((product) => {
+        return product.tags === "New";
+      });
+
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          promotionsProducts: promotionsProduct,
+        },
+      };
+
+    case GETALLCOUNTRIES:
+      const ordenCountries = action.payload.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+      return {
+        ...state,
+        countries: ordenCountries,
+      };
+    case SETPAGEADMIN: {
+      return {
+        ...state,
+        pageAdmin: action.payload,
+      };
+    }
+    case GETORDERS: {
+      return {
+        ...state,
+        ordersForUser: action.payload,
+      };
+    }
+
+    case GETORDERSBYUSERID: {
+      
+      return {
+        ...state,
+        ordersForUserId: action.payload,
+      };
+    }
+    case GET_ALL_ORDERS:
+  
+      return {
+        ...state,
+        orderHistory: action.payload,
+        orderHistoryCache: action.payload
+      };
+  
+    case FILTER_ORDER_BY_ID:
+      const result = state.orderHistoryCache.filter((item) => item.id.toLowerCase().includes(action.id.toLowerCase()) )
+    return {
+      ...state,
+      orderHistory: result
+    };
+    
+    case UPDATE_ORDER_STATUS:
+      return {
+        ...state,
+      };
+
+    case CREATEORDER:
+      return {
+        ...state,
+        orderHistoryCache: [...orderHistoryCache, action.payload]
+      };   
+
+    case SENDREVIEWPRODUCT: {
+      return {
+        ...state
+      }
+    };
+
+    case GETCARTBYID:
+      const cartItems = action.payload.items.map((item)=>{
+        return {
+          quantity:item.quantityProd,
+          id:item.idProd,
+          price:item.price,
+          priceOnSale:item.priceOnSale,
+          nameProd:item.nameProd,
+          image:[item.image],
+          description:item.description,
+          stock: item.stock,
+          category: item.category
+
+        }
+      })
+    console.log('cartItems      *******************');
+    console.log(cartItems);
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          id: action.payload.id,
+          items: [...cartItems],
+        },
+      };  
+
     default:
       return { ...state };
   }

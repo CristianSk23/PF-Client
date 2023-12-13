@@ -10,19 +10,80 @@ import FilterAndOrder from "../filterAndOrder/FilterAndOrder";
 import PromotionPopup from "../promotionPopup/PromotionPopup";
 import Cards from "../cards/Cards";
 import styles from "./landingPage.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
+import { Carousel } from "react-bootstrap";
+import Footer from "../Footer/Footer";
+import image1 from "../../assets/image1.png";
+import image2 from "../../assets/image2.png";
+import image3 from "../../assets/image3.png";
+import image4 from "../../assets/image4.png";
+import image5 from "../../assets/image5.png";
+
+import { useAuth0 } from "@auth0/auth0-react";
+import { toast } from "react-toastify";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.products?.data);
+  const allProducts = useSelector((state) => state.products?.data);
+  const [products, setProducts] = useState([]);
+  const isUser = useSelector((state) => state.isUser);
+  const [navBarHeight, setNavBarHeight] = useState(0);
+  const [shouldRenderPromotionPopup, setShouldRenderPromotionPopup] =
+    useState(false);
+  const { isAuthenticated, loginWithRedirect, AuthenticationError } =
+    useAuth0();
 
   const onSearch = (name) => {
     dispatch(getProductsByName(name));
   };
 
-  // obtengo los productos
+  useEffect(() => {
+    if (isUser === "Admin") {
+      setShouldRenderPromotionPopup(false);
+    } else {
+      setShouldRenderPromotionPopup(true);
+    }
+  }, [isUser]);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get("error");
+    const errorDescription = urlParams.get("error_description");
+
+    if (error && errorDescription) {
+      toast.warn(`Please verify your email and Try to Login Again`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        // theme: "light",
+
+      });
+    }
+  }, []);
+
+
+
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
+
+  useEffect(() => {
+    // Filtrar productos activos después de obtenerlos
+    if (allProducts) {
+      let filteredProducts = allProducts.filter(
+        
+        (product) => product.active === true && product.stock !== 0
+      );
+      console.log(filteredProducts)
+      setProducts(filteredProducts);
+    }
+  }, [allProducts]);
 
   const [filterCond, setFilterCond] = useState({
     type: "all",
@@ -42,44 +103,85 @@ const LandingPage = () => {
       select.value = "all";
     });
   };
+  const handleNavBarHeightChange = (height) => {
+    setNavBarHeight(height);
+  };
 
   return (
     <div className={styles.container}>
-      <nav className={styles.navBar}>
-        <PromotionPopup />
-        <NavBar
-          onSearch={onSearch}
-          setFilterCond={setFilterCond}
-          filterCond={filterCond}
-          setAux={setAux}
-          aux={aux}
-        />
-      </nav>
+      {shouldRenderPromotionPopup && <PromotionPopup />}
 
-      <div>
-        <FilterAndOrder
-          setFilterCond={setFilterCond}
-          filterCond={filterCond}
-          setAux={setAux}
-        />
-      </div>
+      <NavBar
+        onSearch={onSearch}
+        setFilterCond={setFilterCond}
+        filterCond={filterCond}
+        setAux={setAux}
+        aux={aux}
+        onNavBarHeightChange={handleNavBarHeightChange}
+      />
 
-      <div
-        className="pagination justify-content-center"
-        style={{ marginTop: "15px" }}
-      >
+      <Carousel style={{ marginTop: `${navBarHeight}px` }}>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src={image1}
+            alt="Second slide"
+            style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src={image2}
+            alt="Second slide"
+            style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src={image3}
+            alt="Second slide"
+            style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src={image4}
+            alt="Second slide"
+            style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src={image5}
+            alt="Second slide"
+            style={{ maxWidth: "100%", height: "100%", objectFit: "fill" }}
+          />
+        </Carousel.Item>
+      </Carousel>
+
+      <FilterAndOrder
+        setFilterCond={setFilterCond}
+        filterCond={filterCond}
+        setAux={setAux}
+      />
+
+      <div className="pagination justify-content-center">
         <button
           type="button"
-          className="btn btn-light"
+          className="form-control"
           style={{
-            width: "200px",
+            width: "50px",
             textAlign: "center",
-            margin: "5px",
-            borderRadius: "20px",
+            marginTop: "5px",
+            height: "37.6px",
           }}
           onClick={reset}
         >
-          Reset Fiters
+          <FontAwesomeIcon icon={faArrowsRotate} />
         </button>
       </div>
 
@@ -109,6 +211,7 @@ const LandingPage = () => {
           </li>
         </ul>
       </nav>
+      <Footer />
     </div>
   );
 };

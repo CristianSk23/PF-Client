@@ -1,53 +1,98 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { showThePopup } from "../../redux/action/actions";
-import { useEffect } from "react";
-
+import { showThePopup, getPromotions } from "../../redux/action/actions";
 import styles from "./promotionPopup.module.css";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const PromotionPopup = () => {
   const dispatch = useDispatch();
 
+  const {isAuthenticated, isLoading} = useAuth0()
   const showPopup = useSelector((state) => state.isShowPopup);
   const [currentImage, setCurrentImage] = useState(0); // para el slider, cambiar por la libreria que se use
+  const products = useSelector((state) => state.products.promotionsProducts);
+  const isUser = useSelector((state) => state.isUser)
+  const typeUser = useSelector((state) => state.user.typeUser)
 
   const closetPopup = () => {
     dispatch(showThePopup(false));
   };
+  
+  useEffect(() => {
+     dispatch(getPromotions());
+  }, []);
 
-  //Cambiar una vez se defina la libreria para el diseño
-  const nextImage = () => {
-    setCurrentImage((prev) => (prev + 1) % images.length);
-  };
-  //Cambiar una vez se defina la libreria para el diseño
-  const prevImage = () => {
-    setCurrentImage((prev) => (prev - 1 + images.length) % images.length);
-  };
-  // Actualmente solo envio 3 imagenes defu=inir cuales productos se van a mostrar aqui
-  const images = [
-    "https://ingenieriademenu.com/wp-content/uploads/2022/05/Cuales-son-las-frutas-y-cuales-son-las-verduras.jpg",
-    "https://equipment21.com/wp-content/uploads/productos-que-venden-las-tiendas-de-abarrotes.jpg",
-    "https://static.eldiario.es/clip/d210311d-65b7-4359-ae7a-11bf2ef96f22_16-9-discover-aspect-ratio_default_0.jpg",
-  ];
 
-  return (
-    showPopup && (
+  return (!isLoading && (!isAuthenticated || typeUser === isUser) && (isUser === "Invited" || isUser === "User") &&
+    showPopup && products?.length != 0 ) && (
       <div className={styles.popup}>
         <div className={styles["poput-content"]}>
-          <h2>50% OFF</h2>
-          <div className={styles.slider}>
-            <img
-              src={images[currentImage]}
-              alt={`Imagen ${currentImage + 1}`}
-            />
-            <button onClick={prevImage}>&lt;</button>
-            <button onClick={nextImage}>&gt;</button>
+          <div
+            id="carouselExampleDark"
+            className={`carousel carousel-dark slide ${styles["carousel-fade"]}`}
+            data-bs-ride="carousel"
+            data-bs-interval="5000"
+          >
+            <button
+              type="button"
+              className={`btn-close ${styles["close-button"]}`}
+              aria-label="Close"
+              onClick={closetPopup}
+            ></button>
+            <div className="carousel-indicators" style={{margin:"29px"}}>
+              {products && products.map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  data-bs-target="#carouselExampleDark"
+                  data-bs-slide-to={index}
+                  className={index === 0 ? "active" : ""}
+                  aria-current={index === 0 ? "true" : ""}
+                  aria-label={`Slide ${index + 1}`}
+                ></button>
+              ))}
+            </div>
+            <div className="carousel-inner">
+              {products && products.map((product, index) => (
+                <div
+                  key={index}
+                  className={`carousel-item ${index === currentImage ? "active" : ""}`}
+                >
+                  <img
+                    src={product.image[0]}
+                    className="d-block mx-auto"
+                    alt={`Imagen ${index + 1}`}
+                    style={{ maxWidth: "100%", height: "400px", objectFit: "cover" }}
+                  />
+
+                  <h5 style={{ fontSize: "25px", color:"black" }}>
+                      <strong>{product.nameProd}</strong>
+                    </h5>
+                </div>
+              ))}
+            </div>
+            <button
+              className="carousel-control-prev"
+              type="button"
+              data-bs-target="#carouselExampleDark"
+              data-bs-slide="prev"
+            >
+              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span className="visually-hidden">Previous</span>
+            </button>
+            <button
+              className="carousel-control-next"
+              type="button"
+              data-bs-target="#carouselExampleDark"
+              data-bs-slide="next"
+            >
+              <span className="carousel-control-next-icon" aria-hidden="true"></span>
+              <span className="visually-hidden">Next</span>
+            </button>
           </div>
-          <p>Descripcion</p>
-          <button onClick={closetPopup}>Close</button>
         </div>
       </div>
     )
-  );
 };
+
 export default PromotionPopup;

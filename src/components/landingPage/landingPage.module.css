@@ -1,4 +1,4 @@
-
+/*
 .navBar {
   background-color: #ADD9D4;
   padding: 10px;
@@ -9,12 +9,12 @@
 
 .navBar a {
   text-decoration: none;
-}
+}*/
 
 
 .container{
-  background-color: #87A5FF;
+  background-color: #F8F9F9;
   background-size: cover;
   width: 100%;
-  min-height: 1220px;
+  min-height: 2050px;
 }
