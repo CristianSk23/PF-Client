@@ -46,7 +46,8 @@ import {
   UPDATE_ORDER_STATUS,
   CREATEORDER,
   SENDREVIEWPRODUCT,
-  GETCARTBYID
+  GETCARTBYID,
+  UPDATEUSERADMIN,
 } from "../action/actionsType";
 
 export const updateUser = (user) => {

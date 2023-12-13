@@ -45,6 +45,7 @@ import {
   CREATEORDER,
   SENDREVIEWPRODUCT,
   GETCARTBYID,
+  UPDATEUSERADMIN,
 } from "../action/actionsType";
 
 const initialState = {
@@ -192,6 +193,17 @@ const reducer = (state = initialState, action) => {
 
     case UPDATEUSER:
       return { ...state, user: { ...state.user, ...action.payload } };
+
+    case UPDATEUSERADMIN:
+      const updatedUsers = state.users.map((user) => {
+        if (user.id === action.payload.id) {
+          return { ...user, ...action.payload };
+        }
+        return user;
+      });
+    
+      return { ...state, users: updatedUsers };
+  
 
     //-------------------------------- ORDERS ---------------------------------------------//
 
