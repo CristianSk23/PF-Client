@@ -13,6 +13,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 export default function OrderList() {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orderHistory);
+  console.log('ORDERS',orders)
   const [update, setUpdate] = useState(0);
 
   useEffect(() => {
@@ -88,9 +89,10 @@ export default function OrderList() {
           onChange={handleStatusChange}
         >
           <option value="All">Select status</option>
-          <option value="Approved">Approved</option>
-          <option value="Pending">Pending</option>
-          <option value="Rejected">Rejected</option>
+          <option value="Delivered">Delivered</option>
+          <option value="In Process">In Process</option>
+          <option value="Paid">Paid</option>
+          <option value="Cancelled">Cancelled</option>
         </select>
         <input
           type="text"
@@ -137,7 +139,8 @@ export default function OrderList() {
               .filter(
                 (order) =>
                   selectedStatus === "All" ||
-                  order.mercadopagoTransactionStatus ===
+                  order.deliveryStatus
+                  ===
                     selectedStatus.toString()
               )
               .map((order) => (
