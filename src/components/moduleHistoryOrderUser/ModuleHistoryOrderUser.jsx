@@ -117,7 +117,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
                     <td className={styles.td}>{order.orderDate}</td>
                     <td className={styles.td}>{order.deliveryStatus}</td>
                     <td className={styles.td}>${parseFloat(order.totalPrice).toFixed(2)}</td>
-                    <td className={styles.td}><span onClick={() => handleSeeDetail(JSON.parse(order.itemsCart))}>See detail</span></td>
+                    <td className={styles.td}><Link onClick={() => handleSeeDetail(JSON.parse(order.itemsCart))}>See detail</Link></td>
                 </tr>))}
                 {ordersById.length == 0 && 
                 <tr key="na">
