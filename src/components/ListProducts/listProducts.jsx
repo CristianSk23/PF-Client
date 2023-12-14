@@ -160,6 +160,7 @@ export default function ListProducts() {
                 Preview User View
               </button>
             </div>
+            <div className="table-responsive">
             <table className="table table-hover" style={{ marginTop: "10px" }}>
               <thead>
                 <tr>
@@ -292,6 +293,7 @@ export default function ListProducts() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         ) : (
           <div>
