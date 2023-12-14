@@ -74,7 +74,7 @@ const App = () => {
       if (userAuth?.active === false) {
         toast.error('Your account is banned!', {
           position: "top-right",
-          autoClose: 4000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
