@@ -316,7 +316,101 @@ export default function ListProducts() {
             <Cards products={products} />
           </div>
         )}
-    </div>
+
+        <nav aria-label="Page navigation example" style={{ marginTop: "22px" }}>
+                   <ul className="pagination justify-content-center">
+                   {numMaxPagesFil === 0 ? (
+                        <>
+                            <li className="page-item">
+                            <a
+                                className="page-link"
+                                onClick={pagination}
+                                name="prev"
+                                style={{
+                                cursor: currentPage === 0 ? "default" : "pointer",
+                                color: currentPage === 0 ? "gray" : "",
+                                }}
+                            >
+                                {"<<"} Previous
+                            </a>
+                            </li>
+                            <li
+                            className="page-item"
+                            style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+                            >
+                            {Array.from({ length: numMaxPages }, (_, index) => (
+                                <div key={index} style={{ margin: "0 5px" }}>
+                                <label
+                                    key={index}
+                                    className={`page-link ${index === currentPage ? "active" : ""}`}
+                                >
+                                    {index + 1}
+                                </label>
+                                </div>
+                            ))}
+                            </li>
+                            <li className="page-item">
+                            <a
+                                className="page-link"
+                                onClick={pagination}
+                                name="next"
+                                style={{
+                                cursor: currentPage === numMaxPages - 1 ? "default" : "pointer",
+                                color: currentPage === numMaxPages - 1 ? "gray" : "",
+                                }}
+                            >
+                                Next {">>"}
+                            </a>
+                            </li>
+                        </>
+                        ) : (
+                        <>
+                            <li className="page-item">
+                            <a
+                                className="page-link"
+                                onClick={pagination}
+                                name="prev"
+                                style={{
+                                cursor: currentPage === 0 ? "default" : "pointer",
+                                color: currentPage === 0 ? "gray" : "",
+                                }}
+                            >
+                                {"<<"} Previous
+                            </a>
+                            </li>
+                            <li
+                            className="page-item"
+                            style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+                            >
+                            {Array.from({ length: numMaxPagesFil }, (_, index) => (
+                                <div key={index} style={{ margin: "0 5px" }}>
+                                <label
+                                    key={index}
+                                    className={`page-link ${index === currentPage ? "active" : ""}`}
+                                >
+                                    {index + 1}
+                                </label>
+                                </div>
+                            ))}
+                            </li>
+                            <li className="page-item">
+                            <a
+                                className="page-link"
+                                onClick={pagination}
+                                name="next"
+                                style={{
+                                cursor: currentPage === numMaxPagesFil - 1 ? "default" : "pointer",
+                                color: currentPage === numMaxPagesFil - 1 ? "gray" : "",
+                                }}
+                            >
+                                Next {">>"}
+                            </a>
+                            </li>
+                        </>
+                        )}
+                    </ul>
+                </nav>    
+                </div>
     )
   );
 }
