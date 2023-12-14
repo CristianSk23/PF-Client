@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   allOrders,
   filterOrderById,
-  updateOrderStatus
+  updateOrderStatus,
 } from "../../redux/action/actions";
 import UserPurchaseHistory from "./UserPurchaseHistory";
 import styles from "./orderList.module.css";
@@ -15,17 +15,18 @@ import { setPageAdmin } from "../../redux/action/actions";
 export default function OrderList() {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orderHistory);
-  const [selectStatus, setSelectStatus] = useState({orderId: "", newStatus:""});
+  const [selectStatus, setSelectStatus] = useState({
+    orderId: "",
+    newStatus: "",
+  });
   const [showConfirmation, setShowConfirmation] = useState(false);
-  
+
   useEffect(() => {
     dispatch(allOrders());
-    console.log(orders);
   }, [dispatch]);
 
   useEffect(() => {
-console.log(orders);
-  }, [orders])
+  }, [orders]);
 
   const [visibleModal, setvisibleModal] = useState(false);
   const [actualData, setactualData] = useState({});
@@ -67,19 +68,17 @@ console.log(orders);
   const updateDeliveryStatus = (e, orderId) => {
     e.preventDefault();
     const newStatus = e.target.value;
-    setSelectStatus({orderId, newStatus})
-    setShowConfirmation(true)
+    setSelectStatus({ orderId, newStatus });
+    setShowConfirmation(true);
   };
-  
-  const sendNewStatus = async() => {
-    console.log("Se envio el stado");
+
+  const sendNewStatus = async () => {
     const { orderId, newStatus } = selectStatus;
     await dispatch(updateOrderStatus(orderId, newStatus));
-    setShowConfirmation(false)
-  }
+    setShowConfirmation(false);
+  };
 
   const handleConfirmationClose = () => {
-    console.log("Cierro el popup");
     setShowConfirmation(false);
     dispatch(setPageAdmin("orders"));
   };
@@ -104,7 +103,9 @@ console.log(orders);
           defaultValue=""
           onChange={handleStatusChange}
         >
-          <option value="" disabled >Select status</option>
+          <option value="" disabled>
+            Select status
+          </option>
           <option value="All">All</option>
           <option value="Delivered">Delivered</option>
           <option value="In Process">In Process</option>
@@ -156,9 +157,7 @@ console.log(orders);
               .filter(
                 (order) =>
                   selectedStatus === "All" ||
-                  order.deliveryStatus
-                  ===
-                    selectedStatus.toString()
+                  order.deliveryStatus === selectedStatus.toString()
               )
               .map((order) => (
                 <tr key={order.id}>
@@ -179,20 +178,22 @@ console.log(orders);
                       <option value="Cancelled">Cancelled</option>
                     </select>
                   </td>
-                  <td className={styles.td}>${Number(order.totalPrice).toFixed(2)}</td>
                   <td className={styles.td}>
-                    <button 
-                      type="button" 
+                    ${Number(order.totalPrice).toFixed(2)}
+                  </td>
+                  <td className={styles.td}>
+                    <button
+                      type="button"
                       className="btn btn-primary"
                       style={{
-                        '--bs-btn-padding-y': '.25rem',
-                        '--bs-btn-padding-x': '.5rem',
-                        '--bs-btn-font-size': '.75rem',
-                      }} 
-                      onClick={openModal} 
+                        "--bs-btn-padding-y": ".25rem",
+                        "--bs-btn-padding-x": ".5rem",
+                        "--bs-btn-font-size": ".75rem",
+                      }}
+                      onClick={openModal}
                       value={order.id}
                     >
-                    See Detail
+                      See Detail
                     </button>
                   </td>
                 </tr>
@@ -200,14 +201,14 @@ console.log(orders);
         </tbody>
       </table>
       {showConfirmation && (
-          <PopupConfirmation
-            descripcion="
+        <PopupConfirmation
+          descripcion="
             Are you sure you want to change the status of"
-            nameProduct={selectStatus.idOrder}
-            onClickAccept= {sendNewStatus}
-            onClickCancel= {handleConfirmationClose}
-          />
-        )}
+          nameProduct={selectStatus.newStatus}
+          onClickAccept={sendNewStatus}
+          onClickCancel={handleConfirmationClose}
+        />
+      )}
     </div>
   );
 }
