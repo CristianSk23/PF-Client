@@ -18,7 +18,7 @@ import ModuleHistoryOrderUser from "./components/moduleHistoryOrderUser/ModuleHi
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createUser, typeUser } from "./redux/action/actions";
+import { createUser, typeUser, logOut } from "./redux/action/actions";
 import { useAuth0 } from "@auth0/auth0-react";
 import ListProducts from "./components/ListProducts/listProducts";
 import { ToastContainer} from 'react-toastify'
@@ -67,6 +67,18 @@ const App = () => {
       dispatch(typeUser(userAuth.typeUser));
     }
   }, [userAuth]);
+
+  useEffect(() => {
+    const handleBanned = async () => {
+        if (userAuth?.active === false) {
+            await logout({ logoutParams: { returnTo: window.location.origin } });
+            dispatch(logOut());
+            return;
+        }
+    }
+
+    handleBanned();
+}, [userAuth]);
 
 
   useEffect(() => {
