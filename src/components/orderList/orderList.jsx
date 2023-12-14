@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   allOrders,
   filterOrderById,
-  getOrders,
-  updateOrderStatus,
+  updateOrderStatus
 } from "../../redux/action/actions";
 import UserPurchaseHistory from "./UserPurchaseHistory";
 import styles from "./orderList.module.css";
@@ -74,10 +73,9 @@ console.log(orders);
   
   const sendNewStatus = async() => {
     console.log("Se envio el stado");
-    setShowConfirmation(false)
     const { orderId, newStatus } = selectStatus;
     await dispatch(updateOrderStatus(orderId, newStatus));
-    dispatch(getOrders());
+    setShowConfirmation(false)
   }
 
   const handleConfirmationClose = () => {

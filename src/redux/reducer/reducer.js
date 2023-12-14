@@ -697,8 +697,15 @@ const reducer = (state = initialState, action) => {
     };
     
     case UPDATE_ORDER_STATUS:
+
+      const updatedOrders = state.orderHistory.map((order)=>{
+        if(order.id == action.payload.id){ order.deliveryStatus= action.payload.deliveryStatus} 
+        return order
+      })
+
       return {
         ...state,
+        orderHistory: updatedOrders
       };
 
     case CREATEORDER:

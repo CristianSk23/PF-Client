@@ -517,13 +517,15 @@ export const setPageAdmin = (pageAdmin) => {
   };
 };
 
-export const getOrders = () => async (dispatch) => {
-  try {
-    const { data } = await axios.get(`/order/history`);
-    dispatch({ type: GETORDERS, payload: data });
-  } catch (error) {
-    console.error("Error fetching promotions:", error);
-  }
+export const getOrders = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(`/order/history`);
+      dispatch({ type: GETORDERS, payload: data });
+    } catch (error) {
+      console.error("Error fetching promotions:", error);
+    }
+  };
 };
 
 export const getOrdersByUserId = (id) => {
@@ -568,7 +570,6 @@ export const updateOrderStatus = (orderId, newStatus) => {
         statusDelivery: newStatus,
       });
 
-      console.log("Respuesta del servidor:", response.data);
       dispatch({
         type: UPDATE_ORDER_STATUS,
         payload: response.data,
