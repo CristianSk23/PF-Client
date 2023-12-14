@@ -11,6 +11,7 @@ import {
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { setPageAdmin } from "../../redux/action/actions";
 import PopupGeneral from "../popupGeneral/PopupGeneral";
 import ErrorView from "../error404/Error404";
 import { toast } from "react-toastify";
@@ -87,7 +88,6 @@ const CreateProduct = () => {
           });
       }
     } catch (error) {
-      console.error("Error al manejar la imagen:", error);
       toast.error('Error loading image', {
         position: "bottom-right",
         autoClose: 2000,
@@ -197,6 +197,12 @@ const CreateProduct = () => {
 
   const handleUploadImageByFile = async (event) => {
     await uploadImageByFileToCloudinary(event, setProduct, product);
+  };
+
+  const handleConfirmationClose = () => {
+    setShowConfirmation(false);
+    dispatch(setPageAdmin("create"))
+    navigate(-1)
   };
 
   if(!isLoading && ((!isAuthenticated && isUser !== "Admin") || isUser === "User")){
@@ -548,20 +554,12 @@ const CreateProduct = () => {
               >
                 Create
               </Button>
-
-              <a
-                href="/"
-                className="btn btn-danger"
-                style={{width:"25%", margin:"8px"}}
-              >
-                Cancel
-              </a>
             </div>
           </div>
         </Form>
         {showConfirmation && (
           <PopupGeneral
-            textButton="Go home"
+            textButton="Accept"
             descripcion="Successfully created product"
             onClick={handleConfirmationClose}
           />

@@ -45,7 +45,8 @@ export default function AdminPanel() {
         navigator('/')
         dispatch(logOut())
       } catch (error) {
-        console.error('Error during logout:', error);
+        // console.error('Error during logout:', error);
+        
       }
     }
 

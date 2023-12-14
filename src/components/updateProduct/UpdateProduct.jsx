@@ -22,6 +22,7 @@ import NavBar from "../navBar/NavBar";
 import { toast } from "react-toastify";
 import { useAuth0 } from "@auth0/auth0-react";
 import ErrorView from "../error404/Error404";
+import { setPageAdmin } from "../../redux/action/actions";
 
 const UpdateProduct = () => {
   const {isAuthenticated, isLoading} = useAuth0()
@@ -145,7 +146,6 @@ const UpdateProduct = () => {
           });
       }
     } catch (error) {
-      console.error("Error al manejar la imagen:", error);
       toast.error('Error loading image', {
         position: "bottom-right",
         autoClose: 2000,
@@ -228,8 +228,6 @@ const UpdateProduct = () => {
       tags: product.tags,
       stock: product.stock,
     };
-    console.log('newProduct');
-    console.log(newProduct);
     await dispatch(updateProduct(newProduct));
     setShowConfirmation(true);
   };
@@ -240,6 +238,7 @@ const UpdateProduct = () => {
 
   const handleConfirmationClose = () => {
     setShowConfirmation(false);
+    dispatch(setPageAdmin("products"))
     navigate(-1);
   };
 
@@ -607,7 +606,7 @@ const UpdateProduct = () => {
         </Form>
         {showConfirmation && (
           <PopupGeneral
-            textButton="Go home"
+            textButton="Accept"
             descripcion="Successfully modified product"
             onClick={handleConfirmationClose}
           />

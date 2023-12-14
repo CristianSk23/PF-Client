@@ -1,3 +1,4 @@
+import axios from "axios";
 import { UserType } from "../../utils/userType";
 import { toast } from "react-toastify";
 import {
@@ -697,8 +698,15 @@ const reducer = (state = initialState, action) => {
     };
     
     case UPDATE_ORDER_STATUS:
+
+      const updatedOrders = state.orderHistory.map((order)=>{
+        if(order.id == action.payload.id){ order.deliveryStatus= action.payload.deliveryStatus} 
+        return order
+      })
+
       return {
         ...state,
+        orderHistory: updatedOrders
       };
 
     case CREATEORDER:
@@ -728,8 +736,7 @@ const reducer = (state = initialState, action) => {
 
         }
       })
-    console.log('cartItems      *******************');
-    console.log(cartItems);
+
       return {
         ...state,
         cart: {

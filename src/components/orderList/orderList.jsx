@@ -9,17 +9,24 @@ import UserPurchaseHistory from "./UserPurchaseHistory";
 import styles from "./orderList.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import PopupConfirmation from "../popupConfirmation/PopupConfirmation";
+import { setPageAdmin } from "../../redux/action/actions";
 
 export default function OrderList() {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orderHistory);
-  const [update, setUpdate] = useState(0);
+  const [selectStatus, setSelectStatus] = useState({
+    orderId: "",
+    newStatus: "",
+  });
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   useEffect(() => {
     dispatch(allOrders());
-  }, [dispatch, update]);
+  }, [dispatch]);
 
-
+  useEffect(() => {
+  }, [orders]);
 
   const [visibleModal, setvisibleModal] = useState(false);
   const [actualData, setactualData] = useState({});
@@ -61,10 +68,19 @@ export default function OrderList() {
   const updateDeliveryStatus = (e, orderId) => {
     e.preventDefault();
     const newStatus = e.target.value;
-    updateOrderStatus(orderId, newStatus);
-    setTimeout(() => {
-      setUpdate(update + 1);
-    }, 1000);
+    setSelectStatus({ orderId, newStatus });
+    setShowConfirmation(true);
+  };
+
+  const sendNewStatus = async () => {
+    const { orderId, newStatus } = selectStatus;
+    await dispatch(updateOrderStatus(orderId, newStatus));
+    setShowConfirmation(false);
+  };
+
+  const handleConfirmationClose = () => {
+    setShowConfirmation(false);
+    dispatch(setPageAdmin("orders"));
   };
 
   return (
@@ -77,14 +93,18 @@ export default function OrderList() {
         <select
           className="form-select me-2"
           aria-label="Default select example"
-          style={{ width: "200px" }}
-          value={selectedStatus}
+          style={{ width: "200px", margin: "2px" }}
+          defaultValue=""
           onChange={handleStatusChange}
         >
-          <option value="All">Select status</option>
-          <option value="Approved">Approved</option>
-          <option value="Pending">Pending</option>
-          <option value="Rejected">Rejected</option>
+          <option value="" disabled>
+            Select status
+          </option>
+          <option value="All">All</option>
+          <option value="Delivered">Delivered</option>
+          <option value="In Process">In Process</option>
+          <option value="Paid">Paid</option>
+          <option value="Cancelled">Cancelled</option>
         </select>
         <input
           type="text"
@@ -99,78 +119,91 @@ export default function OrderList() {
           />
         </button>
       </div>
-      <div className="table-responsive">
-        <table className="table table-hover">
-          <thead>
-            <tr>
-              <th className={styles.th} scope="col">
-                ID Order
-              </th>
-              <th className={styles.th} scope="col">
-                Order Date
-              </th>
-              <th className={styles.th} scope="col">
-                Name
-              </th>
-              <th className={styles.th} scope="col">
-                Mercado Pago Status
-              </th>
-              <th className={styles.th} scope="col">
-                Delivery Status
-              </th>
-              <th className={styles.th} scope="col">
-                Total Amount
-              </th>
-              <th className={styles.th} scope="col">
-                Order
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders &&
-              orders
-                .filter(
-                  (order) =>
-                    selectedStatus === "All" ||
-                    order.mercadopagoTransactionStatus ===
-                      selectedStatus.toString()
-                )
-                .map((order) => (
-                  <tr key={order.id}>
-                    <td className={styles.td}>{order.id}</td>
-                    <td className={styles.td}>{order.orderDate}</td>
-                    <td className={styles.td}>{order.userName}</td>
-                    <td className={styles.td}>
-                      {order.mercadopagoTransactionStatus}
-                    </td>
-                    <td className={styles.td}>
-                      <select
-                        value={order.deliveryStatus}
-                        onChange={(e) => updateDeliveryStatus(e, order.id)}
-                      >
-                        <option value="Delivered">Delivered</option>
-                        <option value="In Process">In Process</option>
-                        <option value="Paid">Paid</option>
-                        <option value="Cancelled">Cancelled</option>
-                      </select>
-                    </td>
-                    <td className={styles.td}>${Number(order.totalPrice).toFixed(2)}</td>
-                    <td className={styles.td}>
-                      {" "}
-                      {/*BOTON CON ESTILADO DE LINK*/}
-                      <button
-                        className={styles.button}
-                        onClick={openModal}
-                        value={order.id}
-                      >
-                        See Detail
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-          </tbody>
-        </table>
-      </div>
+
+      <table className="table table-hover">
+        <thead>
+          <tr>
+            <th className={styles.th} scope="col">
+              ID Order
+            </th>
+            <th className={styles.th} scope="col">
+              Order Date
+            </th>
+            <th className={styles.th} scope="col">
+              Name
+            </th>
+            <th className={styles.th} scope="col">
+              Mercado Pago Status
+            </th>
+            <th className={styles.th} scope="col">
+              Delivery Status
+            </th>
+            <th className={styles.th} scope="col">
+              Total Amount
+            </th>
+            <th className={styles.th} scope="col">
+              Order
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders &&
+            orders
+              .filter(
+                (order) =>
+                  selectedStatus === "All" ||
+                  order.deliveryStatus === selectedStatus.toString()
+              )
+              .map((order) => (
+                <tr key={order.id}>
+                  <td className={styles.td}>{order.id}</td>
+                  <td className={styles.td}>{order.orderDate}</td>
+                  <td className={styles.td}>{order.userName}</td>
+                  <td className={styles.td}>
+                    {order.mercadopagoTransactionStatus}
+                  </td>
+                  <td className={styles.td}>
+                    <select
+                      value={order.deliveryStatus}
+                      onChange={(e) => updateDeliveryStatus(e, order.id)}
+                    >
+                      <option value="Delivered">Delivered</option>
+                      <option value="In Process">In Process</option>
+                      <option value="Paid">Paid</option>
+                      <option value="Cancelled">Cancelled</option>
+                    </select>
+                  </td>
+                  <td className={styles.td}>
+                    ${Number(order.totalPrice).toFixed(2)}
+                  </td>
+                  <td className={styles.td}>
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      style={{
+                        "--bs-btn-padding-y": ".25rem",
+                        "--bs-btn-padding-x": ".5rem",
+                        "--bs-btn-font-size": ".75rem",
+                      }}
+                      onClick={openModal}
+                      value={order.id}
+                    >
+                      See Detail
+                    </button>
+                  </td>
+                </tr>
+              ))}
+        </tbody>
+      </table>
+      {showConfirmation && (
+        <PopupConfirmation
+          descripcion="
+            Are you sure you want to change the status of"
+          nameProduct={selectStatus.newStatus}
+          onClickAccept={sendNewStatus}
+          onClickCancel={handleConfirmationClose}
+        />
+      )}
     </div>
   );
 }

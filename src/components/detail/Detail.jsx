@@ -12,16 +12,18 @@ import {
 import NavBar from "../navBar/NavBar";
 import StarRating from "./startCont"; //* Agregado para mostrar el rating en forma de estrella
 import { toast } from "react-toastify";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Detail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const products = useSelector((state) => state.cart.items)
+  const products = useSelector((state) => state.cart.items);
   const prodById = useSelector((state) => state.products.singleProduct);
   const isUser = useSelector((state) => state.isUser);
   const dispatch = useDispatch();
-  const userID = useSelector((state) => state.user.id)
+  const userID = useSelector((state) => state.user.id);
   const [productLoaded, setProductLoaded] = useState(false);
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
   const [product, setProduct] = useState({
     name: "",
     category: "",
@@ -43,26 +45,24 @@ const Detail = () => {
   };
 
   const handleBuy = () => {
-  
-    let clickedProduct = products.find((item)=> item.id == prodById.id)
-    console.log('************************************');
-    console.log(userID,);
-    console.log(prodById.id);
-    console.log(clickedProduct?.quantity);
-    console.log('************************************');
-    dispatch(addToCart(userID, prodById.id, (clickedProduct?.quantity + 1 || 1))),
-    toast.success('Product added to cart!', {
-      position: "bottom-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      // theme: "dark",
-      // theme: "light",
+    let clickedProduct = products.find((item) => item.id == prodById.id);
+    dispatch(addToCart(userID, prodById.id, clickedProduct?.quantity + 1 || 1)),
+      toast.success("Product added to cart!", {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        // theme: "dark",
+        // theme: "light",
       });
+  };
+
+  const handleLogin = async () => {
+    await loginWithRedirect();
   };
 
   useEffect(() => {
@@ -119,9 +119,9 @@ const Detail = () => {
     setVisibleReviews(product.reviews.length);
   };
 
+
   return (
     <div>
-      
       <NavBar />
       <div style={{ backgroundColor: "#F8F9F9", minHeight: "100vh" }}>
         <div className="d-flex align-items-center justify-content-center">
@@ -239,23 +239,42 @@ const Detail = () => {
                       `$ ${product.price}`
                     )}
                   </p>
-                  {isUser === "Admin" ? (<div></div>): (
-                  <div>
-                  <a
-                    className="btn btn-success"
-                    style={{
-                      position: "absolute",
-                      bottom: 0,
-                      right: 0,
-                      margin: "10px",
-                      marginRight: "140px",
-                      width: "120px",
-                    }}
-                    onClick={handleBuy}
-                  >
-                    <FontAwesomeIcon icon={faCartShopping} />
-                  </a>
-                  </div>
+                  {isUser === "Admin" ? (
+                    <div></div>
+                  ) : (
+                    <div>
+                      {isUser === "User" ? (
+                        <a
+                          className="btn btn-success"
+                          style={{
+                            position: "absolute",
+                            bottom: 0,
+                            right: 0,
+                            margin: "10px",
+                            marginRight: "140px",
+                            width: "120px",
+                            opacity: isUser === "User" ? 1 : 0.5,
+                            pointerEvents: isUser === "User" ? "auto" : "none",
+                          }}
+                          onClick={handleBuy}
+                        >
+                          <FontAwesomeIcon icon={faCartShopping} /> Comprar
+                        </a>
+                      ) : isUser === "Invited" ? (
+                        /* Opciones para usuarios invitados */
+                        <>
+                          {!isAuthenticated && (
+                            <button
+                              className="btn btn-secondary"
+                              onClick={handleLogin}
+                              style={{ margin: "2px" }}
+                            >
+                              <FontAwesomeIcon icon={faCartShopping} />
+                            </button>
+                          )}
+                        </>
+                      ) : null}
+                    </div>
                   )}
                   <a
                     onClick={handleCancel}
@@ -277,32 +296,52 @@ const Detail = () => {
         </div>
 
         <div className="d-flex align-items-center justify-content-center">
-        <div style={{width:"1080px", margin: "auto", marginBottom:"30px"}}>
-          <div style={{marginTop:"20px", padding:"10px", backgroundColor: "ffffff", boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'}}>
-          <h3>REVIEWS:</h3>
-            {product.reviews && product.reviews.length > 0 ? (
-              product.reviews.slice(0, visibleReviews).map((review, index) => (
-                <div key={index} style={{marginTop:"20px", padding:"10px", backgroundColor: "ffffff", boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'}}>
-                  <h3>{review.name}</h3>
-                  <StarRating rating={review.rating} />
-                  <p>{review.comment}</p>
-                </div>
-              ))
-            ) : (
-              <p>No reviews available.</p>
-            )}
+          <div
+            style={{ width: "1080px", margin: "auto", marginBottom: "30px" }}
+          >
+            <div
+              style={{
+                marginTop: "20px",
+                padding: "10px",
+                backgroundColor: "ffffff",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <h3>REVIEWS:</h3>
+              {product.reviews && product.reviews.length > 0 ? (
+                product.reviews
+                  .slice(0, visibleReviews)
+                  .map((review, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        marginTop: "20px",
+                        padding: "10px",
+                        backgroundColor: "ffffff",
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      }}
+                    >
+                      <h3>{review.name}</h3>
+                      <StarRating rating={review.rating} />
+                      <p>{review.comment}</p>
+                    </div>
+                  ))
+              ) : (
+                <p>No reviews available.</p>
+              )}
 
-            {product.reviews.length > 3 && visibleReviews < product.reviews.length && (
-              <button
-                onClick={handleLoadMoreReviews}
-                className="btn btn-primary"
-                style={{ marginTop: '10px' }}
-              >
-                Mostrar más reseñas
-              </button>
-            )}
+              {product.reviews.length > 3 &&
+                visibleReviews < product.reviews.length && (
+                  <button
+                    onClick={handleLoadMoreReviews}
+                    className="btn btn-primary"
+                    style={{ marginTop: "10px" }}
+                  >
+                    Mostrar más reseñas
+                  </button>
+                )}
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </div>

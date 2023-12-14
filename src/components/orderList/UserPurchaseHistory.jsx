@@ -7,7 +7,7 @@ export default function UserPurchaseHistory({ closeModal, data }) {
   try {
     itemsCart = JSON.parse(data.itemsCart);
   } catch (error) {
-    console.error('Error al analizar data.itemsCart como JSON:', error);
+    // console.error('Error al analizar data.itemsCart como JSON:', error);
   }
 
   return (

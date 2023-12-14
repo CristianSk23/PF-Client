@@ -28,7 +28,7 @@ const NavBar = ({ onSearch, filterCond, onNavBarHeightChange }) => {
       await logout({ logoutParams: { returnTo: window.location.origin } });
       dispatch(logOut());
     } catch (error) {
-      console.error('Error during logout:', error);
+      // console.error('Error during logout:', error);
     }
   };
 
@@ -100,11 +100,11 @@ const NavBar = ({ onSearch, filterCond, onNavBarHeightChange }) => {
 
         <div className="d-flex align-items-center">
         { isUser === "User" && (
-          <button className="btn btn-outline-light" style={{marginRight:"5px"}}>
           <Link to="/shopping" style={{textDecoration: 'none', color: 'inherit'}}>
+          <button className="btn btn-outline-light" style={{marginRight:"5px"}}>
             <FontAwesomeIcon icon={faShoppingCart} />
-          </Link>
           </button>
+          </Link>
         )}
 
           <button className="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation" >
