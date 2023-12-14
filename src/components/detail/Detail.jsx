@@ -45,11 +45,6 @@ const Detail = () => {
   const handleBuy = () => {
   
     let clickedProduct = products.find((item)=> item.id == prodById.id)
-    console.log('************************************');
-    console.log(userID,);
-    console.log(prodById.id);
-    console.log(clickedProduct?.quantity);
-    console.log('************************************');
     dispatch(addToCart(userID, prodById.id, (clickedProduct?.quantity + 1 || 1))),
     toast.success('Product added to cart!', {
       position: "bottom-right",
