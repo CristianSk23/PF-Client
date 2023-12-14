@@ -84,21 +84,19 @@ export default function ListProducts() {
   };
 
   const DeletePRODUCT = async () => {
-    console.log("Envio el dispatch");
-    console.log(dateProductDelet.id);
+
     await dispatch(deleteProduct(dateProductDelet.id));
     dispatch(getAllProducts());
     setShowConfirmation(false);
   };
 
   const handleConfirmationClose = () => {
-    console.log("Cierro el popup");
     setShowConfirmation(false);
     dispatch(setPageAdmin("products"));
   };
 
   const openPopupConfirmation = (id, name) => {
-    console.log(id, name);
+
     setDateProductDelete({ id, name });
     setShowConfirmation(true);
   }

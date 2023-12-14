@@ -119,7 +119,6 @@ const Detail = () => {
     setVisibleReviews(product.reviews.length);
   };
 
-  console.log("Info del usuario ", isUser);
 
   return (
     <div>

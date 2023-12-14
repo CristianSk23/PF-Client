@@ -28,7 +28,7 @@ const Profile = () => {
               const idToken = idTokenClaims?.__raw;
               setToken(idToken);
             } catch (error) {
-              console.error('Error fetching id token:', error);
+              // console.error('Error fetching id token:', error);
             }
           };
       

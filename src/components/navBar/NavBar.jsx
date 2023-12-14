@@ -28,7 +28,7 @@ const NavBar = ({ onSearch, filterCond, onNavBarHeightChange }) => {
       await logout({ logoutParams: { returnTo: window.location.origin } });
       dispatch(logOut());
     } catch (error) {
-      console.error('Error during logout:', error);
+      // console.error('Error during logout:', error);
     }
   };
 

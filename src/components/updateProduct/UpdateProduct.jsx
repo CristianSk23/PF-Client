@@ -146,7 +146,6 @@ const UpdateProduct = () => {
           });
       }
     } catch (error) {
-      console.error("Error al manejar la imagen:", error);
       toast.error('Error loading image', {
         position: "bottom-right",
         autoClose: 2000,

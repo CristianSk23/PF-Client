@@ -67,7 +67,6 @@ const ShoppingCart = ({}) => {
   };
 
   const DecreaseQuantity = (userID, productsid, nameProd, quantityPROD) => {
-    console.log("Decrease ", nameProd);
     // setStock("");
     dispatch(decreaseQuantity(userID, productsid, nameProd, quantityPROD));
   };
