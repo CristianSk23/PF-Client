@@ -324,12 +324,12 @@ const PaymentGateway = () => {
                     className="form-control"
                     id="country"
                     disabled
-                    value="Argentina"
+                    value="ARG"
                     onChange=""
                   >
                     {" "}
                     {/* CUANDO TENGA FUNCIONABILIDAD HACERLO REQUIRED*/}
-                    <option value="Argentina">Argentina</option>
+                    <option value="ARG">Argentina</option>
                   </select>
                   <div className="invalid-feedback">
                     Please provide a valid country.

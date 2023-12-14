@@ -328,10 +328,10 @@ const MyProfile = () => {
                         aria-label="Country"
                         name="CountryId"
                         disabled
-                        value="Argentina"
+                        value="ARG"
                         onChange={handleChangeInput}
                       >
-                        <option value="Argentina">Argentina</option>
+                        <option value="ARG">Argentina</option>
                       </Form.Select>
                     </Form.Group>
                   </Col>
