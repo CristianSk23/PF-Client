@@ -28,6 +28,8 @@ const LandingPage = () => {
   const allProducts = useSelector((state) => state.products?.data);
   const [products, setProducts] = useState([]);
   const isUser = useSelector((state) => state.isUser);
+  const currentPage = useSelector((state)=> state.products.currentPage)
+  const numMaxPages = useSelector((state)=> Math.ceil((state.products?.allProducts.length)/12))
   const [navBarHeight, setNavBarHeight] = useState(0);
   const [shouldRenderPromotionPopup, setShouldRenderPromotionPopup] =
     useState(false);
@@ -80,7 +82,7 @@ const LandingPage = () => {
         
         (product) => product.active === true && product.stock > 0
       );
-      console.log(filteredProducts)
+      
       setProducts(filteredProducts);
     }
   }, [allProducts]);
@@ -194,17 +196,26 @@ const LandingPage = () => {
               className="page-link"
               onClick={pagination}
               name="prev"
-              style={{ cursor: "default" }}
+              style={{ cursor: currentPage === 0 ? "default" : "pointer", color: currentPage === 0 ? "gray" : "" }}
             >
               {"<<"} Previous
             </a>
+          </li>
+          <li className="page-item">
+            <label
+              className="page-link"
+              name="prev"
+              style={{cursor: "default"}}
+            >
+              {currentPage+1}/{numMaxPages} 
+            </label>
           </li>
           <li className="page-item">
             <a
               className="page-link"
               onClick={pagination}
               name="next"
-              style={{ cursor: "default" }}
+              style={{ cursor: currentPage === numMaxPages-1 ? "default" : "pointer", color: currentPage === numMaxPages-1 ? "gray" : "" }}
             >
               Next {">>"}
             </a>
