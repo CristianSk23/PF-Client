@@ -83,7 +83,6 @@ const LandingPage = () => {
         
         (product) => product.active === true && product.stock > 0
       );
-      
       setProducts(filteredProducts);
     }
   }, [allProducts]);

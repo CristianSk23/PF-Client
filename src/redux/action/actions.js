@@ -356,19 +356,12 @@ export const decreaseQuantity = (userID, id, nameProd, quantityPROD) => {
       dispatch({ type: DECREASEQUANTITY, payload: id });
 
       if (quantityPROD === 0) {
-        console.log(
-          "Nombre del producto ",
-          nameProd,
-          " Id del usuario ",
-          userID
-        );
         const responseCart = await axios.delete("cart/delete", {
           data: {
             nameProd: nameProd,
             UserId: userID,
           },
         });
-        console.log("Elimino el producto porque su cantidad es 0");
       } else {
         const responseCart = await axios.put("cart/", {
           UserId: userID,
@@ -409,7 +402,6 @@ export const createUser = (email, token) => {
     }
   };
 };
-
 
 export const typeUser = (typeUser) => {
   return (dispatch) => {
@@ -564,19 +556,21 @@ export const filterOrderById = (id) => {
     type: FILTER_ORDER_BY_ID,
     id: id,
   };
-}
+};
 
 export const updateOrderStatus = async (orderId, newStatus) => {
-    try {
-      const response = await axios.put('/order/update', {
-        idOrder: orderId,
-        statusDelivery: newStatus
-      });
-    } catch (error) {
-      console.log('ERROR ACTION',error)
-      alert('error al actualizar delivery status')
-    }
-  };
+  try {
+    const response = await axios.put("/order/update", {
+      idOrder: orderId,
+      statusDelivery: newStatus,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: error.message,
+    });
+  }
+};
 
 export const createOrder = (paymentResults) => {
   return async (dispatch) => {
@@ -638,8 +632,8 @@ export const increaseStock = (id, stock) => {
     try {
       dispatch({ type: INCREASESTOCK, payload: id });
       const responseStock = await axios.put("/stock", {
-        "id": id,
-        "newStock": stock,
+        id: id,
+        newStock: stock,
       });
     } catch (error) {
       dispatch({
@@ -655,8 +649,8 @@ export const decreaseStock = (id, stock) => {
     try {
       dispatch({ type: DECREASESTOCK, payload: id });
       const responseStock = await axios.put("/stock", {
-        "id": id,
-        "newStock": stock,
+        id: id,
+        newStock: stock,
       });
     } catch (error) {
       dispatch({
@@ -666,4 +660,3 @@ export const decreaseStock = (id, stock) => {
     }
   };
 };
-
