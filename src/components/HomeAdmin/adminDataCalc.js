@@ -36,19 +36,23 @@ const adminDataCalcs =(orders, filter)=>{
     }
 
 // Best 5 buyers
-    let userTotals = filteredOrders.map(user => {
-        let items = JSON.parse(user.itemsCart);
-        let total = items.reduce((acc, item) => {
-            let price = item.priceOnSale !== null ? item.priceOnSale : item.price;
-            return acc + price * item.quantityProd;
-        }, 0);
-        return { userName: user.userName, total: total };
-    });
+let userSums = {};
+filteredOrders.forEach(order => {
+  if(userSums[order.UserId]) {
+    userSums[order.UserId].totalPrice += Number(order.totalPrice.toFixed(2));
+  } else {
+    userSums[order.UserId] = {
+      userName: order.userName,
+      totalPrice: Number(order.totalPrice.toFixed(2))
+    };
+  }
+});
 
-    userTotals.sort((a, b) => b.total - a.total);
-    let topUsers = userTotals.slice(0, 5);
-    let userNames = topUsers.map(user => user.userName);
-    let userTotalsAmounts = topUsers.map(user => user.total);
+// Luego, convertimos ese objeto a un array y lo ordenamos por 'totalPrice'
+let sortedUsers = Object.values(userSums).sort((a, b) => b.totalPrice - a.totalPrice);
+
+// Finalmente, tomamos los primeros 5 usuarios
+let topUsers = sortedUsers.slice(0, 5);
 //---------------------------------------------------------------------------------------
 
 
