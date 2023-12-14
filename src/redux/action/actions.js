@@ -356,7 +356,7 @@ export const decreaseQuantity = (userID, id, nameProd, quantityPROD) => {
     try {
       dispatch({ type: DECREASEQUANTITY, payload: id });
 
-      if (quantityPROD === 0) {
+      if (quantityPROD < 1) {
         const responseCart = await axios.delete("cart/delete", {
           data: {
             nameProd: nameProd,
