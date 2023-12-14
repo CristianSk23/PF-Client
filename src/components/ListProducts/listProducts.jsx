@@ -179,9 +179,9 @@ export default function ListProducts() {
                   <th className={styles.th} scope="col">
                     Stock
                   </th>
-                  <th className={styles.th} scope="col">
+                  {/* <th className={styles.th} scope="col">
                     Status
-                  </th>
+                  </th> */}
                   <th className={styles.th} scope="col">
                     Update
                   </th>
@@ -247,10 +247,8 @@ export default function ListProducts() {
                         </div>
                       </div>
                     </td>
-                    <td className={styles.td}>
-                      {/*A PEDIDO DE DIEGO Z PUSE UN SELECT PARA EDITAR SU STATUS DESDE ACA, SI SE COMPLICA USAR SOLO EL UPDATE */}
-                      {/*<Form.Select aria-label="Seleccionar ejemplo" className='form-select-sm'>
-                                <option>Seleccionar...</option>*/}
+                    {/* <td className={styles.td}>
+                      
                       <select
                         onChange={(e) =>
                           handleActive(e.target.value === "true" ? true : false)
@@ -264,8 +262,8 @@ export default function ListProducts() {
                         <option value={true}>Active</option>
                         <option value={false}>Disabled</option>
                       </select>
-                      {/*</Form.Select>*/}
-                    </td>
+                      
+                    </td> */}
                     <td className={styles.td}>
                       <Link to={`/updateProduct/${product.id}`}>
                         <button className={styles.button}>
