@@ -1,6 +1,8 @@
 import styles from "./popupConfirmation.module.css"
+import { useState } from "react";
 
 const PopupConfirmation = ({descripcion, nameProduct, onClickAccept, onClickCancel}) => {
+    const [showButon, setShowButon] = useState(false)
     return (
         <div className="d-flex align-items-center justify-content-center">
           <div className="card text-bg-success mb-3" 
@@ -30,7 +32,7 @@ const PopupConfirmation = ({descripcion, nameProduct, onClickAccept, onClickCanc
               zIndex:1001,
             }}>
               <h5 className="card-title" style={{}}>{`${descripcion} ${nameProduct}?`}</h5>
-              <button type="button" className="btn btn-outline-light" onClick={onClickAccept} style={{marginTop:"20px", marginRight: "20px"}}>{"Accept"}</button>
+              <button type="button" className="btn btn-outline-light" onClick={()=>{onClickAccept(); setShowButon(true)}} disabled={showButon} style={{marginTop:"20px", marginRight: "20px"}}>{"Accept"}</button>
               <button type="button" className="btn btn-outline-light" onClick={onClickCancel} style={{marginTop:"20px"}}>{"Cancel"}</button>
             </div>
           </div>
