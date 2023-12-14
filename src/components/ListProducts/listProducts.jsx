@@ -32,7 +32,11 @@ export default function ListProducts() {
   const isUser = useSelector((state) => state.isUser);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const products = useSelector((state) => state.products?.data);
-  const [dateProductDelet, setDateProductDelete] = useState({id: "", name: ""})
+  const [dateProductDelet, setDateProductDelete] = useState({id: "", name: ""})    
+  const currentPage = useSelector((state)=> state.products.currentPage)
+    const numMaxPages = useSelector((state)=> Math.ceil((state.products?.allProducts.length)/12))
+    const numMaxPagesFil = useSelector((state)=> Math.ceil((state.products?.productsFiltered.length)/12))
+
   const [filterCond, setFilterCond] = useState({
     type: "all",
     price: "all",
@@ -314,38 +318,99 @@ export default function ListProducts() {
         )}
 
         <nav aria-label="Page navigation example" style={{ marginTop: "22px" }}>
-          <ul className="pagination justify-content-center">
-            <li className="page-item">
-              <a
-                className="page-link"
-                onClick={pagination}
-                name="prev"
-                style={{ cursor: "default" }}
-              >
-                {"<<"} Previous
-              </a>
-            </li>
-            <li className="page-item">
-              <a
-                className="page-link"
-                onClick={pagination}
-                name="next"
-                style={{ cursor: "default" }}
-              >
-                Next {">>"}
-              </a>
-            </li>
-          </ul>
-        </nav>
-        {showConfirmation && (
-          <PopupConfirmation
-            descripcion="Are you sure you want to remove the following product?"
-            nameProduct={dateProductDelet.name}
-            onClickAccept= {DeletePRODUCT}
-            onClickCancel= {handleConfirmationClose}
-          />
-        )}
-      </div>
+                   <ul className="pagination justify-content-center">
+                   {numMaxPagesFil === 0 ? (
+                        <>
+                            <li className="page-item">
+                            <a
+                                className="page-link"
+                                onClick={pagination}
+                                name="prev"
+                                style={{
+                                cursor: currentPage === 0 ? "default" : "pointer",
+                                color: currentPage === 0 ? "gray" : "",
+                                }}
+                            >
+                                {"<<"} Previous
+                            </a>
+                            </li>
+                            <li
+                            className="page-item"
+                            style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+                            >
+                            {Array.from({ length: numMaxPages }, (_, index) => (
+                                <div key={index} style={{ margin: "0 5px" }}>
+                                <label
+                                    key={index}
+                                    className={`page-link ${index === currentPage ? "active" : ""}`}
+                                >
+                                    {index + 1}
+                                </label>
+                                </div>
+                            ))}
+                            </li>
+                            <li className="page-item">
+                            <a
+                                className="page-link"
+                                onClick={pagination}
+                                name="next"
+                                style={{
+                                cursor: currentPage === numMaxPages - 1 ? "default" : "pointer",
+                                color: currentPage === numMaxPages - 1 ? "gray" : "",
+                                }}
+                            >
+                                Next {">>"}
+                            </a>
+                            </li>
+                        </>
+                        ) : (
+                        <>
+                            <li className="page-item">
+                            <a
+                                className="page-link"
+                                onClick={pagination}
+                                name="prev"
+                                style={{
+                                cursor: currentPage === 0 ? "default" : "pointer",
+                                color: currentPage === 0 ? "gray" : "",
+                                }}
+                            >
+                                {"<<"} Previous
+                            </a>
+                            </li>
+                            <li
+                            className="page-item"
+                            style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+                            >
+                            {Array.from({ length: numMaxPagesFil }, (_, index) => (
+                                <div key={index} style={{ margin: "0 5px" }}>
+                                <label
+                                    key={index}
+                                    className={`page-link ${index === currentPage ? "active" : ""}`}
+                                >
+                                    {index + 1}
+                                </label>
+                                </div>
+                            ))}
+                            </li>
+                            <li className="page-item">
+                            <a
+                                className="page-link"
+                                onClick={pagination}
+                                name="next"
+                                style={{
+                                cursor: currentPage === numMaxPagesFil - 1 ? "default" : "pointer",
+                                color: currentPage === numMaxPagesFil - 1 ? "gray" : "",
+                                }}
+                            >
+                                Next {">>"}
+                            </a>
+                            </li>
+                        </>
+                        )}
+                    </ul>
+                </nav>    
+                </div>
     )
   );
 }
