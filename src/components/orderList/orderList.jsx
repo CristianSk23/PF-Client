@@ -119,7 +119,7 @@ export default function OrderList() {
           />
         </button>
       </div>
-
+      <div className="table-responsive">
       <table className="table table-hover">
         <thead>
           <tr>
@@ -195,6 +195,7 @@ export default function OrderList() {
               ))}
         </tbody>
       </table>
+      </div>
       {showConfirmation && (
         <PopupConfirmation
           descripcion="
