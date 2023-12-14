@@ -18,7 +18,7 @@ import ModuleHistoryOrderUser from "./components/moduleHistoryOrderUser/ModuleHi
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createUser, typeUser } from "./redux/action/actions";
+import { createUser, logOut, typeUser, deletedUserByEmail } from "./redux/action/actions";
 import { useAuth0 } from "@auth0/auth0-react";
 import ListProducts from "./components/ListProducts/listProducts";
 import { ToastContainer} from 'react-toastify'
@@ -29,10 +29,12 @@ const App = () => {
   const dispatch = useDispatch();
 
   const userAuth = useSelector((state) => state.user)
+  const isUser = useSelector((state) => state.isUser)
 
   const [token, setToken] = useState()
-  const { isAuthenticated, user, getIdTokenClaims, logout, loginWithRedirect } = useAuth0()
+  const { isAuthenticated, user, getIdTokenClaims, logout, isLoading } = useAuth0()
   const [loading,setLoading] = useState(false)
+  const [bann, setBann] = useState(false)
 
   useEffect(() => {
     const fetchUserInformation = async () => {
@@ -68,6 +70,26 @@ const App = () => {
     }
   }, [userAuth]);
 
+  useEffect(() => {
+    const handleBanned = async () => {
+        if (userAuth?.active === false) {
+            await logout({ logoutParams: { returnTo: window.location.origin } });
+            dispatch(logOut());
+            return;
+        }
+    }
+
+    handleBanned();
+}, [user]);
+
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setBann(true)}
+    , 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [])
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
