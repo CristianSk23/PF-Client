@@ -119,6 +119,7 @@ const ShoppingCart = ({}) => {
             Shopping Cart
           </h1>
           {/* <p style={{"color": "red"}}>{handleStock()}</p> */}
+          <div className="table-responsive">
           <table className="table table-hover table-responsive">
             <thead>
               <tr>
@@ -240,7 +241,8 @@ const ShoppingCart = ({}) => {
               </tr>
             </tbody>
           </table>
-          <div className="text-center" style={{ marginTop: "-16px" }}>
+          </div>
+          <div className="text-center">
             <div className="d-flex justify-content-center">
               {products.length > 0 && (
                 <Button
@@ -277,6 +279,7 @@ const ShoppingCart = ({}) => {
           <h1 style={{ textAlign: "center", marginBottom: "40px" }}>
             Shopping Cart
           </h1>
+          <div className="table-responsive">
           <table className="table table-hover">
             <thead>
               <tr>
@@ -308,6 +311,7 @@ const ShoppingCart = ({}) => {
               </tr>
             </tbody>
           </table>
+          </div>
           <div
             className="d-flex justify-content-center"
             style={{ marginTop: "-16px" }}

@@ -55,8 +55,9 @@ const ModuleHistoryOrderUser =({idProp}) =>{
         <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"780px"}}>
         <Container>
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 className="h2"><FontAwesomeIcon icon={faClipboard} /> Orders list for user {ordersById[0]?.userName}</h1>
+          <h1 className={`h2 text-sm ${styles.h1}`}><FontAwesomeIcon icon={faClipboard} /> Orders list for user {ordersById[0]?.userName}</h1>
         </div>
+        <div className="table-responsive">
         <table className="table table-hover">
             <thead>
                 <tr>
@@ -102,6 +103,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
                 </tr>}
               </tbody>
         </table>
+        </div>
         {selectedOrder && (
         <OrderDetailUserByIdPopup
           orderDetails={selectedOrder}
@@ -117,8 +119,9 @@ const ModuleHistoryOrderUser =({idProp}) =>{
         <div style={{backgroundColor:"#F8F9F9", width:"100%", minHeight:"700px"}}>
         <Container>
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 className="h2"><FontAwesomeIcon icon={faClipboard} /> Your Orders {ordersById[0]?.userName}</h1>
+        <h1 className={`h2 text-sm ${styles.h1}`}><FontAwesomeIcon icon={faClipboard} /> Your Orders {ordersById[0]?.userName}</h1>
         </div>
+        <div className="table-responsive">
         <table className="table table-hover">    
             <thead>
                 <tr>
@@ -158,6 +161,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
                 </tr>}
               </tbody>
         </table>
+        </div>
         {selectedOrder && (
         <OrderDetailUserByIdPopup
           orderDetails={selectedOrder}
@@ -170,9 +174,6 @@ const ModuleHistoryOrderUser =({idProp}) =>{
       )}
         </div>
       )
-    );
-    
-    
 }
 
 export default ModuleHistoryOrderUser;
