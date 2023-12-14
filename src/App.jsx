@@ -24,6 +24,7 @@ import ListProducts from "./components/ListProducts/listProducts";
 import { ToastContainer} from 'react-toastify'
 import ErrorView from "./components/error404/Error404";
 import Loading from "./components/loading/Loading";
+import { toast } from "react-toastify";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -70,15 +71,29 @@ const App = () => {
 
   useEffect(() => {
     const handleBanned = async () => {
-        if (userAuth?.active === false) {
-            await logout({ logoutParams: { returnTo: window.location.origin } });
-            dispatch(logOut());
-            return;
-        }
-    }
+      if (userAuth?.active === false) {
+        toast.error('Your account is banned!', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
 
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        
+        await logout({ logoutParams: { returnTo: window.location.origin } });
+        await dispatch(logOut());
+
+        return;
+      }
+    };
+  
     handleBanned();
-}, [userAuth]);
+  }, [userAuth]);
 
 
   useEffect(() => {
