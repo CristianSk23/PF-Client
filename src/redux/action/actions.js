@@ -43,6 +43,7 @@ import {
   CREATEORDER,
   SENDREVIEWPRODUCT,
   GETCARTBYID,
+  UPDATE_ORDER_STATUS,
   UPDATEUSERADMIN,
   FILTER_ORDER_BY_ID,
 } from "../action/actionsType";
@@ -516,13 +517,15 @@ export const setPageAdmin = (pageAdmin) => {
   };
 };
 
-export const getOrders = () => async (dispatch) => {
-  try {
-    const { data } = await axios.get(`/order/history`);
-    dispatch({ type: GETORDERS, payload: data });
-  } catch (error) {
-    console.error("Error fetching promotions:", error);
-  }
+export const getOrders = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(`/order/history`);
+      dispatch({ type: GETORDERS, payload: data });
+    } catch (error) {
+      console.error("Error fetching promotions:", error);
+    }
+  };
 };
 
 export const getOrdersByUserId = (id) => {
@@ -558,18 +561,26 @@ export const filterOrderById = (id) => {
   };
 };
 
-export const updateOrderStatus = async (orderId, newStatus) => {
-  try {
-    const response = await axios.put("/order/update", {
-      idOrder: orderId,
-      statusDelivery: newStatus,
-    });
-  } catch (error) {
-    dispatch({
-      type: ERROR,
-      payload: error.message,
-    });
-  }
+export const updateOrderStatus = (orderId, newStatus) => {
+  return async (dispatch) => {
+    try {
+      console.log("Valores que llegaron:", orderId, newStatus);
+      const response = await axios.put("/order/update", {
+        idOrder: orderId,
+        statusDelivery: newStatus,
+      });
+
+      dispatch({
+        type: UPDATE_ORDER_STATUS,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
 };
 
 export const createOrder = (paymentResults) => {

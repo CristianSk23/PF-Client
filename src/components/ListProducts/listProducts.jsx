@@ -319,7 +319,7 @@ export default function ListProducts() {
 
         <nav aria-label="Page navigation example" style={{ marginTop: "22px" }}>
                    <ul className="pagination justify-content-center">
-                   {numMaxPagesFil === 0 ? (
+                       {numMaxPagesFil === 0 ? (
                         <>
                             <li className="page-item">
                             <a
@@ -410,6 +410,14 @@ export default function ListProducts() {
                         )}
                     </ul>
                 </nav>    
+                {showConfirmation && (
+                  <PopupConfirmation
+                    descripcion="Are you sure you want to remove the following product"
+                    nameProduct={dateProductDelet.name}
+                    onClickAccept= {DeletePRODUCT}
+                    onClickCancel= {handleConfirmationClose}
+                  />
+                )}
                 </div>
     )
   );
