@@ -339,7 +339,7 @@ export default function ListProducts() {
         </nav>
         {showConfirmation && (
           <PopupConfirmation
-            descripcion="Are you sure you want to remove the following product?"
+            descripcion="Are you sure you want to remove the following product"
             nameProduct={dateProductDelet.name}
             onClickAccept= {DeletePRODUCT}
             onClickCancel= {handleConfirmationClose}

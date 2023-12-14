@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   allOrders,
   filterOrderById,
+  getOrders,
   updateOrderStatus,
 } from "../../redux/action/actions";
 import UserPurchaseHistory from "./UserPurchaseHistory";
@@ -10,17 +11,22 @@ import styles from "./orderList.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import PopupConfirmation from "../popupConfirmation/PopupConfirmation";
+import { setPageAdmin } from "../../redux/action/actions";
 
 export default function OrderList() {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orderHistory);
-  const [update, setUpdate] = useState(0);
-
+  const [selectStatus, setSelectStatus] = useState({orderId: "", newStatus:""});
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  
   useEffect(() => {
     dispatch(allOrders());
-  }, [dispatch, update]);
+    console.log(orders);
+  }, [dispatch]);
 
-
+  useEffect(() => {
+console.log(orders);
+  }, [orders])
 
   const [visibleModal, setvisibleModal] = useState(false);
   const [actualData, setactualData] = useState({});
@@ -62,12 +68,23 @@ export default function OrderList() {
   const updateDeliveryStatus = (e, orderId) => {
     e.preventDefault();
     const newStatus = e.target.value;
-    updateOrderStatus(orderId, newStatus);
-    setTimeout(() => {
-      setUpdate(update + 1);
-    }, 1000);
+    setSelectStatus({orderId, newStatus})
+    setShowConfirmation(true)
   };
   
+  const sendNewStatus = async() => {
+    console.log("Se envio el stado");
+    setShowConfirmation(false)
+    const { orderId, newStatus } = selectStatus;
+    await dispatch(updateOrderStatus(orderId, newStatus));
+    dispatch(getOrders());
+  }
+
+  const handleConfirmationClose = () => {
+    console.log("Cierro el popup");
+    setShowConfirmation(false);
+    dispatch(setPageAdmin("orders"));
+  };
 
   return (
     <div>
@@ -86,10 +103,11 @@ export default function OrderList() {
           className="form-select"
           aria-label="Default select example"
           style={{ width: "200px", margin: "2px" }}
-          value={selectedStatus}
+          defaultValue=""
           onChange={handleStatusChange}
         >
-          <option value="All">Select status</option>
+          <option value="" disabled >Select status</option>
+          <option value="All">All</option>
           <option value="Delivered">Delivered</option>
           <option value="In Process">In Process</option>
           <option value="Paid">Paid</option>
@@ -183,7 +201,15 @@ export default function OrderList() {
               ))}
         </tbody>
       </table>
-      
+      {showConfirmation && (
+          <PopupConfirmation
+            descripcion="
+            Are you sure you want to change the status of"
+            nameProduct={selectStatus.idOrder}
+            onClickAccept= {sendNewStatus}
+            onClickCancel= {handleConfirmationClose}
+          />
+        )}
     </div>
   );
 }
