@@ -1,14 +1,27 @@
-.div{
-    background-color: #000405;
-    color: white;
+.container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #000405;
+  color: white;
+}
+
+.content {
+  max-width: 800px; 
+  padding: 20px; 
+  margin: auto; 
+}
+
+.loaderContainer {
+  flex-direction: column;
+  text-align: center;
 }
 
 .h3 {
-    margin: 0;
+    margin: 30px;
     padding: 0; 
-    position: absolute; 
-    top: 45%; 
-    left: 43.5%; 
+    text-align: center;
     z-index: 999;
     animation: blink 1.4s infinite;
   }
@@ -29,7 +42,6 @@
     justify-content: center;
     width: 100%;
     max-width: 390.6px;
-    margin-top: 250px;
     margin-bottom: 18%;
   }
   .loader:before,

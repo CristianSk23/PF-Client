@@ -95,41 +95,42 @@ const SalesHistory = () =>{
         <div className='row'>
             <div className="col-sm">
                 <h3>Raw Data totals: {}</h3>
-                <table className="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Year</th>
-                        <th>Month</th>
-                        <th>Day</th>
-                        <th>Category</th>
-                        <th>ProductName</th>
-                        <th>Quantity</th>
-                        <th>UnitPrice</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {graphData.itemsData.map((item, index) => (
-                    <tr key={index}>
-                        <td>{item.Year}</td>
-                        <td>{item.Month}</td>
-                        <td>{item.Day}</td>
-                        <td>{item.Category}</td>
-                        <td>
-                        <Link
-                        to={`/detail/${item.Id}`}
-                        style={{ textDecoration: "none", color: "black" }}
-                        >
-                        {item.ProductName}
-                        </Link>     
-                        </td>
-                        <td>{item.Quantity}</td>
-                        <td>${item.UnitPrice}</td>
-                        <td>${item.Quantity*item.UnitPrice}</td>
-                    </tr>
-                    ))}
-                </tbody>
-                </table>
+                <div className="table-responsive">
+                    <table className="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style={{textAlign:"center"}}>Year</th>
+                            <th style={{textAlign:"center"}}>Month</th>
+                            <th style={{textAlign:"center"}}>Day</th>
+                            <th style={{textAlign:"center"}}>Category</th>
+                            <th style={{textAlign:"center"}}>ProductName</th>
+                            <th style={{textAlign:"center"}}>Quantity</th>
+                            <th style={{textAlign:"center"}}>UnitPrice</th>
+                            <th style={{textAlign:"center"}}>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {graphData.itemsData.map((item, index) => (
+                        <tr key={index}>
+                            <td style={{textAlign:"center"}}>{item.Year}</td>
+                            <td style={{textAlign:"center"}}>{item.Month}</td>
+                            <td style={{textAlign:"center"}}>{item.Day}</td>
+                            <td style={{textAlign:"center"}}>{item.Category}</td>
+                            <td style={{textAlign:"center"}}>
+                            <Link
+                            to={`/detail/${item.Id}`}
+                            >
+                            {item.ProductName}
+                            </Link>     
+                            </td>
+                            <td style={{textAlign:"center"}}>{item.Quantity}</td>
+                            <td style={{textAlign:"center"}}>${item.UnitPrice}</td>
+                            <td style={{textAlign:"center"}}>${item.Quantity*item.UnitPrice}</td>
+                        </tr>
+                        ))}
+                    </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         </div>

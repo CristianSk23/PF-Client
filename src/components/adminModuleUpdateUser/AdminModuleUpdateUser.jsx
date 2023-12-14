@@ -132,11 +132,11 @@ const AdminModuleUpdateUser = () => {
   }
 
   return (!isLoading && isUser === "Admin" &&
-        <div style={{ minHeight: "800px" }}>
-          <div>
-            <h1 className="text-center m-5">Modify User</h1>
-            <Form onSubmit={handleSubmit} className={styles.container}>
-              <div className={styles.input_container}>
+        <div className='container'>
+          <div className='row mt-4'>
+            <h1 className="text-center mb-5">Modify User</h1>
+            <Form onSubmit={handleSubmit} className={`${styles.container} col-md-8 offset-md-2`}>
+              <div className={`${styles.input_name} row mb-3`}>
                 <div className={styles.input_name}>
                   <FloatingLabel
                     id="floatingInput"
