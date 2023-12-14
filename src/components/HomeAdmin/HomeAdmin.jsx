@@ -123,7 +123,7 @@ const HomeAdmin=()=>{
                         return (
                             <tr key={index}>
                                 <td className={styles.td}>{user.userName}</td>
-                                <td className={styles.td}>${user.total?.toFixed(0)}</td>
+                                <td className={styles.td}>${user.totalPrice?.toFixed(0)}</td>
                             </tr>
                         )
                     })}

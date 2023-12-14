@@ -24,6 +24,7 @@ import ListProducts from "./components/ListProducts/listProducts";
 import { ToastContainer} from 'react-toastify'
 import ErrorView from "./components/error404/Error404";
 import Loading from "./components/loading/Loading";
+import { toast } from "react-toastify";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const App = () => {
         const idToken = idTokenClaims?.__raw;
         setToken(idToken);
       } catch (error) {
-        console.error('Error fetching id token:', error);
+        // console.error('Error fetching id token:', error);
       }
     };
 
@@ -70,15 +71,29 @@ const App = () => {
 
   useEffect(() => {
     const handleBanned = async () => {
-        if (userAuth?.active === false) {
-            await logout({ logoutParams: { returnTo: window.location.origin } });
-            dispatch(logOut());
-            return;
-        }
-    }
+      if (userAuth?.active === false) {
+        toast.error('Your account is banned!', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
 
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        await logout({ logoutParams: { returnTo: window.location.origin } });
+        await dispatch(logOut());
+
+        return;
+      }
+    };
+  
     handleBanned();
-}, [userAuth]);
+  }, [userAuth]);
 
 
   useEffect(() => {

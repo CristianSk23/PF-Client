@@ -9,17 +9,24 @@ import UserPurchaseHistory from "./UserPurchaseHistory";
 import styles from "./orderList.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import PopupConfirmation from "../popupConfirmation/PopupConfirmation";
+import { setPageAdmin } from "../../redux/action/actions";
 
 export default function OrderList() {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orderHistory);
-  const [update, setUpdate] = useState(0);
+  const [selectStatus, setSelectStatus] = useState({
+    orderId: "",
+    newStatus: "",
+  });
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   useEffect(() => {
     dispatch(allOrders());
-  }, [dispatch, update]);
+  }, [dispatch]);
 
-
+  useEffect(() => {
+  }, [orders]);
 
   const [visibleModal, setvisibleModal] = useState(false);
   const [actualData, setactualData] = useState({});
@@ -61,10 +68,19 @@ export default function OrderList() {
   const updateDeliveryStatus = (e, orderId) => {
     e.preventDefault();
     const newStatus = e.target.value;
-    updateOrderStatus(orderId, newStatus);
-    setTimeout(() => {
-      setUpdate(update + 1);
-    }, 1000);
+    setSelectStatus({ orderId, newStatus });
+    setShowConfirmation(true);
+  };
+
+  const sendNewStatus = async () => {
+    const { orderId, newStatus } = selectStatus;
+    await dispatch(updateOrderStatus(orderId, newStatus));
+    setShowConfirmation(false);
+  };
+
+  const handleConfirmationClose = () => {
+    setShowConfirmation(false);
+    dispatch(setPageAdmin("orders"));
   };
 
   return (
@@ -84,13 +100,17 @@ export default function OrderList() {
           className="form-select"
           aria-label="Default select example"
           style={{ width: "200px", margin: "2px" }}
-          value={selectedStatus}
+          defaultValue=""
           onChange={handleStatusChange}
         >
-          <option value="All">Select status</option>
-          <option value="Approved">Approved</option>
-          <option value="Pending">Pending</option>
-          <option value="Rejected">Rejected</option>
+          <option value="" disabled>
+            Select status
+          </option>
+          <option value="All">All</option>
+          <option value="Delivered">Delivered</option>
+          <option value="In Process">In Process</option>
+          <option value="Paid">Paid</option>
+          <option value="Cancelled">Cancelled</option>
         </select>
         <input
           type="text"
@@ -137,8 +157,7 @@ export default function OrderList() {
               .filter(
                 (order) =>
                   selectedStatus === "All" ||
-                  order.mercadopagoTransactionStatus ===
-                    selectedStatus.toString()
+                  order.deliveryStatus === selectedStatus.toString()
               )
               .map((order) => (
                 <tr key={order.id}>
@@ -159,12 +178,18 @@ export default function OrderList() {
                       <option value="Cancelled">Cancelled</option>
                     </select>
                   </td>
-                  <td className={styles.td}>${Number(order.totalPrice).toFixed(2)}</td>
                   <td className={styles.td}>
-                    {" "}
-                    {/*BOTON CON ESTILADO DE LINK*/}
+                    ${Number(order.totalPrice).toFixed(2)}
+                  </td>
+                  <td className={styles.td}>
                     <button
-                      className={styles.button}
+                      type="button"
+                      className="btn btn-primary"
+                      style={{
+                        "--bs-btn-padding-y": ".25rem",
+                        "--bs-btn-padding-x": ".5rem",
+                        "--bs-btn-font-size": ".75rem",
+                      }}
                       onClick={openModal}
                       value={order.id}
                     >
@@ -175,6 +200,15 @@ export default function OrderList() {
               ))}
         </tbody>
       </table>
+      {showConfirmation && (
+        <PopupConfirmation
+          descripcion="
+            Are you sure you want to change the status of"
+          nameProduct={selectStatus.newStatus}
+          onClickAccept={sendNewStatus}
+          onClickCancel={handleConfirmationClose}
+        />
+      )}
     </div>
   );
 }
