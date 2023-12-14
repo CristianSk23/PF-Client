@@ -564,7 +564,6 @@ export const filterOrderById = (id) => {
 export const updateOrderStatus = (orderId, newStatus) => {
   return async (dispatch) => {
     try {
-      console.log("Valores que llegaron:", orderId, newStatus);
       const response = await axios.put("/order/update", {
         idOrder: orderId,
         statusDelivery: newStatus,
