@@ -29,12 +29,10 @@ const App = () => {
   const dispatch = useDispatch();
 
   const userAuth = useSelector((state) => state.user)
-  const isUser = useSelector((state) => state.isUser)
 
   const [token, setToken] = useState()
-  const { isAuthenticated, user, getIdTokenClaims, logout, isLoading } = useAuth0()
+  const { isAuthenticated, user, getIdTokenClaims, logout } = useAuth0()
   const [loading,setLoading] = useState(false)
-  const [bann, setBann] = useState(false)
 
   useEffect(() => {
     const fetchUserInformation = async () => {
@@ -81,15 +79,6 @@ const App = () => {
 
     handleBanned();
 }, [user]);
-
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setBann(true)}
-    , 500);
-
-    return () => clearTimeout(timeoutId);
-  }, [])
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
