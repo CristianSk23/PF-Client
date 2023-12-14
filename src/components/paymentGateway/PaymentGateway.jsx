@@ -189,15 +189,26 @@ const PaymentGateway=()=>{
 
                   <div className="col-sm-6">
                     <label className="form-label">Name</label>
-                    <input type="text" className="form-control" id="name" placeholder="Enter your name..." name="name" value={userInfo.name} onChange={handleChange} required/>
+                    <input type="text" className="form-control" id="name" placeholder="Enter your name..." name="name" 
+                          value={userInfo.name} 
+                          onChange={handleChange} 
+                          pattern="[A-Za-z]{3,20}" 
+                          minlength="3" maxlength="20" 
+                          required
+                          title="Name must be between 3 to 20 letters."/>
                     <div className="invalid-feedback">
-                      Valid name is required.
+                        Username must be between 3 to 35 letters..
                     </div>
                   </div>
 
                   <div className="col-sm-6">
                     <label className="form-label">Last Name</label>
-                    <input type="text" className="form-control" id="lastName" placeholder="Enter your last name..." name="lastName" value={userInfo.lastName} onChange={handleChange} required/>
+                    <input type="text" className="form-control" id="lastName" placeholder="Enter your last name..." name="lastName" value={userInfo.lastName} 
+                          onChange={handleChange}                           
+                          pattern="[A-Za-z]{3,20}" 
+                          minlength="3" maxlength="20" 
+                          required
+                          title="Name must be between 3 to 20 letters."/>
                     <div className="invalid-feedback">
                       Valid lastName is required.
                     </div>
@@ -205,25 +216,38 @@ const PaymentGateway=()=>{
 
                   <div className="col-sm-6">
                     <label className="form-label">Identity Card</label>
-                    <input type="text" className="form-control" id="identityCard" placeholder="Enter your identy card..." name="identityCard" value={userInfo.identityCard} onChange={handleChange} required/>
-                    <div className="invalid-feedback">
-                      Valid identity card is required.
+                    <input type="text" className="form-control" id="identityCard" placeholder="Enter your identy card..." name="identityCard" value={userInfo.identityCard} 
+                          onChange={handleChange}            
+                          pattern="\d{8,10}" 
+                          minlength="8" maxlength="10" 
+                          required
+                          title="Identity Card number must be between 8 to 10 digits."/>
+                    <div class="invalid-feedback">
+                      Identity Card number must be between 8 to 10 digits.
                     </div>
                   </div>
 
                   <div className="col-sm-6">
                     <label className="form-label">Phone</label>
-                    <input type="number" className="form-control" id="phone" placeholder="Enter your phone number..." name="phone" value={userInfo.phone} onChange={handleChange} required/>
-                    <div className="invalid-feedback">
-                      Please enter your phone number.
+                    <input type="text" className="form-control" id="phone" placeholder="Enter your phone number..." name="phone" value={userInfo.phone} onChange={handleChange} 
+                          pattern="\d{8,10}" 
+                          minlength="8" maxlength="10" 
+                          required
+                          title="Phone number must be between 8 to 10 digits."/>
+                    <div class="invalid-feedback">
+                      Phone number must be between 8 to 10 digits.
                     </div>
                   </div>
 
                   <div className="col-6">
                     <label className="form-label">Address</label>
-                    <input type="text" className="form-control" id="address" placeholder="Enter your address..." name="address" value={userInfo.address} onChange={handleChange} required/>
-                    <div className="invalid-feedback">
-                      Please enter your shipping address.
+                    <input type="text" className="form-control" id="address" placeholder="Enter your address..." name="address" value={userInfo.address} 
+                        onChange={handleChange} 
+                        minlength="10" maxlength="100" 
+                        required
+                        title="Address must contain at least 4 consecutive numbers and more than 5 letters."/>
+                    <div class="invalid-feedback">
+                      Address must contain at least 4 consecutive numbers and more than 5 letters.
                     </div>
                   </div>
 
@@ -247,9 +271,13 @@ const PaymentGateway=()=>{
 
                   <div className="col-md-6">
                     <label className="form-label">Postal Code</label>
-                    <input type="number" className="form-control" id="postalCode" placeholder="Enter your postal code..." name="postalCode" value={userInfo.postalCode} onChange={handleChange} required/>
-                    <div className="invalid-feedback">
-                      Postal code required.
+                    <input type="text" className="form-control" id="postalCode" placeholder="Enter your postal code..." name="postalCode" value={userInfo.postalCode} onChange={handleChange} 
+                                minlength="4" maxlength="4" 
+                                pattern="\\d{4}"
+                                required
+                                title="Postal code must be 4 digits."/>
+                    <div class="invalid-feedback">
+                      Postal code must be 4 digits.
                     </div>
                   </div>
                 </div>
