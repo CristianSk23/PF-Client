@@ -48,6 +48,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
       )
     }
 
+
     return(!isLoading &&
       <div>
       {isUser === "Admin" ? (
@@ -168,7 +169,10 @@ const ModuleHistoryOrderUser =({idProp}) =>{
     </div>
       )}
         </div>
-    )
+      )
+    );
+    
+    
 }
 
 export default ModuleHistoryOrderUser;

@@ -6,9 +6,9 @@ const PopupGeneral = ({textButton, descripcion, onClick}) => {
         <div className="card text-bg-success mb-3" 
         style={{
           position: "fixed",
-          top:220,
-          width:"25%",
-          height:"25%",
+          top:"30vh",
+          width:"50vh",
+          height:"20vh",
           display:"flex",
           justifyContent:"center",
           alignItems:"center",

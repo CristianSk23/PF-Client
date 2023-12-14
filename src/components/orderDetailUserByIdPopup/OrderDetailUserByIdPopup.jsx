@@ -87,8 +87,9 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
       {isUser === "Admin" ? (
         <div>
           <div className={styles.overlay}></div>
-          <div className={styles.popup}>
+          <div className={`popup container ${styles.popup}`}>
             <CloseButton onClick={onClose} className={styles.closeButton} />
+            <div className="table-responsive">
             <table className="table table-hover" style={{ marginTop: "10px" }}>
               <thead>
                 <tr>
@@ -137,13 +138,15 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
                   ))}
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       ) : (
         <div>
           <div className={styles.overlay}></div>
-          <div className={styles.popup}>
+          <div className={`popup container ${styles.popup}`}>
             <CloseButton onClick={onClose} className={styles.closeButton} />
+            <div className="table-responsive">
             <table className="table table-hover" style={{ marginTop: "10px" }}>
               <thead>
                 <tr>
@@ -194,7 +197,7 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
                           : parseFloat(product?.price).toFixed(2)}
                       </td>
                         <td className={styles.td}>{product?.category}</td>
-                        <td className={styles.td}>
+                        <td className={`${styles.td} col-2`}>
                           {product?.reviews
                             .filter((review) => review.idUser == idUser)
                             .map((review) => (
@@ -232,6 +235,12 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
                                 onChange={(e) =>
                                   handleComment(product.id, e.target.value)
                                 }
+                                style={{    
+                                padding: '4px',
+                                border: '1px solid #ccc',
+                                borderRadius: '5px',
+                                fontSize: '14px',
+                                width: '190px', }}
                               />
                             </div>
                           )}
@@ -242,16 +251,19 @@ const OrderDetailUserByIdPopup = ({ orderDetails, onClose, idUser }) => {
                   ))}
               </tbody>
             </table>
-            {send && (
-              <button
-                className="btn btn-primary"
-                type="button"
-                onClick={sendReview}
-                style={{ marginTop: "5px" }}
-              >
-                Send review
-              </button>
-            )}
+            <div className="d-flex justify-content-center">
+              {send && (
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                  onClick={sendReview}
+                  style={{ marginTop: "5px" }}
+                >
+                  Send review
+                </button>
+              )}
+            </div>
+            </div>
           </div>
         </div>
       )}

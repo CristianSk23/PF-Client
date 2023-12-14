@@ -113,6 +113,7 @@ const ShoppingCart = ({}) => {
     >
       <NavBar />
       {products.length > 0 && (
+
         <div className="container" style={{ marginTop: "62px" }}>
           <h1 style={{ textAlign: "center", marginBottom: "40px" }}>
             Shopping Cart

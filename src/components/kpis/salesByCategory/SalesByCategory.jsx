@@ -122,37 +122,38 @@ const SalesByCategory = () =>{
             <div className="row">
             <div className="col-sm">
                 <p>Raw Data</p>
-                <table className="table table-bordered">
-                <thead>
-                    <tr>
-                    <th>Item Name</th>
-                    <th>Category</th>
-                    <th>Item Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Order Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {graphData.filteredItems.map((item, index) => (
-                    <tr key={index}>
-                        <td>
-                        <Link
-                        to={`/detail/${item.itemId}`}
-                        style={{ textDecoration: "none", color: "black" }}
-                        >
-                        {item.itemName}
-                        </Link>     
-                        </td>
-                        <td>{item.itemCategory}</td>
-                        <td align='center'>${Number(item.itemPrice).toFixed(0)}</td>
-                        <td align='center'>{item.itemQuantity}</td>
-                        <td align='center'>${(item.itemQuantity * item.itemPrice).toFixed(0)}</td>
-                        <td>{item.orderDate}</td>
-                    </tr>
-                    ))}
-                </tbody>
-                </table>
+                <div className="table-responsive">
+                  <table className="table table-bordered">
+                  <thead>
+                      <tr>
+                      <th style={{textAlign:"center"}}>Item Name</th>
+                      <th style={{textAlign:"center"}}>Category</th>
+                      <th style={{textAlign:"center"}}>Item Price</th>
+                      <th style={{textAlign:"center"}}>Quantity</th>
+                      <th style={{textAlign:"center"}}>Total</th>
+                      <th style={{textAlign:"center"}}>Order Date</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {graphData.filteredItems.map((item, index) => (
+                      <tr key={index}>
+                          <td style={{textAlign:"center"}}>
+                          <Link
+                          to={`/detail/${item.itemId}`}
+                          >
+                          {item.itemName}
+                          </Link>     
+                          </td>
+                          <td style={{textAlign:"center"}}>{item.itemCategory}</td>
+                          <td style={{textAlign:"center"}}>${Number(item.itemPrice).toFixed(0)}</td>
+                          <td style={{textAlign:"center"}}>{item.itemQuantity}</td>
+                          <td style={{textAlign:"center"}}>${(item.itemQuantity * item.itemPrice).toFixed(0)}</td>
+                          <td style={{textAlign:"center"}}>{item.orderDate}</td>
+                      </tr>
+                      ))}
+                  </tbody>
+                  </table>
+                </div>
             </div>
             </div>
         </div>

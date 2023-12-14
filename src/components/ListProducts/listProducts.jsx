@@ -160,7 +160,6 @@ export default function ListProducts() {
                 Preview User View
               </button>
             </div>
-
             <table className="table table-hover" style={{ marginTop: "10px" }}>
               <thead>
                 <tr>

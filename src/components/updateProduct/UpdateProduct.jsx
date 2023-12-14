@@ -259,12 +259,12 @@ const UpdateProduct = () => {
   }
 
   return (!isLoading &&
-    <div style={{ backgroundColor: "#F8F9F9", minHeight: "900px" }}>
+    <div className="container">
       <NavBar />
-      <div style={{ marginTop: "60px" }}>
-        <h1 className="text-center m-5">Update Product</h1>
-        <Form onSubmit={handleSubmit} className={styles.container}>
-          <div className={styles.input_container}>
+      <div className="row mt-4">
+        <h1 className="text-center mb-5" style={{marginTop:"60px"}}>Update Product</h1>
+        <Form onSubmit={handleSubmit} className={`${styles.container} col-md-8 offset-md-2`}>
+        <div className={`${styles.input_name} row mb-3`}>
             <div className={styles.input_name}>
               <FloatingLabel
                 htmlFor="name"
@@ -450,9 +450,9 @@ const UpdateProduct = () => {
               </FloatingLabel>
             </div>
             {!isFile && (
-              <div className={styles.buttonContainer}>
+              <div className="text-center">
                 <Button
-                  className={styles.customButton}
+                  className={`btn ${styles.customButton} btn-primary`}
                   variant="primary"
                   type="submit"
                   onClick={changeIsFile}
@@ -523,7 +523,7 @@ const UpdateProduct = () => {
             )}
 
             {isFile && (
-              <div className={styles.buttonContainer}>
+              <div className="text-center">
                 <Button
                   className={styles.customButton}
                   variant="primary"

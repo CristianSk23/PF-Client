@@ -87,44 +87,45 @@ const DeletedUsers = () => {
     }
 
     return (
-        <div>
+        <div className="container">
             <h5>Deleted Users:</h5>
-            <table className="table table-hover">
-                <thead>
-                    <tr>
-                        <th className={styles.th} scope="column">Name</th>
-                        <th className={styles.th} scope="column">Email</th>
-                        <th className={styles.th} scope="column">Type user</th>
-                        <th className={styles.th} scope="column">CountryId</th>
-                        <th className={styles.th} scope="column">Deleted At</th>
-                        <th className={styles.th} scope="column">Restore</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {deleteUsers?.map((user) => (
-                        <tr key={`deleted${user.id}`}>
-                            <td className={styles.td}>{user.name}</td>
-                            <td className={styles.td}>{user.email}</td>
-                            <td className={styles.td}>{user.typeUser}</td>
-                            <td className={styles.td}>{user.CountryId}</td>
-                            <td className={styles.td}>{user.deletedAt}</td>
-                            <td className={styles.td}>
-                                <button className={styles.button} onClick={() => handleOpenRestore({
-                                    id: user?.id,
-                                    name: user?.name,
-                                    email: user?.email,
-                                    lastName: user?.lastName,
-                                    typeUser: user?.typeUser,
-                                    deletedAt: user?.deletedAt
-                                })}>
-                                <FontAwesomeIcon icon={faPersonWalkingArrowLoopLeft} style={{color: "#1efa00",}} />
-                                </button>
-                            </td>
+            <div className="table-responsive">
+                <table className="table table-hover">
+                    <thead>
+                        <tr>
+                            <th className={styles.th} scope="column">Name</th>
+                            <th className={styles.th} scope="column">Email</th>
+                            <th className={styles.th} scope="column">Type user</th>
+                            <th className={styles.th} scope="column">CountryId</th>
+                            <th className={styles.th} scope="column">Deleted At</th>
+                            <th className={styles.th} scope="column">Restore</th>
                         </tr>
-                    ))}
-                </tbody>
-
-            </table>
+                    </thead>
+                    <tbody>
+                        {deleteUsers?.map((user) => (
+                            <tr key={`deleted${user.id}`}>
+                                <td className={styles.td}>{user.name}</td>
+                                <td className={styles.td}>{user.email}</td>
+                                <td className={styles.td}>{user.typeUser}</td>
+                                <td className={styles.td}>{user.CountryId}</td>
+                                <td className={styles.td}>{user.deletedAt}</td>
+                                <td className={styles.td}>
+                                    <button className={styles.button} onClick={() => handleOpenRestore({
+                                        id: user?.id,
+                                        name: user?.name,
+                                        email: user?.email,
+                                        lastName: user?.lastName,
+                                        typeUser: user?.typeUser,
+                                        deletedAt: user?.deletedAt
+                                    })}>
+                                    <FontAwesomeIcon icon={faPersonWalkingArrowLoopLeft} style={{color: "#1efa00",}} />
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }

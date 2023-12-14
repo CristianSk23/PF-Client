@@ -87,40 +87,41 @@ const DeletedProducts = () => {
     }
 
     return (
-        <div>
+        <div className="container">
             <h5>Deleted Products:</h5>
-            <table className="table table-hover">
-                <thead>
-                    <tr>
-                        <th className={styles.th} scope="column">Name</th>
-                        <th className={styles.th} scope="column">Brand</th>
-                        <th className={styles.th} scope="column">Deleted At</th>
-                        <th className={styles.th}scope="column">Restore</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {deleteProducts?.map((product) => (
-                        <tr key={`deleted${product?.id}`}>
-                            <td className={styles.td}>{product?.nameProd}</td>
-                            <td className={styles.td}>{product?.brand}</td>
-                            <td className={styles.td}>{product?.deletedAt}</td>
-                            <td className={styles.td}>
-                                <button className={styles.button} onClick={() => handleOpenRestore({
-                                    id: product?.id,
-                                    nameProd: product?.nameProd,
-                                    brand: product?.brand,
-                                    price: product?.price,
-                                    CategoryId: product?.CategoryId,
-                                    deletedAt: product?.deletedAt
-                                })}>
-                                    <FontAwesomeIcon icon={faTrashArrowUp} style={{color: "#1efa00",}} />
-                                </button>
-                            </td>
+            <div className="table-responsive">
+                <table className="table table-hover">
+                    <thead>
+                        <tr>
+                            <th className={styles.th} scope="column">Name</th>
+                            <th className={styles.th} scope="column">Brand</th>
+                            <th className={styles.th} scope="column">Deleted At</th>
+                            <th className={styles.th}scope="column">Restore</th>
                         </tr>
-                    ))}
-                </tbody>
-
-            </table>
+                    </thead>
+                    <tbody>
+                        {deleteProducts?.map((product) => (
+                            <tr key={`deleted${product?.id}`}>
+                                <td className={styles.td}>{product?.nameProd}</td>
+                                <td className={styles.td}>{product?.brand}</td>
+                                <td className={styles.td}>{product?.deletedAt}</td>
+                                <td className={styles.td}>
+                                    <button className={styles.button} onClick={() => handleOpenRestore({
+                                        id: product?.id,
+                                        nameProd: product?.nameProd,
+                                        brand: product?.brand,
+                                        price: product?.price,
+                                        CategoryId: product?.CategoryId,
+                                        deletedAt: product?.deletedAt
+                                    })}>
+                                        <FontAwesomeIcon icon={faTrashArrowUp} style={{color: "#1efa00",}} />
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }
