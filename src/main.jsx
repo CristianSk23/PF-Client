@@ -9,8 +9,8 @@ import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css'
 
   // url general
-   axios.defaults.baseURL = "http://localhost:3001"; // LOCAL
-  // axios.defaults.baseURL = "https://technook-server.up.railway.app/"; // DEPLOY
+  //  axios.defaults.baseURL = "http://localhost:3001"; // LOCAL
+  axios.defaults.baseURL = "https://technook-server.up.railway.app/"; // DEPLOY
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
