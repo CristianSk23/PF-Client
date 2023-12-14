@@ -48,6 +48,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
       )
     }
 
+
     return(!isLoading &&
       <div>
       {isUser === "Admin" ? (
@@ -56,6 +57,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 className="h2"><FontAwesomeIcon icon={faClipboard} /> Orders list for user {ordersById[0]?.userName}</h1>
         </div>
+        <div className="table-responsive">
         <table className="table table-hover">
             <thead>
                 <tr>
@@ -101,6 +103,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
                 </tr>}
               </tbody>
         </table>
+        </div>
         {selectedOrder && (
         <OrderDetailUserByIdPopup
           orderDetails={selectedOrder}
@@ -118,6 +121,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 className="h2"><FontAwesomeIcon icon={faClipboard} /> Your Orders {ordersById[0]?.userName}</h1>
         </div>
+        <div className="table-responsive">
         <table className="table table-hover">    
             <thead>
                 <tr>
@@ -157,6 +161,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
                 </tr>}
               </tbody>
         </table>
+        </div>
         {selectedOrder && (
         <OrderDetailUserByIdPopup
           orderDetails={selectedOrder}
@@ -168,7 +173,7 @@ const ModuleHistoryOrderUser =({idProp}) =>{
     </div>
       )}
         </div>
-    )
+      )
 }
 
 export default ModuleHistoryOrderUser;

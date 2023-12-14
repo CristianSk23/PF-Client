@@ -56,7 +56,7 @@ const AdminModuleUser = () => {
   if(!isLoading && isUser === "Admin"){
   return (
     !isLoading && isUser === "Admin" && isAuthenticated && 
-    <div>
+    <div className="table-responsive">
         <h5>Users list:</h5>
         <table className="table table-hover">
       <thead>

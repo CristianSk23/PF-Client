@@ -56,3 +56,38 @@
     border: none;
     background: transparent;
 }
+
+.custom-btn {
+  background-color: #3498db; 
+  color: #fff; 
+  border: 1px solid #3498db; 
+  transition: background-color 0.3s ease; 
+}
+
+.custom-btn.active {
+  background-color: #2c3e50;
+  border: 1px solid #2c3e50;
+}
+
+/* Agrega estilos para reducir la altura cuando la barra lateral está cerrada */
+.sidebar-closed {
+  height: 80px; /* Ajusta la altura según tus necesidades */
+  transition: height 0.3s ease; /* Agrega una transición suave */
+}
+
+/* Estilos adicionales para el botón cuando la barra lateral está cerrada */
+.sidebar-closed .btn.active {
+  background-color: #2c3e50;
+  border: 1px solid #2c3e50;
+}
+
+/* Estilos específicos para dispositivos móviles */
+@media (max-width: 767px) {
+  .sidebar {
+    height: auto; /* Ajusta la altura automática en dispositivos móviles */
+  }
+
+  .sidebar-closed {
+    height: auto; /* Ajusta la altura automática cuando la barra lateral está cerrada en dispositivos móviles */
+  }
+}

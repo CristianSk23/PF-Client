@@ -89,15 +89,9 @@ export default function OrderList() {
         <UserPurchaseHistory closeModal={openModal} data={actualData} />
       )}
       <h5>Orders List:</h5>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          paddingBottom: "10px",
-        }}
-      >
+      <div className="d-flex justify-content-end align-items-center mb-2">
         <select
-          className="form-select"
+          className="form-select me-2"
           aria-label="Default select example"
           style={{ width: "200px", margin: "2px" }}
           defaultValue=""
@@ -125,6 +119,7 @@ export default function OrderList() {
           />
         </button>
       </div>
+      <div className="table-responsive">
       <table className="table table-hover">
         <thead>
           <tr>
@@ -200,6 +195,7 @@ export default function OrderList() {
               ))}
         </tbody>
       </table>
+      </div>
       {showConfirmation && (
         <PopupConfirmation
           descripcion="

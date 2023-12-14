@@ -62,7 +62,7 @@ const PromotionPopup = () => {
                     src={product.image[0]}
                     className="d-block mx-auto"
                     alt={`Imagen ${index + 1}`}
-                    style={{ maxWidth: "100%", height: "400px", objectFit: "cover" }}
+                    style={{ maxWidth: "100%", height: "280px", objectFit: "cover" }}
                   />
 
                   <h5 style={{ fontSize: "25px", color:"black" }}>
