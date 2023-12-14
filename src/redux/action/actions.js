@@ -440,7 +440,7 @@ export const getPromotions = () => async (dispatch) => {
     const { data } = await axios.get(`/products`);
     dispatch({ type: "POPUTSPROMOTIONS", payload: data });
   } catch (error) {
-    console.error("Error fetching promotions:", error);
+    // console.error("Error fetching promotions:", error);
   }
 };
 
@@ -523,7 +523,7 @@ export const getOrders = () => {
       const { data } = await axios.get(`/order/history`);
       dispatch({ type: GETORDERS, payload: data });
     } catch (error) {
-      console.error("Error fetching promotions:", error);
+      // console.error("Error fetching promotions:", error);
     }
   };
 };
@@ -564,7 +564,6 @@ export const filterOrderById = (id) => {
 export const updateOrderStatus = (orderId, newStatus) => {
   return async (dispatch) => {
     try {
-      console.log("Valores que llegaron:", orderId, newStatus);
       const response = await axios.put("/order/update", {
         idOrder: orderId,
         statusDelivery: newStatus,

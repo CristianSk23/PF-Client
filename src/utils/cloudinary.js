@@ -59,7 +59,7 @@ export const uploadImageByFileToCloudinary = async (event, setProduct, product) 
 
         return data.secure_url;
       } catch (error) {
-        console.error("Error al subir la imagen a Cloudinary:", error);
+        // console.error("Error al subir la imagen a Cloudinary:", error);
         return null;
       }
     })

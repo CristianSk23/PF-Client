@@ -736,8 +736,7 @@ const reducer = (state = initialState, action) => {
 
         }
       })
-    console.log('cartItems      *******************');
-    console.log(cartItems);
+
       return {
         ...state,
         cart: {
