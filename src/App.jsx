@@ -74,7 +74,7 @@ const App = () => {
       if (userAuth?.active === false) {
         toast.error('Your account is banned!', {
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -83,7 +83,7 @@ const App = () => {
           theme: "light",
         });
 
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        await new Promise(resolve => setTimeout(resolve, 2000));
         
         await logout({ logoutParams: { returnTo: window.location.origin } });
         await dispatch(logOut());
