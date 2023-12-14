@@ -9,6 +9,7 @@ import UserPurchaseHistory from "./UserPurchaseHistory";
 import styles from "./orderList.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import PopupConfirmation from "../popupConfirmation/PopupConfirmation";
 
 export default function OrderList() {
   const dispatch = useDispatch();
@@ -66,6 +67,7 @@ export default function OrderList() {
       setUpdate(update + 1);
     }, 1000);
   };
+  
 
   return (
     <div>
@@ -88,9 +90,10 @@ export default function OrderList() {
           onChange={handleStatusChange}
         >
           <option value="All">Select status</option>
-          <option value="Approved">Approved</option>
-          <option value="Pending">Pending</option>
-          <option value="Rejected">Rejected</option>
+          <option value="Delivered">Delivered</option>
+          <option value="In Process">In Process</option>
+          <option value="Paid">Paid</option>
+          <option value="Cancelled">Cancelled</option>
         </select>
         <input
           type="text"
@@ -137,7 +140,8 @@ export default function OrderList() {
               .filter(
                 (order) =>
                   selectedStatus === "All" ||
-                  order.mercadopagoTransactionStatus ===
+                  order.deliveryStatus
+                  ===
                     selectedStatus.toString()
               )
               .map((order) => (
@@ -161,20 +165,25 @@ export default function OrderList() {
                   </td>
                   <td className={styles.td}>${Number(order.totalPrice).toFixed(2)}</td>
                   <td className={styles.td}>
-                    {" "}
-                    {/*BOTON CON ESTILADO DE LINK*/}
-                    <button
-                      className={styles.button}
-                      onClick={openModal}
+                    <button 
+                      type="button" 
+                      className="btn btn-primary"
+                      style={{
+                        '--bs-btn-padding-y': '.25rem',
+                        '--bs-btn-padding-x': '.5rem',
+                        '--bs-btn-font-size': '.75rem',
+                      }} 
+                      onClick={openModal} 
                       value={order.id}
                     >
-                      See Detail
+                    See Detail
                     </button>
                   </td>
                 </tr>
               ))}
         </tbody>
       </table>
+      
     </div>
   );
 }

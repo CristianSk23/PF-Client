@@ -194,8 +194,8 @@ const reducer = (state = initialState, action) => {
     case DELETEUSER:
       return {
         ...state,
-        users: state.users.filter((user) => action.payload.id !== user.id)
-    }
+        users: state.users.filter((user) => action.payload.id !== user.id),
+      };
 
     case UPDATEUSER:
       return { ...state, user: { ...state.user, ...action.payload } };
@@ -207,9 +207,8 @@ const reducer = (state = initialState, action) => {
         }
         return user;
       });
-    
+
       return { ...state, users: updatedUsers };
-  
 
     //-------------------------------- ORDERS ---------------------------------------------//
 
@@ -395,7 +394,6 @@ const reducer = (state = initialState, action) => {
 
     case ADDTOCART:
       if (action.payload.stock == 0) {
-        // alert("This product is out of stock");
         toast.warning("This product is out of stock", {
           position: "bottom-right",
           autoClose: 2000,
@@ -405,7 +403,7 @@ const reducer = (state = initialState, action) => {
           draggable: true,
           progress: undefined,
           theme: "colored",
-          });
+        });
         return {
           ...state,
         };
@@ -417,7 +415,6 @@ const reducer = (state = initialState, action) => {
 
       if (existingItem) {
         if (action.payload.stock < existingItem.quantity + 1) {
-          // alert("There are no more units available for this product");
           toast.warning("There are no more units available for this product", {
             position: "bottom-right",
             autoClose: 2000,
@@ -427,7 +424,7 @@ const reducer = (state = initialState, action) => {
             draggable: true,
             progress: undefined,
             theme: "colored",
-            });
+          });
 
           return {
             ...state,
@@ -484,7 +481,7 @@ const reducer = (state = initialState, action) => {
           draggable: true,
           progress: undefined,
           theme: "colored",
-          });
+        });
 
         return {
           ...state,
@@ -624,12 +621,14 @@ const reducer = (state = initialState, action) => {
         deletedUsers: action.payload.reverse(),
       };
 
-      case RESTOREUSERS:   
-        return {
-          ...state,
-          users: [...state.users, action.payload],
-          deletedUsers: state.deletedUsers.filter((user) => user.id !== action.payload.id),
-        };
+    case RESTOREUSERS:
+      return {
+        ...state,
+        users: [...state.users, action.payload],
+        deletedUsers: state.deletedUsers.filter(
+          (user) => user.id !== action.payload.id
+        ),
+      };
 
     case COUNTRY:
       return {
@@ -690,14 +689,16 @@ const reducer = (state = initialState, action) => {
         orderHistory: action.payload,
         orderHistoryCache: action.payload,
       };
-  
+
     case FILTER_ORDER_BY_ID:
-      const result = state.orderHistoryCache.filter((item) => item.id.toLowerCase().includes(action.id.toLowerCase()) )
-    return {
-      ...state,
-      orderHistory: result
-    };
-    
+      const result = state.orderHistoryCache.filter((item) =>
+        item.id.toLowerCase().includes(action.id.toLowerCase())
+      );
+      return {
+        ...state,
+        orderHistory: result,
+      };
+
     case UPDATE_ORDER_STATUS:
       return {
         ...state,
@@ -726,12 +727,9 @@ const reducer = (state = initialState, action) => {
           image: [item.image],
           description: item.description,
           stock: item.stock,
-          category: item.category
-
-        }
-      })
-    console.log('cartItems      *******************');
-    console.log(cartItems);
+          category: item.category,
+        };
+      });
       return {
         ...state,
         cart: {

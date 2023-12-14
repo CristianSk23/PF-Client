@@ -28,6 +28,9 @@ const LandingPage = () => {
   const allProducts = useSelector((state) => state.products?.data);
   const [products, setProducts] = useState([]);
   const isUser = useSelector((state) => state.isUser);
+  const currentPage = useSelector((state)=> state.products.currentPage)
+  const numMaxPages = useSelector((state)=> Math.ceil((state.products?.allProducts.length)/12))
+  const numMaxPagesFil = useSelector((state)=> Math.ceil((state.products?.productsFiltered.length)/12))
   const [navBarHeight, setNavBarHeight] = useState(0);
   const [shouldRenderPromotionPopup, setShouldRenderPromotionPopup] =
     useState(false);
@@ -80,7 +83,6 @@ const LandingPage = () => {
         
         (product) => product.active === true && product.stock > 0
       );
-      console.log(filteredProducts)
       setProducts(filteredProducts);
     }
   }, [allProducts]);
@@ -189,26 +191,95 @@ const LandingPage = () => {
 
       <nav aria-label="Page navigation example" style={{ marginTop: "22px" }}>
         <ul className="pagination justify-content-center">
-          <li className="page-item">
-            <a
-              className="page-link"
-              onClick={pagination}
-              name="prev"
-              style={{ cursor: "default" }}
-            >
-              {"<<"} Previous
-            </a>
-          </li>
-          <li className="page-item">
-            <a
-              className="page-link"
-              onClick={pagination}
-              name="next"
-              style={{ cursor: "default" }}
-            >
-              Next {">>"}
-            </a>
-          </li>
+        {numMaxPagesFil === 0 ? (
+  <>
+    <li className="page-item">
+      <a
+        className="page-link"
+        onClick={pagination}
+        name="prev"
+        style={{
+          cursor: currentPage === 0 ? "default" : "pointer",
+          color: currentPage === 0 ? "gray" : "",
+        }}
+      >
+        {"<<"} Previous
+      </a>
+    </li>
+    <li
+      className="page-item"
+      style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+    >
+      {Array.from({ length: numMaxPages }, (_, index) => (
+        <div key={index} style={{ margin: "0 5px" }}>
+          <label
+            key={index}
+            className={`page-link ${index === currentPage ? "active" : ""}`}
+          >
+            {index + 1}
+          </label>
+        </div>
+      ))}
+    </li>
+    <li className="page-item">
+      <a
+        className="page-link"
+        onClick={pagination}
+        name="next"
+        style={{
+          cursor: currentPage === numMaxPages - 1 ? "default" : "pointer",
+          color: currentPage === numMaxPages - 1 ? "gray" : "",
+        }}
+      >
+        Next {">>"}
+      </a>
+    </li>
+  </>
+) : (
+  <>
+    <li className="page-item">
+      <a
+        className="page-link"
+        onClick={pagination}
+        name="prev"
+        style={{
+          cursor: currentPage === 0 ? "default" : "pointer",
+          color: currentPage === 0 ? "gray" : "",
+        }}
+      >
+        {"<<"} Previous
+      </a>
+    </li>
+    <li
+      className="page-item"
+      style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+    >
+      {Array.from({ length: numMaxPagesFil }, (_, index) => (
+        <div key={index} style={{ margin: "0 5px" }}>
+          <label
+            key={index}
+            className={`page-link ${index === currentPage ? "active" : ""}`}
+          >
+            {index + 1}
+          </label>
+        </div>
+      ))}
+    </li>
+    <li className="page-item">
+      <a
+        className="page-link"
+        onClick={pagination}
+        name="next"
+        style={{
+          cursor: currentPage === numMaxPagesFil - 1 ? "default" : "pointer",
+          color: currentPage === numMaxPagesFil - 1 ? "gray" : "",
+        }}
+      >
+        Next {">>"}
+      </a>
+    </li>
+  </>
+)}
         </ul>
       </nav>
       <Footer />
