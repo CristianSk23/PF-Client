@@ -74,13 +74,13 @@ const App = () => {
       if (userAuth?.active === false) {
         toast.error('Your account is banned!', {
           position: "top-right",
-          autoClose: 2000,
+          autoClose: 4000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "light",
+          theme: "colored",
         });
 
         await new Promise(resolve => setTimeout(resolve, 2000));
