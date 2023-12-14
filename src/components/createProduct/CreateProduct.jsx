@@ -209,11 +209,11 @@ const CreateProduct = () => {
 
   return (
     !isLoading &&
-    <div style={{ minHeight: "800px" }}>
-      <div>
-        <h1 className="text-center m-5">Create Product</h1>
-        <Form onSubmit={handleSubmit} className={styles.container}>
-          <div className={styles.input_container}>
+    <div className="container">
+      <div className="row mt-4">
+        <h1 className="text-center mb-5" style={{marginTop:"30px"}}>Create Product</h1>
+        <Form onSubmit={handleSubmit} className={`${styles.container} col-md-8 offset-md-2`}>
+          <div className={`${styles.input_name} row mb-3`}>
             <div className={styles.input_name}>
               <FloatingLabel
                 htmlFor="name"
@@ -394,7 +394,6 @@ const CreateProduct = () => {
                   onChange={handleChange}
                   value={Boolean(product.active)}
                 >
-                  {/*MIRAR BIEN VALORES Y FUNCIONES Y AGREGAR ERRORES*/}
                   <option value={true}>Active</option>
                   <option value={false}>Disabled</option>
                 </Form.Select>
@@ -404,9 +403,9 @@ const CreateProduct = () => {
               </FloatingLabel>
             </div>
             {!isFile && (
-              <div className={styles.buttonContainer}>
+              <div className="text-center">
                 <Button
-                  className={styles.customButton}
+                  className={`btn ${styles.customButton} btn-primary`}
                   variant="primary"
                   type="submit"
                   onClick={changeIsFile}
@@ -475,7 +474,7 @@ const CreateProduct = () => {
             )}
 
 {isFile && (
-              <div className={styles.buttonContainer}>
+              <div className="text-center">
                 <Button
                   className={styles.customButton}
                   variant="primary"

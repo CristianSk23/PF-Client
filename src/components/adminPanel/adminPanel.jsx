@@ -22,16 +22,17 @@ import SalesHistory from '../kpis/salesHistory/salesHistory';
 import {useAuth0} from '@auth0/auth0-react'
 import ErrorView from '../error404/Error404';
 import Footer from '../Footer/Footer';
+import '@fortawesome/fontawesome-free/css/all.css';
 
-//ENLAZAR A QUE AHORA ESTO SEA LA "LANDING" DEL ADMIN
 
 export default function AdminPanel() {
     const dispatch = useDispatch()
     const pageAdmin = useSelector((state) => state.pageAdmin);
     const initialActiveButton = pageAdmin || 'dassboard';
     const [activeButton, setActiveButton] = useState(initialActiveButton);
-    const typeUser = useSelector((state) => state.user.typeUser) 
-    const {isLoading, logout} = useAuth0()
+    const typeUser = useSelector((state) => state.user.typeUser);
+    const {isLoading, logout} = useAuth0();
+    const [sidebarOpen, setSidebarOpen] = useState(true);
 
     const handleButtonClick = (buttonName) => {
         setActiveButton(buttonName)
@@ -47,6 +48,8 @@ export default function AdminPanel() {
         console.error('Error during logout:', error);
       }
     }
+
+    const handleSidebarToggle = () => setSidebarOpen(!sidebarOpen);
 
     const renderContent = () => {
         switch (activeButton) {
@@ -157,10 +160,11 @@ export default function AdminPanel() {
       {/* Sidebar */}
       <div className="container-fluid" style={{marginTop:"48px"}}>
         <div className="row">
+        {sidebarOpen && (
           <nav
             id="sidebarMenu"
-            className="col-md-3 col-lg-2 d-md-block bg-light sidebar"
-            style={{ minHeight: "100vh" }}
+            className={`col-md-3 col-lg-2 d-md-block bg-light sidebar ${!sidebarOpen ? 'sidebar-closed' : ''}`}
+            style={{ minHeight: "auto" }}
           >
             <div className="position-sticky">
               <ul className="nav flex-column" style={{marginTop:"15px"}}>
@@ -219,9 +223,20 @@ export default function AdminPanel() {
                 </ul>
             </div>
           </nav>
+          )}
+
+          <div className="d-md-none text-center" style={{marginTop:"10px"}}>
+              <button
+                className={`btn btn-primary ${sidebarOpen ? 'active' : ''}`}
+                onClick={handleSidebarToggle}
+                style={{ margin: "8px" }}
+              >
+              {sidebarOpen ? <i className="fas fa-chevron-up"></i> : <i className="fas fa-chevron-down"></i>}
+              </button>
+          </div>
 
           {/* Main content */}
-          <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <main className={`col-md-9 ms-sm-auto col-lg-10 px-md-4 ${sidebarOpen ? '' : 'col-12'}`}>
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
               <h1 className="h2">Admin Panel</h1>
             </div>

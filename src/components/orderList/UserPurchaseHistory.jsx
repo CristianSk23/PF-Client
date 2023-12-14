@@ -13,6 +13,7 @@ export default function UserPurchaseHistory({ closeModal, data }) {
   return (
     <div>
     <div className={styles.overlay}></div>
+    <div className="container">
       <div className={styles.popup}>
       <CloseButton onClick={closeModal} className={styles.closeButton}/>
       <table className="table table-hover" style={{marginTop:"10px"}}>
@@ -44,6 +45,7 @@ export default function UserPurchaseHistory({ closeModal, data }) {
                   </tr>
           </tbody>
       </table>
+      </div>
   </div>
 </div>
   );

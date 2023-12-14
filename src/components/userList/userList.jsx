@@ -8,8 +8,9 @@ import { Link } from 'react-router-dom';
 
 export default function UserList(){
     return(
-        <div>
+        <div className="container">
         <h5>Users list:</h5>
+            <div className="table-responsive">
                 <table className="table table-hover">
                     <thead>
                         <tr>
@@ -42,7 +43,7 @@ export default function UserList(){
                                 <option value="2">Disabled</option>
                             </Form.Select>
                             </td>
-                            <td className={styles.td}><Link>See history</Link></td> {/* HACER VISTA PARA VER HISTORIAL */}
+                            <td className={styles.td}><Link>See history</Link></td> 
                             <td className={styles.td}>
                                 <button className={styles.button}>
                                 <FontAwesomeIcon icon={faPencil} style={{color: "#badb43",}} />
@@ -56,5 +57,6 @@ export default function UserList(){
                         </tr>
                     </tbody>
                 </table>
+            </div>
     </div>
 )}

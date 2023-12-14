@@ -73,17 +73,11 @@ export default function OrderList() {
         <UserPurchaseHistory closeModal={openModal} data={actualData} />
       )}
       <h5>Orders List:</h5>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          paddingBottom: "10px",
-        }}
-      >
+      <div className="d-flex justify-content-end align-items-center mb-2">
         <select
-          className="form-select"
+          className="form-select me-2"
           aria-label="Default select example"
-          style={{ width: "200px", margin: "2px" }}
+          style={{ width: "200px" }}
           value={selectedStatus}
           onChange={handleStatusChange}
         >
@@ -105,76 +99,78 @@ export default function OrderList() {
           />
         </button>
       </div>
-      <table className="table table-hover">
-        <thead>
-          <tr>
-            <th className={styles.th} scope="col">
-              ID Order
-            </th>
-            <th className={styles.th} scope="col">
-              Order Date
-            </th>
-            <th className={styles.th} scope="col">
-              Name
-            </th>
-            <th className={styles.th} scope="col">
-              Mercado Pago Status
-            </th>
-            <th className={styles.th} scope="col">
-              Delivery Status
-            </th>
-            <th className={styles.th} scope="col">
-              Total Amount
-            </th>
-            <th className={styles.th} scope="col">
-              Order
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders &&
-            orders
-              .filter(
-                (order) =>
-                  selectedStatus === "All" ||
-                  order.mercadopagoTransactionStatus ===
-                    selectedStatus.toString()
-              )
-              .map((order) => (
-                <tr key={order.id}>
-                  <td className={styles.td}>{order.id}</td>
-                  <td className={styles.td}>{order.orderDate}</td>
-                  <td className={styles.td}>{order.userName}</td>
-                  <td className={styles.td}>
-                    {order.mercadopagoTransactionStatus}
-                  </td>
-                  <td className={styles.td}>
-                    <select
-                      value={order.deliveryStatus}
-                      onChange={(e) => updateDeliveryStatus(e, order.id)}
-                    >
-                      <option value="Delivered">Delivered</option>
-                      <option value="In Process">In Process</option>
-                      <option value="Paid">Paid</option>
-                      <option value="Cancelled">Cancelled</option>
-                    </select>
-                  </td>
-                  <td className={styles.td}>${Number(order.totalPrice).toFixed(2)}</td>
-                  <td className={styles.td}>
-                    {" "}
-                    {/*BOTON CON ESTILADO DE LINK*/}
-                    <button
-                      className={styles.button}
-                      onClick={openModal}
-                      value={order.id}
-                    >
-                      See Detail
-                    </button>
-                  </td>
-                </tr>
-              ))}
-        </tbody>
-      </table>
+      <div className="table-responsive">
+        <table className="table table-hover">
+          <thead>
+            <tr>
+              <th className={styles.th} scope="col">
+                ID Order
+              </th>
+              <th className={styles.th} scope="col">
+                Order Date
+              </th>
+              <th className={styles.th} scope="col">
+                Name
+              </th>
+              <th className={styles.th} scope="col">
+                Mercado Pago Status
+              </th>
+              <th className={styles.th} scope="col">
+                Delivery Status
+              </th>
+              <th className={styles.th} scope="col">
+                Total Amount
+              </th>
+              <th className={styles.th} scope="col">
+                Order
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders &&
+              orders
+                .filter(
+                  (order) =>
+                    selectedStatus === "All" ||
+                    order.mercadopagoTransactionStatus ===
+                      selectedStatus.toString()
+                )
+                .map((order) => (
+                  <tr key={order.id}>
+                    <td className={styles.td}>{order.id}</td>
+                    <td className={styles.td}>{order.orderDate}</td>
+                    <td className={styles.td}>{order.userName}</td>
+                    <td className={styles.td}>
+                      {order.mercadopagoTransactionStatus}
+                    </td>
+                    <td className={styles.td}>
+                      <select
+                        value={order.deliveryStatus}
+                        onChange={(e) => updateDeliveryStatus(e, order.id)}
+                      >
+                        <option value="Delivered">Delivered</option>
+                        <option value="In Process">In Process</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Cancelled">Cancelled</option>
+                      </select>
+                    </td>
+                    <td className={styles.td}>${Number(order.totalPrice).toFixed(2)}</td>
+                    <td className={styles.td}>
+                      {" "}
+                      {/*BOTON CON ESTILADO DE LINK*/}
+                      <button
+                        className={styles.button}
+                        onClick={openModal}
+                        value={order.id}
+                      >
+                        See Detail
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

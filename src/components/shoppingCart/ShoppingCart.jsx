@@ -106,57 +106,58 @@ if(!isLoading && !isAuthenticated && isUser === "Invited"){
       {products.length > 0 && (
                 <div className="container" style={{marginTop: "62px"}}>
                 <h1 style={{textAlign:"center", marginBottom:"40px"}}>Shopping Cart</h1>
-                {/* <p style={{"color": "red"}}>{handleStock()}</p> */}
-                <table className="table table-hover table-responsive">
-                    <thead>
-                        <tr>
-                        <th className={styles.th} scope="col">Product</th>
-                        <th className={styles.th} scope="col">Name</th>
-                        <th className={styles.th} scope="col">Price</th>
-                        <th className={styles.th} scope="col">Quantity</th>
-                        <th className={styles.th} scope="col">Subtotal</th>
-                        <th className={styles.th} scope="col">Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {
-                    products.map((item)=>{
-                        return(
-                            <tr key={item.id}>
-                            <td className={styles.td}><img src={item.image[0]} style={{width:"40px", height:"40px", objectFit:"contain"}}/></td>
-                            <td className={styles.td} style={{margin:"500px"}}>{item.nameProd}</td>
-                            <td className={styles.td}>{item.priceOnSale?.toFixed(2) || item.price.toFixed(2)} $</td>  
-                            <td className={styles.td}>
-                            <div className="container">
-                                <div className="btn-group" role="group" aria-label="Botones de Suma y Resta">
-                                    <button type="button" className="btn btn-primary" onClick={()=>DecreaseQuantity(userID, item.id, item.quantity - 1)} style={{marginTop:"-6px"}}>
-                                    -
-                                    </button>
-                                    <div style={{padding:"10px", height:"1px", marginTop:"-9px"}}>
-                                        <p>{item.quantity}</p>
+                <div className="table-responsive">
+                    <table className="table table-hover table-responsive">
+                        <thead>
+                            <tr>
+                            <th className={styles.th} scope="col">Product</th>
+                            <th className={styles.th} scope="col">Name</th>
+                            <th className={styles.th} scope="col">Price</th>
+                            <th className={styles.th} scope="col">Quantity</th>
+                            <th className={styles.th} scope="col">Subtotal</th>
+                            <th className={styles.th} scope="col">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {
+                        products.map((item)=>{
+                            return(
+                                <tr key={item.id}>
+                                <td className={styles.td}><img src={item.image[0]} style={{width:"40px", height:"40px", objectFit:"contain"}}/></td>
+                                <td className={styles.td} style={{margin:"500px"}}>{item.nameProd}</td>
+                                <td className={styles.td}>{item.priceOnSale?.toFixed(2) || item.price.toFixed(2)} $</td>  
+                                <td className={styles.td}>
+                                <div className="container">
+                                    <div className="btn-group" role="group" aria-label="Botones de Suma y Resta">
+                                        <button type="button" className="btn btn-primary" onClick={()=>DecreaseQuantity(userID, item.id, item.quantity - 1)} style={{marginTop:"-6px"}}>
+                                        -
+                                        </button>
+                                        <div style={{padding:"10px", height:"1px", marginTop:"-9px"}}>
+                                            <p>{item.quantity}</p>
+                                        </div>
+                                        <button type="button" className="btn btn-primary" onClick={()=>IncreaseQuantity(userID, item.id, item.quantity + 1)} style={{marginTop:"-6px"}}>
+                                        +
+                                        </button>
                                     </div>
-                                    <button type="button" className="btn btn-primary" onClick={()=>IncreaseQuantity(userID, item.id, item.quantity + 1)} style={{marginTop:"-6px"}}>
-                                    +
-                                    </button>
                                 </div>
-                            </div>
-                            </td>
-                            <td className={styles.td}>{((item.priceOnSale?.toFixed(2) || item.price.toFixed(2))*item.quantity).toFixed(2)}$</td>
-                            <td className={styles.td}>
-                                <button className={styles.button} onClick={()=>DeleteCart(item.id, item.nameProd, userID)}>
-                                    <FontAwesomeIcon icon={faTrash} style={{ color: "#dd3636", }} />
-                                </button>
-                            </td>
+                                </td>
+                                <td className={styles.td}>{((item.priceOnSale?.toFixed(2) || item.price.toFixed(2))*item.quantity).toFixed(2)}$</td>
+                                <td className={styles.td}>
+                                    <button className={styles.button} onClick={()=>DeleteCart(item.id, item.nameProd, userID)}>
+                                        <FontAwesomeIcon icon={faTrash} style={{ color: "#dd3636", }} />
+                                    </button>
+                                </td>
+                            </tr>
+                            )
+                        })                   
+                        }
+                        <tr>
+                        <td align="center" colSpan="6" style={{fontSize:"20px"}}><strong>Cart Total: ${totalCart}</strong></td>
                         </tr>
-                        )
-                    })                   
-                    }
-                    <tr>
-                    <td align="center" colSpan="6" style={{fontSize:"20px"}}><strong>Cart Total: ${totalCart}</strong></td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div className="text-center" style={{marginTop:"-16px"}}>
+                        </tbody>
+                    </table>
+                </div>
+                <div className="text-center" style={{marginTop:""}}>
                 <div className="d-flex justify-content-center">
                 {products.length > 0 &&
                     <Button 

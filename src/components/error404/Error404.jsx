@@ -21,18 +21,18 @@ const ErrorView = () => {
     return (
         <div>
         <NavBar/>
-        <div className={styles.div}>
-                <div className="vh-100 d-flex align-items-center justify-content-center">
+        <div className={`container-fluid ${styles.div}`}>
+                <div className="d-flex align-items-center justify-content-center vh-100">
                 <Link to="/" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className={styles.container}>
                 <FontAwesomeIcon icon={hover ? faFaceFrown : faFaceSmile} size="10x"  />
                 </Link>
                 <div className={styles.card} data-bs-toggle="collapse" >
                 <div>
-                    <h1 className="display-1 fw-bold p-2">ERROR 404</h1>
+                    <h1 className="display-6 fw-bold p-2">ERROR 404</h1>
                 </div>
                 <div>
                     <div>
-                    <h2 className="display-6 fw-bold">Page not Found</h2>
+                    <h2 className="display-8 fw-bold">Page not Found</h2>
                     </div>
                     <div>
                     </div>

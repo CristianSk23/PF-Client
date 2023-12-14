@@ -124,6 +124,7 @@ export default function ListProducts(){
 
             <div style={{"text-align": "right"}}>
                 <button
+                
                 style={{
                 color: "white",
                 padding: "10px 15px",
@@ -137,6 +138,7 @@ export default function ListProducts(){
                 </button>
             </div>
 
+            <div className="table-responsive">
                 <table className="table table-hover" style={{marginTop:"10px"}}>
                     <thead>
                         <tr>
@@ -174,9 +176,6 @@ export default function ListProducts(){
                             </div>
                             </td>
                             <td className={styles.td}>
-                                {/*A PEDIDO DE DIEGO Z PUSE UN SELECT PARA EDITAR SU STATUS DESDE ACA, SI SE COMPLICA USAR SOLO EL UPDATE */}
-                            {/*<Form.Select aria-label="Seleccionar ejemplo" className='form-select-sm'>
-                                <option>Seleccionar...</option>*/}
                                 <select onChange={(e) => handleActive(e.target.value === "true" ? true:false)} 
                                         value={product.active.toString()} 
                                         aria-label="Seleccionar ejemplo" 
@@ -204,7 +203,7 @@ export default function ListProducts(){
 
                         </tbody>
                         </table>
-     
+                    </div>
                 </div>  
                     ) : (
                 <div>
